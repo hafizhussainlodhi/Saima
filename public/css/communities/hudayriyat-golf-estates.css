@@ -1,0 +1,3315 @@
+
+/* [project]/src/components/golf-estates/GolfHeader.module.css [app-client] (css) */
+.GolfHeader-module__ZF_nIG__header {
+  z-index: 100;
+  background: none;
+  padding: 16px 0;
+  transition: all .3s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.GolfHeader-module__ZF_nIG__stickyHeader {
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  background: #121212f5;
+  padding: 10px 0;
+  position: fixed;
+  box-shadow: 0 4px 20px #0003;
+}
+
+.GolfHeader-module__ZF_nIG__headerContainer {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__logoLink {
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__logoImg {
+  object-fit: contain;
+  width: auto;
+  height: 50px;
+}
+
+.GolfHeader-module__ZF_nIG__nav {
+  align-items: center;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__navList {
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__navItem {
+  position: relative;
+}
+
+.GolfHeader-module__ZF_nIG__navLink {
+  color: #fff;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 4px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .2s;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__navLink:hover {
+  color: #235b3f;
+}
+
+.GolfHeader-module__ZF_nIG__dropdownMenu {
+  opacity: 0;
+  visibility: hidden;
+  z-index: 100;
+  background: #fff;
+  border-radius: 6px;
+  min-width: 240px;
+  padding: 8px 0;
+  transition: all .25s;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translateY(10px);
+  box-shadow: 0 10px 30px #00000026;
+}
+
+.GolfHeader-module__ZF_nIG__dropdownOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.GolfHeader-module__ZF_nIG__dropdownItem {
+  color: #333;
+  padding: 9px 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background .2s, color .2s;
+  display: block;
+}
+
+.GolfHeader-module__ZF_nIG__dropdownItem:hover {
+  color: #1a4731;
+  background: #f4f0eb;
+}
+
+.GolfHeader-module__ZF_nIG__listPropBtn {
+  color: #1a1a1a;
+  letter-spacing: .5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  background: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 9px 18px;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: all .25s;
+}
+
+.GolfHeader-module__ZF_nIG__listPropBtn:hover {
+  color: #fff;
+  background: #1a4731;
+  transform: translateY(-1px);
+}
+
+.GolfHeader-module__ZF_nIG__langTrigger {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: 1px solid #ffffff4d;
+  border-radius: 4px;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__langFlag {
+  border-radius: 2px;
+}
+
+.GolfHeader-module__ZF_nIG__langDropdown {
+  opacity: 0;
+  visibility: hidden;
+  z-index: 100;
+  background: #fff;
+  border-radius: 6px;
+  min-width: 130px;
+  padding: 6px 0;
+  transition: all .25s;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  transform: translateY(10px);
+  box-shadow: 0 10px 30px #00000026;
+}
+
+.GolfHeader-module__ZF_nIG__langOpen {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.GolfHeader-module__ZF_nIG__langOption {
+  color: #333;
+  cursor: pointer;
+  text-align: left;
+  background: none;
+  border: none;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 14px;
+  font-size: 13px;
+  transition: background .2s;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__langOption:hover {
+  color: #1a4731;
+  background: #f4f0eb;
+}
+
+.GolfHeader-module__ZF_nIG__mobileToggle {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: none;
+}
+
+.GolfHeader-module__ZF_nIG__mobileDrawerOverlay {
+  z-index: 998;
+  background: #0009;
+  position: fixed;
+  inset: 0;
+}
+
+.GolfHeader-module__ZF_nIG__mobileDrawer {
+  z-index: 999;
+  background: #1a1a1a;
+  width: 300px;
+  height: 100vh;
+  padding: 60px 24px 30px;
+  transition: right .3s;
+  position: fixed;
+  top: 0;
+  right: -320px;
+  overflow-y: auto;
+}
+
+.GolfHeader-module__ZF_nIG__mobileDrawerOpen {
+  right: 0;
+}
+
+.GolfHeader-module__ZF_nIG__mobileCloseBtn {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 18px;
+  right: 18px;
+}
+
+.GolfHeader-module__ZF_nIG__mobileNavList {
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__mobileNavLink {
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  background: none;
+  border: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+}
+
+.GolfHeader-module__ZF_nIG__mobileSubList {
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  padding-left: 14px;
+  display: none;
+}
+.GolfHeader-module__ZF_nIG__mobileSubList.mobileSubListOpen {
+  display: flex !important;
+}
+
+.GolfHeader-module__ZF_nIG__mobileSubItem {
+  color: #ffffffb3;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.GolfHeader-module__ZF_nIG__listPropBtnMobile {
+  color: #fff;
+  cursor: pointer;
+  background: #1a4731;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 991px) {
+  .GolfHeader-module__ZF_nIG__nav {
+    display: none;
+  }
+
+  .GolfHeader-module__ZF_nIG__mobileToggle {
+    display: block;
+  }
+}
+
+/* [project]/node_modules/react-international-phone/dist/index.css [app-client] (css) */
+.react-international-phone-country-selector {
+  position: relative;
+}
+
+.react-international-phone-country-selector-button {
+  height: var(--react-international-phone-height, 36px);
+  box-sizing: border-box;
+  border: 1px solid var(--react-international-phone-country-selector-border-color, var(--react-international-phone-border-color, gainsboro));
+  appearance: button;
+  background-color: var(--react-international-phone-country-selector-background-color, var(--react-international-phone-background-color, white));
+  cursor: pointer;
+  text-transform: none;
+  -webkit-user-select: none;
+  user-select: none;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.react-international-phone-country-selector-button:hover {
+  background-color: var(--react-international-phone-country-selector-background-color-hover, whitesmoke);
+}
+
+.react-international-phone-country-selector-button--hide-dropdown {
+  cursor: auto;
+}
+
+.react-international-phone-country-selector-button--hide-dropdown:hover {
+  background-color: #0000;
+}
+
+.react-international-phone-country-selector-button__button-content {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.react-international-phone-country-selector-button__flag-emoji {
+  margin: 0 4px;
+}
+
+.react-international-phone-country-selector-button__flag-emoji--disabled {
+  opacity: .75;
+}
+
+.react-international-phone-country-selector-button__dropdown-arrow {
+  border-top: var(--react-international-phone-country-selector-arrow-size, 4px) solid var(--react-international-phone-country-selector-arrow-color, #777);
+  border-right: var(--react-international-phone-country-selector-arrow-size, 4px) solid transparent;
+  border-left: var(--react-international-phone-country-selector-arrow-size, 4px) solid transparent;
+  margin-right: 4px;
+  transition: all .1s ease-out;
+}
+
+.react-international-phone-country-selector-button__dropdown-arrow--active {
+  transform: rotateX(180deg);
+}
+
+.react-international-phone-country-selector-button__dropdown-arrow--disabled {
+  border-top-color: var(--react-international-phone-disabled-country-selector-arrow-color, #999);
+}
+
+.react-international-phone-country-selector-button--disabled, .react-international-phone-country-selector-button--disabled:hover {
+  background-color: var(--react-international-phone-disabled-country-selector-background-color, var(--react-international-phone-disabled-background-color, whitesmoke));
+}
+
+.react-international-phone-country-selector-button--disabled {
+  cursor: auto;
+}
+
+.react-international-phone-flag-emoji {
+  width: var(--react-international-phone-flag-width, 24px);
+  height: var(--react-international-phone-flag-height, 24px);
+  box-sizing: border-box;
+}
+
+.react-international-phone-country-selector-dropdown {
+  z-index: 1;
+  top: var(--react-international-phone-dropdown-top, 44px);
+  left: var(--react-international-phone-dropdown-left, 0);
+  background-color: var(--react-international-phone-dropdown-item-background-color, var(--react-international-phone-background-color, white));
+  width: 300px;
+  max-height: 200px;
+  box-shadow: var(--react-international-phone-dropdown-shadow, 2px 2px 16px #00000040);
+  color: var(--react-international-phone-dropdown-item-text-color, var(--react-international-phone-text-color, #222));
+  flex-direction: column;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  display: flex;
+  position: absolute;
+  overflow-y: scroll;
+}
+
+.react-international-phone-country-selector-dropdown__preferred-list-divider {
+  height: 1px;
+  margin: var(--react-international-phone-dropdown-preferred-list-divider-margin, 0);
+  background: var(--react-international-phone-dropdown-preferred-list-divider-color, var(--react-international-phone-border-color, gainsboro));
+  border: none;
+}
+
+.react-international-phone-country-selector-dropdown__list-item {
+  min-height: var(--react-international-phone-dropdown-item-height, 28px);
+  box-sizing: border-box;
+  align-items: center;
+  padding: 2px 8px;
+  display: flex;
+}
+
+.react-international-phone-country-selector-dropdown__list-item-flag-emoji {
+  margin-right: 8px;
+}
+
+.react-international-phone-country-selector-dropdown__list-item-country-name {
+  font-size: var(--react-international-phone-dropdown-item-font-size, 14px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 8px;
+  overflow: hidden;
+}
+
+.react-international-phone-country-selector-dropdown__list-item-dial-code {
+  color: var(--react-international-phone-dropdown-item-dial-code-color, gray);
+  font-size: var(--react-international-phone-dropdown-item-font-size, 14px);
+}
+
+.react-international-phone-country-selector-dropdown__list-item:hover {
+  background-color: var(--react-international-phone-selected-dropdown-item-background-color, var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke));
+  cursor: pointer;
+}
+
+.react-international-phone-country-selector-dropdown__list-item--selected, .react-international-phone-country-selector-dropdown__list-item--focused {
+  background-color: var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke);
+  color: var(--react-international-phone-selected-dropdown-item-text-color, var(--react-international-phone-text-color, #222));
+}
+
+.react-international-phone-country-selector-dropdown__list-item--selected .react-international-phone-country-selector-dropdown__list-item-dial-code, .react-international-phone-country-selector-dropdown__list-item--focused .react-international-phone-country-selector-dropdown__list-item-dial-code {
+  color: var(--react-international-phone-selected-dropdown-item-dial-code-color, var(--react-international-phone-dropdown-item-dial-code-color, gray));
+}
+
+.react-international-phone-country-selector-dropdown__list-item--focused {
+  background-color: var(--react-international-phone-selected-dropdown-item-background-color, var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke));
+}
+
+.react-international-phone-dial-code-preview {
+  border: 1px solid var(--react-international-phone-dial-code-preview-border-color, var(--react-international-phone-border-color, gainsboro));
+  background-color: var(--react-international-phone-dial-code-preview-background-color, var(--react-international-phone-background-color, white));
+  color: var(--react-international-phone-dial-code-preview-text-color, var(--react-international-phone-text-color, #222));
+  font-size: var(--react-international-phone-dial-code-preview-font-size, var(--react-international-phone-font-size, 13px));
+  justify-content: center;
+  align-items: center;
+  margin-right: -1px;
+  padding: 0 8px;
+  display: flex;
+}
+
+.react-international-phone-dial-code-preview--disabled {
+  background-color: var(--react-international-phone-dial-code-preview-disabled-background-color, var(--react-international-phone-disabled-background-color, whitesmoke));
+  color: var(--react-international-phone-dial-code-preview-disabled-text-color, var(--react-international-phone-disabled-text-color, #666));
+}
+
+.react-international-phone-input-container {
+  display: flex;
+}
+
+.react-international-phone-input-container .react-international-phone-country-selector-button {
+  border-radius: var(--react-international-phone-border-radius, 4px);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: -1px;
+}
+
+.react-international-phone-input-container .react-international-phone-input {
+  height: var(--react-international-phone-height, 36px);
+  box-sizing: border-box;
+  border: 1px solid var(--react-international-phone-border-color, gainsboro);
+  border-radius: var(--react-international-phone-border-radius, 4px);
+  background-color: var(--react-international-phone-background-color, white);
+  color: var(--react-international-phone-text-color, #222);
+  font-family: inherit;
+  font-size: var(--react-international-phone-font-size, 13px);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin: 0;
+  padding: 0 8px;
+  overflow: visible;
+}
+
+.react-international-phone-input-container .react-international-phone-input:focus {
+  outline: none;
+}
+
+.react-international-phone-input-container .react-international-phone-input--disabled {
+  background-color: var(--react-international-phone-disabled-background-color, whitesmoke);
+  color: var(--react-international-phone-disabled-text-color, #666);
+}
+
+/* [project]/src/components/golf-estates/GolfHero.module.css [app-client] (css) */
+.GolfHero-module__9JtUKq__heroSection {
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  padding: 130px 0 70px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.GolfHero-module__9JtUKq__sliderWrapper {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+}
+
+.GolfHero-module__9JtUKq__slideItem {
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.GolfHero-module__9JtUKq__slideActive {
+  opacity: 1;
+}
+
+.GolfHero-module__9JtUKq__slideImage {
+  object-fit: cover;
+  transform-origin: center;
+  transform: scale(1);
+}
+
+.GolfHero-module__9JtUKq__slideActive .GolfHero-module__9JtUKq__slideImage {
+  animation: 8s ease-out forwards GolfHero-module__9JtUKq__kenBurnsEffect;
+}
+
+@keyframes GolfHero-module__9JtUKq__kenBurnsEffect {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.18);
+  }
+}
+
+.GolfHero-module__9JtUKq__overlay {
+  z-index: 2;
+  background: linear-gradient(to right, #000000bf 0%, #0000008c 50%, #000000b3 100%);
+  position: absolute;
+  inset: 0;
+}
+
+.GolfHero-module__9JtUKq__prevBtn, .GolfHero-module__9JtUKq__nextBtn {
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+  background: #0006;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 46px;
+  height: 46px;
+  transition: background .25s;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.GolfHero-module__9JtUKq__prevBtn:hover, .GolfHero-module__9JtUKq__nextBtn:hover {
+  background: #1a4731;
+}
+
+.GolfHero-module__9JtUKq__prevBtn {
+  left: 20px;
+}
+
+.GolfHero-module__9JtUKq__nextBtn {
+  right: 20px;
+}
+
+.GolfHero-module__9JtUKq__heroContainer {
+  z-index: 5;
+  width: 100%;
+  position: relative;
+}
+
+.GolfHero-module__9JtUKq__heroGrid {
+  grid-template-columns: 1.2fr .8fr;
+  align-items: center;
+  gap: 48px;
+  display: grid;
+}
+
+.GolfHero-module__9JtUKq__leftCol {
+  flex-direction: column;
+  display: flex;
+}
+
+.GolfHero-module__9JtUKq__title {
+  color: #fff;
+  letter-spacing: -.5px;
+  margin-bottom: 12px;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.GolfHero-module__9JtUKq__subtitle {
+  color: #ffffffe6;
+  max-width: 580px;
+  margin-bottom: 28px;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.GolfHero-module__9JtUKq__btnRow {
+  margin-bottom: 24px;
+}
+
+.GolfHero-module__9JtUKq__brochureBtn {
+  color: #fff;
+  letter-spacing: .5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: #1a4731;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .3s;
+  display: inline-block;
+}
+
+.GolfHero-module__9JtUKq__brochureBtn:hover {
+  background-color: #123322;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px #1a473166;
+}
+
+.GolfHero-module__9JtUKq__badgeRow {
+  align-items: center;
+  display: flex;
+}
+
+.GolfHero-module__9JtUKq__freeholdTag {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.GolfHero-module__9JtUKq__rightCol {
+  justify-content: flex-end;
+  display: flex;
+}
+
+.GolfHero-module__9JtUKq__requestCard {
+  background: #fff;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 420px;
+  padding: 34px 28px;
+  box-shadow: 0 10px 40px #00000040;
+}
+
+.GolfHero-module__9JtUKq__formTitleSmall {
+  letter-spacing: 2px;
+  color: #555;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.GolfHero-module__9JtUKq__formTitleLarge {
+  color: #222;
+  text-align: center;
+  letter-spacing: .5px;
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.GolfHero-module__9JtUKq__callForm {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
+}
+
+.GolfHero-module__9JtUKq__inputGroup {
+  width: 100%;
+}
+
+.GolfHero-module__9JtUKq__inputField {
+  color: #333;
+  box-sizing: border-box;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
+  padding: 13px 15px;
+  font-size: 15px;
+  transition: border-color .2s;
+}
+
+.GolfHero-module__9JtUKq__inputField:focus {
+  border-color: #1a4731;
+}
+
+.GolfHero-module__9JtUKq__recaptchaBox {
+  background: #f9f9f9;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+  padding: 8px 12px;
+  display: flex;
+}
+
+.GolfHero-module__9JtUKq__recaptchaLeft {
+  color: #333;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  display: flex;
+}
+
+.GolfHero-module__9JtUKq__recaptchaRight {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.GolfHero-module__9JtUKq__recapBrand {
+  color: #555;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.GolfHero-module__9JtUKq__recapTerms {
+  color: #888;
+  font-size: 8px;
+}
+
+.GolfHero-module__9JtUKq__submitBtn {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  background: #1a4731;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .3s;
+}
+
+.GolfHero-module__9JtUKq__submitBtn:hover {
+  background: #123322;
+  transform: translateY(-1px);
+}
+
+.GolfHero-module__9JtUKq__successMessage {
+  color: #1e6b27;
+  text-align: center;
+  background: #eef7ec;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+}
+
+@media (max-width: 991px) {
+  .GolfHero-module__9JtUKq__heroGrid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .GolfHero-module__9JtUKq__title {
+    font-size: 38px;
+  }
+
+  .GolfHero-module__9JtUKq__subtitle {
+    font-size: 17px;
+  }
+
+  .GolfHero-module__9JtUKq__rightCol {
+    justify-content: center;
+  }
+
+  .GolfHero-module__9JtUKq__requestCard {
+    max-width: 100%;
+  }
+
+  .GolfHero-module__9JtUKq__prevBtn, .GolfHero-module__9JtUKq__nextBtn {
+    display: none;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfHighlights.module.css [app-client] (css) */
+.GolfHighlights-module__mmSHGq__highlightsSection {
+  background-color: #f7f5f2;
+  border-bottom: 1px solid #ebe6dd;
+  padding: 30px 0;
+}
+
+.GolfHighlights-module__mmSHGq__highlightsGrid {
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  gap: 16px;
+  display: grid;
+}
+
+.GolfHighlights-module__mmSHGq__highlightCard {
+  background: #fff;
+  border: 1px solid #eeebe3;
+  border-radius: 10px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  transition: transform .25s, box-shadow .25s;
+  display: flex;
+  box-shadow: 0 3px 12px #0000000a;
+}
+
+.GolfHighlights-module__mmSHGq__highlightCard:hover {
+  border-color: #1a4731;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px #1a47311f;
+}
+
+.GolfHighlights-module__mmSHGq__iconWrapper {
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  position: relative;
+}
+
+.GolfHighlights-module__mmSHGq__accentCircle {
+  opacity: .85;
+  z-index: 1;
+  background: #1a4731;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+
+.GolfHighlights-module__mmSHGq__svgIcon {
+  z-index: 2;
+  color: #26292e;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.GolfHighlights-module__mmSHGq__highlightInfo {
+  flex-direction: column;
+  display: flex;
+  overflow: hidden;
+}
+
+.GolfHighlights-module__mmSHGq__highlightLabel {
+  color: #1e2227;
+  margin-bottom: 2px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.GolfHighlights-module__mmSHGq__highlightValue {
+  color: #616b77;
+  white-space: nowrap;
+  font-size: 13.5px;
+  font-weight: 400;
+}
+
+@media (max-width: 1200px) {
+  .GolfHighlights-module__mmSHGq__highlightsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 680px) {
+  .GolfHighlights-module__mmSHGq__highlightsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 440px) {
+  .GolfHighlights-module__mmSHGq__highlightsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfAboutVideo.module.css [app-client] (css) */
+.GolfAboutVideo-module__mC9tiq__aboutSection {
+  background-color: #fff;
+  padding: 90px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.GolfAboutVideo-module__mC9tiq__aboutGrid {
+  grid-template-columns: 1fr 1.15fr;
+  align-items: center;
+  gap: 50px;
+  display: grid;
+}
+
+.GolfAboutVideo-module__mC9tiq__leftCol {
+  flex-direction: column;
+  display: flex;
+}
+
+.GolfAboutVideo-module__mC9tiq__title {
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.GolfAboutVideo-module__mC9tiq__description {
+  color: #444;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.GolfAboutVideo-module__mC9tiq__rightCol {
+  width: 100%;
+  position: relative;
+}
+
+.GolfAboutVideo-module__mC9tiq__videoWrapper {
+  align-items: center;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.GolfAboutVideo-module__mC9tiq__brownBackdrop {
+  z-index: 1;
+  background-color: #1a4731;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  position: absolute;
+  inset: -36px -50vw -36px 20%;
+}
+
+.GolfAboutVideo-module__mC9tiq__videoContainer {
+  z-index: 2;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  border-radius: 14px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 45px #00000047;
+}
+
+.GolfAboutVideo-module__mC9tiq__videoPlayer {
+  object-fit: cover;
+  border-radius: 14px;
+  width: 100%;
+  height: 100%;
+}
+
+.GolfAboutVideo-module__mC9tiq__playButton {
+  color: #fff;
+  cursor: pointer;
+  z-index: 5;
+  background-color: #1a4731;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 68px;
+  height: 68px;
+  padding-left: 4px;
+  transition: all .3s;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 20px #00000059;
+}
+
+.GolfAboutVideo-module__mC9tiq__playButton:hover {
+  background-color: #123322;
+  transform: translate(-50%, -50%)scale(1.1);
+}
+
+@media (max-width: 991px) {
+  .GolfAboutVideo-module__mC9tiq__aboutGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .GolfAboutVideo-module__mC9tiq__title {
+    font-size: 30px;
+  }
+
+  .GolfAboutVideo-module__mC9tiq__brownBackdrop {
+    inset: -20px -20px -20px 10%;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfAmenities.module.css [app-client] (css) */
+.GolfAmenities-module__j5-r4q__amenitiesSection {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+  padding: 80px 0;
+}
+
+.GolfAmenities-module__j5-r4q__header {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto 44px;
+}
+
+.GolfAmenities-module__j5-r4q__title {
+  color: #222;
+  margin-bottom: 14px;
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.GolfAmenities-module__j5-r4q__subtitle {
+  color: #555;
+  margin: 0;
+  font-size: 16.5px;
+  line-height: 1.7;
+}
+
+.GolfAmenities-module__j5-r4q__grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  display: grid;
+}
+
+.GolfAmenities-module__j5-r4q__card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  transition: all .25s;
+  display: flex;
+  box-shadow: 0 2px 8px #00000005;
+}
+
+.GolfAmenities-module__j5-r4q__card:hover {
+  border-color: #1a4731;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px #0000000f;
+}
+
+.GolfAmenities-module__j5-r4q__iconBox {
+  background-color: #1a4731;
+  border-radius: 6px;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  display: flex;
+}
+
+.GolfAmenities-module__j5-r4q__iconImg {
+  object-fit: contain;
+  filter: brightness(0) invert();
+}
+
+.GolfAmenities-module__j5-r4q__amenityName {
+  color: #222;
+  margin: 0;
+  font-size: 16.5px;
+  font-weight: 600;
+}
+
+@media (max-width: 991px) {
+  .GolfAmenities-module__j5-r4q__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .GolfAmenities-module__j5-r4q__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/common/StandardProjectGallery.module.css [app-client] (css) */
+.StandardProjectGallery-module__MeUPXW__gallerySection {
+  background-color: #fff;
+  width: 100%;
+  padding: 70px 0 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.StandardProjectGallery-module__MeUPXW__header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 36px;
+  padding: 0 20px;
+}
+
+.StandardProjectGallery-module__MeUPXW__title {
+  color: #1a1a1a;
+  letter-spacing: -.01em;
+  margin-bottom: 22px;
+  font-size: clamp(1.85rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+}
+
+.StandardProjectGallery-module__MeUPXW__tabNav {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  display: flex;
+}
+
+.StandardProjectGallery-module__MeUPXW__tabBtn {
+  color: #666;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid #0000;
+  padding: 6px 4px 10px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all .25s;
+  position: relative;
+}
+
+.StandardProjectGallery-module__MeUPXW__tabBtn:hover {
+  color: #b37748;
+}
+
+.StandardProjectGallery-module__MeUPXW__tabActive {
+  color: #b37748;
+  border-bottom: 2px solid #b37748;
+  font-weight: 600;
+}
+
+.StandardProjectGallery-module__MeUPXW__carouselContainer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.StandardProjectGallery-module__MeUPXW__viewport {
+  width: 100%;
+  display: flex;
+  overflow: visible;
+}
+
+.StandardProjectGallery-module__MeUPXW__track {
+  will-change: transform;
+  align-items: center;
+  transition: transform .5s cubic-bezier(.25, 1, .5, 1);
+  display: flex;
+}
+
+.StandardProjectGallery-module__MeUPXW__card {
+  cursor: pointer;
+  background: #f4ede5;
+  border-radius: 18px;
+  flex-shrink: 0;
+  transition: transform .35s, box-shadow .35s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px #00000014;
+}
+
+.StandardProjectGallery-module__MeUPXW__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px #00000024;
+}
+
+.StandardProjectGallery-module__MeUPXW__cardImg {
+  object-fit: cover;
+  transition: transform .6s cubic-bezier(.25, 1, .5, 1);
+}
+
+.StandardProjectGallery-module__MeUPXW__card:hover .StandardProjectGallery-module__MeUPXW__cardImg {
+  transform: scale(1.03);
+}
+
+.StandardProjectGallery-module__MeUPXW__navBtn {
+  color: #222;
+  cursor: pointer;
+  z-index: 10;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  background: #ffffffe6;
+  border: 1px solid #00000014;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  transition: all .25s;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 16px #00000026;
+}
+
+.StandardProjectGallery-module__MeUPXW__prevBtn {
+  left: 20px;
+}
+
+.StandardProjectGallery-module__MeUPXW__nextBtn {
+  right: 20px;
+}
+
+.StandardProjectGallery-module__MeUPXW__navBtn:hover {
+  color: #b37748;
+  background: #fff;
+  transform: translateY(-50%)scale(1.08);
+  box-shadow: 0 6px 20px #0003;
+}
+
+.StandardProjectGallery-module__MeUPXW__dotsWrapper {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 26px;
+  padding: 0 20px;
+  display: flex;
+}
+
+.StandardProjectGallery-module__MeUPXW__dot {
+  cursor: pointer;
+  background-color: #0000;
+  border: 1.5px solid #cbb8a7;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  transition: all .25s;
+}
+
+.StandardProjectGallery-module__MeUPXW__dot:hover {
+  border-color: #b37748;
+}
+
+.StandardProjectGallery-module__MeUPXW__dotActive {
+  background-color: #b37748;
+  border-color: #b37748;
+  transform: scale(1.15);
+}
+
+.StandardProjectGallery-module__MeUPXW__lightbox {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  background-color: #0c0a08f0;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxClose {
+  color: #fff;
+  cursor: pointer;
+  z-index: 100001;
+  background: #ffffff26;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  transition: all .2s;
+  display: flex;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxClose:hover {
+  background: #ffffff4d;
+  transform: scale(1.08);
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxNav {
+  color: #fff;
+  cursor: pointer;
+  z-index: 100001;
+  background: #ffffff26;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  transition: all .2s;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxPrev {
+  left: 24px;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxNext {
+  right: 24px;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxNav:hover {
+  background: #ffffff4d;
+  transform: translateY(-50%)scale(1.08);
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxContent {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 90vw;
+  max-height: 88vh;
+  display: flex;
+  position: relative;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxImageContainer {
+  border-radius: 12px;
+  width: min(85vw, 1100px);
+  height: min(75vh, 730px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px #00000080;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxImg {
+  object-fit: contain;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxCaption {
+  color: #e5ded5;
+  text-align: center;
+  max-width: 700px;
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .StandardProjectGallery-module__MeUPXW__gallerySection {
+    padding: 50px 0 35px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__navBtn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__prevBtn {
+    left: 8px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__nextBtn {
+    right: 8px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__tabNav {
+    gap: 20px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__lightboxNav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__lightboxPrev {
+    left: 10px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__lightboxNext {
+    right: 10px;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfFloorPlans.module.css [app-client] (css) */
+.GolfFloorPlans-module__Vvrdhq__floorPlansSection {
+  background-color: #f7f5f2;
+  padding: 80px 0;
+}
+
+.GolfFloorPlans-module__Vvrdhq__header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 40px;
+}
+
+.GolfFloorPlans-module__Vvrdhq__title {
+  color: #1a1a1a;
+  margin-bottom: 14px;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.GolfFloorPlans-module__Vvrdhq__subtitle {
+  color: #666;
+  margin-bottom: 28px;
+  font-size: 15.5px;
+  line-height: 1.7;
+}
+
+.GolfFloorPlans-module__Vvrdhq__tabsWrapper {
+  background: #fff;
+  border-radius: 6px;
+  gap: 12px;
+  padding: 6px;
+  display: inline-flex;
+  box-shadow: 0 2px 10px #0000000d;
+}
+
+.GolfFloorPlans-module__Vvrdhq__tabBtn {
+  color: #555;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 28px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .2s;
+}
+
+.GolfFloorPlans-module__Vvrdhq__tabActive {
+  color: #fff;
+  background: #1a4731;
+}
+
+.GolfFloorPlans-module__Vvrdhq__planCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0 4px 20px #0000000f;
+}
+
+.GolfFloorPlans-module__Vvrdhq__planGrid {
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 40px;
+  display: grid;
+}
+
+.GolfFloorPlans-module__Vvrdhq__specsCol {
+  flex-direction: column;
+  display: flex;
+}
+
+.GolfFloorPlans-module__Vvrdhq__planName {
+  color: #1a1a1a;
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.GolfFloorPlans-module__Vvrdhq__planTagline {
+  color: #1a4731;
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.GolfFloorPlans-module__Vvrdhq__planDesc {
+  color: #555;
+  margin-bottom: 24px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.GolfFloorPlans-module__Vvrdhq__specGrid {
+  background: #fbfaf9;
+  border: 1px solid #f0eee9;
+  border-radius: 6px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+  padding: 20px;
+  display: grid;
+}
+
+.GolfFloorPlans-module__Vvrdhq__specItem {
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.GolfFloorPlans-module__Vvrdhq__specIcon {
+  color: #1a4731;
+}
+
+.GolfFloorPlans-module__Vvrdhq__specLabel {
+  color: #888;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  display: block;
+}
+
+.GolfFloorPlans-module__Vvrdhq__specVal {
+  color: #222;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.GolfFloorPlans-module__Vvrdhq__actionRow {
+  flex-wrap: wrap;
+  gap: 14px;
+  display: flex;
+}
+
+.GolfFloorPlans-module__Vvrdhq__downloadBtn {
+  color: #fff;
+  cursor: pointer;
+  background: #1a4731;
+  border: none;
+  border-radius: 4px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all .25s;
+  display: inline-flex;
+}
+
+.GolfFloorPlans-module__Vvrdhq__downloadBtn:hover {
+  background: #123322;
+  transform: translateY(-1px);
+}
+
+.GolfFloorPlans-module__Vvrdhq__zoomBtn {
+  color: #333;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all .2s;
+  display: inline-flex;
+}
+
+.GolfFloorPlans-module__Vvrdhq__zoomBtn:hover {
+  color: #1a4731;
+  background: #f4f0eb;
+  border-color: #1a4731;
+}
+
+.GolfFloorPlans-module__Vvrdhq__imageCol {
+  cursor: pointer;
+  background: #fcfbf9;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.GolfFloorPlans-module__Vvrdhq__imageWrapper {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  position: relative;
+}
+
+.GolfFloorPlans-module__Vvrdhq__planImage {
+  object-fit: contain;
+}
+
+.GolfFloorPlans-module__Vvrdhq__zoomHint {
+  color: #fff;
+  background: #0009;
+  border-radius: 3px;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  display: flex;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+}
+
+.GolfFloorPlans-module__Vvrdhq__lightboxOverlay {
+  z-index: 9999;
+  background: #000000e6;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.GolfFloorPlans-module__Vvrdhq__closeBtn {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.GolfFloorPlans-module__Vvrdhq__lightboxContent {
+  background: #fff;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95vw;
+  max-height: 90vh;
+  padding: 20px;
+  display: flex;
+  position: relative;
+}
+
+.GolfFloorPlans-module__Vvrdhq__lightboxImg {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 85vh;
+}
+
+@media (max-width: 991px) {
+  .GolfFloorPlans-module__Vvrdhq__planGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfArticle.module.css [app-client] (css) */
+.GolfArticle-module__Ch9J4q__articleSection {
+  background-color: #fff;
+  border-top: 1px solid #f0eee9;
+  padding: 80px 0;
+}
+
+.GolfArticle-module__Ch9J4q__articleContent {
+  width: 100%;
+  max-width: 100%;
+}
+
+.GolfArticle-module__Ch9J4q__mainTitle {
+  color: #1a1a1a;
+  margin-bottom: 24px;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.GolfArticle-module__Ch9J4q__sectionHeading {
+  color: #222;
+  margin-top: 36px;
+  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.GolfArticle-module__Ch9J4q__paragraph {
+  color: #444;
+  margin-bottom: 20px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.GolfArticle-module__Ch9J4q__paragraph a {
+  color: inherit;
+  text-underline-offset: 3px;
+  text-decoration: underline;
+  transition: color .2s;
+}
+
+.GolfArticle-module__Ch9J4q__paragraph a:hover {
+  color: var(--color-primary, #1a4731);
+}
+
+.GolfArticle-module__Ch9J4q__tableWrapper {
+  background: #faf8f5;
+  border: 1px solid #ebe5dd;
+  border-radius: 8px;
+  margin: 28px 0 36px;
+  overflow: hidden;
+}
+
+.GolfArticle-module__Ch9J4q__highlightsTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.GolfArticle-module__Ch9J4q__highlightsTable tr {
+  border-bottom: 1px solid #ebe5dd;
+}
+
+.GolfArticle-module__Ch9J4q__highlightsTable tr:last-child {
+  border-bottom: none;
+}
+
+.GolfArticle-module__Ch9J4q__highlightsTable td {
+  padding: 14px 20px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.GolfArticle-module__Ch9J4q__highlightsTable td:first-child {
+  color: #222;
+  background-color: #f5f0ea;
+  border-right: 1px solid #ebe5dd;
+  width: 32%;
+  font-weight: 700;
+}
+
+.GolfArticle-module__Ch9J4q__highlightsTable td:last-child {
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .GolfArticle-module__Ch9J4q__mainTitle {
+    font-size: 26px;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfPaymentPlan.module.css [app-client] (css) */
+.GolfPaymentPlan-module__QTbasa__paymentSection {
+  background-color: #fff;
+  padding: 80px 0;
+}
+
+.GolfPaymentPlan-module__QTbasa__header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 30px;
+}
+
+.GolfPaymentPlan-module__QTbasa__title {
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.GolfPaymentPlan-module__QTbasa__subtitle {
+  color: #666;
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+.GolfPaymentPlan-module__QTbasa__summaryGrid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+  display: grid;
+}
+
+.GolfPaymentPlan-module__QTbasa__summaryCard {
+  text-align: center;
+  background: #fbfaf8;
+  border: 1px solid #eeebe3;
+  border-radius: 8px;
+  padding: 30px 24px;
+  transition: transform .3s, box-shadow .3s;
+  position: relative;
+}
+
+.GolfPaymentPlan-module__QTbasa__summaryCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px #0000000f;
+}
+
+.GolfPaymentPlan-module__QTbasa__summaryBadge {
+  color: #1a4731;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: #f0eae1;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.GolfPaymentPlan-module__QTbasa__summaryPercent {
+  color: #1a4731;
+  margin: 0 0 6px;
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.GolfPaymentPlan-module__QTbasa__summaryTitle {
+  color: #222;
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.GolfPaymentPlan-module__QTbasa__summaryText {
+  color: #777;
+  margin: 0;
+  font-size: 13.5px;
+}
+
+.GolfPaymentPlan-module__QTbasa__viewToggleWrapper {
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  display: flex;
+}
+
+.GolfPaymentPlan-module__QTbasa__toggleButtons {
+  background: #f4f0eb;
+  border-radius: 4px;
+  gap: 4px;
+  padding: 3px;
+  display: flex;
+}
+
+.GolfPaymentPlan-module__QTbasa__viewBtn {
+  color: #666;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 3px;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 10px;
+  display: flex;
+}
+
+.GolfPaymentPlan-module__QTbasa__viewBtnActive {
+  color: #fff;
+  background: #1a4731;
+}
+
+.GolfPaymentPlan-module__QTbasa__tableWrapper {
+  border-radius: 6px;
+  overflow-x: auto;
+  box-shadow: 0 4px 15px #0000000d;
+}
+
+.GolfPaymentPlan-module__QTbasa__table {
+  border-collapse: collapse;
+  text-align: left;
+  background: #fff;
+  width: 100%;
+}
+
+.GolfPaymentPlan-module__QTbasa__table th {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: #1a4731;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.GolfPaymentPlan-module__QTbasa__thPrimary {
+  width: 35%;
+}
+
+.GolfPaymentPlan-module__QTbasa__table td {
+  color: #444;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 14px 20px;
+  font-size: 14.5px;
+}
+
+.GolfPaymentPlan-module__QTbasa__tdInstallment {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.GolfPaymentPlan-module__QTbasa__tdPercentage {
+  color: #1a4731;
+  font-weight: 700;
+}
+
+.GolfPaymentPlan-module__QTbasa__table tr:hover td {
+  background-color: #faf9f7;
+}
+
+.GolfPaymentPlan-module__QTbasa__gridWrapper {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  display: grid;
+}
+
+.GolfPaymentPlan-module__QTbasa__gridCard {
+  text-align: center;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.GolfPaymentPlan-module__QTbasa__gridPercent {
+  color: #1a4731;
+  margin: 0 0 6px;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.GolfPaymentPlan-module__QTbasa__gridInstallment {
+  color: #222;
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.GolfPaymentPlan-module__QTbasa__gridMilestone {
+  color: #777;
+  margin: 0;
+  font-size: 12.5px;
+}
+
+@media (max-width: 991px) {
+  .GolfPaymentPlan-module__QTbasa__summaryGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .GolfPaymentPlan-module__QTbasa__gridWrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .GolfPaymentPlan-module__QTbasa__gridWrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfPaymentMethods.module.css [app-client] (css) */
+.GolfPaymentMethods-module__8EIcmW__methodsSection {
+  background-color: #faf9f7;
+  padding: 70px 0;
+}
+
+.GolfPaymentMethods-module__8EIcmW__header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.GolfPaymentMethods-module__8EIcmW__title {
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.GolfPaymentMethods-module__8EIcmW__subtitle {
+  color: #666;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.GolfPaymentMethods-module__8EIcmW__methodsGrid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  display: grid;
+}
+
+.GolfPaymentMethods-module__8EIcmW__methodCard {
+  text-align: center;
+  background: #fff;
+  border-radius: 8px;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px;
+  transition: transform .3s;
+  display: flex;
+  box-shadow: 0 4px 15px #0000000a;
+}
+
+.GolfPaymentMethods-module__8EIcmW__methodCard:hover {
+  transform: translateY(-4px);
+}
+
+.GolfPaymentMethods-module__8EIcmW__iconCircle {
+  color: #1a4731;
+  background: #f7f5f2;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 16px;
+  display: flex;
+}
+
+.GolfPaymentMethods-module__8EIcmW__methodTitle {
+  color: #222;
+  margin: 0 0 6px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.GolfPaymentMethods-module__8EIcmW__methodDesc {
+  color: #777;
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+@media (max-width: 991px) {
+  .GolfPaymentMethods-module__8EIcmW__methodsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 540px) {
+  .GolfPaymentMethods-module__8EIcmW__methodsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfMasterPlan.module.css [app-client] (css) */
+.GolfMasterPlan-module__oWPy8G__masterSection {
+  background-color: #fff;
+  padding: 80px 0;
+}
+
+.GolfMasterPlan-module__oWPy8G__header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.GolfMasterPlan-module__oWPy8G__title {
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.GolfMasterPlan-module__oWPy8G__subtitle {
+  color: #666;
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+.GolfMasterPlan-module__oWPy8G__planCard {
+  cursor: pointer;
+  background: #fbfaf8;
+  border-radius: 8px;
+  transition: transform .3s, box-shadow .3s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 25px #00000014;
+}
+
+.GolfMasterPlan-module__oWPy8G__planCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 35px #0000001f;
+}
+
+.GolfMasterPlan-module__oWPy8G__imgWrapper {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  position: relative;
+}
+
+.GolfMasterPlan-module__oWPy8G__planImg {
+  object-fit: cover;
+}
+
+.GolfMasterPlan-module__oWPy8G__zoomHint {
+  color: #fff;
+  background: #000000a6;
+  border-radius: 4px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  display: flex;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}
+
+.GolfMasterPlan-module__oWPy8G__lightboxOverlay {
+  z-index: 9999;
+  background: #000000e6;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.GolfMasterPlan-module__oWPy8G__closeBtn {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.GolfMasterPlan-module__oWPy8G__lightboxContent {
+  justify-content: center;
+  align-items: center;
+  max-width: 95vw;
+  max-height: 90vh;
+  display: flex;
+  position: relative;
+}
+
+.GolfMasterPlan-module__oWPy8G__lightboxImg {
+  object-fit: contain;
+  border-radius: 6px;
+  max-width: 100%;
+  max-height: 85vh;
+}
+
+/* [project]/src/components/golf-estates/GolfLocation.module.css [app-client] (css) */
+.GolfLocation-module__HavC9G__locationSection {
+  background-color: #fff;
+  padding: 70px 0 60px;
+}
+
+.GolfLocation-module__HavC9G__header {
+  text-align: center;
+  max-width: 950px;
+  margin: 0 auto 40px;
+}
+
+.GolfLocation-module__HavC9G__title {
+  color: #1a1a1a;
+  letter-spacing: -.01em;
+  margin-bottom: 15px;
+  font-size: clamp(1.85rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+}
+
+.GolfLocation-module__HavC9G__subtitle {
+  color: #555;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.GolfLocation-module__HavC9G__subtitle strong {
+  color: #1a1a1a;
+}
+
+.GolfLocation-module__HavC9G__contentGrid {
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 36px;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+}
+
+.GolfLocation-module__HavC9G__mapContainer {
+  background: #f5f2ed;
+  border: 1px solid #ebe5dd;
+  border-radius: 8px;
+  width: 100%;
+  height: 310px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px #00000014;
+}
+
+.GolfLocation-module__HavC9G__mapIframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.GolfLocation-module__HavC9G__accordionContainer {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
+}
+
+.GolfLocation-module__HavC9G__accordionItem {
+  background: #fff;
+  border: 1px solid #9c714b;
+  border-radius: 6px;
+  transition: all .25s;
+  overflow: hidden;
+}
+
+.GolfLocation-module__HavC9G__accordionHeader {
+  cursor: pointer;
+  text-align: left;
+  background-color: #a0734e;
+  border: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 14px 20px;
+  transition: background-color .2s;
+  display: flex;
+}
+
+.GolfLocation-module__HavC9G__accordionHeader:hover {
+  background-color: #8c603d;
+}
+
+.GolfLocation-module__HavC9G__accordionHeader span {
+  color: #fff;
+  letter-spacing: .2px;
+  font-size: 15.5px;
+  font-weight: 500;
+}
+
+.GolfLocation-module__HavC9G__headerActive {
+  background-color: #a0734e;
+}
+
+.GolfLocation-module__HavC9G__chevron {
+  color: #fff;
+  flex-shrink: 0;
+  transition: transform .25s;
+}
+
+.GolfLocation-module__HavC9G__chevronOpen {
+  transform: rotate(180deg);
+}
+
+.GolfLocation-module__HavC9G__accordionBody {
+  background-color: #faf8f5;
+  border-top: 1px solid #ede5dc;
+  padding: 16px 20px;
+}
+
+.GolfLocation-module__HavC9G__itemList {
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.GolfLocation-module__HavC9G__listItem {
+  border-bottom: 1px solid #f0ebe4;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  font-size: 14px;
+  display: flex;
+}
+
+.GolfLocation-module__HavC9G__listItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.GolfLocation-module__HavC9G__itemName {
+  color: #2c241c;
+  font-weight: 600;
+}
+
+.GolfLocation-module__HavC9G__itemTime {
+  color: #1a4731;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (max-width: 991px) {
+  .GolfLocation-module__HavC9G__contentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .GolfLocation-module__HavC9G__mapContainer {
+    height: 300px;
+  }
+}
+
+.GolfLocation-module__HavC9G__attractionsContainer {
+  max-width: 1080px;
+  margin: 45px auto 0;
+}
+
+.GolfLocation-module__HavC9G__attractionsHeader {
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.GolfLocation-module__HavC9G__attractionsGrid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  display: grid;
+}
+
+.GolfLocation-module__HavC9G__attractionCard {
+  background: #fff;
+  border: 1px solid #eae5df;
+  border-radius: 10px;
+  transition: transform .3s, box-shadow .3s;
+  overflow: hidden;
+  box-shadow: 0 4px 16px #00000012;
+}
+
+.GolfLocation-module__HavC9G__attractionCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px #0000001f;
+}
+
+.GolfLocation-module__HavC9G__attractionImgWrapper {
+  width: 100%;
+  height: 160px;
+  position: relative;
+  overflow: hidden;
+}
+
+.GolfLocation-module__HavC9G__attractionImg {
+  object-fit: cover;
+  transition: transform .5s;
+}
+
+.GolfLocation-module__HavC9G__attractionCard:hover .GolfLocation-module__HavC9G__attractionImg {
+  transform: scale(1.06);
+}
+
+.GolfLocation-module__HavC9G__attractionInfo {
+  background: #fff;
+  padding: 14px 16px;
+}
+
+.GolfLocation-module__HavC9G__attractionTitle {
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.GolfLocation-module__HavC9G__attractionTime {
+  color: #a0734e;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* [project]/src/components/golf-estates/GolfLandmarks.module.css [app-client] (css) */
+.GolfLandmarks-module__N9ZsyW__landmarksSection {
+  background-color: #fff;
+  padding: 70px 0;
+}
+
+.GolfLandmarks-module__N9ZsyW__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.GolfLandmarks-module__N9ZsyW__title {
+  color: #1a1a1a;
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.GolfLandmarks-module__N9ZsyW__landmarksGrid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  display: grid;
+}
+
+.GolfLandmarks-module__N9ZsyW__card {
+  background: #fff;
+  border-radius: 8px;
+  transition: transform .3s, box-shadow .3s;
+  overflow: hidden;
+  box-shadow: 0 4px 20px #0000000f;
+}
+
+.GolfLandmarks-module__N9ZsyW__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px #0000001f;
+}
+
+.GolfLandmarks-module__N9ZsyW__imgWrapper {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  position: relative;
+}
+
+.GolfLandmarks-module__N9ZsyW__cardImg {
+  object-fit: cover;
+}
+
+.GolfLandmarks-module__N9ZsyW__cardContent {
+  text-align: center;
+  padding: 18px 20px;
+}
+
+.GolfLandmarks-module__N9ZsyW__landmarkTitle {
+  color: #222;
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.GolfLandmarks-module__N9ZsyW__landmarkTime {
+  color: #1a4731;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 991px) {
+  .GolfLandmarks-module__N9ZsyW__landmarksGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfFaq.module.css [app-client] (css) */
+.GolfFaq-module__6XeT-W__faqSection {
+  background-color: #faf9f7;
+  padding: 80px 0;
+}
+
+.GolfFaq-module__6XeT-W__header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 40px;
+}
+
+.GolfFaq-module__6XeT-W__title {
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.GolfFaq-module__6XeT-W__subtitle {
+  color: #666;
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+.GolfFaq-module__6XeT-W__faqList {
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.GolfFaq-module__6XeT-W__faqCard {
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px #0000000a;
+}
+
+.GolfFaq-module__6XeT-W__faqQuestion {
+  color: #1a1a1a;
+  cursor: pointer;
+  text-align: left;
+  background: #fff;
+  border: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 18px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background .2s;
+  display: flex;
+}
+
+.GolfFaq-module__6XeT-W__questionActive {
+  color: #1a4731;
+  background: #f7f4ee;
+}
+
+.GolfFaq-module__6XeT-W__chevron {
+  color: #1a4731;
+  flex-shrink: 0;
+  margin-left: 12px;
+  transition: transform .3s;
+}
+
+.GolfFaq-module__6XeT-W__chevronOpen {
+  transform: rotate(180deg);
+}
+
+.GolfFaq-module__6XeT-W__faqAnswer {
+  color: #444;
+  border-top: 1px solid #f0eee9;
+  padding: 18px 24px 22px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.GolfFaq-module__6XeT-W__faqAnswer p {
+  margin: 0;
+}
+
+/* [project]/src/components/golf-estates/GolfContact.module.css [app-client] (css) */
+.GolfContact-module__GaDLTG__contactSection {
+  background-color: #1a1a1a;
+  align-items: center;
+  min-height: 560px;
+  padding: 100px 0;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.GolfContact-module__GaDLTG__bgImageWrapper {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+}
+
+.GolfContact-module__GaDLTG__bgImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.GolfContact-module__GaDLTG__overlay {
+  background: linear-gradient(105deg, #0f0c0adb 0%, #191410b8 50%, #0f0c0a8c 100%);
+  position: absolute;
+  inset: 0;
+}
+
+.GolfContact-module__GaDLTG__containerContent {
+  z-index: 2;
+  width: 100%;
+  position: relative;
+}
+
+.GolfContact-module__GaDLTG__contactGrid {
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: 50px;
+  display: grid;
+}
+
+.GolfContact-module__GaDLTG__textCol {
+  color: #fff;
+}
+
+.GolfContact-module__GaDLTG__preTitle {
+  letter-spacing: 3px;
+  color: #d8c8b8;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  display: block;
+}
+
+.GolfContact-module__GaDLTG__mainTitle {
+  color: #fff;
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.2;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  letter-spacing: -.5px;
+  margin-bottom: 22px;
+}
+
+.GolfContact-module__GaDLTG__mainSubtitle {
+  color: #ffffffe6;
+  max-width: 540px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.GolfContact-module__GaDLTG__formCol {
+  justify-content: flex-end;
+  display: flex;
+}
+
+.GolfContact-module__GaDLTG__formCard {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 440px;
+  padding: 38px 34px;
+  box-shadow: 0 20px 45px #00000059;
+}
+
+.GolfContact-module__GaDLTG__titleSmall {
+  letter-spacing: 2px;
+  color: #1a4731;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.GolfContact-module__GaDLTG__titleLarge {
+  color: #1a1a1a;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 22px;
+}
+
+.GolfContact-module__GaDLTG__formGroup {
+  margin-bottom: 14px;
+}
+
+.GolfContact-module__GaDLTG__inputField {
+  color: #1e293b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+  padding: 13px 16px;
+  font-size: 14.5px;
+  transition: all .2s;
+}
+
+.GolfContact-module__GaDLTG__inputField:focus {
+  background: #fff;
+  border-color: #1a4731;
+  box-shadow: 0 0 0 3px #1a473126;
+}
+
+.GolfContact-module__GaDLTG__submitBtn {
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  background-color: #1a4731;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .25s;
+  box-shadow: 0 3px 12px #1a473159;
+}
+
+.GolfContact-module__GaDLTG__submitBtn:hover {
+  background-color: #123322;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px #1a473173;
+}
+
+.GolfContact-module__GaDLTG__successMsg {
+  color: #166534;
+  text-align: center;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  font-size: 14.5px;
+  font-weight: 600;
+  display: flex;
+}
+
+@media (max-width: 992px) {
+  .GolfContact-module__GaDLTG__contactGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .GolfContact-module__GaDLTG__mainTitle {
+    font-size: 36px;
+  }
+
+  .GolfContact-module__GaDLTG__formCol {
+    justify-content: center;
+  }
+
+  .GolfContact-module__GaDLTG__formCard {
+    max-width: 100%;
+  }
+
+  .GolfContact-module__GaDLTG__contactSection {
+    padding: 70px 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .GolfContact-module__GaDLTG__mainTitle {
+    font-size: 30px;
+  }
+
+  .GolfContact-module__GaDLTG__mainSubtitle {
+    font-size: 15.5px;
+  }
+
+  .GolfContact-module__GaDLTG__formCard {
+    padding: 28px 20px;
+  }
+}
+
+/* [project]/src/components/Footer.module.css [app-client] (css) */
+.Footer-module__S6Hkya__footer {
+  color: #fff;
+  background-color: #000;
+  border-top: 1px solid #ffffff14;
+  padding: 70px 0 30px;
+  font-family: inherit;
+}
+
+.Footer-module__S6Hkya__footerGrid {
+  grid-template-columns: 1.3fr .9fr 1fr 1.1fr;
+  gap: 48px;
+  margin-bottom: 50px;
+  display: grid;
+}
+
+.Footer-module__S6Hkya__brandCol {
+  flex-direction: column;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__logoLink {
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.Footer-module__S6Hkya__logoImg {
+  object-fit: contain;
+  filter: brightness(0) invert();
+  height: auto;
+}
+
+.Footer-module__S6Hkya__brandDescription {
+  color: #b0b0b0;
+  max-width: 320px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.Footer-module__S6Hkya__colTitle {
+  color: #fff;
+  letter-spacing: .3px;
+  margin-bottom: 22px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.Footer-module__S6Hkya__linksList {
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__linkItem {
+  color: #b0b0b0;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color .2s, transform .2s;
+  display: inline-block;
+}
+
+.Footer-module__S6Hkya__linkItem:hover {
+  color: #1a4731;
+  transform: translateX(3px);
+}
+
+.Footer-module__S6Hkya__contactList {
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__contactLink {
+  color: #b0b0b0;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color .2s;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__contactLink:hover {
+  color: #1a4731;
+}
+
+.Footer-module__S6Hkya__contactItemStatic {
+  color: #b0b0b0;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__contactIcon {
+  color: #fff;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.Footer-module__S6Hkya__bottomBar {
+  text-align: center;
+  border-top: 1px solid #ffffff1a;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 26px;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__disclaimerText {
+  color: #8a8a8a;
+  text-align: center;
+  max-width: 980px;
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.Footer-module__S6Hkya__disclaimerText strong {
+  color: #b0b0b0;
+}
+
+.Footer-module__S6Hkya__copyrightText {
+  color: #666;
+  letter-spacing: .2px;
+  margin: 0;
+  font-size: 13px;
+}
+
+@media (max-width: 1024px) {
+  .Footer-module__S6Hkya__footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .Footer-module__S6Hkya__footerGrid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .Footer-module__S6Hkya__footer {
+    padding: 50px 0 25px;
+  }
+}
+
+/* [project]/src/components/ScrollToTop.module.css [app-client] (css) */
+.ScrollToTop-module__bPaVnG__scrollTopBtn {
+  z-index: 999;
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+  display: flex;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  transform: translateY(15px);
+  box-shadow: 0 4px 15px #0003;
+}
+
+.ScrollToTop-module__bPaVnG__scrollTopVisible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.ScrollToTop-module__bPaVnG__scrollTopBtn:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-3px)scale(1.05);
+  box-shadow: 0 6px 20px #1a473173;
+}
+
+/* [project]/src/components/ListPropertyModal.module.css [app-client] (css) */
+.ListPropertyModal-module__xMZKCG__modalOverlay {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 2500;
+  background: #000000a6;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: .25s ListPropertyModal-module__xMZKCG__fadeIn;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+@keyframes ListPropertyModal-module__xMZKCG__fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.ListPropertyModal-module__xMZKCG__modalContent {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  padding: 32px 30px;
+  animation: .3s ListPropertyModal-module__xMZKCG__slideUp;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px #0000004d;
+}
+
+@keyframes ListPropertyModal-module__xMZKCG__slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ListPropertyModal-module__xMZKCG__modalHeader {
+  border-bottom: 1px solid #eee;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  display: flex;
+}
+
+.ListPropertyModal-module__xMZKCG__modalTitle {
+  color: #222;
+  letter-spacing: .5px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ListPropertyModal-module__xMZKCG__closeBtn {
+  color: #777;
+  cursor: pointer;
+  background: none;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  transition: color .2s;
+  display: flex;
+}
+
+.ListPropertyModal-module__xMZKCG__closeBtn:hover {
+  color: #000;
+}
+
+.ListPropertyModal-module__xMZKCG__formGrid {
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  display: grid;
+}
+
+.ListPropertyModal-module__xMZKCG__fullWidth {
+  grid-column: span 2;
+}
+
+.ListPropertyModal-module__xMZKCG__label {
+  color: #333;
+  margin-bottom: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  display: block;
+}
+
+.ListPropertyModal-module__xMZKCG__inputField, .ListPropertyModal-module__xMZKCG__selectField, .ListPropertyModal-module__xMZKCG__textareaField {
+  color: #333;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+  padding: 11px 13px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color .2s;
+}
+
+.ListPropertyModal-module__xMZKCG__inputField:focus, .ListPropertyModal-module__xMZKCG__selectField:focus, .ListPropertyModal-module__xMZKCG__textareaField:focus {
+  border-color: var(--color-primary);
+}
+
+.ListPropertyModal-module__xMZKCG__textareaField {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.ListPropertyModal-module__xMZKCG__fileNote {
+  color: #777;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.ListPropertyModal-module__xMZKCG__submitBtn {
+  background: var(--color-primary);
+  color: #fff;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .2s;
+}
+
+.ListPropertyModal-module__xMZKCG__submitBtn:hover {
+  background: var(--color-primary-hover);
+}
+
+.ListPropertyModal-module__xMZKCG__successMessage {
+  color: #1e6b27;
+  text-align: center;
+  background: #eef7ec;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .ListPropertyModal-module__xMZKCG__formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ListPropertyModal-module__xMZKCG__fullWidth {
+    grid-column: span 1;
+  }
+}
+
+/* [project]/src/components/golf-estates/GolfBrochureModal.module.css [app-client] (css) */
+.GolfBrochureModal-module__V6tHXG__modalOverlay {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  background: #000000b3;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.GolfBrochureModal-module__V6tHXG__modalContainer {
+  background: #fff;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
+  animation: .3s GolfBrochureModal-module__V6tHXG__modalFadeIn;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 50px #0000004d;
+}
+
+@keyframes GolfBrochureModal-module__V6tHXG__modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.GolfBrochureModal-module__V6tHXG__closeBtn {
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+  background: #00000080;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  transition: background .2s;
+  display: flex;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.GolfBrochureModal-module__V6tHXG__closeBtn:hover {
+  background: #1a4731;
+}
+
+.GolfBrochureModal-module__V6tHXG__modalGrid {
+  grid-template-columns: 1fr 1.2fr;
+  display: grid;
+}
+
+.GolfBrochureModal-module__V6tHXG__imageCol {
+  min-height: 400px;
+  position: relative;
+}
+
+.GolfBrochureModal-module__V6tHXG__modalImg {
+  object-fit: cover;
+}
+
+.GolfBrochureModal-module__V6tHXG__formCol {
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 30px;
+  display: flex;
+}
+
+.GolfBrochureModal-module__V6tHXG__titleSmall {
+  letter-spacing: 2px;
+  color: #777;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.GolfBrochureModal-module__V6tHXG__titleLarge {
+  color: #1a1a1a;
+  letter-spacing: .5px;
+  margin: 0 0 20px;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.GolfBrochureModal-module__V6tHXG__form {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
+}
+
+.GolfBrochureModal-module__V6tHXG__inputGroup {
+  width: 100%;
+}
+
+.GolfBrochureModal-module__V6tHXG__inputField {
+  box-sizing: border-box;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  transition: border-color .2s;
+}
+
+.GolfBrochureModal-module__V6tHXG__inputField:focus {
+  border-color: #1a4731;
+}
+
+.GolfBrochureModal-module__V6tHXG__recaptchaBox {
+  background: #f9f9f9;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2px 0;
+  padding: 8px 12px;
+  display: flex;
+}
+
+.GolfBrochureModal-module__V6tHXG__recaptchaLeft {
+  color: #333;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  display: flex;
+}
+
+.GolfBrochureModal-module__V6tHXG__recaptchaRight {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.GolfBrochureModal-module__V6tHXG__recapBrand {
+  color: #555;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.GolfBrochureModal-module__V6tHXG__recapTerms {
+  color: #888;
+  font-size: 7px;
+}
+
+.GolfBrochureModal-module__V6tHXG__downloadBtn {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  background: #1a4731;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all .3s;
+}
+
+.GolfBrochureModal-module__V6tHXG__downloadBtn:hover {
+  background: #123322;
+}
+
+.GolfBrochureModal-module__V6tHXG__successBox {
+  color: #1e6b27;
+  background: #eef7ec;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .GolfBrochureModal-module__V6tHXG__modalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .GolfBrochureModal-module__V6tHXG__imageCol {
+    display: none;
+  }
+
+  .GolfBrochureModal-module__V6tHXG__formCol {
+    padding: 30px 20px;
+  }
+}
+
+/*# sourceMappingURL=_0cqp0s3._.css.map*/

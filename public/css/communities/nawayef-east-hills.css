@@ -1,0 +1,3071 @@
+
+/* [project]/src/components/nawayef-east-hills/NawayefHeader.module.css [app-client] (css) */
+.NawayefHeader-module__YYF5Cq__header {
+  z-index: 999;
+  -webkit-backdrop-filter: blur(12px);
+  background: #19140fd9;
+  border-bottom: 1px solid #1a473133;
+  padding: 12px 0;
+  transition: all .3s;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.NawayefHeader-module__YYF5Cq__scrolled {
+  background: #120e0af2;
+  padding: 8px 0;
+  box-shadow: 0 10px 30px #0000004d;
+}
+
+.NawayefHeader-module__YYF5Cq__container {
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+}
+
+.NawayefHeader-module__YYF5Cq__logo {
+  align-items: center;
+  text-decoration: none;
+  display: flex;
+}
+
+.NawayefHeader-module__YYF5Cq__logoImg {
+  object-fit: contain;
+  width: auto;
+  height: 48px;
+}
+
+.NawayefHeader-module__YYF5Cq__nav {
+  align-items: center;
+  gap: 1.5rem;
+  display: flex;
+}
+
+.NawayefHeader-module__YYF5Cq__navLinks {
+  align-items: center;
+  gap: 1.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.NawayefHeader-module__YYF5Cq__navLink {
+  color: #fff;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  align-items: center;
+  gap: 5px;
+  font-size: .8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color .2s, opacity .2s;
+  display: flex;
+}
+
+.NawayefHeader-module__YYF5Cq__navLink:hover {
+  color: #235b3f;
+}
+
+.NawayefHeader-module__YYF5Cq__dropdown {
+  position: relative;
+}
+
+.NawayefHeader-module__YYF5Cq__dropdownMenu {
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 1000;
+  background: #1a1612f2;
+  border: 1px solid #1a47314d;
+  border-radius: 8px;
+  flex-direction: column;
+  min-width: 240px;
+  padding: 8px 0;
+  list-style: none;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  box-shadow: 0 15px 35px #0006;
+}
+
+.NawayefHeader-module__YYF5Cq__dropdown:hover .NawayefHeader-module__YYF5Cq__dropdownMenu {
+  display: flex;
+}
+
+.NawayefHeader-module__YYF5Cq__dropdownItem {
+  color: #e0dcd6;
+  padding: 8px 16px;
+  font-size: .85rem;
+  text-decoration: none;
+  transition: all .2s;
+  display: block;
+}
+
+.NawayefHeader-module__YYF5Cq__dropdownItem:hover {
+  color: #fff;
+  background: #1a473126;
+  padding-left: 20px;
+}
+
+.NawayefHeader-module__YYF5Cq__btnAction {
+  color: #fff;
+  letter-spacing: .5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  background: #1a4731;
+  border: 1px solid #1a4731;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: .82rem;
+  font-weight: 600;
+  transition: all .3s;
+}
+
+.NawayefHeader-module__YYF5Cq__btnAction:hover {
+  background: #123322;
+  border-color: #123322;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px #1a473159;
+}
+
+.NawayefHeader-module__YYF5Cq__mobileToggle {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  display: none;
+}
+
+.NawayefHeader-module__YYF5Cq__mobileMenu {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  z-index: 998;
+  background: #120e0afa;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 2rem;
+  display: flex;
+  position: fixed;
+  inset: 70px 0 0;
+  overflow-y: auto;
+}
+
+.NawayefHeader-module__YYF5Cq__mobileNavLink {
+  color: #fff;
+  border-bottom: 1px solid #ffffff14;
+  padding: 8px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.NawayefHeader-module__YYF5Cq__mobileSublink {
+  color: #b5aba0;
+  padding: 6px 0 6px 1rem;
+  font-size: .95rem;
+  text-decoration: none;
+}
+
+@media (max-width: 1024px) {
+  .NawayefHeader-module__YYF5Cq__navLinks, .NawayefHeader-module__YYF5Cq__btnAction {
+    display: none;
+  }
+
+  .NawayefHeader-module__YYF5Cq__mobileToggle {
+    display: block;
+  }
+}
+
+/* [project]/node_modules/react-international-phone/dist/index.css [app-client] (css) */
+.react-international-phone-country-selector {
+  position: relative;
+}
+
+.react-international-phone-country-selector-button {
+  height: var(--react-international-phone-height, 36px);
+  box-sizing: border-box;
+  border: 1px solid var(--react-international-phone-country-selector-border-color, var(--react-international-phone-border-color, gainsboro));
+  appearance: button;
+  background-color: var(--react-international-phone-country-selector-background-color, var(--react-international-phone-background-color, white));
+  cursor: pointer;
+  text-transform: none;
+  -webkit-user-select: none;
+  user-select: none;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.react-international-phone-country-selector-button:hover {
+  background-color: var(--react-international-phone-country-selector-background-color-hover, whitesmoke);
+}
+
+.react-international-phone-country-selector-button--hide-dropdown {
+  cursor: auto;
+}
+
+.react-international-phone-country-selector-button--hide-dropdown:hover {
+  background-color: #0000;
+}
+
+.react-international-phone-country-selector-button__button-content {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.react-international-phone-country-selector-button__flag-emoji {
+  margin: 0 4px;
+}
+
+.react-international-phone-country-selector-button__flag-emoji--disabled {
+  opacity: .75;
+}
+
+.react-international-phone-country-selector-button__dropdown-arrow {
+  border-top: var(--react-international-phone-country-selector-arrow-size, 4px) solid var(--react-international-phone-country-selector-arrow-color, #777);
+  border-right: var(--react-international-phone-country-selector-arrow-size, 4px) solid transparent;
+  border-left: var(--react-international-phone-country-selector-arrow-size, 4px) solid transparent;
+  margin-right: 4px;
+  transition: all .1s ease-out;
+}
+
+.react-international-phone-country-selector-button__dropdown-arrow--active {
+  transform: rotateX(180deg);
+}
+
+.react-international-phone-country-selector-button__dropdown-arrow--disabled {
+  border-top-color: var(--react-international-phone-disabled-country-selector-arrow-color, #999);
+}
+
+.react-international-phone-country-selector-button--disabled, .react-international-phone-country-selector-button--disabled:hover {
+  background-color: var(--react-international-phone-disabled-country-selector-background-color, var(--react-international-phone-disabled-background-color, whitesmoke));
+}
+
+.react-international-phone-country-selector-button--disabled {
+  cursor: auto;
+}
+
+.react-international-phone-flag-emoji {
+  width: var(--react-international-phone-flag-width, 24px);
+  height: var(--react-international-phone-flag-height, 24px);
+  box-sizing: border-box;
+}
+
+.react-international-phone-country-selector-dropdown {
+  z-index: 1;
+  top: var(--react-international-phone-dropdown-top, 44px);
+  left: var(--react-international-phone-dropdown-left, 0);
+  background-color: var(--react-international-phone-dropdown-item-background-color, var(--react-international-phone-background-color, white));
+  width: 300px;
+  max-height: 200px;
+  box-shadow: var(--react-international-phone-dropdown-shadow, 2px 2px 16px #00000040);
+  color: var(--react-international-phone-dropdown-item-text-color, var(--react-international-phone-text-color, #222));
+  flex-direction: column;
+  margin: 0;
+  padding: 4px 0;
+  list-style: none;
+  display: flex;
+  position: absolute;
+  overflow-y: scroll;
+}
+
+.react-international-phone-country-selector-dropdown__preferred-list-divider {
+  height: 1px;
+  margin: var(--react-international-phone-dropdown-preferred-list-divider-margin, 0);
+  background: var(--react-international-phone-dropdown-preferred-list-divider-color, var(--react-international-phone-border-color, gainsboro));
+  border: none;
+}
+
+.react-international-phone-country-selector-dropdown__list-item {
+  min-height: var(--react-international-phone-dropdown-item-height, 28px);
+  box-sizing: border-box;
+  align-items: center;
+  padding: 2px 8px;
+  display: flex;
+}
+
+.react-international-phone-country-selector-dropdown__list-item-flag-emoji {
+  margin-right: 8px;
+}
+
+.react-international-phone-country-selector-dropdown__list-item-country-name {
+  font-size: var(--react-international-phone-dropdown-item-font-size, 14px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 8px;
+  overflow: hidden;
+}
+
+.react-international-phone-country-selector-dropdown__list-item-dial-code {
+  color: var(--react-international-phone-dropdown-item-dial-code-color, gray);
+  font-size: var(--react-international-phone-dropdown-item-font-size, 14px);
+}
+
+.react-international-phone-country-selector-dropdown__list-item:hover {
+  background-color: var(--react-international-phone-selected-dropdown-item-background-color, var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke));
+  cursor: pointer;
+}
+
+.react-international-phone-country-selector-dropdown__list-item--selected, .react-international-phone-country-selector-dropdown__list-item--focused {
+  background-color: var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke);
+  color: var(--react-international-phone-selected-dropdown-item-text-color, var(--react-international-phone-text-color, #222));
+}
+
+.react-international-phone-country-selector-dropdown__list-item--selected .react-international-phone-country-selector-dropdown__list-item-dial-code, .react-international-phone-country-selector-dropdown__list-item--focused .react-international-phone-country-selector-dropdown__list-item-dial-code {
+  color: var(--react-international-phone-selected-dropdown-item-dial-code-color, var(--react-international-phone-dropdown-item-dial-code-color, gray));
+}
+
+.react-international-phone-country-selector-dropdown__list-item--focused {
+  background-color: var(--react-international-phone-selected-dropdown-item-background-color, var(--react-international-phone-selected-dropdown-item-background-color, whitesmoke));
+}
+
+.react-international-phone-dial-code-preview {
+  border: 1px solid var(--react-international-phone-dial-code-preview-border-color, var(--react-international-phone-border-color, gainsboro));
+  background-color: var(--react-international-phone-dial-code-preview-background-color, var(--react-international-phone-background-color, white));
+  color: var(--react-international-phone-dial-code-preview-text-color, var(--react-international-phone-text-color, #222));
+  font-size: var(--react-international-phone-dial-code-preview-font-size, var(--react-international-phone-font-size, 13px));
+  justify-content: center;
+  align-items: center;
+  margin-right: -1px;
+  padding: 0 8px;
+  display: flex;
+}
+
+.react-international-phone-dial-code-preview--disabled {
+  background-color: var(--react-international-phone-dial-code-preview-disabled-background-color, var(--react-international-phone-disabled-background-color, whitesmoke));
+  color: var(--react-international-phone-dial-code-preview-disabled-text-color, var(--react-international-phone-disabled-text-color, #666));
+}
+
+.react-international-phone-input-container {
+  display: flex;
+}
+
+.react-international-phone-input-container .react-international-phone-country-selector-button {
+  border-radius: var(--react-international-phone-border-radius, 4px);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-right: -1px;
+}
+
+.react-international-phone-input-container .react-international-phone-input {
+  height: var(--react-international-phone-height, 36px);
+  box-sizing: border-box;
+  border: 1px solid var(--react-international-phone-border-color, gainsboro);
+  border-radius: var(--react-international-phone-border-radius, 4px);
+  background-color: var(--react-international-phone-background-color, white);
+  color: var(--react-international-phone-text-color, #222);
+  font-family: inherit;
+  font-size: var(--react-international-phone-font-size, 13px);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin: 0;
+  padding: 0 8px;
+  overflow: visible;
+}
+
+.react-international-phone-input-container .react-international-phone-input:focus {
+  outline: none;
+}
+
+.react-international-phone-input-container .react-international-phone-input--disabled {
+  background-color: var(--react-international-phone-disabled-background-color, whitesmoke);
+  color: var(--react-international-phone-disabled-text-color, #666);
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefHero.module.css [app-client] (css) */
+.NawayefHero-module__-s2NRa__heroSection {
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  padding: 130px 0 70px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.NawayefHero-module__-s2NRa__sliderWrapper {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+}
+
+.NawayefHero-module__-s2NRa__slideItem {
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.NawayefHero-module__-s2NRa__slideActive {
+  opacity: 1;
+}
+
+.NawayefHero-module__-s2NRa__slideImage {
+  object-fit: cover;
+  transform-origin: center;
+  transform: scale(1);
+}
+
+.NawayefHero-module__-s2NRa__slideActive .NawayefHero-module__-s2NRa__slideImage {
+  animation: 8s ease-out forwards NawayefHero-module__-s2NRa__kenBurnsEffect;
+}
+
+@keyframes NawayefHero-module__-s2NRa__kenBurnsEffect {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.18);
+  }
+}
+
+.NawayefHero-module__-s2NRa__overlay {
+  z-index: 2;
+  background: linear-gradient(to right, #000000bf 0%, #0000008c 50%, #000000b3 100%);
+  position: absolute;
+  inset: 0;
+}
+
+.NawayefHero-module__-s2NRa__prevBtn, .NawayefHero-module__-s2NRa__nextBtn {
+  color: #fff;
+  cursor: pointer;
+  z-index: 10;
+  background: #0006;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 46px;
+  height: 46px;
+  transition: background .25s;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.NawayefHero-module__-s2NRa__prevBtn:hover, .NawayefHero-module__-s2NRa__nextBtn:hover {
+  background: #1a4731;
+}
+
+.NawayefHero-module__-s2NRa__prevBtn {
+  left: 20px;
+}
+
+.NawayefHero-module__-s2NRa__nextBtn {
+  right: 20px;
+}
+
+.NawayefHero-module__-s2NRa__heroContainer {
+  z-index: 5;
+  width: 100%;
+  position: relative;
+}
+
+.NawayefHero-module__-s2NRa__heroGrid {
+  grid-template-columns: 1.2fr .8fr;
+  align-items: center;
+  gap: 48px;
+  display: grid;
+}
+
+.NawayefHero-module__-s2NRa__leftCol {
+  flex-direction: column;
+  display: flex;
+}
+
+.NawayefHero-module__-s2NRa__title {
+  color: #fff;
+  letter-spacing: -.5px;
+  margin-bottom: 12px;
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.NawayefHero-module__-s2NRa__subtitle {
+  color: #ffffffe6;
+  max-width: 580px;
+  margin-bottom: 28px;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.NawayefHero-module__-s2NRa__btnRow {
+  margin-bottom: 24px;
+}
+
+.NawayefHero-module__-s2NRa__brochureBtn {
+  color: #fff;
+  letter-spacing: .5px;
+  cursor: pointer;
+  text-transform: uppercase;
+  background-color: #1a4731;
+  border: none;
+  border-radius: 4px;
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .3s;
+  display: inline-block;
+}
+
+.NawayefHero-module__-s2NRa__brochureBtn:hover {
+  background-color: #123322;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px #1a473166;
+}
+
+.NawayefHero-module__-s2NRa__badgeRow {
+  align-items: center;
+  display: flex;
+}
+
+.NawayefHero-module__-s2NRa__freeholdTag {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.NawayefHero-module__-s2NRa__rightCol {
+  justify-content: flex-end;
+  display: flex;
+}
+
+.NawayefHero-module__-s2NRa__requestCard {
+  background: #fff;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 420px;
+  padding: 34px 28px;
+  box-shadow: 0 10px 40px #00000040;
+}
+
+.NawayefHero-module__-s2NRa__formTitleSmall {
+  letter-spacing: 2px;
+  color: #555;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.NawayefHero-module__-s2NRa__formTitleLarge {
+  color: #222;
+  text-align: center;
+  letter-spacing: .5px;
+  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.NawayefHero-module__-s2NRa__callForm {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
+}
+
+.NawayefHero-module__-s2NRa__inputGroup {
+  width: 100%;
+}
+
+.NawayefHero-module__-s2NRa__inputField {
+  color: #333;
+  box-sizing: border-box;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  outline: none;
+  width: 100%;
+  padding: 13px 15px;
+  font-size: 15px;
+  transition: border-color .2s;
+}
+
+.NawayefHero-module__-s2NRa__inputField:focus {
+  border-color: #1a4731;
+}
+
+.NawayefHero-module__-s2NRa__recaptchaBox {
+  background: #f9f9f9;
+  border: 1px solid #d3d3d3;
+  border-radius: 3px;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0;
+  padding: 8px 12px;
+  display: flex;
+}
+
+.NawayefHero-module__-s2NRa__recaptchaLeft {
+  color: #333;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  display: flex;
+}
+
+.NawayefHero-module__-s2NRa__recaptchaRight {
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+}
+
+.NawayefHero-module__-s2NRa__recapBrand {
+  color: #555;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.NawayefHero-module__-s2NRa__recapTerms {
+  color: #888;
+  font-size: 8px;
+}
+
+.NawayefHero-module__-s2NRa__submitBtn {
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  background: #1a4731;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .3s;
+}
+
+.NawayefHero-module__-s2NRa__submitBtn:hover {
+  background: #123322;
+  transform: translateY(-1px);
+}
+
+.NawayefHero-module__-s2NRa__successMessage {
+  color: #1e6b27;
+  text-align: center;
+  background: #eef7ec;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+}
+
+@media (max-width: 991px) {
+  .NawayefHero-module__-s2NRa__heroGrid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .NawayefHero-module__-s2NRa__title {
+    font-size: 38px;
+  }
+
+  .NawayefHero-module__-s2NRa__subtitle {
+    font-size: 17px;
+  }
+
+  .NawayefHero-module__-s2NRa__rightCol {
+    justify-content: center;
+  }
+
+  .NawayefHero-module__-s2NRa__requestCard {
+    max-width: 100%;
+  }
+
+  .NawayefHero-module__-s2NRa__prevBtn, .NawayefHero-module__-s2NRa__nextBtn {
+    display: none;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefHighlights.module.css [app-client] (css) */
+.NawayefHighlights-module__jt1XCq__highlightsSection {
+  background-color: #f7f5f2;
+  border-bottom: 1px solid #ebe6dd;
+  padding: 30px 0;
+}
+
+.NawayefHighlights-module__jt1XCq__highlightsGrid {
+  grid-template-columns: repeat(5, 1fr);
+  align-items: center;
+  gap: 16px;
+  display: grid;
+}
+
+.NawayefHighlights-module__jt1XCq__highlightCard {
+  background: #fff;
+  border: 1px solid #eeebe3;
+  border-radius: 10px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  transition: transform .25s, box-shadow .25s;
+  display: flex;
+  box-shadow: 0 3px 12px #0000000a;
+}
+
+.NawayefHighlights-module__jt1XCq__highlightCard:hover {
+  border-color: #1a4731;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px #1a47311f;
+}
+
+.NawayefHighlights-module__jt1XCq__iconWrapper {
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  position: relative;
+}
+
+.NawayefHighlights-module__jt1XCq__accentCircle {
+  opacity: .85;
+  z-index: 1;
+  background: #1a4731;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+
+.NawayefHighlights-module__jt1XCq__svgIcon {
+  z-index: 2;
+  color: #26292e;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.NawayefHighlights-module__jt1XCq__highlightInfo {
+  flex-direction: column;
+  display: flex;
+  overflow: hidden;
+}
+
+.NawayefHighlights-module__jt1XCq__highlightLabel {
+  color: #1e2227;
+  margin-bottom: 2px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.NawayefHighlights-module__jt1XCq__highlightValue {
+  color: #616b77;
+  white-space: nowrap;
+  font-size: 13.5px;
+  font-weight: 400;
+}
+
+@media (max-width: 1200px) {
+  .NawayefHighlights-module__jt1XCq__highlightsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 680px) {
+  .NawayefHighlights-module__jt1XCq__highlightsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (max-width: 440px) {
+  .NawayefHighlights-module__jt1XCq__highlightsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefAboutVideo.module.css [app-client] (css) */
+.NawayefAboutVideo-module___kfhmG__aboutSection {
+  background-color: #fff;
+  padding: 90px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.NawayefAboutVideo-module___kfhmG__aboutGrid {
+  grid-template-columns: 1fr 1.15fr;
+  align-items: center;
+  gap: 50px;
+  display: grid;
+}
+
+.NawayefAboutVideo-module___kfhmG__leftCol {
+  flex-direction: column;
+  display: flex;
+}
+
+.NawayefAboutVideo-module___kfhmG__title {
+  color: #1a1a1a;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.25;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 20px;
+}
+
+.NawayefAboutVideo-module___kfhmG__description {
+  color: #444;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.NawayefAboutVideo-module___kfhmG__rightCol {
+  width: 100%;
+  position: relative;
+}
+
+.NawayefAboutVideo-module___kfhmG__videoWrapper {
+  align-items: center;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.NawayefAboutVideo-module___kfhmG__brownBackdrop {
+  z-index: 1;
+  background-color: #1a4731;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  position: absolute;
+  inset: -36px -50vw -36px 20%;
+}
+
+.NawayefAboutVideo-module___kfhmG__videoContainer {
+  z-index: 2;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  border-radius: 14px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 45px #00000047;
+}
+
+.NawayefAboutVideo-module___kfhmG__videoPlayer {
+  object-fit: cover;
+  border-radius: 14px;
+  width: 100%;
+  height: 100%;
+}
+
+.NawayefAboutVideo-module___kfhmG__playButton {
+  color: #fff;
+  cursor: pointer;
+  z-index: 5;
+  background-color: #1a4731;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 68px;
+  height: 68px;
+  padding-left: 4px;
+  transition: all .3s;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 4px 20px #00000059;
+}
+
+.NawayefAboutVideo-module___kfhmG__playButton:hover {
+  background-color: #123322;
+  transform: translate(-50%, -50%)scale(1.1);
+}
+
+@media (max-width: 991px) {
+  .NawayefAboutVideo-module___kfhmG__aboutGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .NawayefAboutVideo-module___kfhmG__title {
+    font-size: 30px;
+  }
+
+  .NawayefAboutVideo-module___kfhmG__brownBackdrop {
+    inset: -20px -20px -20px 10%;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefAmenities.module.css [app-client] (css) */
+.NawayefAmenities-module__MND-Xq__amenitiesSection {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+  padding: 80px 0;
+}
+
+.NawayefAmenities-module__MND-Xq__header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto 44px;
+}
+
+.NawayefAmenities-module__MND-Xq__title {
+  color: #222;
+  font-size: 36px;
+  font-weight: 700;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 14px;
+}
+
+.NawayefAmenities-module__MND-Xq__subtitle {
+  color: #555;
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.NawayefAmenities-module__MND-Xq__grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  display: grid;
+}
+
+.NawayefAmenities-module__MND-Xq__card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  transition: all .25s;
+  display: flex;
+  box-shadow: 0 2px 8px #00000005;
+}
+
+.NawayefAmenities-module__MND-Xq__card:hover {
+  border-color: #1a4731;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px #1a47311f;
+}
+
+.NawayefAmenities-module__MND-Xq__iconBox {
+  background-color: #1a4731;
+  border-radius: 6px;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  min-width: 48px;
+  height: 48px;
+  display: flex;
+}
+
+.NawayefAmenities-module__MND-Xq__iconImg {
+  object-fit: contain;
+  filter: brightness(0) invert();
+}
+
+.NawayefAmenities-module__MND-Xq__amenityName {
+  color: #222;
+  text-transform: capitalize;
+  margin: 0;
+  font-size: 15.5px;
+  font-weight: 600;
+}
+
+@media (max-width: 991px) {
+  .NawayefAmenities-module__MND-Xq__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .NawayefAmenities-module__MND-Xq__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/common/StandardProjectGallery.module.css [app-client] (css) */
+.StandardProjectGallery-module__MeUPXW__gallerySection {
+  background-color: #fff;
+  width: 100%;
+  padding: 70px 0 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.StandardProjectGallery-module__MeUPXW__header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 36px;
+  padding: 0 20px;
+}
+
+.StandardProjectGallery-module__MeUPXW__title {
+  color: #1a1a1a;
+  letter-spacing: -.01em;
+  margin-bottom: 22px;
+  font-size: clamp(1.85rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+}
+
+.StandardProjectGallery-module__MeUPXW__tabNav {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  display: flex;
+}
+
+.StandardProjectGallery-module__MeUPXW__tabBtn {
+  color: #666;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid #0000;
+  padding: 6px 4px 10px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all .25s;
+  position: relative;
+}
+
+.StandardProjectGallery-module__MeUPXW__tabBtn:hover {
+  color: #b37748;
+}
+
+.StandardProjectGallery-module__MeUPXW__tabActive {
+  color: #b37748;
+  border-bottom: 2px solid #b37748;
+  font-weight: 600;
+}
+
+.StandardProjectGallery-module__MeUPXW__carouselContainer {
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.StandardProjectGallery-module__MeUPXW__viewport {
+  width: 100%;
+  display: flex;
+  overflow: visible;
+}
+
+.StandardProjectGallery-module__MeUPXW__track {
+  will-change: transform;
+  align-items: center;
+  transition: transform .5s cubic-bezier(.25, 1, .5, 1);
+  display: flex;
+}
+
+.StandardProjectGallery-module__MeUPXW__card {
+  cursor: pointer;
+  background: #f4ede5;
+  border-radius: 18px;
+  flex-shrink: 0;
+  transition: transform .35s, box-shadow .35s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px #00000014;
+}
+
+.StandardProjectGallery-module__MeUPXW__card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px #00000024;
+}
+
+.StandardProjectGallery-module__MeUPXW__cardImg {
+  object-fit: cover;
+  transition: transform .6s cubic-bezier(.25, 1, .5, 1);
+}
+
+.StandardProjectGallery-module__MeUPXW__card:hover .StandardProjectGallery-module__MeUPXW__cardImg {
+  transform: scale(1.03);
+}
+
+.StandardProjectGallery-module__MeUPXW__navBtn {
+  color: #222;
+  cursor: pointer;
+  z-index: 10;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  background: #ffffffe6;
+  border: 1px solid #00000014;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  transition: all .25s;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 16px #00000026;
+}
+
+.StandardProjectGallery-module__MeUPXW__prevBtn {
+  left: 20px;
+}
+
+.StandardProjectGallery-module__MeUPXW__nextBtn {
+  right: 20px;
+}
+
+.StandardProjectGallery-module__MeUPXW__navBtn:hover {
+  color: #b37748;
+  background: #fff;
+  transform: translateY(-50%)scale(1.08);
+  box-shadow: 0 6px 20px #0003;
+}
+
+.StandardProjectGallery-module__MeUPXW__dotsWrapper {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+  margin-top: 26px;
+  padding: 0 20px;
+  display: flex;
+}
+
+.StandardProjectGallery-module__MeUPXW__dot {
+  cursor: pointer;
+  background-color: #0000;
+  border: 1.5px solid #cbb8a7;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  transition: all .25s;
+}
+
+.StandardProjectGallery-module__MeUPXW__dot:hover {
+  border-color: #b37748;
+}
+
+.StandardProjectGallery-module__MeUPXW__dotActive {
+  background-color: #b37748;
+  border-color: #b37748;
+  transform: scale(1.15);
+}
+
+.StandardProjectGallery-module__MeUPXW__lightbox {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  z-index: 99999;
+  background-color: #0c0a08f0;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxClose {
+  color: #fff;
+  cursor: pointer;
+  z-index: 100001;
+  background: #ffffff26;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  transition: all .2s;
+  display: flex;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxClose:hover {
+  background: #ffffff4d;
+  transform: scale(1.08);
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxNav {
+  color: #fff;
+  cursor: pointer;
+  z-index: 100001;
+  background: #ffffff26;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  transition: all .2s;
+  display: flex;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxPrev {
+  left: 24px;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxNext {
+  right: 24px;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxNav:hover {
+  background: #ffffff4d;
+  transform: translateY(-50%)scale(1.08);
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxContent {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 90vw;
+  max-height: 88vh;
+  display: flex;
+  position: relative;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxImageContainer {
+  border-radius: 12px;
+  width: min(85vw, 1100px);
+  height: min(75vh, 730px);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 40px #00000080;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxImg {
+  object-fit: contain;
+}
+
+.StandardProjectGallery-module__MeUPXW__lightboxCaption {
+  color: #e5ded5;
+  text-align: center;
+  max-width: 700px;
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .StandardProjectGallery-module__MeUPXW__gallerySection {
+    padding: 50px 0 35px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__navBtn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__prevBtn {
+    left: 8px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__nextBtn {
+    right: 8px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__tabNav {
+    gap: 20px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__lightboxNav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__lightboxPrev {
+    left: 10px;
+  }
+
+  .StandardProjectGallery-module__MeUPXW__lightboxNext {
+    right: 10px;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefFloorPlans.module.css [app-client] (css) */
+.NawayefFloorPlans-module__NcddJW__floorPlansSection {
+  background-color: #f7f5f2;
+  padding: 80px 0;
+}
+
+.NawayefFloorPlans-module__NcddJW__header {
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.NawayefFloorPlans-module__NcddJW__title {
+  color: #1a1a1a;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 16px;
+}
+
+.NawayefFloorPlans-module__NcddJW__subtitle {
+  color: #444;
+  text-align: left;
+  max-width: 100%;
+  margin: 0 0 28px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.NawayefFloorPlans-module__NcddJW__tabsWrapper {
+  scrollbar-width: none;
+  background: #fff;
+  border-radius: 8px;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 6px;
+  display: flex;
+  overflow-x: auto;
+  box-shadow: 0 2px 10px #0000000d;
+}
+
+.NawayefFloorPlans-module__NcddJW__tabsWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.NawayefFloorPlans-module__NcddJW__tabBtn {
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  flex-shrink: 0;
+  padding: 11px 22px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .2s;
+}
+
+.NawayefFloorPlans-module__NcddJW__tabActive {
+  color: #fff;
+  background: #1a4731;
+}
+
+.NawayefFloorPlans-module__NcddJW__planCard {
+  background: #fff;
+  border-radius: 12px;
+  margin-top: 30px;
+  padding: 40px;
+  box-shadow: 0 4px 20px #0000000f;
+}
+
+.NawayefFloorPlans-module__NcddJW__planGrid {
+  grid-template-columns: 1.1fr .9fr;
+  align-items: center;
+  gap: 40px;
+  display: grid;
+}
+
+.NawayefFloorPlans-module__NcddJW__specsCol {
+  flex-direction: column;
+  display: flex;
+}
+
+.NawayefFloorPlans-module__NcddJW__planName {
+  color: #1a1a1a;
+  font-size: 26px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin: 0 0 6px;
+}
+
+.NawayefFloorPlans-module__NcddJW__planTagline {
+  color: #1a4731;
+  margin: 0 0 16px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.NawayefFloorPlans-module__NcddJW__planDesc {
+  color: #555;
+  margin-bottom: 24px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.NawayefFloorPlans-module__NcddJW__specGrid {
+  background: #fbfaf9;
+  border: 1px solid #f0eee9;
+  border-radius: 8px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 30px;
+  padding: 20px;
+  display: grid;
+}
+
+.NawayefFloorPlans-module__NcddJW__specItem {
+  align-items: center;
+  gap: 12px;
+  display: flex;
+}
+
+.NawayefFloorPlans-module__NcddJW__specIcon {
+  color: #1a4731;
+}
+
+.NawayefFloorPlans-module__NcddJW__specLabel {
+  color: #888;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  display: block;
+}
+
+.NawayefFloorPlans-module__NcddJW__specVal {
+  color: #222;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.NawayefFloorPlans-module__NcddJW__actionRow {
+  flex-wrap: wrap;
+  gap: 14px;
+  display: flex;
+}
+
+.NawayefFloorPlans-module__NcddJW__downloadBtn {
+  color: #fff;
+  cursor: pointer;
+  background: #1a4731;
+  border: none;
+  border-radius: 4px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all .25s;
+  display: inline-flex;
+}
+
+.NawayefFloorPlans-module__NcddJW__downloadBtn:hover {
+  background: #123322;
+  transform: translateY(-1px);
+}
+
+.NawayefFloorPlans-module__NcddJW__zoomBtn {
+  color: #333;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all .2s;
+  display: inline-flex;
+}
+
+.NawayefFloorPlans-module__NcddJW__zoomBtn:hover {
+  color: #1a4731;
+  background: #f4f0eb;
+  border-color: #1a4731;
+}
+
+.NawayefFloorPlans-module__NcddJW__imageCol {
+  cursor: pointer;
+  background: #fcfbf9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.NawayefFloorPlans-module__NcddJW__imageWrapper {
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  position: relative;
+}
+
+.NawayefFloorPlans-module__NcddJW__planImage {
+  object-fit: contain;
+}
+
+.NawayefFloorPlans-module__NcddJW__zoomHint {
+  color: #fff;
+  background: #0009;
+  border-radius: 3px;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  display: flex;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+}
+
+.NawayefFloorPlans-module__NcddJW__lightboxOverlay {
+  z-index: 9999;
+  background: #000000e6;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.NawayefFloorPlans-module__NcddJW__closeBtn {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.NawayefFloorPlans-module__NcddJW__lightboxContent {
+  background: #fff;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  max-width: 95vw;
+  max-height: 90vh;
+  padding: 20px;
+  display: flex;
+  position: relative;
+}
+
+.NawayefFloorPlans-module__NcddJW__lightboxImg {
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 85vh;
+}
+
+@media (max-width: 991px) {
+  .NawayefFloorPlans-module__NcddJW__planGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefArticle.module.css [app-client] (css) */
+.NawayefArticle-module__N03jgq__articleSection {
+  background-color: #fff;
+  padding: 80px 0;
+}
+
+.NawayefArticle-module__N03jgq__articleContainer {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.NawayefArticle-module__N03jgq__mainHeading {
+  color: #1a1a1a;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.35;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 24px;
+}
+
+.NawayefArticle-module__N03jgq__leadText {
+  color: #444;
+  margin-bottom: 32px;
+  font-size: 16.5px;
+  line-height: 1.8;
+}
+
+.NawayefArticle-module__N03jgq__subHeading {
+  color: #1a1a1a;
+  font-size: 22px;
+  font-weight: 700;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-top: 36px;
+  margin-bottom: 16px;
+}
+
+.NawayefArticle-module__N03jgq__highlightList {
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.NawayefArticle-module__N03jgq__highlightItem {
+  color: #444;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 15.5px;
+  line-height: 1.6;
+  display: flex;
+}
+
+.NawayefArticle-module__N03jgq__checkIcon {
+  color: #1a4731;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.NawayefArticle-module__N03jgq__paragraph {
+  color: #444;
+  margin-bottom: 24px;
+  font-size: 15.5px;
+  line-height: 1.8;
+}
+
+.NawayefArticle-module__N03jgq__paragraph a {
+  color: inherit;
+  text-underline-offset: 3px;
+  text-decoration: underline;
+  transition: color .2s;
+}
+
+.NawayefArticle-module__N03jgq__paragraph a:hover {
+  color: var(--color-primary, #1a4731);
+}
+
+.NawayefArticle-module__N03jgq__tableWrapper {
+  background: #faf8f5;
+  border: 1px solid #ebe5dd;
+  border-radius: 8px;
+  margin: 28px 0 36px;
+  overflow: hidden;
+}
+
+.NawayefArticle-module__N03jgq__highlightsTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.NawayefArticle-module__N03jgq__highlightsTable tr {
+  border-bottom: 1px solid #ebe5dd;
+}
+
+.NawayefArticle-module__N03jgq__highlightsTable tr:last-child {
+  border-bottom: none;
+}
+
+.NawayefArticle-module__N03jgq__highlightsTable td {
+  padding: 14px 20px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.NawayefArticle-module__N03jgq__highlightsTable td:first-child {
+  color: #222;
+  background-color: #f5f0ea;
+  border-right: 1px solid #ebe5dd;
+  width: 32%;
+  font-weight: 700;
+}
+
+.NawayefArticle-module__N03jgq__highlightsTable td:last-child {
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .NawayefArticle-module__N03jgq__mainHeading {
+    font-size: 24px;
+  }
+
+  .NawayefArticle-module__N03jgq__subHeading {
+    font-size: 19px;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefPaymentPlan.module.css [app-client] (css) */
+.NawayefPaymentPlan-module__fXSgIa__paymentSection {
+  background-color: #fff;
+  padding: 80px 0;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__title {
+  color: #1a1a1a;
+  font-size: 34px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 8px;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__viewToggleRow {
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__toggleBtnGroup {
+  background: #f1f5f9;
+  border-radius: 8px;
+  gap: 8px;
+  padding: 4px;
+  display: flex;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__toggleBtn {
+  color: #64748b;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 14px;
+  transition: all .2s;
+  display: flex;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__toggleActive {
+  color: #fff;
+  background: #1a4731;
+  box-shadow: 0 2px 8px #1a47314d;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__tableCard {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px #0000000a;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__planTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__planTable th {
+  text-align: left;
+  color: #1a4731;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 16px 24px;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__planTable td {
+  color: #344155;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 16px 24px;
+  font-size: 15px;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__planTable tr:last-child td {
+  border-bottom: none;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__percentageCol {
+  color: #1a4731;
+  font-weight: 700;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__gridContainer {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  display: grid;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__gridCard {
+  text-align: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 26px 20px;
+  transition: transform .25s, box-shadow .25s;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__gridCard:hover {
+  border-color: #1a4731;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px #1a47311f;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__percentNum {
+  color: #1a1a1a;
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin: 0 0 8px;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__installmentTitle {
+  color: #1a4731;
+  text-transform: uppercase;
+  margin: 0 0 6px;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__milestoneDate {
+  color: #64748b;
+  margin: 0;
+  font-size: 13.5px;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__btnDownloadRow {
+  text-align: center;
+  margin-top: 36px;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__btnDownload {
+  color: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: #1a4731;
+  border: none;
+  border-radius: 6px;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .25s;
+  display: inline-flex;
+}
+
+.NawayefPaymentPlan-module__fXSgIa__btnDownload:hover {
+  background: #123322;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px #1a473159;
+}
+
+@media (max-width: 991px) {
+  .NawayefPaymentPlan-module__fXSgIa__gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .NawayefPaymentPlan-module__fXSgIa__gridContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .NawayefPaymentPlan-module__fXSgIa__planTable th, .NawayefPaymentPlan-module__fXSgIa__planTable td {
+    padding: 12px 14px;
+    font-size: 13.5px;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefPaymentMethods.module.css [app-client] (css) */
+.NawayefPaymentMethods-module__5DL82G__paymentSection {
+  background-color: #fff;
+  padding: 60px 0 80px;
+}
+
+.NawayefPaymentMethods-module__5DL82G__header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.NawayefPaymentMethods-module__5DL82G__title {
+  color: #1a1a1a;
+  font-size: 34px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 10px;
+}
+
+.NawayefPaymentMethods-module__5DL82G__subtitle {
+  color: #555;
+  margin: 0;
+  font-size: 16px;
+}
+
+.NawayefPaymentMethods-module__5DL82G__paymentGrid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  width: 100%;
+  display: grid;
+}
+
+.NawayefPaymentMethods-module__5DL82G__paymentCard {
+  text-align: center;
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 34px 20px;
+  transition: all .25s;
+  display: flex;
+  box-shadow: 0 2px 10px #00000008;
+}
+
+.NawayefPaymentMethods-module__5DL82G__paymentCard:hover {
+  border-color: #1a4731;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px #1a47311f;
+}
+
+.NawayefPaymentMethods-module__5DL82G__iconWrapper {
+  justify-content: center;
+  align-items: center;
+  height: 52px;
+  margin-bottom: 14px;
+  display: flex;
+}
+
+.NawayefPaymentMethods-module__5DL82G__paymentIcon {
+  object-fit: contain;
+  width: 50px;
+  height: 50px;
+}
+
+.NawayefPaymentMethods-module__5DL82G__paymentName {
+  color: #212529;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+@media (max-width: 991px) {
+  .NawayefPaymentMethods-module__5DL82G__paymentGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .NawayefPaymentMethods-module__5DL82G__paymentGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .NawayefPaymentMethods-module__5DL82G__paymentCard {
+    padding: 24px 12px;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefMasterPlan.module.css [app-client] (css) */
+.NawayefMasterPlan-module__uKItCa__masterSection {
+  background-color: #fff;
+  padding: 80px 0;
+}
+
+.NawayefMasterPlan-module__uKItCa__header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.NawayefMasterPlan-module__uKItCa__title {
+  color: #1a1a1a;
+  font-size: 34px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 8px;
+}
+
+.NawayefMasterPlan-module__uKItCa__imageCard {
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px #0000000d;
+}
+
+.NawayefMasterPlan-module__uKItCa__imageWrapper {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  position: relative;
+}
+
+.NawayefMasterPlan-module__uKItCa__masterImg {
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.NawayefMasterPlan-module__uKItCa__zoomHint {
+  color: #fff;
+  background: #000000b3;
+  border-radius: 6px;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+}
+
+.NawayefMasterPlan-module__uKItCa__lightboxOverlay {
+  z-index: 9999;
+  background: #000000eb;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.NawayefMasterPlan-module__uKItCa__closeBtn {
+  color: #fff;
+  cursor: pointer;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.NawayefMasterPlan-module__uKItCa__lightboxContent {
+  justify-content: center;
+  align-items: center;
+  max-width: 95vw;
+  max-height: 90vh;
+  display: flex;
+  position: relative;
+}
+
+.NawayefMasterPlan-module__uKItCa__lightboxImg {
+  object-fit: contain;
+  border-radius: 8px;
+  max-width: 100%;
+  max-height: 85vh;
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefLocation.module.css [app-client] (css) */
+.NawayefLocation-module__5C4QZG__locationSection {
+  background-color: #fff;
+  padding: 70px 0 60px;
+}
+
+.NawayefLocation-module__5C4QZG__header {
+  text-align: center;
+  max-width: 950px;
+  margin: 0 auto 40px;
+}
+
+.NawayefLocation-module__5C4QZG__title {
+  color: #1a1a1a;
+  letter-spacing: -.01em;
+  margin-bottom: 15px;
+  font-size: clamp(1.85rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+}
+
+.NawayefLocation-module__5C4QZG__subtitle {
+  color: #555;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.NawayefLocation-module__5C4QZG__subtitle strong {
+  color: #1a1a1a;
+}
+
+.NawayefLocation-module__5C4QZG__grid {
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: 36px;
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+}
+
+.NawayefLocation-module__5C4QZG__mapWrapper {
+  background: #f5f2ed;
+  border: 1px solid #ebe5dd;
+  border-radius: 8px;
+  width: 100%;
+  height: 310px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px #00000014;
+}
+
+.NawayefLocation-module__5C4QZG__mapIframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.NawayefLocation-module__5C4QZG__accordionList {
+  flex-direction: column;
+  gap: 12px;
+  display: flex;
+}
+
+.NawayefLocation-module__5C4QZG__accordionItem {
+  background: #fff;
+  border: 1px solid #9c714b;
+  border-radius: 6px;
+  transition: all .25s;
+  overflow: hidden;
+}
+
+.NawayefLocation-module__5C4QZG__accordionOpen {
+  border-color: #8c603d;
+}
+
+.NawayefLocation-module__5C4QZG__accordionBtn {
+  cursor: pointer;
+  text-align: left;
+  background-color: #a0734e;
+  border: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 14px 20px;
+  transition: background-color .2s;
+  display: flex;
+}
+
+.NawayefLocation-module__5C4QZG__accordionBtn:hover {
+  background-color: #8c603d;
+}
+
+.NawayefLocation-module__5C4QZG__accordionBtn span {
+  color: #fff;
+  letter-spacing: .2px;
+  font-size: 15.5px;
+  font-weight: 500;
+}
+
+.NawayefLocation-module__5C4QZG__chevron {
+  color: #fff;
+  flex-shrink: 0;
+  transition: transform .25s;
+}
+
+.NawayefLocation-module__5C4QZG__accordionBody {
+  background-color: #faf8f5;
+  border-top: 1px solid #ede5dc;
+  padding: 16px 20px;
+}
+
+.NawayefLocation-module__5C4QZG__placesList {
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.NawayefLocation-module__5C4QZG__placeItem {
+  border-bottom: 1px solid #f0ebe4;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  font-size: 14px;
+  display: flex;
+}
+
+.NawayefLocation-module__5C4QZG__placeItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.NawayefLocation-module__5C4QZG__placeName {
+  color: #2c241c;
+  font-weight: 600;
+}
+
+@media (max-width: 991px) {
+  .NawayefLocation-module__5C4QZG__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .NawayefLocation-module__5C4QZG__mapWrapper {
+    height: 300px;
+  }
+}
+
+.NawayefLocation-module__5C4QZG__attractionsContainer {
+  max-width: 1080px;
+  margin: 45px auto 0;
+}
+
+.NawayefLocation-module__5C4QZG__attractionsHeader {
+  color: #1a1a1a;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.NawayefLocation-module__5C4QZG__attractionsGrid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  display: grid;
+}
+
+.NawayefLocation-module__5C4QZG__attractionCard {
+  background: #fff;
+  border: 1px solid #eae5df;
+  border-radius: 10px;
+  transition: transform .3s, box-shadow .3s;
+  overflow: hidden;
+  box-shadow: 0 4px 16px #00000012;
+}
+
+.NawayefLocation-module__5C4QZG__attractionCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px #0000001f;
+}
+
+.NawayefLocation-module__5C4QZG__attractionImgWrapper {
+  width: 100%;
+  height: 160px;
+  position: relative;
+  overflow: hidden;
+}
+
+.NawayefLocation-module__5C4QZG__attractionImg {
+  object-fit: cover;
+  transition: transform .5s;
+}
+
+.NawayefLocation-module__5C4QZG__attractionCard:hover .NawayefLocation-module__5C4QZG__attractionImg {
+  transform: scale(1.06);
+}
+
+.NawayefLocation-module__5C4QZG__attractionInfo {
+  background: #fff;
+  padding: 14px 16px;
+}
+
+.NawayefLocation-module__5C4QZG__attractionTitle {
+  color: #1a1a1a;
+  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.NawayefLocation-module__5C4QZG__attractionTime {
+  color: #a0734e;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefFaq.module.css [app-client] (css) */
+.NawayefFaq-module__cDdx-a__faqSection {
+  background-color: #f8fafc;
+  padding: 80px 0;
+}
+
+.NawayefFaq-module__cDdx-a__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.NawayefFaq-module__cDdx-a__title {
+  color: #1a1a1a;
+  font-size: 34px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 8px;
+}
+
+.NawayefFaq-module__cDdx-a__faqContainer {
+  flex-direction: column;
+  gap: 14px;
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.NawayefFaq-module__cDdx-a__faqItem {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  transition: all .2s;
+  overflow: hidden;
+  box-shadow: 0 2px 8px #00000008;
+}
+
+.NawayefFaq-module__cDdx-a__faqItem:hover {
+  border-color: #1a4731;
+}
+
+.NawayefFaq-module__cDdx-a__questionBtn {
+  color: #1e293b;
+  cursor: pointer;
+  text-align: left;
+  background: none;
+  border: none;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+}
+
+.NawayefFaq-module__cDdx-a__icon {
+  color: #1a4731;
+  flex-shrink: 0;
+  transition: transform .25s;
+}
+
+.NawayefFaq-module__cDdx-a__answerBox {
+  border-top: 1px solid #f1f5f9;
+  padding: 0 24px 20px;
+}
+
+.NawayefFaq-module__cDdx-a__answer {
+  color: #475569;
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefContact.module.css [app-client] (css) */
+.NawayefContact-module___KDmwG__contactSection {
+  background-color: #1a1a1a;
+  align-items: center;
+  min-height: 560px;
+  padding: 100px 0;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.NawayefContact-module___KDmwG__bgImageWrapper {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+}
+
+.NawayefContact-module___KDmwG__bgImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.NawayefContact-module___KDmwG__overlay {
+  background: linear-gradient(105deg, #0f0c0adb 0%, #191410b8 50%, #0f0c0a8c 100%);
+  position: absolute;
+  inset: 0;
+}
+
+.NawayefContact-module___KDmwG__containerContent {
+  z-index: 2;
+  width: 100%;
+  position: relative;
+}
+
+.NawayefContact-module___KDmwG__contactGrid {
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: 50px;
+  display: grid;
+}
+
+.NawayefContact-module___KDmwG__textCol {
+  color: #fff;
+}
+
+.NawayefContact-module___KDmwG__preTitle {
+  letter-spacing: 3px;
+  color: #d8c8b8;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  display: block;
+}
+
+.NawayefContact-module___KDmwG__mainTitle {
+  color: #fff;
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.2;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  letter-spacing: -.5px;
+  margin-bottom: 22px;
+}
+
+.NawayefContact-module___KDmwG__mainSubtitle {
+  color: #ffffffe6;
+  max-width: 540px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+.NawayefContact-module___KDmwG__formCol {
+  justify-content: flex-end;
+  display: flex;
+}
+
+.NawayefContact-module___KDmwG__formCard {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 440px;
+  padding: 38px 34px;
+  box-shadow: 0 20px 45px #00000059;
+}
+
+.NawayefContact-module___KDmwG__cardTitleSmall {
+  letter-spacing: 2px;
+  color: #1a4731;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.NawayefContact-module___KDmwG__cardTitleLarge {
+  color: #1a1a1a;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 22px;
+}
+
+.NawayefContact-module___KDmwG__formGroup {
+  margin-bottom: 14px;
+}
+
+.NawayefContact-module___KDmwG__inputField {
+  color: #1e293b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+  padding: 13px 16px;
+  font-size: 14.5px;
+  transition: all .2s;
+}
+
+.NawayefContact-module___KDmwG__inputField:focus {
+  background: #fff;
+  border-color: #1a4731;
+  box-shadow: 0 0 0 3px #1a473126;
+}
+
+.NawayefContact-module___KDmwG__submitBtn {
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  background-color: #1a4731;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .25s;
+  box-shadow: 0 3px 12px #1a473159;
+}
+
+.NawayefContact-module___KDmwG__submitBtn:hover {
+  background-color: #123322;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px #1a473173;
+}
+
+.NawayefContact-module___KDmwG__successMessage {
+  color: #166534;
+  text-align: center;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 16px;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+@media (max-width: 992px) {
+  .NawayefContact-module___KDmwG__contactGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .NawayefContact-module___KDmwG__mainTitle {
+    font-size: 36px;
+  }
+
+  .NawayefContact-module___KDmwG__formCol {
+    justify-content: center;
+  }
+
+  .NawayefContact-module___KDmwG__formCard {
+    max-width: 100%;
+  }
+
+  .NawayefContact-module___KDmwG__contactSection {
+    padding: 70px 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .NawayefContact-module___KDmwG__mainTitle {
+    font-size: 30px;
+  }
+
+  .NawayefContact-module___KDmwG__mainSubtitle {
+    font-size: 15.5px;
+  }
+
+  .NawayefContact-module___KDmwG__formCard {
+    padding: 28px 20px;
+  }
+}
+
+/* [project]/src/components/Footer.module.css [app-client] (css) */
+.Footer-module__S6Hkya__footer {
+  color: #fff;
+  background-color: #000;
+  border-top: 1px solid #ffffff14;
+  padding: 70px 0 30px;
+  font-family: inherit;
+}
+
+.Footer-module__S6Hkya__footerGrid {
+  grid-template-columns: 1.3fr .9fr 1fr 1.1fr;
+  gap: 48px;
+  margin-bottom: 50px;
+  display: grid;
+}
+
+.Footer-module__S6Hkya__brandCol {
+  flex-direction: column;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__logoLink {
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.Footer-module__S6Hkya__logoImg {
+  object-fit: contain;
+  filter: brightness(0) invert();
+  height: auto;
+}
+
+.Footer-module__S6Hkya__brandDescription {
+  color: #b0b0b0;
+  max-width: 320px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.Footer-module__S6Hkya__colTitle {
+  color: #fff;
+  letter-spacing: .3px;
+  margin-bottom: 22px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.Footer-module__S6Hkya__linksList {
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__linkItem {
+  color: #b0b0b0;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color .2s, transform .2s;
+  display: inline-block;
+}
+
+.Footer-module__S6Hkya__linkItem:hover {
+  color: #1a4731;
+  transform: translateX(3px);
+}
+
+.Footer-module__S6Hkya__contactList {
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__contactLink {
+  color: #b0b0b0;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color .2s;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__contactLink:hover {
+  color: #1a4731;
+}
+
+.Footer-module__S6Hkya__contactItemStatic {
+  color: #b0b0b0;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__contactIcon {
+  color: #fff;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.Footer-module__S6Hkya__bottomBar {
+  text-align: center;
+  border-top: 1px solid #ffffff1a;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 26px;
+  display: flex;
+}
+
+.Footer-module__S6Hkya__disclaimerText {
+  color: #8a8a8a;
+  text-align: center;
+  max-width: 980px;
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.7;
+}
+
+.Footer-module__S6Hkya__disclaimerText strong {
+  color: #b0b0b0;
+}
+
+.Footer-module__S6Hkya__copyrightText {
+  color: #666;
+  letter-spacing: .2px;
+  margin: 0;
+  font-size: 13px;
+}
+
+@media (max-width: 1024px) {
+  .Footer-module__S6Hkya__footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .Footer-module__S6Hkya__footerGrid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .Footer-module__S6Hkya__footer {
+    padding: 50px 0 25px;
+  }
+}
+
+/* [project]/src/components/ScrollToTop.module.css [app-client] (css) */
+.ScrollToTop-module__bPaVnG__scrollTopBtn {
+  z-index: 999;
+  background: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  border: none;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+  display: flex;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  transform: translateY(15px);
+  box-shadow: 0 4px 15px #0003;
+}
+
+.ScrollToTop-module__bPaVnG__scrollTopVisible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.ScrollToTop-module__bPaVnG__scrollTopBtn:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-3px)scale(1.05);
+  box-shadow: 0 6px 20px #1a473173;
+}
+
+/* [project]/src/components/ListPropertyModal.module.css [app-client] (css) */
+.ListPropertyModal-module__xMZKCG__modalOverlay {
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 2500;
+  background: #000000a6;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: .25s ListPropertyModal-module__xMZKCG__fadeIn;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+@keyframes ListPropertyModal-module__xMZKCG__fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.ListPropertyModal-module__xMZKCG__modalContent {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  padding: 32px 30px;
+  animation: .3s ListPropertyModal-module__xMZKCG__slideUp;
+  position: relative;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px #0000004d;
+}
+
+@keyframes ListPropertyModal-module__xMZKCG__slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ListPropertyModal-module__xMZKCG__modalHeader {
+  border-bottom: 1px solid #eee;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  display: flex;
+}
+
+.ListPropertyModal-module__xMZKCG__modalTitle {
+  color: #222;
+  letter-spacing: .5px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.ListPropertyModal-module__xMZKCG__closeBtn {
+  color: #777;
+  cursor: pointer;
+  background: none;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  transition: color .2s;
+  display: flex;
+}
+
+.ListPropertyModal-module__xMZKCG__closeBtn:hover {
+  color: #000;
+}
+
+.ListPropertyModal-module__xMZKCG__formGrid {
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  display: grid;
+}
+
+.ListPropertyModal-module__xMZKCG__fullWidth {
+  grid-column: span 2;
+}
+
+.ListPropertyModal-module__xMZKCG__label {
+  color: #333;
+  margin-bottom: 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+  display: block;
+}
+
+.ListPropertyModal-module__xMZKCG__inputField, .ListPropertyModal-module__xMZKCG__selectField, .ListPropertyModal-module__xMZKCG__textareaField {
+  color: #333;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+  padding: 11px 13px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color .2s;
+}
+
+.ListPropertyModal-module__xMZKCG__inputField:focus, .ListPropertyModal-module__xMZKCG__selectField:focus, .ListPropertyModal-module__xMZKCG__textareaField:focus {
+  border-color: var(--color-primary);
+}
+
+.ListPropertyModal-module__xMZKCG__textareaField {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.ListPropertyModal-module__xMZKCG__fileNote {
+  color: #777;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.ListPropertyModal-module__xMZKCG__submitBtn {
+  background: var(--color-primary);
+  color: #fff;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .2s;
+}
+
+.ListPropertyModal-module__xMZKCG__submitBtn:hover {
+  background: var(--color-primary-hover);
+}
+
+.ListPropertyModal-module__xMZKCG__successMessage {
+  color: #1e6b27;
+  text-align: center;
+  background: #eef7ec;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .ListPropertyModal-module__xMZKCG__formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ListPropertyModal-module__xMZKCG__fullWidth {
+    grid-column: span 1;
+  }
+}
+
+/* [project]/src/components/nawayef-east-hills/NawayefBrochureModal.module.css [app-client] (css) */
+.NawayefBrochureModal-module__VuHacW__modalOverlay {
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  z-index: 99999;
+  background: #000000b3;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  display: flex;
+  position: fixed;
+  inset: 0;
+}
+
+.NawayefBrochureModal-module__VuHacW__modalCard {
+  background: #fff;
+  border-radius: 12px;
+  grid-template-columns: 1fr 1.1fr;
+  width: 100%;
+  max-width: 840px;
+  display: grid;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 60px #0000004d;
+}
+
+.NawayefBrochureModal-module__VuHacW__closeBtn {
+  color: #64748b;
+  cursor: pointer;
+  z-index: 10;
+  background: none;
+  border: none;
+  transition: color .2s;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.NawayefBrochureModal-module__VuHacW__closeBtn:hover {
+  color: #1e293b;
+}
+
+.NawayefBrochureModal-module__VuHacW__imageCol {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  position: relative;
+}
+
+.NawayefBrochureModal-module__VuHacW__modalImg {
+  object-fit: cover;
+}
+
+.NawayefBrochureModal-module__VuHacW__formCol {
+  flex-direction: column;
+  justify-content: center;
+  padding: 36px 32px;
+  display: flex;
+}
+
+.NawayefBrochureModal-module__VuHacW__titleSmall {
+  letter-spacing: 2px;
+  color: #1a4731;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.NawayefBrochureModal-module__VuHacW__titleLarge {
+  color: #1a1a1a;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  font-family: var(--font-heading, "Plus Jakarta Sans", sans-serif);
+  margin-bottom: 22px;
+}
+
+.NawayefBrochureModal-module__VuHacW__formGroup {
+  margin-bottom: 14px;
+}
+
+.NawayefBrochureModal-module__VuHacW__inputField {
+  color: #1e293b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  outline: none;
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.NawayefBrochureModal-module__VuHacW__inputField:focus {
+  background: #fff;
+  border-color: #1a4731;
+  box-shadow: 0 0 0 3px #1a473126;
+}
+
+.NawayefBrochureModal-module__VuHacW__submitBtn {
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: #fff;
+  cursor: pointer;
+  background-color: #1a4731;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 6px;
+  padding: 13px;
+  font-size: 14.5px;
+  font-weight: 700;
+  transition: all .25s;
+}
+
+.NawayefBrochureModal-module__VuHacW__submitBtn:hover {
+  background-color: #123322;
+  transform: translateY(-1px);
+}
+
+.NawayefBrochureModal-module__VuHacW__successMessage {
+  color: #166534;
+  text-align: center;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .NawayefBrochureModal-module__VuHacW__modalCard {
+    grid-template-columns: 1fr;
+  }
+
+  .NawayefBrochureModal-module__VuHacW__imageCol {
+    display: none;
+  }
+}
+
+/*# sourceMappingURL=_0--4r6k._.css.map*/

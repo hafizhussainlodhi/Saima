@@ -1,0 +1,574 @@
+/* [next]/internal/font/google/ubuntu_104d613a.module.css [app-client] (css) */
+@font-face {
+  font-family: Ubuntu Fallback;
+  src: local(Arial);
+  ascent-override: 91.32%;
+  descent-override: 18.52%;
+  line-gap-override: 2.74%;
+  size-adjust: 102.06%;
+}
+
+.ubuntu_104d613a-module__3pEcba__className {
+  font-family: Ubuntu, Ubuntu Fallback;
+  font-style: normal;
+}
+
+.ubuntu_104d613a-module__3pEcba__variable {
+  --font-ubuntu: "Ubuntu", "Ubuntu Fallback";
+}
+
+/* [next]/internal/font/google/open_sans_2685ec9c.module.css [app-client] (css) */
+@font-face {
+  font-family: Open Sans Fallback;
+  src: local(Arial);
+  ascent-override: 101.65%;
+  descent-override: 27.86%;
+  line-gap-override: 0.0%;
+  size-adjust: 105.15%;
+}
+
+.open_sans_2685ec9c-module__45dDUa__className {
+  font-family: Open Sans, Open Sans Fallback;
+  font-style: normal;
+}
+
+.open_sans_2685ec9c-module__45dDUa__variable {
+  --font-open-sans: "Open Sans", "Open Sans Fallback";
+}
+
+/* [project]/src/app/globals.css [app-client] (css) */
+:root {
+  --font-color-default: #313131;
+  --color-default: #313131;
+  --color-primary: #1a4731;
+  --color-primary-hover: #123322;
+  --color-secondary: #52565e;
+  --color-dark: #1a1a1a;
+  --color-muted: #777;
+  --color-light-bg: #f8f9fa;
+  --color-border: #e9ecef;
+  --font-ubuntu: "Ubuntu", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family: var(--font-open-sans), "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: var(--font-open-sans), "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-content-heading: var(--font-open-sans), "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-content-body: var(--font-open-sans), "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-jakarta: var(--font-open-sans), "Open Sans", sans-serif;
+  --font-inter: var(--font-open-sans), "Open Sans", sans-serif;
+  scroll-behavior: smooth;
+}
+
+*, :before, :after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+}
+
+html, body {
+  width: 100%;
+  color: var(--color-default);
+  font-family: var(--font-open-sans), "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #fff;
+  font-size: 17.5px;
+  line-height: 1.75;
+  overflow-x: clip;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-open-sans), "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: #1a1a1a;
+  letter-spacing: normal;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: clamp(1.75rem, 2.5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+h3 {
+  font-size: clamp(1.35rem, 2vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+h5, h6 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+p {
+  font-family: var(--font-family);
+  color: #444;
+  font-size: 17.5px;
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color .3s;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.btn-get-started {
+  font-family: var(--font-family);
+  letter-spacing: .5px;
+  background: var(--color-primary);
+  cursor: pointer;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 4px;
+  justify-content: center;
+  align-items: center;
+  padding: 13px 30px;
+  font-size: 15px;
+  font-weight: 700;
+  transition: all .3s;
+  display: inline-flex;
+  color: #fff !important;
+}
+
+.btn-get-started:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px #1a473159;
+  color: #fff !important;
+}
+
+.section-header {
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+.section-header h2 {
+  color: #2e3135;
+  margin-bottom: 14px;
+  font-size: 36px;
+  font-weight: 700;
+  display: inline-block;
+  position: relative;
+}
+
+.section-header h2:before, .section-header h2:after {
+  content: "";
+  background: var(--color-primary);
+  vertical-align: middle;
+  width: 45px;
+  height: 2px;
+  display: inline-block;
+}
+
+.section-header h2:before {
+  margin-right: 15px;
+}
+
+.section-header h2:after {
+  margin-left: 15px;
+}
+
+.section-header p {
+  color: var(--color-secondary);
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: 17px;
+}
+
+@keyframes thing {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.5);
+  }
+}
+
+@keyframes heroFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sticky-header {
+  -webkit-backdrop-filter: blur(5px);
+  transition: all .3s ease-in-out;
+  box-shadow: 0 2px 16px #0000001a;
+  z-index: 1000 !important;
+  background: #19191973 !important;
+  padding: 12px 0 !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+}
+
+.react-international-phone-container, .react-international-phone-input-container {
+  align-items: center !important;
+  width: 100% !important;
+  display: flex !important;
+}
+
+.react-international-phone-input {
+  color: #333 !important;
+  box-sizing: border-box !important;
+  background-color: #f8fafc !important;
+  border: 1px solid #dcdcdc !important;
+  border-left: none !important;
+  border-radius: 0 4px 4px 0 !important;
+  outline: none !important;
+  width: 100% !important;
+  height: 48px !important;
+  padding-left: 12px !important;
+  font-family: inherit !important;
+  font-size: 15px !important;
+}
+
+.react-international-phone-input:focus {
+  background-color: #fff !important;
+  border-color: #1a4731 !important;
+}
+
+.react-international-phone-country-selector-button {
+  background-color: #f8fafc !important;
+  border: 1px solid #dcdcdc !important;
+  border-radius: 4px 0 0 4px !important;
+  align-items: center !important;
+  height: 48px !important;
+  padding: 0 10px !important;
+  display: flex !important;
+}
+
+.react-international-phone-country-selector-button:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/*# sourceMappingURL=%5Broot-of-the-server%5D__1wmhobf._.css.map*/
+
+/* ==========================================================================
+   Universal Community Navbar Dropdown - 100% Port 3000 Parity
+   ========================================================================== */
+[class*="dropdownMenu"], [class*="DropdownMenu"], .dropdownMenu {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  background: #ffffff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.18) !important;
+  min-width: 260px !important;
+  max-height: none !important;
+  overflow-y: visible !important;
+  padding: 6px 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  z-index: 99999 !important;
+  display: none;
+  flex-direction: column !important;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+[class*="dropdownMenu"].dropdownOpen, 
+[class*="DropdownMenu"].dropdownOpen, 
+.dropdownOpen,
+[class*="dropdown"]:hover > [class*="dropdownMenu"],
+[class*="dropdown"]:hover > [class*="DropdownMenu"],
+li[class*="dropdown"]:hover > ul[class*="dropdownMenu"] {
+  display: block !important;
+  flex-direction: column !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important;
+}
+
+[class*="dropdownMenu"] li,
+[class*="DropdownMenu"] li {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+[class*="dropdownMenu"] a, 
+[class*="DropdownMenu"] a, 
+.dropdownItem, 
+a[class*="dropdownItem"] {
+  display: block !important;
+  width: 100% !important;
+  padding: 11px 20px !important;
+  color: #2b2b2b !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
+  text-decoration: none !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  background: transparent !important;
+  border-bottom: 1px solid #f2ede7 !important;
+  transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease !important;
+}
+
+[class*="dropdownMenu"] li:last-child a,
+[class*="DropdownMenu"] li:last-child a,
+[class*="dropdownMenu"] a:last-child, 
+[class*="DropdownMenu"] a:last-child {
+  border-bottom: none !important;
+}
+
+[class*="dropdownMenu"] a:hover, 
+[class*="DropdownMenu"] a:hover, 
+.dropdownItem:hover, 
+a[class*="dropdownItem"]:hover {
+  background: #f7f3ee !important;
+  color: #1a4731 !important;
+  padding-left: 24px !important;
+}
+
+[class*="dropdownMenu"] a[class*="dropdownActive"],
+[class*="DropdownMenu"] a[class*="dropdownActive"],
+a[class*="dropdownActive"] {
+  background: #f7f3ee !important;
+  color: #1a4731 !important;
+  font-weight: 600 !important;
+}
+
+/* Custom Sleek Scrollbar for Dropdown if overflow ever triggered */
+[class*="dropdownMenu"]::-webkit-scrollbar, [class*="DropdownMenu"]::-webkit-scrollbar {
+  width: 5px;
+}
+[class*="dropdownMenu"]::-webkit-scrollbar-track, [class*="DropdownMenu"]::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+[class*="dropdownMenu"]::-webkit-scrollbar-thumb, [class*="DropdownMenu"]::-webkit-scrollbar-thumb {
+  background: #c5b5a5;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   STICKY NAVBAR ON SCROLL (100% Port 3000 Parity)
+   ========================================================================== */
+header.sticky-header,
+header[class*="Header"].sticky-header,
+.sticky-header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  background: rgba(20, 20, 20, 0.75) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  padding: 12px 0 !important;
+  z-index: 1000 !important;
+  transition: all 0.35s ease-in-out !important;
+}
+
+/* ==========================================================================
+   AMENITIES SECTION PARITY (100% Port 3000 Parity)
+   ========================================================================== */
+section[id="amenities"],
+div[class*="amenitiesSection"] {
+  background-color: #f8f9fa !important;
+  border-top: 1px solid #e9ecef !important;
+  border-bottom: 1px solid #e9ecef !important;
+  padding: 80px 0 !important;
+}
+
+section[id="amenities"] div[class*="card"],
+div[class*="amenitiesSection"] div[class*="card"] {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
+  position: static !important;
+  overflow: visible !important;
+  width: auto !important;
+  height: auto !important;
+  transform: none !important;
+}
+
+section[id="amenities"] div[class*="card"]:hover,
+div[class*="amenitiesSection"] div[class*="card"]:hover {
+  transform: translateY(-2px) !important;
+  border-color: #1a4731 !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06) !important;
+}
+
+section[id="amenities"] div[class*="iconBox"],
+div[class*="amenitiesSection"] div[class*="iconBox"] {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 6px !important;
+  background-color: #1a4731 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  position: static !important;
+}
+
+section[id="amenities"] img[class*="iconImg"],
+div[class*="amenitiesSection"] img[class*="iconImg"] {
+  position: static !important;
+  width: 28px !important;
+  height: 28px !important;
+  object-fit: contain !important;
+  filter: brightness(0) invert(1) !important;
+  transform: none !important;
+}
+
+section[id="amenities"] span[class*="amenityName"],
+div[class*="amenitiesSection"] span[class*="amenityName"] {
+  font-size: 16.5px !important;
+  font-weight: 600 !important;
+  color: #222222 !important;
+}
+
+/* ==========================================================================
+   UNIVERSAL PROJECT GALLERY PARITY (Centered 2-Card Slider, Port 3000 Parity)
+   ========================================================================== */
+section[id="gallery"] {
+  width: 100% !important;
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 70px 0 50px !important;
+  background-color: #ffffff !important;
+}
+
+section[id="gallery"] div[class*="carouselContainer"] {
+  position: relative !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  padding: 10px 0 !important;
+  margin: 0 auto !important;
+}
+
+section[id="gallery"] div[class*="viewport"] {
+  width: 100% !important;
+  display: flex !important;
+  overflow: visible !important;
+}
+
+section[id="gallery"] div[class*="track"] {
+  display: flex !important;
+  align-items: center !important;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  will-change: transform !important;
+}
+
+section[id="gallery"] div[class*="track"] > div[class*="card"] {
+  position: relative !important;
+  flex-shrink: 0 !important;
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  background: #f4ede5 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  transition: transform 0.35s ease, box-shadow 0.35s ease !important;
+}
+
+section[id="gallery"] div[class*="track"] > div[class*="card"]:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14) !important;
+}
+
+section[id="gallery"] div[class*="track"] > div[class*="card"] img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+section[id="gallery"] div[class*="track"] > div[class*="card"]:hover img {
+  transform: scale(1.03) !important;
+}
+
+/* Global Saima Brand styles for community templates */
+.footerBrandText {
+  font-size: 38px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.1 !important;
+  display: inline-block !important;
+  font-family: 'Playfair Display', Georgia, serif !important;
+}
+
+header a[class*="logo"] img,
+header [class*="logoImg"] {
+  height: 50px !important;
+  width: auto !important;
+  max-height: 54px !important;
+  object-fit: contain !important;
+}
