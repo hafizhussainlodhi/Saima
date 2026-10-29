@@ -682,14 +682,14 @@
                                         </div>
                                         <div>
                                             <label class="adm-label" for="heroSubtitleInput" style="font-weight:600; font-size:12.5px;">Subtitle / Tagline</label>
-                                            <input type="text" id="heroSubtitleInput" name="hero_subtitle" class="adm-input" placeholder="Tagline description" value="Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island" style="font-size:13px;">
+                                            <input type="text" id="heroSubtitleInput" name="hero_subtitle" class="adm-input" placeholder="e.g. Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island" value="" style="font-size:13px;">
                                         </div>
                                     </div>
 
                                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
                                         <div>
                                             <label class="adm-label" for="heroBadgeInput" style="font-weight:600; font-size:12.5px;">Badge / Pretitle</label>
-                                            <input type="text" id="heroBadgeInput" name="hero_badge" class="adm-input" placeholder="e.g. Freehold for All Nationalities" value="Freehold for All Nationalities" style="font-size:13px;">
+                                            <input type="text" id="heroBadgeInput" name="hero_badge" class="adm-input" placeholder="e.g. Freehold for All Nationalities" value="" style="font-size:13px;">
                                         </div>
                                         <div>
                                             <label class="adm-label" style="font-weight:600; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;">
@@ -704,9 +704,9 @@
                                                     <div style="display:flex; gap:6px; align-items:center;">
                                                         <input type="file" id="heroFileInput" name="hero_image_file" accept="image/*" style="display:none;" onchange="handleHeroFileChange(this)">
                                                         <button type="button" onclick="document.getElementById('heroFileInput').click()" class="adm-btn adm-btn-secondary" style="padding:4px 9px; font-size:11.5px; font-weight:600; white-space:nowrap; background:#faf8f5; border:1px solid #1a4731; color:#1a4731;">
-                                                            Upload Image
+                                                             Upload Image
                                                         </button>
-                                                        <input type="text" id="heroBgImageInput" name="hero_bg_image" class="adm-input" placeholder="/images/hero/slide-1.jpg" value="/images/hero/slide-1.jpg" style="font-size:12px; padding:4px 8px; height:auto;" oninput="updateHeroPreviewFromUrl(this.value)">
+                                                        <input type="text" id="heroBgImageInput" name="hero_bg_image" class="adm-input" placeholder="/images/hero/slide-1.jpg" value="" style="font-size:12px; padding:4px 8px; height:auto;" oninput="updateHeroPreviewFromUrl(this.value)">
                                                     </div>
                                                     <span id="heroFileNameHint" style="font-size:11px; color:#6b7280; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">Default: /images/hero/slide-1.jpg</span>
                                                 </div>
@@ -725,7 +725,7 @@
                                 </div>
                                     <div style="margin-bottom:14px;">
                                         <label class="adm-label" for="hlSectionTitle" style="font-weight:600; font-size:12.5px;">Section Title</label>
-                                        <input type="text" id="hlSectionTitle" name="highlights_title" class="adm-input" value="Project Highlights" style="font-size:13px; max-width:350px;">
+                                        <input type="text" id="hlSectionTitle" name="highlights_title" class="adm-input" placeholder="e.g. Project Highlights" value="" style="font-size:13px; max-width:350px;">
                                     </div>
 
                                     <div style="font-size:12px; font-weight:700; color:#1a4731; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">
@@ -779,7 +779,7 @@
                                                                     @endphp
                                                                     {!! $matchedSvg !!}
                                                                 </span>
-                                                                <input type="text" name="highlights_items[{{ $idx }}][label]" value="{{ $card['label'] }}" class="adm-input adm-metric-input" oninput="onMetricInputChange(this)" placeholder="Metric Label" style="font-size:12px; padding:5px 30px 5px 38px;">
+                                                                <input type="text" name="highlights_items[{{ $idx }}][label]" value="" class="adm-input adm-metric-input" oninput="onMetricInputChange(this)" placeholder="{{ $card['label'] }}" style="font-size:12px; padding:5px 30px 5px 38px;">
                                                                 <button type="button" class="adm-metric-dropdown-btn" onclick="toggleMetricDropdown(this)" title="Choose Metric Name">
                                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                                                         <polyline points="6 9 12 15 18 9"></polyline>
@@ -799,7 +799,7 @@
                                                     </div>
                                                     <div>
                                                         <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px; font-weight:600;">Value</label>
-                                                        <input type="text" name="highlights_items[{{ $idx }}][value]" value="{{ $card['value'] }}" class="adm-input" style="font-size:12px; padding:5px 8px;">
+                                                        <input type="text" name="highlights_items[{{ $idx }}][value]" value="" placeholder="e.g. {{ $card['value'] }}" class="adm-input" style="font-size:12px; padding:5px 8px;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -816,17 +816,17 @@
                                 </div>
                                     <div style="margin-bottom:12px;">
                                         <label class="adm-label" for="aboutTitleInput" style="font-weight:600; font-size:12.5px;">Section Title / Heading</label>
-                                        <input type="text" id="aboutTitleInput" name="about_title" class="adm-input" value="Hudayriyat Island Waterfront Sanctuary by Modon" style="font-size:13px;">
+                                        <input type="text" id="aboutTitleInput" name="about_title" class="adm-input" placeholder="e.g. Waterfront Sanctuary by Developer" value="" style="font-size:13px;">
                                     </div>
 
                                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
                                         <div>
                                             <label class="adm-label" for="aboutVideoPosterInput" style="font-weight:600; font-size:12.5px;">Video Poster Image URL</label>
-                                            <input type="text" id="aboutVideoPosterInput" name="about_video_poster" class="adm-input" value="/images/golf-estates/video-poster.jpg" style="font-size:12.5px;">
+                                            <input type="text" id="aboutVideoPosterInput" name="about_video_poster" class="adm-input" placeholder="/images/golf-estates/video-poster.jpg" value="" style="font-size:12.5px;">
                                         </div>
                                         <div>
                                             <label class="adm-label" for="aboutVideoSrcInput" style="font-weight:600; font-size:12.5px;">Video File / Stream URL (.mp4)</label>
-                                            <input type="text" id="aboutVideoSrcInput" name="about_video_src" class="adm-input" value="https://www.hudayriyat-island.com/storage/communities/project_description/3ZADXnXTmIbZMrVsBFEsCxAN4vYhHKSeRNLwsGdd.mp4" style="font-size:12.5px;">
+                                            <input type="text" id="aboutVideoSrcInput" name="about_video_src" class="adm-input" placeholder="https://example.com/video.mp4" value="" style="font-size:12.5px;">
                                         </div>
                                     </div>
 
@@ -834,11 +834,7 @@
                                         <label class="adm-label" for="aboutDescInput" style="font-weight:700; font-size:12.5px; color:#111827; margin-bottom:6px;">
                                             Community Narrative / Editorial Story
                                         </label>
-                                        <textarea id="aboutDescInput" name="about_description" class="adm-input" style="min-height:120px; font-size:13px; line-height:1.5;">
-<p>Discover an extraordinary coastal sanctuary where world-class architecture meets untouched island nature. Located on the pristine shores of Abu Dhabi's Hudayriyat Island, this masterfully planned community offers unparalleled seaside living.</p>
-<p style="margin-top:1rem">Featuring open layouts, expansive terraces, and curated modern architecture, each residence is designed to maximize natural light and panoramic views of the Arabian Gulf and Abu Dhabi skyline.</p>
-<p style="margin-top:1rem">Handover is planned for Q3 2030, with freehold ownership available for all nationalities.</p>
-                                        </textarea>
+                                        <textarea id="aboutDescInput" name="about_description" class="adm-input" placeholder="Write community narrative / editorial story..." style="min-height:120px; font-size:13px; line-height:1.5;"></textarea>
                                     </div>
                                 </div>
 
@@ -854,7 +850,7 @@
                                         <label class="adm-label" for="articleShortSummernote" style="font-weight:700; font-size:13px; color:#111827; margin-bottom:6px; display:block;">
                                             Short Content
                                         </label>
-                                        <textarea id="articleShortSummernote" name="article_intro" class="adm-summernote" style="min-height:160px;"><p>The project is a blend of contemporary design and a tranquil coastal setting. Residents enjoy fresh sea breezes and access to major urban destinations.</p><p>Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road and faces protected mangrove areas. The development offers a lifestyle for professionals, investors, and families inspired by a resort. Furthermore, the area has a peaceful atmosphere, which is away from the noise and hustle of the city center.</p></textarea>
+                                        <textarea id="articleShortSummernote" name="article_intro" class="adm-summernote" placeholder="Enter short content..." style="min-height:160px;"></textarea>
                                     </div>
 
                                     <!-- 2. Long Content (Summernote) -->
@@ -862,7 +858,7 @@
                                         <label class="adm-label" for="articleLongSummernote" style="font-weight:700; font-size:13px; color:#111827; margin-bottom:6px; display:block;">
                                             Long Content
                                         </label>
-                                        <textarea id="articleLongSummernote" name="article_summernote" class="adm-summernote" style="min-height:220px;"><p>The project is a blend of luxury, convenience, and investment value. Hence, buyers can purchase a high-value waterfront property in one of the upcoming coastal areas of Karachi.</p><h3>Prime Waterfront Location</h3><p>Located directly overlooking serene mangrove vistas, the residences offer panoramic views, seamless highway connectivity, and 24/7 guarded security.</p><p>World-class lifestyle amenities include an infinity pool, fully equipped gymnasium, children's play areas, landscaped podium gardens, and dedicated parking.</p></textarea>
+                                        <textarea id="articleLongSummernote" name="article_summernote" class="adm-summernote" placeholder="Enter long content..." style="min-height:220px;"></textarea>
                                     </div>
                                 </div>
 
@@ -877,11 +873,11 @@
                                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
                                         <div>
                                             <label class="adm-label" for="communitiesHeadingInput" style="font-weight:600; font-size:12.5px;">Section Heading</label>
-                                            <input type="text" id="communitiesHeadingInput" name="communities_heading" class="adm-input" value="Featured Projects" style="font-size:13px;">
+                                            <input type="text" id="communitiesHeadingInput" name="communities_heading" class="adm-input" value="" placeholder="e.g. Featured Projects" style="font-size:13px;">
                                         </div>
                                         <div>
                                             <label class="adm-label" for="communitiesSubtitleInput" style="font-weight:600; font-size:12.5px;">Section Subtitle / Tagline</label>
-                                            <input type="text" id="communitiesSubtitleInput" name="communities_subtitle" class="adm-input" value="Explore the premier waterfront residential communities on Hudayriyat Island" style="font-size:13px;">
+                                            <input type="text" id="communitiesSubtitleInput" name="communities_subtitle" class="adm-input" value="" placeholder="e.g. Explore premier residential communities" style="font-size:13px;">
                                         </div>
                                     </div>
 
@@ -920,7 +916,7 @@
                                                             <img src="{{ $proj->image_url }}" alt="" style="width: 48px; height: 34px; object-fit: cover; border-radius: 5px; border: 1px solid #cbd5e1; flex-shrink: 0; background: #f1f5f9;">
                                                             <div style="flex: 1; min-width: 0;">
                                                                 <strong class="dual-card-title" style="display: block; font-size: 13px; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $proj->title }}</strong>
-                                                                <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Hudayriyat Island') }}</span>
+                                                                <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Location') }}</span>
                                                             </div>
                                                             <button type="button" onclick="moveCardToSelected({{ $proj->id }})" title="Add to page" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
                                                                 + Add
@@ -975,7 +971,7 @@
                                     <!-- Section Header Configuration -->
                                     <div style="margin-bottom:16px;">
                                         <label class="adm-label" for="faqHeadingInput" style="font-weight:600; font-size:12.5px;">Section Heading</label>
-                                        <input type="text" id="faqHeadingInput" name="faq_heading" class="adm-input" value="Frequently Asked Questions" style="font-size:13px;">
+                                        <input type="text" id="faqHeadingInput" name="faq_heading" class="adm-input" value="" placeholder="e.g. Frequently Asked Questions" style="font-size:13px;">
                                     </div>
 
                                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e5e7eb; padding-bottom:8px;">
@@ -997,8 +993,8 @@
                                             <div style="display:flex; align-items:center; justify-content:center; width:34px; height:36px; border:1px solid #d1d5db; background:#ffffff; border-radius:6px; color:#1a4731; cursor:grab;" title="Drag to reorder">
                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 20V4m0 0L3 8m4-4l4 4"/><path d="M17 4v16m0 0l4-4m-4 4l-4-4"/></svg>
                                             </div>
-                                            <input type="text" name="faq_items[0][q]" value="Is this a freehold property development?" class="adm-input" placeholder="Question" style="margin:0; min-height:36px; font-size:13px;">
-                                            <textarea name="faq_items[0][a]" class="adm-textarea" rows="1" placeholder="Answer" style="margin:0; min-height:36px; font-size:13px; resize:vertical; line-height:1.4;">Yes, all residential communities on Hudayriyat Island offer 100% freehold ownership for both UAE nationals and international buyers worldwide.</textarea>
+                                            <input type="text" name="faq_items[0][q]" value="" class="adm-input" placeholder="Question (e.g. Is this a freehold development?)" style="margin:0; min-height:36px; font-size:13px;">
+                                            <textarea name="faq_items[0][a]" class="adm-textarea" rows="1" placeholder="Answer..." style="margin:0; min-height:36px; font-size:13px; resize:vertical; line-height:1.4;"></textarea>
                                             <button type="button" onclick="deleteFaqCard(this)" title="Delete row" style="width:34px; height:36px; border:1px solid #fecaca; background:#fef2f2; color:#b91c1c; border-radius:6px; cursor:pointer; font-size:14px; line-height:1; display:flex; align-items:center; justify-content:center; transition:all 0.15s ease;">&#10005;</button>
                                         </div>
 
@@ -1007,8 +1003,8 @@
                                             <div style="display:flex; align-items:center; justify-content:center; width:34px; height:36px; border:1px solid #d1d5db; background:#ffffff; border-radius:6px; color:#1a4731; cursor:grab;" title="Drag to reorder">
                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 20V4m0 0L3 8m4-4l4 4"/><path d="M17 4v16m0 0l4-4m-4 4l-4-4"/></svg>
                                             </div>
-                                            <input type="text" name="faq_items[1][q]" value="What is the payment plan schedule?" class="adm-input" placeholder="Question" style="margin:0; min-height:36px; font-size:13px;">
-                                            <textarea name="faq_items[1][a]" class="adm-textarea" rows="1" placeholder="Answer" style="margin:0; min-height:36px; font-size:13px; resize:vertical; line-height:1.4;">Flexible milestone-linked construction payment plans are available with down payments starting from 5% or 10% and balance on handover.</textarea>
+                                            <input type="text" name="faq_items[1][q]" value="" class="adm-input" placeholder="Question (e.g. What is the payment plan schedule?)" style="margin:0; min-height:36px; font-size:13px;">
+                                            <textarea name="faq_items[1][a]" class="adm-textarea" rows="1" placeholder="Answer..." style="margin:0; min-height:36px; font-size:13px; resize:vertical; line-height:1.4;"></textarea>
                                             <button type="button" onclick="deleteFaqCard(this)" title="Delete row" style="width:34px; height:36px; border:1px solid #fecaca; background:#fef2f2; color:#b91c1c; border-radius:6px; cursor:pointer; font-size:14px; line-height:1; display:flex; align-items:center; justify-content:center; transition:all 0.15s ease;">&#10005;</button>
                                         </div>
                                     </div>
@@ -1033,40 +1029,40 @@
                             <div style="display:grid; grid-template-columns:1fr 2fr; gap:12px; margin-bottom:12px;">
                                 <div>
                                     <label class="adm-label" for="contactPretitleInput" style="font-weight:600; font-size:12.5px;">Pre-Title (Small Tag)</label>
-                                    <input type="text" id="contactPretitleInput" name="contact_pretitle" class="adm-input" value="LET'S CONNECT" style="font-size:13px;" placeholder="e.g. LET'S CONNECT">
+                                    <input type="text" id="contactPretitleInput" name="contact_pretitle" class="adm-input" value="" style="font-size:13px;" placeholder="e.g. LET'S CONNECT">
                                 </div>
                                 <div>
                                     <label class="adm-label" for="contactHeadingInput" style="font-weight:600; font-size:12.5px;">Main Heading</label>
-                                    <input type="text" id="contactHeadingInput" name="contact_heading" class="adm-input" value="Invest in Your Future" style="font-size:13px;" placeholder="e.g. Invest in Your Future">
+                                    <input type="text" id="contactHeadingInput" name="contact_heading" class="adm-input" value="" style="font-size:13px;" placeholder="e.g. Invest in Your Future">
                                 </div>
                             </div>
 
                             <!-- Row 2: Subtitle / Description -->
                             <div style="margin-bottom:12px;">
                                 <label class="adm-label" for="contactSubtitleInput" style="font-weight:600; font-size:12.5px;">Subtitle / Narrative</label>
-                                <textarea id="contactSubtitleInput" name="contact_subtitle" class="adm-input" rows="2" style="font-size:13px; line-height:1.5; min-height:60px;">Discover exceptional residential villas, waterfront mansions, and prime plots across Hudayriyat Island. Connect with our dedicated property advisory team for personalized guidance and private viewings.</textarea>
+                                <textarea id="contactSubtitleInput" name="contact_subtitle" class="adm-input" rows="2" style="font-size:13px; line-height:1.5; min-height:60px;" placeholder="e.g. Discover exceptional residential villas, waterfront mansions, and prime plots."></textarea>
                             </div>
 
                             <!-- Row 3: Form Headings & Button -->
                             <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px;">
                                 <div>
                                     <label class="adm-label" for="contactFormSmallInput" style="font-weight:600; font-size:12.5px;">Form Top Label</label>
-                                    <input type="text" id="contactFormSmallInput" name="contact_form_small" class="adm-input" value="REQUEST" style="font-size:12.5px;" placeholder="e.g. REQUEST">
+                                    <input type="text" id="contactFormSmallInput" name="contact_form_small" class="adm-input" value="" style="font-size:12.5px;" placeholder="e.g. REQUEST">
                                 </div>
                                 <div>
                                     <label class="adm-label" for="contactFormLargeInput" style="font-weight:600; font-size:12.5px;">Form Main Title</label>
-                                    <input type="text" id="contactFormLargeInput" name="contact_form_large" class="adm-input" value="A CALL BACK" style="font-size:12.5px;" placeholder="e.g. A CALL BACK">
+                                    <input type="text" id="contactFormLargeInput" name="contact_form_large" class="adm-input" value="" style="font-size:12.5px;" placeholder="e.g. A CALL BACK">
                                 </div>
                                 <div>
                                     <label class="adm-label" for="contactSubmitButtonInput" style="font-weight:600; font-size:12.5px;">Submit Button Text</label>
-                                    <input type="text" id="contactSubmitButtonInput" name="contact_submit_button" class="adm-input" value="REQUEST NOW" style="font-size:12.5px;" placeholder="e.g. REQUEST NOW">
+                                    <input type="text" id="contactSubmitButtonInput" name="contact_submit_button" class="adm-input" value="" style="font-size:12.5px;" placeholder="e.g. REQUEST NOW">
                                 </div>
                             </div>
 
                             <!-- Row 4: Background Image URL -->
                             <div>
                                 <label class="adm-label" for="contactBgImageInput" style="font-weight:600; font-size:12.5px;">Background Image URL</label>
-                                <input type="text" id="contactBgImageInput" name="contact_bg_image" class="adm-input" value="/images/form image.jpg" style="font-size:12.5px;" placeholder="/images/form image.jpg">
+                                <input type="text" id="contactBgImageInput" name="contact_bg_image" class="adm-input" value="" style="font-size:12.5px;" placeholder="/images/form image.jpg">
                             </div>
                         </div>
                         </div>

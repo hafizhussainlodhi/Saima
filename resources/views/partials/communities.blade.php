@@ -8,7 +8,16 @@ $commSecData = $commSec ? ($commSec->content ?? []) : [];
 $unselectedProjectIds = (array) ($commSecData['unselected_ids'] ?? []);
 $selectedProjectIds = (array) ($commSecData['selected_ids'] ?? ($commSecData['project_ids'] ?? []));
 
-$allDbProjects = \App\Models\Project::where('is_active', true)->with('page')->orderBy('order', 'asc')->get();
+$allDbProjects = \App\Models\Project::where('is_active', true)
+    ->where(function($q) {
+        $q->whereNull('status')->orWhere('status', '!=', 'draft');
+    })
+    ->whereDoesntHave('page', function($q) {
+        $q->where('status', 'draft')->orWhere('is_published', false);
+    })
+    ->with('page')
+    ->orderBy('order', 'asc')
+    ->get();
 
 if (!empty($unselectedProjectIds) || !empty($selectedProjectIds)) {
     // Exclude projects explicitly unselected by mouse in CMS
@@ -168,46 +177,6 @@ $communitiesData = [
 
                             <!-- Location -->
                             <p class="cardLocation">{{ $item->location ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
-
-                            <!-- Big Green Rounded BOOK NOW Button -->
-                            <div class="cardBookBtn">BOOK NOW</div>
-                        </div>
-                    </a>
-                @endforeach
-            @else
-                @foreach($communitiesData as $index => $item)
-                    @php
-                        $imgSrc = $item['image'] ?? '';
-                        if ($imgSrc && !str_starts_with($imgSrc, 'http') && !str_starts_with($imgSrc, '/')) {
-                            $imgSrc = asset($imgSrc);
-                        }
-                        $isSoldOut = (isset($item['status']) && $item['status'] === 'sold_out');
-                    @endphp
-                    <a href="{{ $item['href'] ?? '#' }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item['name'] }}">
-                        <!-- Top-Left Badges (New, Offer, Off plan, Ready) -->
-                        <div class="topTags">
-                            @if(!empty($item['badges']) && is_array($item['badges']))
-                                @foreach($item['badges'] as $badge)
-                                    <span class="badgeTag">{{ $badge }}</span>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        <!-- Top-Right Sold out Badge -->
-                        @if($isSoldOut)
-                            <span class="soldOutBadge">Sold out</span>
-                        @endif
-
-                        <!-- Main Community Photo -->
-                        <img src="{{ $imgSrc }}" alt="{{ $item['name'] ?? '' }} luxury property" class="mainImage">
-
-                        <!-- Bottom Content Area -->
-                        <div class="bottomContent">
-                            <!-- Community Title -->
-                            <h3 class="cardTitle">{{ $item['name'] ?? '' }}</h3>
-
-                            <!-- Location -->
-                            <p class="cardLocation">{{ $item['location'] ?? '' }}</p>
 
                             <!-- Big Green Rounded BOOK NOW Button -->
                             <div class="cardBookBtn">BOOK NOW</div>

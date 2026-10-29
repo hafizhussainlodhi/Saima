@@ -1,3 +1,14 @@
+@php
+    $navProjects = \App\Models\Project::where('is_active', true)
+        ->where(function($q) {
+            $q->whereNull('status')->orWhere('status', '!=', 'draft');
+        })
+        ->whereDoesntHave('page', function($q) {
+            $q->where('status', 'draft')->orWhere('is_published', false);
+        })
+        ->orderBy('order', 'asc')
+        ->get();
+@endphp
 <header id="siteHeader" class="header">
     <div class="container headerContainer">
         <!-- Logo on the left -->
@@ -11,6 +22,7 @@
                 <li class="navItem">
                     <a href="/" class="navLink navLinkActive">HOME</a>
                 </li>
+                @if($navProjects->isNotEmpty())
                 <li class="navItem" id="navProjectsItem">
                     <button type="button" class="navLink" id="navProjectsBtn" style="background: none; border: none; cursor: pointer;">
                         PROJECTS
@@ -19,18 +31,12 @@
                         </svg>
                     </button>
                     <div class="dropdownMenu" id="navProjectsDropdown">
-                        <a href="/wadeem-gardens" class="dropdownItem">Wadeem Gardens</a>
-                        <a href="/hudayriyat-golf-estates" class="dropdownItem">Hudayriyat Golf Estates</a>
-                        <a href="/bashayer-residences" class="dropdownItem">Bashayer Residences</a>
-                        <a href="/nawayef-east-hills" class="dropdownItem">Nawayef East Hills</a>
-                        <a href="/bashayer-villas" class="dropdownItem">Bashayer Villas</a>
-                        <a href="/al-naseem-villas" class="dropdownItem">Al Naseem Villas</a>
-                        <a href="/masyaf-plots" class="dropdownItem">Masyaf Plots</a>
-                        <a href="/nawayef-village" class="dropdownItem">Nawayef Village</a>
-                        <a href="/wadeem-plots" class="dropdownItem">Wadeem Plots</a>
-                        <a href="/nawayef-park-views" class="dropdownItem">Nawayef Park Views</a>
+                        @foreach($navProjects as $proj)
+                            <a href="{{ url(ltrim($proj->slug, '/')) }}" class="dropdownItem">{{ $proj->title }}</a>
+                        @endforeach
                     </div>
                 </li>
+                @endif
                 <li class="navItem">
                     <a href="#faq" class="navLink">FAQ</a>
                 </li>
@@ -72,6 +78,7 @@
         <li>
             <a href="/" class="mobileNavLink">HOME</a>
         </li>
+        @if($navProjects->isNotEmpty())
         <li>
             <button type="button" id="mobileProjectsToggle" class="mobileNavLink">
                 <span>PROJECTS</span>
@@ -80,18 +87,12 @@
                 </svg>
             </button>
             <div id="mobileProjectsSubmenu" class="mobileSubList" style="display: none;">
-                <a href="/wadeem-gardens" class="mobileSubItem">Wadeem Gardens</a>
-                <a href="/hudayriyat-golf-estates" class="mobileSubItem">Hudayriyat Golf Estates</a>
-                <a href="/bashayer-residences" class="mobileSubItem">Bashayer Residences</a>
-                <a href="/nawayef-east-hills" class="mobileSubItem">Nawayef East Hills</a>
-                <a href="/bashayer-villas" class="mobileSubItem">Bashayer Villas</a>
-                <a href="/al-naseem-villas" class="mobileSubItem">Al Naseem Villas</a>
-                <a href="/masyaf-plots" class="mobileSubItem">Masyaf Plots</a>
-                <a href="/nawayef-village" class="mobileSubItem">Nawayef Village</a>
-                <a href="/wadeem-plots" class="mobileSubItem">Wadeem Plots</a>
-                <a href="/nawayef-park-views" class="mobileSubItem">Nawayef Park Views</a>
+                @foreach($navProjects as $proj)
+                    <a href="{{ url(ltrim($proj->slug, '/')) }}" class="mobileSubItem">{{ $proj->title }}</a>
+                @endforeach
             </div>
         </li>
+        @endif
         <li>
             <a href="#faq" class="mobileNavLink">FAQ</a>
         </li>

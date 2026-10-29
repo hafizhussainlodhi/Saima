@@ -14,6 +14,13 @@
 
     if (!empty($selectedProjectIds) && is_array($selectedProjectIds)) {
         $dbProjects = \App\Models\Project::whereIn('id', $selectedProjectIds)
+            ->where('is_active', true)
+            ->where(function($q) {
+                $q->whereNull('status')->orWhere('status', '!=', 'draft');
+            })
+            ->whereDoesntHave('page', function($q) {
+                $q->where('status', 'draft')->orWhere('is_published', false);
+            })
             ->with('page')
             ->get()
             ->sortBy(function($model) use ($selectedProjectIds) {
@@ -24,7 +31,16 @@
         $dbProjects = collect();
         $hasDbProjects = false;
     } else {
-        $dbProjects = \App\Models\Project::where('is_active', true)->with('page')->orderBy('order', 'asc')->get();
+        $dbProjects = \App\Models\Project::where('is_active', true)
+            ->where(function($q) {
+                $q->whereNull('status')->orWhere('status', '!=', 'draft');
+            })
+            ->whereDoesntHave('page', function($q) {
+                $q->where('status', 'draft')->orWhere('is_published', false);
+            })
+            ->with('page')
+            ->orderBy('order', 'asc')
+            ->get();
         $hasDbProjects = $dbProjects->isNotEmpty();
     }
 
@@ -103,41 +119,6 @@
                         <div class="bottomContent">
                             <h3 class="cardTitle">{{ $item->title }}</h3>
                             <p class="cardLocation">{{ $item->location ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
-
-                            <!-- Big Green Rounded BOOK NOW Button -->
-                            <div class="cardBookBtn">BOOK NOW</div>
-                        </div>
-                    </a>
-                @endforeach
-            @elseif(!$isCityPage)
-                @foreach($secCommunities as $index => $item)
-                    @php
-                        $imgSrc = $item['image'] ?? '/images/communities/wadeem-gardens.png';
-                        $cardHref = $item['href'] ?? '#';
-                        $isSoldOut = (isset($item['status']) && $item['status'] === 'sold_out');
-                    @endphp
-                    <a href="{{ $cardHref }}" class="cardCustom" style="text-decoration: none; cursor: pointer;">
-                        <!-- Top-Left Badges (New, Offer, Off plan, Ready) -->
-                        <div class="topTags">
-                            @if(!empty($item['badges']) && is_array($item['badges']))
-                                @foreach($item['badges'] as $badge)
-                                    <span class="badgeTag">{{ $badge }}</span>
-                                @endforeach
-                            @endif
-                        </div>
-
-                        <!-- Top-Right Sold out Badge -->
-                        @if($isSoldOut)
-                            <span class="soldOutBadge">Sold out</span>
-                        @endif
-
-                        <!-- Main Community Photo -->
-                        <img src="{{ $imgSrc }}" alt="{{ $item['name'] ?? '' }}" class="mainImage">
-
-                        <!-- Bottom Content Area -->
-                        <div class="bottomContent">
-                            <h3 class="cardTitle">{{ $item['name'] ?? '' }}</h3>
-                            <p class="cardLocation">{{ $item['location'] ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
 
                             <!-- Big Green Rounded BOOK NOW Button -->
                             <div class="cardBookBtn">BOOK NOW</div>

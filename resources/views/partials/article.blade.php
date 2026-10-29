@@ -893,45 +893,32 @@
                     </div>
 
                     @if(!$isNewPage)
+                    @php
+                        $sidebarProjects = \App\Models\Project::where('is_active', true)
+                            ->where(function($q) {
+                                $q->whereNull('status')->orWhere('status', '!=', 'draft');
+                            })
+                            ->whereDoesntHave('page', function($q) {
+                                $q->where('status', 'draft')->orWhere('is_published', false);
+                            })
+                            ->orderBy('order', 'asc')
+                            ->take(5)
+                            ->get();
+                    @endphp
+                    @if(!$isNewPage && $sidebarProjects->isNotEmpty())
                     <!-- Latest Projects Card -->
                     <div class="saimaProjectsWidget">
                         <h4 class="saimaProjectsHeader">Latest Projects</h4>
                         <div class="saimaProjectList">
-                            <a href="/wadeem-gardens" class="saimaProjectItem">
-                                <img src="{{ asset('LP1.png') }}" alt="Lorévia Collection by DECA at Al Zorah, Ajman" class="saimaProjectThumb">
-                                <div class="saimaProjectMeta">
-                                    <span class="saimaProjectItemTitle">Lorévia Collection by DECA at Al Zorah, Ajman</span>
-                                    <span class="saimaProjectItemDesc">Lorévia Collection Apartments by DECA in Al Zorah, Ajman. From AED 1.2M...</span>
-                                </div>
-                            </a>
-                            <a href="/hudayriyat-golf-estates" class="saimaProjectItem">
-                                <img src="{{ asset('LP2.png') }}" alt="Samana South Haven 2 by Samana at Dubai Industrial City" class="saimaProjectThumb">
-                                <div class="saimaProjectMeta">
-                                    <span class="saimaProjectItemTitle">Samana South Haven 2 by Samana at Dubai Industrial City</span>
-                                    <span class="saimaProjectItemDesc">Samana South Haven 2 by Samana launches luxury homes in Dubai...</span>
-                                </div>
-                            </a>
-                            <a href="/bashayer-villas" class="saimaProjectItem">
-                                <img src="{{ asset('LP3.png') }}" alt="Lily Tower by Tiger Group in Al Jerf, Ajman" class="saimaProjectThumb">
-                                <div class="saimaProjectMeta">
-                                    <span class="saimaProjectItemTitle">Lily Tower by Tiger Group in Al Jerf, Ajman</span>
-                                    <span class="saimaProjectItemDesc">Lily Tower Ajman Apartments by Tiger Group is a new residential...</span>
-                                </div>
-                            </a>
-                            <a href="/al-naseem-villas" class="saimaProjectItem">
-                                <img src="{{ asset('LP4.png') }}" alt="Avana Residences by DECA Properties at JVC District 10" class="saimaProjectThumb">
-                                <div class="saimaProjectMeta">
-                                    <span class="saimaProjectItemTitle">Avana Residences by DECA Properties at JVC District 10</span>
-                                    <span class="saimaProjectItemDesc">Avana Residences Dubai Apartments by DECA Properties i...</span>
-                                </div>
-                            </a>
-                            <a href="/nawayef-east-hills" class="saimaProjectItem">
-                                <img src="{{ asset('LP5.png') }}" alt="Elan Tower by Alfulaiti" class="saimaProjectThumb">
-                                <div class="saimaProjectMeta">
-                                    <span class="saimaProjectItemTitle">Elan Tower by Alfulaiti</span>
-                                    <span class="saimaProjectItemDesc">Modern urban luxury residences in prime location...</span>
-                                </div>
-                            </a>
+                            @foreach($sidebarProjects as $sProj)
+                                <a href="{{ url(ltrim($sProj->slug, '/')) }}" class="saimaProjectItem">
+                                    <img src="{{ $sProj->image_url ?: asset('LP1.png') }}" alt="{{ $sProj->title }}" class="saimaProjectThumb">
+                                    <div class="saimaProjectMeta">
+                                        <span class="saimaProjectItemTitle">{{ $sProj->title }}</span>
+                                        <span class="saimaProjectItemDesc">{{ $sProj->location ?? 'Hudayriyat Island, Abu Dhabi' }}</span>
+                                    </div>
+                                </a>
+                            @endforeach
                         </div>
                     </div>
                     @endif

@@ -21,31 +21,11 @@ Route::get('/', function () {
 Route::post('/api/leads', [LeadController::class, 'store'])->name('leads.store');
 Route::get('/api/detect-country', [LeadController::class, 'detectCountry'])->name('leads.detect-country');
 
-// Dedicated Community Property Pages (100% Port 3000 Parity)
-Route::get('/wadeem-gardens', function () { return view('communities.wadeem-gardens'); })->name('wadeem-gardens');
-Route::get('/hudayriyat-golf-estates', function () { return view('communities.hudayriyat-golf-estates'); })->name('hudayriyat-golf-estates');
-Route::get('/bashayer-villas', function () { return view('communities.bashayer-villas'); })->name('bashayer-villas');
-Route::get('/bashayer-residences', function () { return view('communities.bashayer-residences'); })->name('bashayer-residences');
-Route::get('/al-naseem-villas', function () { return view('communities.al-naseem-villas'); })->name('al-naseem-villas');
-Route::get('/nawayef-east-hills', function () { return view('communities.nawayef-east-hills'); })->name('nawayef-east-hills');
-Route::get('/masyaf-plots', function () { return view('communities.masyaf-plots'); })->name('masyaf-plots');
-Route::get('/nawayef-village', function () { return view('communities.nawayef-village'); })->name('nawayef-village');
-Route::get('/wadeem-plots', function () { return view('communities.wadeem-plots'); })->name('wadeem-plots');
-Route::get('/nawayef-park-views', function () { return view('communities.nawayef-park-views'); })->name('nawayef-park-views');
+// Redirect any underscore variant (e.g. /wadeem_gardens -> /wadeem-gardens)
+Route::get('/{slug}', function ($slug) {
+    return redirect('/' . str_replace('_', '-', $slug), 301);
+})->where('slug', '^[a-zA-Z0-9\-]+_[a-zA-Z0-9_\-]+$');
 
-// Support underscore variants (e.g. /wadeem_gardens -> /wadeem-gardens)
-Route::get('/wadeem_gardens', function () { return redirect('/wadeem-gardens'); });
-Route::get('/hudayriyat_golf_estates', function () { return redirect('/hudayriyat-golf-estates'); });
-Route::get('/bashayer_villas', function () { return redirect('/bashayer-villas'); });
-Route::get('/bashayer_residences', function () { return redirect('/bashayer-residences'); });
-Route::get('/al_naseem_villas', function () { return redirect('/al-naseem-villas'); });
-Route::get('/nawayef_east_hills', function () { return redirect('/nawayef-east-hills'); });
-Route::get('/masyaf_plots', function () { return redirect('/masyaf-plots'); });
-Route::get('/nawayef_village', function () { return redirect('/nawayef-village'); });
-Route::get('/wadeem_plots', function () { return redirect('/wadeem-plots'); });
-Route::get('/nawayef_park_views', function () { return redirect('/nawayef-park-views'); });
-Route::get('/contact_us', function () { return redirect('/contact-us'); });
-Route::get('/about_us', function () { return redirect('/about-us'); });
 
 // Dedicated Contact Us Page (Port 3000 Parity)
 Route::get('/contact-us', function () {
@@ -199,27 +179,27 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::get('/blogs', function () {
     $blogs = \App\Models\Blog::where('is_published', true)
         ->where('status', 'publish')
-        ->orderBy('id', 'desc')
-        ->get();
+        ->orderBy('created_at', 'desc')
+        ->paginate(12);
     return view('blogs.index', compact('blogs'));
 })->name('blogs.public.index');
 
 Route::get('/blog', fn() => redirect()->route('blogs.public.index'));
 
 Route::get('/blog/{slug}', function ($slug) {
-    $cleanSlug = ltrim(urldecode($slug), '/');
+    $cleanSlug = trim(urldecode($slug), '/');
     $slugVariants = [
         $cleanSlug,
         '/' . $cleanSlug,
         \Illuminate\Support\Str::slug($cleanSlug),
         ltrim(\Illuminate\Support\Str::slug($cleanSlug), '/'),
     ];
-    $blog = \App\Models\Blog::whereIn('slug', $slugVariants)->firstOrFail();
-    if (!$blog->is_published || $blog->status === 'draft') {
+    $blog = \App\Models\Blog::whereIn('slug', $slugVariants)->first();
+    if (!$blog || !$blog->is_published || $blog->status === 'draft') {
         abort(404);
     }
     return view('blogs.show', compact('blog'));
-})->name('blogs.public.show');
+})->where('slug', '^[a-zA-Z0-9_\-\/% ]+$')->name('blogs.public.show');
 
 // Dynamic Public Page Catch-All Route for created pages & blogs
 Route::get('/{slug}', function ($slug) {
@@ -271,6 +251,37 @@ Route::get('/{slug}', function ($slug) {
         return view('dynamic-page', compact('page'));
     }
 
+    // Check if slug matches a standalone Project, Community, or City (even if Page record is missing)
+    $project = \App\Models\Project::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->first();
+    if ($project) {
+        if (!$project->is_active || $project->status === 'draft') {
+            abort(404);
+        }
+        if (view()->exists('communities.' . $cleanSlug)) {
+            return view('communities.' . $cleanSlug);
+        }
+        if (view()->exists($cleanSlug)) {
+            return view($cleanSlug);
+        }
+    }
+
+    $community = \App\Models\Community::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->first();
+    if ($community) {
+        if (!$community->is_active || $community->status === 'draft') {
+            abort(404);
+        }
+        if (view()->exists('communities.' . $cleanSlug)) {
+            return view('communities.' . $cleanSlug);
+        }
+    }
+
+    $city = \App\Models\City::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->first();
+    if ($city) {
+        if (!$city->is_active || $city->status === 'draft') {
+            abort(404);
+        }
+    }
+
     // Check if it matches a Blog post - 301 redirect to /blog/{slug}
     $slugVariants = [
         $cleanSlug,
@@ -289,26 +300,4 @@ Route::get('/{slug}', function ($slug) {
     abort(404);
 })->where('slug', '^[a-zA-Z0-9_\-\/% ]+$')->name('pages.dynamic');
 
-// Dedicated Public Blogs Routes (/blogs and /blog/{slug})
-Route::get('/blogs', function () {
-    $blogs = \App\Models\Blog::where('status', 'publish')
-        ->orderBy('created_at', 'desc')
-        ->paginate(12);
-    return view('blogs.index', compact('blogs'));
-})->name('blogs.public.index');
-
-Route::get('/blog/{slug}', function ($slug) {
-    $cleanSlug = trim($slug, '/');
-    $slugVariants = [
-        $cleanSlug,
-        '/' . $cleanSlug,
-        \Illuminate\Support\Str::slug($cleanSlug),
-        ltrim(\Illuminate\Support\Str::slug($cleanSlug), '/'),
-    ];
-    $blog = \App\Models\Blog::whereIn('slug', $slugVariants)->first();
-    if (!$blog || !$blog->is_published || $blog->status === 'draft') {
-        abort(404);
-    }
-    return view('blogs.show', compact('blog'));
-})->where('slug', '^[a-zA-Z0-9_\-\/% ]+$')->name('blogs.public.show');
 
