@@ -32,8 +32,7 @@
             <div class="adm-brand">
                 <div class="adm-brand-mark">H</div>
                 <div class="adm-brand-text">
-                    <strong>Hudayriyat</strong>
-                    <span>Admin CMS</span>
+                    <strong>CMS</strong>
                 </div>
             </div>
 

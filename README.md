@@ -32,18 +32,24 @@ A full-stack **Laravel 12** web application replicating 100% of the UI design, l
      - Minimal table showing **`# ▲`**, **`NAME / SLUG`**, **`TYPE`** (Badges distinguishing `[Project Page]`, `[Home]`, `[Standard Page]`), and **`ACTIONS`** (Edit pencil icon, View live eye icon, and Delete trash icon with confirmation).
      - Faint dotted row dividers for clean, uncluttered reading.
      - **Inline Add Page Builder**: Single unified screen with drag-and-drop section arrangement and in-place content editing.
-  3. **Dedicated Property Cards Manager** (`/admin/projects`): The `Projects` module has been transformed into a dedicated **Property Cards Manager** that powers the Featured Property Cards on the website:
-     - **Dedicated Database Table**: Backed by the `projects` table (separate from page content).
-     - **Card Fields Managed**:
-       - `title`: Community/project name (e.g., `Wadeem Gardens`, `Hudayriyat Golf Estates`).
-       - `location`: Location tagline (e.g., `Hudayriyat Island, Abu Dhabi`).
-       - `price`: Launch Price badge text (e.g., `Launch Price: 8.7M AED`).
-       - `delivery_date`: Delivery Date badge text (e.g., `Delivery Date: Q2 2031`).
-       - `developer`: Developer badge (e.g., `Modon Properties`).
-       - `payment_plan`: Payment Plan badge (e.g., `Flexible Payment Plan`).
-       - `image`: Card photo URL or direct file upload.
-       - `page_id`: Dynamic Detail Page Link Dropdown connecting the card directly to its target page in `/admin/pages`.
-     - **Actions**: Live search, "+ Add Property Card" inline creator, full edit modal, active/inactive toggle, drag/order sequencing, and delete action.
+  3. **Dedicated Property Cards & Detail Page Manager** (`/admin/projects`): The `Projects` module serves as the dedicated **Property Cards & Detail Page Manager**:
+     - **Dedicated Database Table**: Backed by the `projects` table linked to `pages` via `page_id`.
+     - **Unified Property & Page Creator**: Clicking **"+ Add Property Card"** opens a full vertical tabbed editor styled identically to `/admin/pages/{id}/edit`, featuring 13 vertical tabs:
+       1. **General Settings**: Page / Property Name, URL Slug, Home Page Card Metrics (Location, Price, Handover Date, Developer, Payment Plan, Status), Property Card Image, and Navbar/Publish toggles.
+       2. **Hero Banner**: Background image with live preview and upload, Alt text (SEO), Badge/Pretitle, H1 Heading, and Subtitle.
+       3. **Project Highlights**: Developer, Price, Handover Date, Property Type, Ownership, and custom metrics.
+       4. **About Community**: Community Title, Story narrative, Video stream URL, and Cover poster.
+       5. **Content**: Single unified visual Summernote WYSIWYG editor for complete page article, H1/H2/H3 headings, and photos.
+       6. **Amenities & Facilities**: Community amenities title, subtitle, and interactive facility cards with icons.
+       7. **Project Gallery**: 6 responsive photo slots with live preview and SEO alt text.
+       8. **Payment Plan**: Breakdown for Down Payment %, During Construction %, On Handover %, and milestone items.
+       9. **Frequently Asked Questions**: 4 interactive Q&A accordion items with Add Question capability.
+       10. **Master Plan**: Visual diagram upload/URL and architectural narrative.
+       11. **Contact & Booking CTA**: VIP registration form, button text, phone, and inquiry email.
+       12. **Location & Connectivity**: Abu Dhabi commute destination drive times (Downtown, Airport, etc.).
+       13. **SEO & Meta**: Meta Title, Description, and Keywords for Google indexing.
+     - **Simultaneous Creation**: Saving the form creates **both** the Property Card (`projects` table) and its linked Detail Page (`pages` + all 12 `page_sections` tables) together automatically.
+     - **Actions**: Live search, "+ Add Property Card" full creator, edit card modal, direct link to edit detail page, active/inactive toggle, and delete action.
   4. **Page & Project Editor** (`/admin/pages/{id}/edit`): Modern, simplified minimalist editor:
      - Breadcrumbs: `Manage {Page Name}` / `Home - Pages - Manage {Page Name}`.
      - Clickable live `🔗 Page URL` banner card.
@@ -607,3 +613,140 @@ Seamlessly renders dynamic page content from MySQL with zero-downtime fallbacks:
    - `PageController@store` attaches the `contact` section to the page and persists custom fields.
    - Frontend `dynamic-page.blade.php` dynamically renders `partials.contact` right after FAQ (or according to administrator drag-and-drop order).
 
+---
+
+### 📝 UI Label Update: "Page Title" renamed to "Page Name"
+- Updated the label from **"Page Title"** to **"Page Name"** in:
+  - Page Editor General Configuration: `resources/views/admin/pages/edit.blade.php`
+  - Add Page Modal: `resources/views/admin/pages/index.blade.php`
+  - Dedicated Projects Add Modal: `resources/views/admin/pages/projects.blade.php`
+- Strictly updated the display label text without modifying any underlying database schema, form field names, or business logic.
+
+---
+
+### 🏷️ Sold Out Card Badge Typography Enhancement (Bold Weight)
+- Enhanced the **"Sold out"** badge text on community/project cards to be bolder and more prominent:
+  - Updated `.soldOutBadge` in `public/css/hudayriyat.css` and `resources/views/partials/page-communities.blade.php`.
+  - Increased `font-weight` from `700` to `800` and added `-webkit-text-stroke: 0.3px #dc2626;` for extra crisp boldness without altering badge dimensions or padding.
+
+---
+
+### ⚡ Auto Page Name Sync to Main Heading (H1)
+- In the Page Builder (`/admin/pages` and `/admin/projects`), typing in the **Page Name** input automatically synchronizes directly to the **Main Heading (H1)** field in real time without any suffixes.
+
+---
+
+### 📄 Article & Booking Section: Dual Summernotes & Frontend Flow Update
+1. **CMS Page Builder (`/admin/pages` & `/admin/projects`)**:
+   - In the **Edit Article & Booking Content** drawer, removed all cluttered inputs (Main Heading, Intro Paragraphs simple textarea, old full content Summernote, and Appointment Form Header).
+   - Replaced with **2 simple Summernote editors**:
+     - **Short Content** (Summernote editor for top introductory summary, mapped to `article_intro`).
+     - **Long Content** (Summernote editor for comprehensive details, headings, and images, mapped to `article_summernote` / `pages.body`).
+2. **Frontend UI Rendering Order (`partials/article.blade.php` & `dynamic-page.blade.php`)**:
+   - **Step 1 (Top)**: **Short Content** is displayed on the left column with the **Appointment Form** on the right side.
+   - **Table of Contents (TOC)**: TOC box and heading are completely removed from the UI.
+   - **Step 2 (Middle)**: **Project Cards** (`partials.page-communities`) are rendered directly below the short content & booking form.
+   - **Step 3 (Bottom)**: **Long Content** is rendered cleanly below the Project Cards.
+
+---
+
+### 🛠️ Syntax Fix & Blade Template Balance (`partials/article.blade.php`)
+- Resolved a 500 `ParseError: syntax error, unexpected token "endif"` encountered when loading dynamic project pages like `/wadeem-gardens`.
+- Balanced unclosed `@if` and loop directives and eliminated an orphaned `@endif` directive in `resources/views/partials/article.blade.php`.
+- Cleared compiled view cache with `php artisan view:clear`.
+
+---
+
+### 🎨 Page Builder Hero Section & Highlights Metric Selector Update
+1. **Hero Section Drawer**:
+   - Removed the Summernote editor (`heroSummernote` / `Hero Rich Content / Article`) from the Hero Section drawer in both `resources/views/admin/pages/index.blade.php` and `resources/views/admin/pages/projects.blade.php`.
+   - Hero drawer now focuses strictly on background image, badge, main heading, and subtitle.
+2. **Project Highlights Metric Dropdown & SVG Icons**:
+   - Replaced emoji dropdown with predefined SVG icon metric selectors matching the clean modern UI design.
+   - Removed the separate "Icon" select dropdown.
+   - Integrated dropdown arrow directly beside the metric label/name input with interactive quick-selection menu (`Developer`, `Price`, `Handover Date`, `Property Type`, `Ownership`, `Bedrooms`, `Location`, `Plot Size`, `Down Payment`, `Featured Highlight`).
+   - Automatically populates the correct SVG icon prefix and preserves backend compatibility.
+
+---
+
+### 📑 New Page Layout Polish: Sidebar Cleanup, Reduced Spacing & "Read more" Scroll Trigger
+1. **Sidebar Form Only (Latest Projects Removed on New Pages)**:
+   - On new dynamically created pages, the `Latest Projects` widget under the sidebar appointment form has been removed. The sidebar now cleanly contains only the **BOOK AN APPOINTMENT** form.
+2. **Reduced Section Gap**:
+   - Tightened vertical spacing between the Short Content / Form section and the **Featured Projects** section (`saimaArticleWrapper` bottom padding reduced, `saimaMainGrid` aligned to start to prevent stretching, and `communitiesSection` top padding reduced).
+3. **"Read more" Smooth Scroll Link**:
+   - Appended a blue "Read more ↓" link (`.saimaReadMoreBtn`) directly at the end of the Short Content text.
+   - Clicking "Read more" smoothly scrolls down past the Featured Projects directly to the **Long Content** (`#pageLongContent`).
+   - Long content remains fully rendered and visible in place below the project cards even without clicking the link.
+4. **Scope Isolation**:
+   - This enhanced flow strictly applies to newly created pages (`dynamic-page.blade.php`) while preserving the 10 original legacy community portfolio landing pages.
+
+---
+
+### 🛡️ Strict Separation Between Created Pages and Property Detail Pages
+1. **Created Pages (`/admin/pages`)**:
+   - CMS Drawer features the 2 Summernote editors: **Short Content** (`article_intro`) and **Long Content** (`article_summernote`).
+   - Frontend layout renders the modern split pattern:
+     - Left column: Short Content with blue **"Read more ↓"** smooth-scroll button.
+     - Sidebar: Appointment Form only (no Latest Projects widget).
+     - Middle: Project Cards grid (`page-communities`).
+     - Bottom: Long Content section (`#pageLongContent`).
+     - **Deduplication**: In `dynamic-page.blade.php`, trailing `communities` section is suppressed when already rendered by `content`, preventing the cards from repeating after long content.
+2. **Property Pages (`/admin/projects` or `/admin/pages/projects`)**:
+   - CMS Drawer preserves the classic fields: Main Heading (`article_title`), Simple Text Area (`article_intro`), Full WYSIWYG Content (`article_summernote`), and Appointment Header (`article_appt_title`).
+   - Frontend layout remains **100% original**:
+     - Left column: Collapsible **Table of Contents (TOC)** box (`#saimaToc`), intro paragraphs, and complete article content together in one column.
+     - Sidebar: Appointment Form AND **Latest Projects** widget (`.saimaProjectsWidget`).
+     - NO injected Project Cards in the middle of the article.
+     - NO "Read more" scroll button and NO separate long content section below.
+
+
+
+---
+
+### ??? Dedicated Cities Management Module (/admin/cities)
+- **Admin Sidebar Navigation**: Added Cities under Content in the sidebar (dmin.layouts.app) with the map-pin icon.
+- **Top Sub-Navigation**: Seamless 3-way toggle between Pages, Projects, and Cities.
+- **Minimalist Table Listing**: Displays exactly:
+  - **#** (Number / Order)
+  - **NAME** (City Name + /slug badge)
+  - **STATUS** (Publish / Draft / Sold out dropdown pill with quick status update)
+  - **ACTIONS** (View live /{slug}, Edit city, and Delete city)
+- **+ Add City Creator Drawer**: Modeled identically to the + Add Property tabbed layout (.adm-edit-layout):
+  - **Live URL Preview**: Top banner displaying Page URL: ... /<slug>.
+  - **Real-Time Synchronisation**: Typing in **City Name** instantly computes and auto-populates the **Route Slug** and the **Hero Main Heading (H1)**.
+  - **Exact 6 Section Pattern**:
+    1. **General Settings**: City Name, Slug, Status, Navigation checkbox.
+    2. **Hero**: Main Heading (H1, auto-synced), Subtitle, Background image, Badge.
+    3. **TOC**: Article & Content section with Main Heading, Lead Intro, Body Summernote editor, and Appointment Title.
+    4. **Project Card**: Section Heading, Subtitle, and interactive Property Card selector (pick which property cards appear in this city).
+    5. **About Community**: Headline, City narrative/story, Video stream URL, and Poster image.
+    6. **FAQ**: FAQ Section Title, Subtitle, and interactive Q&A accordion items with Add Question capability.
+    7. **Contact Section**: CTA Heading, Subtitle, Phone, Email, and Button text.
+    8. **SEO & Meta**: Meta Title, Description, and Keywords for search indexing.
+  - **Clean**: No extraneous inputs (no queries, amenities, floor plans, or payment plan bloat).
+  - **Sticky Bottom Action Bar**: Displays Creating City Page for: [City Name] with Cancel and Save City Page buttons.
+
+---
+
+### ?? Cities CMS: TOC Renamed to Content & Single Pre-filled Summernote
+- **Tab Renamed**: In both Cities create (dmin/cities/index.blade.php) and edit (dmin/cities/edit.blade.php), renamed **TOC** tab to **Content** with the edit icon.
+- **Single Visual WYSIWYG Editor**:
+  - Removed separate Article Main Heading, Lead Paragraph / Intro, and Appointment / Sidebar Form Title inputs.
+  - Replaced with a single full visual Summernote editor labeled **Page Article & Community Body (Headings, Paragraphs, Images)**.
+  - Pre-filled by default with the complete rich content, headings (H2/H3), images, and community highlights matching the **Add Property** content tab.
+  - Automatically initializes Summernote toolbar when the drawer opens or when switching to the Content tab.
+
+---
+
+### ?? Cities CMS: City Name & Route Slug Side-by-Side Grid Layout
+- In General Settings of both Cities creation (dmin/cities/index.blade.php) and edit (dmin/cities/edit.blade.php), updated the layout so **City Name** and **Route / Slug** appear side-by-side in a responsive 2-column grid (display: grid; grid-template-columns: 1fr 1fr; gap: 16px;).
+
+---
+
+### ??? Cities CMS: Dual-Box Drag & Drop Project Card Selector (Image 2 Parity)
+- Replaced the simple pill-chip selector in **Project Card** tab with the complete dual-box interactive drag & drop / click assignment system matching Image 2:
+  - **Left Box (Available Property Cards)**: Displays all created property cards with drag handle (?), image thumbnail, title, price/location, and + Add button.
+  - **Right Box (Selected Cards for This Page)**: Displays selected cards with ? Selected Cards for This Page count, Clear All button, and drag-and-drop dropzone with empty state placeholder (Drag Cards Here).
+  - **Interaction**: Administrators can either drag and drop cards between boxes or click + Add / ? Remove.
+  - **Ordering & Persistence**: Synchronizes exact card IDs and reorder sequence directly into selected_project_ids[].

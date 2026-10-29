@@ -192,21 +192,44 @@
 
     /* Save Changes Button Bar */
     .adm-edit-layout .adm-sticky-save {
-        background: #f8fafc !important;
-        border: 1px solid #f1f5f9 !important;
+        position: sticky !important;
+        bottom: 14px !important;
+        z-index: 9999 !important;
+        background: #ffffff !important;
+        border: 1.5px solid #d4c7b5 !important;
         border-radius: 12px !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
-        padding: 14px 20px !important;
-        margin-top: 24px !important;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+        padding: 12px 22px !important;
+        margin-top: 20px !important;
+        margin-bottom: 8px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
     }
 
-    .adm-edit-layout .adm-btn-primary {
+    .adm-edit-layout .adm-btn-primary,
+    #savePageBtn {
         background: #1a4731 !important;
+        border-color: #1a4731 !important;
         border-radius: 8px !important;
         padding: 10px 24px !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
         font-size: 13.5px !important;
-        box-shadow: 0 2px 6px rgba(26, 71, 49, 0.2) !important;
+        color: #ffffff !important;
+        box-shadow: 0 2px 8px rgba(26, 71, 49, 0.3) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        cursor: pointer !important;
+    }
+
+    #savePageBtn *,
+    #savePageBtn span,
+    #saveBtnText,
+    #savePageBtn svg {
+        color: #ffffff !important;
+        fill: none !important;
+        stroke: #ffffff !important;
     }
 </style>
 @endpush
@@ -249,6 +272,9 @@
 @php
     $currentTab = request('tab', 'general');
     $allSections = $page->sections->sortBy('order');
+    if (in_array($page->slug, ['about-us', 'about_us'], true)) {
+        $allSections = $allSections->reject(fn($s) => in_array($s->section_key, ['content', 'overview'], true));
+    }
     $heroSection = $page->section('hero');
     $otherSections = $allSections->reject(fn($s) => $s->section_key === 'hero');
 @endphp
@@ -327,16 +353,48 @@
     <!-- 1. GENERAL TAB -->
     <div id="tab-general" class="tab-pane {{ $currentTab === 'general' ? 'active' : '' }}">
         <div class="adm-card">
-            <div class="adm-card-head">
+            <div class="adm-card-head" style="display:flex; justify-content:space-between; align-items:flex-start;">
                 <div>
                     <h2>General Configuration</h2>
                     <p>Configure page title, URL routing slug, navbar visibility, and publish state.</p>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span class="adm-chip" style="font-size:11px; font-weight:600; background:#f1f5f9; color:#64748b; padding:3px 8px; border-radius:6px; text-transform:uppercase;">card &amp; page</span>
+
+                    <!-- Status Dropdown Button -->
+                    @php
+                        $currStatus = $page->status ?: ($page->is_published ? 'publish' : 'draft');
+                        $badgeConfig = match($currStatus) {
+                            'sold_out' => ['bg' => '#fef2f2', 'border' => '#fecaca', 'color' => '#b91c1c', 'dot' => '#ef4444', 'label' => 'Sold out'],
+                            'draft'    => ['bg' => '#fffbeb', 'border' => '#fde68a', 'color' => '#b45309', 'dot' => '#f59e0b', 'label' => 'Draft'],
+                            default    => ['bg' => '#f0fdf4', 'border' => '#bbf7d0', 'color' => '#15803d', 'dot' => '#22c55e', 'label' => 'Publish'],
+                        };
+                    @endphp
+                    <div class="adm-status-dropdown-wrap" style="position:relative; display:inline-block;">
+                        <input type="hidden" name="status" id="edit_page_status" value="{{ $currStatus }}">
+                        <button type="button" id="edit_page_status_btn" class="adm-status-btn" onclick="toggleStatusDropdown('edit_page_status_menu')" style="display:inline-flex; align-items:center; gap:8px; padding:6px 14px; font-size:12.5px; font-weight:700; border-radius:8px; cursor:pointer; border:1px solid {{ $badgeConfig['border'] }}; background:{{ $badgeConfig['bg'] }}; color:{{ $badgeConfig['color'] }}; transition:all 0.15s ease;">
+                            <span class="status-dot" style="width:7px; height:7px; border-radius:50%; background:{{ $badgeConfig['dot'] }};"></span>
+                            <span id="edit_page_status_label">{{ $badgeConfig['label'] }}</span>
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </button>
+                        <div id="edit_page_status_menu" class="adm-status-menu" style="display:none; position:absolute; right:0; top:calc(100% + 6px); background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; box-shadow:0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05); min-width:140px; padding:6px; z-index:9999;">
+                            <button type="button" onclick="selectFormStatus('publish', 'Publish', '#f0fdf4', '#bbf7d0', '#15803d', '#22c55e', 'edit_page_status', 'edit_page_status_btn', 'edit_page_status_label', 'edit_page_status_menu')" class="adm-status-opt" style="display:flex; align-items:center; gap:8px; width:100%; padding:7px 10px; font-size:13px; font-weight:600; border:none; background:none; border-radius:6px; cursor:pointer; color:#15803d; text-align:left;">
+                                <span style="width:7px; height:7px; border-radius:50%; background:#22c55e;"></span> Publish
+                            </button>
+                            <button type="button" onclick="selectFormStatus('draft', 'Draft', '#fffbeb', '#fde68a', '#b45309', '#f59e0b', 'edit_page_status', 'edit_page_status_btn', 'edit_page_status_label', 'edit_page_status_menu')" class="adm-status-opt" style="display:flex; align-items:center; gap:8px; width:100%; padding:7px 10px; font-size:13px; font-weight:600; border:none; background:none; border-radius:6px; cursor:pointer; color:#b45309; text-align:left;">
+                                <span style="width:7px; height:7px; border-radius:50%; background:#f59e0b;"></span> Draft
+                            </button>
+                            <button type="button" onclick="selectFormStatus('sold_out', 'Sold out', '#fef2f2', '#fecaca', '#b91c1c', '#ef4444', 'edit_page_status', 'edit_page_status_btn', 'edit_page_status_label', 'edit_page_status_menu')" class="adm-status-opt" style="display:flex; align-items:center; gap:8px; width:100%; padding:7px 10px; font-size:13px; font-weight:600; border:none; background:none; border-radius:6px; cursor:pointer; color:#b91c1c; text-align:left;">
+                                <span style="width:7px; height:7px; border-radius:50%; background:#ef4444;"></span> Sold out
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="adm-card-body">
                 <div class="adm-form-row">
                     <div class="adm-field">
-                        <label class="adm-label" for="pageTitle">Page Title</label>
+                        <label class="adm-label" for="pageTitle">Page Name</label>
                         <input type="text" id="pageTitle" name="title" value="{{ old('title', $page->title) }}" required class="adm-input">
                         <div class="adm-help">Display name used throughout the admin and browser titles.</div>
                     </div>
@@ -360,12 +418,119 @@
                             <input type="checkbox" name="in_navbar" value="1" {{ old('in_navbar', $page->in_navbar) ? 'checked' : '' }}>
                             <strong>Show in Navigation Menu</strong>
                         </label>
-                        <label class="adm-check">
-                            <input type="checkbox" name="is_published" value="1" {{ old('is_published', $page->is_published) ? 'checked' : '' }}>
-                            <strong>Published (Publicly accessible)</strong>
-                        </label>
                     </div>
                 </div>
+
+                @if($linkedProject || in_array($page->slug, $projectSlugs ?? [], true))
+                    <div style="margin-top: 28px; padding-top: 24px; border-top: 1px dashed #cbd5e1;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <span style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: #ecfdf5; border-radius: 8px; color: #10b981;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+                                </span>
+                                <div>
+                                    <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #1e293b;">Property Card Settings &amp; Attributes</h3>
+                                    <div style="font-size: 12.5px; color: #64748b;">Configure attributes, city location, and card display for this project.</div>
+                                </div>
+                            </div>
+                            <span style="font-size: 11px; font-weight: 700; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; padding: 4px 10px; border-radius: 999px; text-transform: uppercase;">
+                                Project Card
+                            </span>
+                        </div>
+
+                        <div class="adm-form-row">
+                            <!-- City Dropdown -->
+                            <div class="adm-field">
+                                <label class="adm-label" for="projectCity">City</label>
+                                <select id="projectCity" name="location" class="adm-input" style="width: 100%; border-radius: 8px;">
+                                    @php $currLoc = old('location', $linkedProject->location ?? 'Karachi'); @endphp
+                                    <optgroup label="Popular Cities">
+                                        @foreach(['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Hyderabad', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Gujranwala', 'Sialkot', 'Abbottabad', 'Gwadar', 'Murree', 'Gilgit'] as $city)
+                                            <option value="{{ $city }}" {{ strcasecmp($currLoc, $city) === 0 ? 'selected' : '' }}>{{ $city }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                    <optgroup label="Provinces &amp; Regions">
+                                        @foreach(['Punjab', 'Sindh', 'Khyber Pakhtunkhwa', 'Balochistan', 'Islamabad Capital Territory', 'Azad Jammu & Kashmir', 'Gilgit-Baltistan'] as $region)
+                                            <option value="{{ $region }}" {{ strcasecmp($currLoc, $region) === 0 ? 'selected' : '' }}>{{ $region }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                    <optgroup label="Other Cities of Pakistan">
+                                        @foreach(['Bahawalpur', 'Sargodha', 'Sukkur', 'Larkana', 'Nawabshah', 'Sheikhupura', 'Jhang', 'Rahim Yar Khan', 'Gujrat', 'Sahiwal', 'Wah Cantonment', 'Mardan', 'Kasur', 'Okara', 'Mingora / Swat', 'Mirpur', 'Muzaffarabad', 'Skardu', 'Dera Ghazi Khan', 'Dera Ismail Khan', 'Chiniot', 'Kamoke', 'Hafizabad', 'Kohat', 'Bannu', 'Turbat', 'Khuzdar'] as $city)
+                                            <option value="{{ $city }}" {{ strcasecmp($currLoc, $city) === 0 ? 'selected' : '' }}>{{ $city }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                </select>
+                                <div class="adm-help">Location displayed on the property card.</div>
+                            </div>
+
+                            <!-- Card Image -->
+                            <div class="adm-field">
+                                <label class="adm-label">Property Card Image</label>
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <div style="width: 80px; height: 55px; border-radius: 6px; overflow: hidden; background: #f1f5f9; border: 1px solid #cbd5e1; flex-shrink: 0;">
+                                        <img id="card_preview_img" src="{{ $linkedProject->image ?? '/images/communities/wadeem-gardens.png' }}" alt="Card" style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <input type="file" name="card_image_file" accept="image/*" class="adm-input" style="width: 100%; font-size: 12px; margin-bottom: 4px;" onchange="previewCardImg(this)">
+                                        <input type="text" id="card_image_url" name="card_image" value="{{ old('card_image', $linkedProject->image ?? '') }}" placeholder="/images/projects/... or URL" class="adm-input" style="width: 100%; font-size: 12px;" oninput="document.getElementById('card_preview_img').src = this.value">
+                                    </div>
+                                </div>
+                                <div class="adm-help">Applies to the property card and syncs to hero background.</div>
+                            </div>
+                        </div>
+
+                        <!-- Card Badges / Attributes Drag & Drop (City ke neeche do input field) -->
+                        <div style="margin-top: 16px;">
+                            <label style="display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: #1e293b; margin-bottom: 6px; text-transform: uppercase;">
+                                <span style="display: flex; align-items: center; gap: 6px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a4731" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                    Card Badges (Selected &ndash; Active on Card)
+                                </span>
+                                <span style="font-size: 11px; font-weight: 600; color: #059669; background: #ecfdf5; padding: 2px 8px; border-radius: 999px; border: 1px solid #a7f3d0; text-transform: none;">
+                                    Box 1 &bull; Active on Property Card
+                                </span>
+                            </label>
+                            
+                            <div id="page_selected_badges" class="badge-drag-box badge-selected-box"
+                                 ondragover="handleBadgeDragOver(event)"
+                                 ondragleave="handleBadgeDragLeave(event)"
+                                 ondrop="handleBadgeDrop(event, 'page', 'selected')"
+                                 style="min-height: 50px; background: #f8fafc; border: 2px dashed #94a3b8; border-radius: 10px; padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; transition: all 0.2s ease;">
+                                <span class="badge-empty-hint" style="color: #94a3b8; font-size: 12.5px; font-style: italic; pointer-events: none; user-select: none;">
+                                    Drag attributes here from Box 2 below (or click them) to display on this card
+                                </span>
+                            </div>
+                            <input type="hidden" name="badges" id="page_badges_input" value="{{ json_encode($linkedProject->badges ?? []) }}">
+                            <div style="font-size: 11.5px; color: #64748b; margin-top: 4px; margin-bottom: 14px;">Whichever attribute you place in this first box will appear directly on the property card (replaces old price/delivery date).</div>
+
+                            <label style="display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 6px; text-transform: uppercase;">
+                                <span style="display: flex; align-items: center; gap: 6px;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="3" width="7" height="7"></rect>
+                                        <rect x="14" y="14" width="7" height="7"></rect>
+                                        <rect x="3" y="14" width="7" height="7"></rect>
+                                    </svg>
+                                    Available Attributes
+                                </span>
+                                <span style="font-size: 11px; font-weight: 600; color: #64748b; background: #f1f5f9; padding: 2px 8px; border-radius: 999px; text-transform: none;">
+                                    Box 2 &bull; Drag with mouse to Box 1
+                                </span>
+                            </label>
+                            
+                            <div id="page_available_badges" class="badge-drag-box badge-available-box"
+                                 ondragover="handleBadgeDragOver(event)"
+                                 ondragleave="handleBadgeDragLeave(event)"
+                                 ondrop="handleBadgeDrop(event, 'page', 'available')"
+                                 style="min-height: 50px; background: #ffffff; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; transition: all 0.2s ease;">
+                            </div>
+                            <div style="font-size: 11.5px; color: #64748b; margin-top: 4px;">Click or drag any attribute into Box 1 above with your mouse. Drag back to remove.</div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -411,7 +576,13 @@
 
                     <div class="adm-field">
                         <label class="adm-label" for="heroBadge">Badge / Pretitle</label>
-                        <input type="text" id="heroBadge" name="sections[hero][badge]" value="{{ $hContent['badge'] ?? '' }}" class="adm-input" placeholder="e.g. Freehold for All Nationalities">
+                        @php
+                            $badgeVal = $hContent['badge'] ?? '';
+                            if (($badgeVal === '' || $badgeVal === null) && in_array($page->slug, ['about-us', 'about_us'], true)) {
+                                $badgeVal = 'HUDAYRIYAT ISLAND • ABU DHABI';
+                            }
+                        @endphp
+                        <input type="text" id="heroBadge" name="sections[hero][badge]" value="{{ $badgeVal }}" class="adm-input" placeholder="e.g. HUDAYRIYAT ISLAND • ABU DHABI">
                     </div>
 
                     <div class="adm-form-row">
@@ -597,37 +768,94 @@
                             <input type="text" id="sec_communities_heading" name="sections[communities][heading]" value="{{ $sContent['heading'] ?? 'Projects' }}" class="adm-input">
                         </div>
 
-                        <!-- Dedicated Property Cards Manager Notification -->
-                        <div style="background: linear-gradient(135deg, #f0f7ff 0%, #f7fbfd 100%); border: 1.5px solid #bfdbfe; border-radius: 12px; padding: 24px; margin-top: 20px; display: flex; align-items: flex-start; gap: 18px; box-shadow: 0 2px 8px rgba(37,99,235,0.06);">
-                            <div style="width: 46px; height: 46px; border-radius: 10px; background: #2563eb; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 4px 12px rgba(37,99,235,0.3);">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                    <line x1="3" y1="9" x2="21" y2="9"/>
-                                    <line x1="9" y1="21" x2="9" y2="9"/>
-                                </svg>
+                        <!-- Select Property Cards Dual-Box Drag & Drop -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin: 24px 0 12px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+                            <span style="font-size: 13px; font-weight: 700; color: #1a4731; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Select Property Cards (Drag &amp; Drop Between Boxes):
+                            </span>
+                            <span style="font-size: 12px; color: #64748b;">
+                                Drag and drop cards between boxes or click (+ Add) / (✕ Remove)
+                            </span>
+                        </div>
+
+                        <!-- Dual Boxes Grid matching communities/edit.blade.php -->
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            
+                            <!-- BOX 1: Available / Unselected Property Cards -->
+                            <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 16px; display: flex; flex-direction: column;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0;">
+                                    <div>
+                                        <strong style="font-size: 13.5px; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+                                            📁 Available Property Cards ( <span id="availableCount">0</span> )
+                                        </strong>
+                                        <span style="font-size: 11.5px; color: #64748b;">All created property cards in your system</span>
+                                    </div>
+                                    <button type="button" onclick="selectAllProjects()" style="background: none; border: none; font-size: 11.5px; color: #15803d; cursor: pointer; text-decoration: underline; font-weight: 600;">+ Select All</button>
+                                </div>
+
+                                <div id="box1_availableCards" ondragover="allowDropCard(event)" ondrop="dropCardToAvailable(event)" style="display: flex; flex-direction: column; gap: 8px; min-height: 380px; max-height: 560px; overflow-y: auto; padding: 4px;">
+                                    @foreach($allProjects ?? [] as $proj)
+                                        @if(!in_array($proj->id, $selectedProjectIds ?? [], true))
+                                            <div class="dual-project-card" id="proj_card_{{ $proj->id }}" data-id="{{ $proj->id }}" draggable="true" ondragstart="dragCardStart(event)" ondragend="dragCardEnd(event)" style="display: flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; cursor: grab; box-shadow: 0 1px 2px rgba(0,0,0,0.03); transition: all 0.15s ease;">
+                                                <span style="color: #94a3b8; font-size: 14px; cursor: grab; user-select: none;">⠿</span>
+                                                <img src="{{ $proj->image_url }}" alt="" style="width: 48px; height: 34px; object-fit: cover; border-radius: 5px; border: 1px solid #cbd5e1; flex-shrink: 0; background: #f1f5f9;">
+                                                <div style="flex: 1; min-width: 0;">
+                                                    <strong class="dual-card-title" style="display: block; font-size: 13px; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $proj->title }}</strong>
+                                                    <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Hudayriyat Island') }}</span>
+                                                </div>
+                                                <button type="button" onclick="moveCardToSelected({{ $proj->id }})" title="Add to page" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
+                                                    + Add
+                                                </button>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
                             </div>
-                            <div style="flex: 1;">
-                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                                    <h3 style="margin: 0; font-size: 15px; font-weight: 700; color: #1e3a8a;">
-                                        Centralized Property Cards Manager
-                                    </h3>
-                                    <span style="background: #dbeafe; color: #1d4ed8; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px;">
-                                        Dedicated Module
-                                    </span>
+
+                            <!-- BOX 2: Selected Cards for This Page -->
+                            <div style="background: #ffffff; border: 1.5px solid #1a4731; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; box-shadow: 0 4px 14px rgba(26, 71, 49, 0.05);">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
+                                    <div>
+                                        <strong style="font-size: 13.5px; color: #1a4731; display: flex; align-items: center; gap: 6px;">
+                                            ✓ Selected Cards for This Page ( <span id="selectedCount">0</span> )
+                                        </strong>
+                                        <span style="font-size: 11.5px; color: #64748b;">Cards displayed on this page</span>
+                                    </div>
+                                    <button type="button" onclick="clearAllSelectedCards()" style="background: none; border: none; font-size: 11.5px; color: #ef4444; cursor: pointer; text-decoration: underline;">Clear All</button>
                                 </div>
-                                <p style="margin: 0 0 16px 0; font-size: 13px; color: #334155; line-height: 1.55;">
-                                    Featured property cards are now centrally managed in the dedicated <strong>Projects</strong> module. You can add new property cards, update prices, delivery dates, developer badges, upload card images, and attach cards directly to any detail page using dynamic dropdowns.
-                                </p>
-                                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                                    <a href="{{ route('admin.projects.index') }}" class="adm-btn adm-btn-primary" style="display: inline-flex; align-items: center; gap: 8px; text-decoration: none; padding: 10px 20px; font-weight: 600; font-size: 13px; border-radius: 8px; box-shadow: 0 3px 10px rgba(37,99,235,0.25);">
-                                        <span>Open Property Cards Manager</span>
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                                            <polyline points="12 5 19 12 12 19"></polyline>
-                                        </svg>
-                                    </a>
-                                    <span style="font-size: 12px; color: #64748b;">All updates made in Projects reflect immediately on the Home page.</span>
+
+                                <div id="box2_selectedCards" ondragover="allowDropCard(event)" ondrop="dropCardToSelected(event)" style="display: flex; flex-direction: column; gap: 8px; min-height: 380px; max-height: 560px; overflow-y: auto; padding: 4px; border-radius: 8px;">
+                                    <!-- Empty placeholder when 0 cards -->
+                                    <div id="selectedCardsEmptyState" style="text-align: center; padding: 80px 20px; border: 2px dashed #e2e8f0; border-radius: 8px; color: #94a3b8; display: none;">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" style="margin: 0 auto 10px; display: block;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                                        <strong style="display: block; font-size: 14px; color: #475569; margin-bottom: 4px;">Drag Cards Here</strong>
+                                        <span style="font-size: 12px; color: #94a3b8;">Drag cards from the available box and drop them here</span>
+                                    </div>
+
+                                    @php
+                                        $allProjectsById = ($allProjects ?? collect())->keyBy('id');
+                                    @endphp
+                                    @foreach($selectedProjectIds ?? [] as $pid)
+                                        @php $proj = $allProjectsById->get($pid); @endphp
+                                        @if($proj)
+                                            <div class="dual-project-card" id="proj_card_{{ $proj->id }}" data-id="{{ $proj->id }}" draggable="true" ondragstart="dragCardStart(event)" ondragend="dragCardEnd(event)" style="display: flex; align-items: center; gap: 10px; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 9px 12px; cursor: grab; box-shadow: 0 1px 2px rgba(0,0,0,0.03); transition: all 0.15s ease;">
+                                                <span style="color: #94a3b8; font-size: 14px; cursor: grab; user-select: none;">⠿</span>
+                                                <img src="{{ $proj->image_url }}" alt="" style="width: 48px; height: 34px; object-fit: cover; border-radius: 5px; border: 1px solid #cbd5e1; flex-shrink: 0; background: #f1f5f9;">
+                                                <div style="flex: 1; min-width: 0;">
+                                                    <strong class="dual-card-title" style="display: block; font-size: 13px; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $proj->title }}</strong>
+                                                    <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Hudayriyat Island') }}</span>
+                                                </div>
+                                                <button type="button" onclick="moveCardToAvailable({{ $proj->id }})" title="Remove from page" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
+                                                    ✕ Remove
+                                                </button>
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
+
+                                <!-- Hidden containers for form inputs -->
+                                <div id="selectedCardsInputsContainer"></div>
+                                <div id="unselectedCardsInputsContainer"></div>
                             </div>
                         </div>
                     </div>
@@ -676,15 +904,9 @@
                         <input type="hidden" name="sections[investment][_has_financing_highlights]" value="1">
 
                         <!-- Left Column: Investment Potential Fields -->
-                        <div class="adm-form-row">
-                            <div class="adm-field">
-                                <label class="adm-label" for="sec_inv_heading">Main Heading</label>
-                                <input type="text" id="sec_inv_heading" name="sections[investment][heading]" value="{{ $sContent['heading'] ?? 'Investment Potential' }}" class="adm-input" required>
-                            </div>
-                            <div class="adm-field">
-                                <label class="adm-label" for="sec_inv_badge">Location Badge</label>
-                                <input type="text" id="sec_inv_badge" name="sections[investment][location_badge]" value="{{ $sContent['location_badge'] ?? 'Hudayriyat Island, Abu Dhabi' }}" class="adm-input">
-                            </div>
+                        <div class="adm-field">
+                            <label class="adm-label" for="sec_inv_heading">Main Heading</label>
+                            <input type="text" id="sec_inv_heading" name="sections[investment][heading]" value="{{ $sContent['heading'] ?? 'Investment Potential' }}" class="adm-input" required>
                         </div>
 
                         <div class="adm-field">
@@ -764,84 +986,27 @@
                             </div>
                         </div>
 
-                        <!-- Right Column: Flexible Financing Options Card -->
+                        <!-- Right Column: Featured Image (Replaces Flexible Financing Card) -->
                         <div style="border-top: 1px solid var(--adm-border-subtle, #332d27); padding-top: 24px; margin-top: 10px;">
-                            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--adm-text, #fff);">Flexible Financing Options Card</h3>
-
-                            <div class="adm-form-row">
-                                <div class="adm-field">
-                                    <label class="adm-label" for="sec_inv_fin_title">Financing Card Title</label>
-                                    <input type="text" id="sec_inv_fin_title" name="sections[investment][financing_title]" value="{{ $sContent['financing_title'] ?? 'Flexible Financing Options' }}" class="adm-input">
-                                </div>
-                                <div class="adm-field">
-                                    <label class="adm-label" for="sec_inv_fin_cta">Financing Card Button Label</label>
-                                    <input type="text" id="sec_inv_fin_cta" name="sections[investment][financing_cta]" value="{{ $sContent['financing_cta'] ?? 'Contact a Mortgage Specialist' }}" class="adm-input">
-                                </div>
-                            </div>
+                            <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px; color: var(--adm-text, #fff);">Right Column Image (Choose File / Upload)</h3>
 
                             <div class="adm-field">
-                                <label class="adm-label" for="sec_inv_fin_desc">Financing Description</label>
-                                <textarea id="sec_inv_fin_desc" name="sections[investment][financing_desc]" class="adm-textarea" rows="3">{{ $sContent['financing_desc'] ?? '' }}</textarea>
-                            </div>
-
-                            <!-- 2. Financing Highlights Repeater (Drag & Drop) -->
-                            <div class="adm-repeater-wrap">
-                                <div class="adm-repeater-intro">
-                                    <div>
-                                        <h3>Financing Highlights (<span id="repeaterCount_fin_hl">{{ count($sContent['financing_highlights'] ?? []) }}</span>)</h3>
-                                        <p>Drag any financing highlight using the ⇅ handle to change the order. Add, edit or delete points.</p>
-                                    </div>
-                                    <button type="button" class="adm-btn adm-btn-ghost adm-btn-sm" onclick="addFinancingHighlight()">
-                                        @include('admin.partials.icon', ['name' => 'plus']) Add Financing Bullet
-                                    </button>
-                                </div>
-
-                                <div class="adm-repeater-toolbar">
-                                    <div class="adm-collapse-links">
-                                        <button type="button" class="adm-link-btn" onclick="toggleCollapseAll(this, 'repeater_fin_hl_items')">Collapse all</button>
-                                        <span>|</span>
-                                        <button type="button" class="adm-link-btn" onclick="toggleExpandAll(this, 'repeater_fin_hl_items')">Expand all</button>
-                                    </div>
-                                </div>
-
-                                <div class="adm-repeater-list" id="repeater_fin_hl_items">
-                                    @foreach(($sContent['financing_highlights'] ?? []) as $idx => $fhl)
-                                        @php $fhlText = is_array($fhl) ? ($fhl['text'] ?? $fhl['title'] ?? '') : $fhl; @endphp
-                                        <div class="adm-repeater-item" id="fin_hl_item_{{ $idx }}" draggable="true">
-                                            <div class="adm-repeater-head">
-                                                <div class="adm-repeater-title-wrap">
-                                                    <div class="adm-drag-handle" title="Drag to reorder">
-                                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                            <path d="M7 20V4m0 0L3 8m4-4l4 4"/>
-                                                            <path d="M17 4v16m0 0l4-4m-4 4l-4-4"/>
-                                                        </svg>
-                                                    </div>
-                                                    <span class="adm-repeater-badge">#{{ $idx + 1 }}</span>
-                                                    <strong class="adm-repeater-heading-text">{{ $fhlText ?: 'Point ' . ($idx + 1) }}</strong>
-                                                </div>
-                                                <div class="adm-repeater-actions-head">
-                                                    <button type="button" class="adm-btn-collapse" onclick="toggleCardCollapse(this)" title="Toggle Collapse">
-                                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                                                    </button>
-                                                    <button type="button" class="adm-btn-item-delete" onclick="removeRepeaterCard(this, 'fin_hl')">
-                                                        @include('admin.partials.icon', ['name' => 'trash']) Delete
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="adm-repeater-body">
-                                                <div class="adm-field" style="margin-bottom:0;">
-                                                    <label class="adm-label">Financing Point Text</label>
-                                                    <input type="text" name="sections[investment][financing_highlights][{{ $idx }}][text]" value="{{ $fhlText }}" class="adm-input" oninput="updateCardHeading(this)">
-                                                </div>
-                                            </div>
+                                <label class="adm-label">Investment Featured Image</label>
+                                @php
+                                    $invImg = $sContent['image'] ?? '/images/3_3.jpg';
+                                    if ($invImg && !str_starts_with($invImg, 'http') && !str_starts_with($invImg, '/')) {
+                                        $invImg = asset($invImg);
+                                    }
+                                @endphp
+                                <div class="adm-img-box">
+                                    <img src="{{ $invImg }}" class="adm-img-thumb-lg" alt="Preview" style="max-height: 220px; width: auto; object-fit: cover; border-radius: 8px;">
+                                    <div class="adm-img-controls">
+                                        <div class="adm-file-row">
+                                            <input type="file" name="section_files[investment][image]" accept="image/*" class="adm-file-input" onchange="previewItemImage(this)">
                                         </div>
-                                    @endforeach
-                                </div>
-
-                                <div class="adm-repeater-actions">
-                                    <button type="button" class="adm-btn adm-btn-ghost" onclick="addFinancingHighlight()">
-                                        @include('admin.partials.icon', ['name' => 'plus']) Add Another Financing Bullet
-                                    </button>
+                                        <input type="text" name="sections[investment][image]" value="{{ $sContent['image'] ?? '/images/3_3.jpg' }}" class="adm-input" placeholder="Or enter image path">
+                                        <input type="text" name="sections[investment][image_alt]" value="{{ $sContent['image_alt'] ?? 'Hudayriyat Island Investment Potential' }}" class="adm-input" placeholder="Image Alt Text">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -856,12 +1021,11 @@
                     <div class="adm-card-head">
                         <div>
                             <h2>Overview &amp; Location</h2>
-                            <p>Manage the large location overview section, paragraph description, featured photo, and distance cards.</p>
+                            <p>Manage the location overview section, paragraph description, and featured photo.</p>
                         </div>
                         <span class="adm-chip">overview_location</span>
                     </div>
                     <div class="adm-card-body">
-                        <input type="hidden" name="sections[overview_location][_has_locations]" value="1">
                         <div class="adm-field">
                             <label class="adm-label" for="sec_loc_heading">Main Heading</label>
                             <input type="text" id="sec_loc_heading" name="sections[overview_location][heading]" value="{{ $sContent['heading'] ?? 'Hudayriyat Island Overview and Location' }}" class="adm-input">
@@ -890,71 +1054,6 @@
                                     <input type="text" name="sections[overview_location][image]" value="{{ $sContent['image'] ?? '/images/hudayriyat-overview.jpg' }}" class="adm-input" placeholder="Or enter image path">
                                     <input type="text" name="sections[overview_location][image_alt]" value="{{ $sContent['image_alt'] ?? 'Hudayriyat Island Overview and Luxury Villas' }}" class="adm-input" placeholder="Image Alt Text">
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="adm-repeater-wrap">
-                            <div class="adm-repeater-intro">
-                                <div>
-                                    <h3>Location Highlights &amp; Distances (<span id="repeaterCount_locations">{{ count($sContent['locations'] ?? []) }}</span>)</h3>
-                                    <p>Drag any distance card using the ⇅ handle to change the order. Add, edit or delete locations.</p>
-                                </div>
-                                <button type="button" class="adm-btn adm-btn-ghost adm-btn-sm" onclick="addLocationCard()">
-                                    @include('admin.partials.icon', ['name' => 'plus']) Add Distance Card
-                                </button>
-                            </div>
-
-                            <div class="adm-repeater-toolbar">
-                                <div class="adm-collapse-links">
-                                    <button type="button" class="adm-link-btn" onclick="toggleCollapseAll(this, 'repeater_locations_items')">Collapse all</button>
-                                    <span>|</span>
-                                    <button type="button" class="adm-link-btn" onclick="toggleExpandAll(this, 'repeater_locations_items')">Expand all</button>
-                                </div>
-                            </div>
-
-                            <div class="adm-repeater-list" id="repeater_locations_items">
-                                @foreach(($sContent['locations'] ?? []) as $idx => $loc)
-                                    <div class="adm-repeater-item" id="loc_item_{{ $idx }}" draggable="true">
-                                        <div class="adm-repeater-head">
-                                            <div class="adm-repeater-title-wrap">
-                                                <div class="adm-drag-handle" title="Drag to reorder">
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                        <path d="M7 20V4m0 0L3 8m4-4l4 4"/>
-                                                        <path d="M17 4v16m0 0l4-4m-4 4l-4-4"/>
-                                                    </svg>
-                                                </div>
-                                                <span class="adm-repeater-badge">#{{ $idx + 1 }}</span>
-                                                <strong class="adm-repeater-heading-text">{{ $loc['name'] ?? 'Location ' . ($idx + 1) }}</strong>
-                                            </div>
-                                            <div class="adm-repeater-actions-head">
-                                                <button type="button" class="adm-btn-collapse" onclick="toggleCardCollapse(this)" title="Toggle Collapse">
-                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                                                </button>
-                                                <button type="button" class="adm-btn-item-delete" onclick="removeRepeaterCard(this, 'locations')">
-                                                    @include('admin.partials.icon', ['name' => 'trash']) Delete
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="adm-repeater-body">
-                                            <div class="adm-grid-2-col">
-                                                <div class="adm-field" style="margin-bottom:0;">
-                                                    <label class="adm-label">Landmark / Destination Name</label>
-                                                    <input type="text" name="sections[overview_location][locations][{{ $idx }}][name]" value="{{ $loc['name'] ?? '' }}" class="adm-input"  oninput="updateCardHeading(this)">
-                                                </div>
-                                                <div class="adm-field" style="margin-bottom:0;">
-                                                    <label class="adm-label">Travel Time / Distance</label>
-                                                    <input type="text" name="sections[overview_location][locations][{{ $idx }}][distance]" value="{{ $loc['distance'] ?? '' }}" class="adm-input" placeholder="e.g. 5 minutes by car" >
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            </div>
-
-                            <div class="adm-repeater-actions">
-                                <button type="button" class="adm-btn adm-btn-ghost" onclick="addLocationCard()">
-                                    @include('admin.partials.icon', ['name' => 'plus']) Add Another Distance Card
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -1196,8 +1295,8 @@
                     </div>
                     <div class="adm-card-body">
                         <div class="adm-field">
-                            <label class="adm-label" for="introLead">Lead Paragraph</label>
-                            <textarea id="introLead" name="sections[intro][lead]" class="adm-textarea" rows="3" placeholder="Lead summary paragraph...">{{ $sContent['lead'] ?? '' }}</textarea>
+                            <label class="adm-label" for="introLead">Hightlight Paragraph</label>
+                            <textarea id="introLead" name="sections[intro][lead]" class="adm-textarea" rows="3" placeholder="Highlight summary paragraph...">{{ $sContent['lead'] ?? '' }}</textarea>
                         </div>
 
                         <div class="adm-field">
@@ -1614,7 +1713,31 @@
                     </div>
                     <div class="adm-card-body">
                         <input type="hidden" name="sections[channels][_has_items]" value="1">
-                        @php $channelItems = $sContent['items'] ?? []; @endphp
+                        @php
+                            $channelItems = $sContent['items'] ?? [];
+                            $channelPresets = [
+                                [
+                                    'label' => 'WhatsApp Us',
+                                    'icon'  => 'whatsapp',
+                                    'svg'   => '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>'
+                                ],
+                                [
+                                    'label' => 'Direct Call',
+                                    'icon'  => 'phone',
+                                    'svg'   => '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>'
+                                ],
+                                [
+                                    'label' => 'Email Inquiries',
+                                    'icon'  => 'email',
+                                    'svg'   => '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>'
+                                ],
+                                [
+                                    'label' => 'Location',
+                                    'icon'  => 'location',
+                                    'svg'   => '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>'
+                                ],
+                            ];
+                        @endphp
                         <div class="adm-repeater-wrap">
                             <div class="adm-repeater-intro">
                                 <div>
@@ -1628,6 +1751,30 @@
 
                             <div class="adm-repeater-list" id="repeater_channels_items">
                                 @foreach($channelItems as $idx => $item)
+                                    @php
+                                        $curTitle = $item['title'] ?? '';
+                                        $curIcon = $item['icon'] ?? 'phone';
+                                        $matchedSvg = $channelPresets[1]['svg'];
+                                        foreach ($channelPresets as $cp) {
+                                            if ($cp['icon'] === $curIcon) {
+                                                $matchedSvg = $cp['svg'];
+                                                break;
+                                            }
+                                        }
+                                        if ($curIcon === 'phone' && !empty($curTitle)) {
+                                            $lowTitle = strtolower($curTitle);
+                                            if (str_contains($lowTitle, 'whatsapp')) {
+                                                $matchedSvg = $channelPresets[0]['svg'];
+                                                $curIcon = 'whatsapp';
+                                            } elseif (str_contains($lowTitle, 'email') || str_contains($lowTitle, 'mail')) {
+                                                $matchedSvg = $channelPresets[2]['svg'];
+                                                $curIcon = 'email';
+                                            } elseif (str_contains($lowTitle, 'location') || str_contains($lowTitle, 'address')) {
+                                                $matchedSvg = $channelPresets[3]['svg'];
+                                                $curIcon = 'location';
+                                            }
+                                        }
+                                    @endphp
                                     <div class="adm-repeater-item" id="channel_item_{{ $idx }}" draggable="true">
                                         <div class="adm-repeater-head">
                                             <div class="adm-repeater-title-wrap">
@@ -1650,14 +1797,30 @@
                                             </div>
                                         </div>
                                         <div class="adm-repeater-body">
-                                            <div class="adm-grid-2-col">
-                                                <div class="adm-field">
-                                                    <label class="adm-label">Channel Title</label>
-                                                    <input type="text" name="sections[channels][items][{{ $idx }}][title]" value="{{ $item['title'] ?? '' }}" class="adm-input"  oninput="updateCardHeading(this)">
-                                                </div>
-                                                <div class="adm-field">
-                                                    <label class="adm-label">Icon (whatsapp / phone / email / location)</label>
-                                                    <input type="text" name="sections[channels][items][{{ $idx }}][icon]" value="{{ $item['icon'] ?? 'phone' }}" class="adm-input">
+                                            <input type="hidden" class="adm-ch-icon-input" name="sections[channels][items][{{ $idx }}][icon]" value="{{ $curIcon }}">
+                                            <div class="adm-field">
+                                                <label class="adm-label">Channel Title</label>
+                                                <div class="adm-metric-input-wrap adm-channel-input-wrap">
+                                                    <div class="adm-metric-input-group">
+                                                        <span class="adm-metric-prefix-icon" title="Channel Icon">
+                                                            {!! $matchedSvg !!}
+                                                        </span>
+                                                        <input type="text" name="sections[channels][items][{{ $idx }}][title]" value="{{ $curTitle }}" class="adm-input adm-metric-input adm-ch-title-input" oninput="onChannelInputChange(this)" placeholder="e.g. WhatsApp Us, Direct Call...">
+                                                        <button type="button" class="adm-metric-dropdown-btn" onclick="toggleChannelDropdown(this)" title="Choose Contact Channel">
+                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                    <div class="adm-metric-menu adm-channel-menu">
+                                                        <div class="adm-metric-menu-header">Select Contact Channel</div>
+                                                        @foreach($channelPresets as $preset)
+                                                            <div class="adm-metric-menu-item" onclick="selectChannelOption(this, '{{ $preset['label'] }}', '{{ $preset['icon'] }}')">
+                                                                <span class="adm-metric-menu-item-icon">{!! $preset['svg'] !!}</span>
+                                                                <span class="adm-metric-menu-item-label">{{ $preset['label'] }}</span>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="adm-grid-2-col">
@@ -1940,8 +2103,8 @@
                         <div class="adm-grid-2-col">
                             <div class="adm-field">
                                 <label class="adm-label">Plan Tabs (Comma separated)</label>
-                                <input type="text" name="sections[payment_plan][plan_tabs]" value="{{ is_array($sContent['plan_tabs'] ?? null) ? implode(', ', $sContent['plan_tabs']) : ($sContent['plan_tabs'] ?? 'Without Finance - 45/55, With Finance - 25/75') }}" class="adm-input" placeholder="Without Finance - 45/55, With Finance - 25/75">
-                                <div class="adm-help">Displays tab filters above the table</div>
+                                <input type="text" name="sections[payment_plan][plan_tabs]" value="{{ is_array($sContent['plan_tabs'] ?? null) ? implode(', ', array_filter($sContent['plan_tabs'], fn($t) => !str_contains(strtolower($t), 'without finance') && !str_contains(strtolower($t), 'with finance'))) : '' }}" class="adm-input" placeholder="e.g. Standard Plan (optional)">
+                                <div class="adm-help">Displays tab filters above the table (optional, leave empty if not needed)</div>
                             </div>
                             <div class="adm-field">
                                 <label class="adm-label">Download Button Text</label>
@@ -2223,6 +2386,7 @@
                                 <div style="width: 100%; max-height: 280px; background: #1a1a1a; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
                                     <img id="preview_master_img" src="{{ $sContent['image'] ?? ('/images/' . $page->slug . '/master-plan.png') }}" alt="Master Plan Preview" style="max-width: 100%; max-height: 280px; object-fit: contain;">
                                 </div>
+                                <div class="adm-help" style="margin-bottom: 12px; font-size: 12px; color: #6b7280;">Recommended ratio: 16:9 (e.g. 1600x900px). Any image size uploaded will be automatically managed inside the standard 16:9 container on the live page.</div>
                                 <div class="adm-grid-2-col">
                                     <div>
                                         <label class="adm-label" style="font-size: 12px;">Image Path / URL</label>
@@ -2546,8 +2710,8 @@
     <!-- Sticky Save Bar -->
     <div class="adm-sticky-save">
         <span>Saving changes for <strong>{{ $page->title }}</strong></span>
-        <button type="button" class="adm-btn adm-btn-primary" id="savePageBtn" onclick="submitEditForm(event)">
-            @include('admin.partials.icon', ['name' => 'check']) <span id="saveBtnText">Save Changes</span>
+        <button type="button" class="adm-btn adm-btn-primary" id="savePageBtn" onclick="submitEditForm(event)" style="background: #1a4731 !important; color: #ffffff !important;">
+            @include('admin.partials.icon', ['name' => 'check']) <span id="saveBtnText" style="color: #ffffff !important;">Save Changes</span>
         </button>
     </div>
 </form>
@@ -2670,13 +2834,13 @@
 
     .adm-edit-layout .adm-sticky-save {
         position: sticky;
-        bottom: 0 !important;
-        z-index: 100;
-        margin-top: 16px;
-        margin-bottom: 4px;
-        background: rgba(255, 255, 255, 0.98) !important;
-        border: 1px solid #d4c7b5 !important;
-        box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08) !important;
+        bottom: 14px !important;
+        z-index: 9999;
+        margin-top: 20px;
+        margin-bottom: 8px;
+        background: #ffffff !important;
+        border: 1.5px solid #d4c7b5 !important;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.05) !important;
     }
 
     @media (max-width: 900px) {
@@ -2690,9 +2854,11 @@
         .adm-edit-layout > #pageEditForm { width: 100%; position: static; height: auto; max-height: none; overflow: visible; padding-right: 0; }
     }
 
-    /* Highlights Repeater: Metric Name Dropdown with SVG Icons */
+    /* Highlights & Channels Repeater: Dropdowns with SVG Icons */
     #repeater_highlights_items .adm-repeater-item,
-    #repeater_highlights_items .adm-repeater-body {
+    #repeater_highlights_items .adm-repeater-body,
+    #repeater_channels_items .adm-repeater-item,
+    #repeater_channels_items .adm-repeater-body {
         overflow: visible !important;
     }
     .adm-metric-input-wrap {
@@ -2858,12 +3024,18 @@
 
     // Dynamic viewport height calculation so the bottom save button is always completely visible
     function adjustEditLayoutHeight() {
-        if (window.innerWidth <= 900) return;
+        if (window.innerWidth <= 900) {
+            const form = document.getElementById('pageEditForm');
+            const tabs = document.getElementById('pageSectionTabs');
+            if (form) { form.style.height = 'auto'; form.style.maxHeight = 'none'; }
+            if (tabs) { tabs.style.height = 'auto'; tabs.style.maxHeight = 'none'; }
+            return;
+        }
         const form = document.getElementById('pageEditForm');
         const tabs = document.getElementById('pageSectionTabs');
         if (!form) return;
         const rect = form.getBoundingClientRect();
-        const availableHeight = Math.max(350, Math.floor(window.innerHeight - rect.top - 18));
+        const availableHeight = Math.max(320, Math.floor(window.innerHeight - Math.max(16, rect.top) - 34));
         form.style.height = availableHeight + 'px';
         form.style.maxHeight = availableHeight + 'px';
         if (tabs) {
@@ -3450,6 +3622,112 @@
         }
     }
 
+    /* Contact Channel Presets & Dropdown Handler */
+    const CHANNEL_PRESETS = [
+        {
+            label: 'WhatsApp Us',
+            icon: 'whatsapp',
+            svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>'
+        },
+        {
+            label: 'Direct Call',
+            icon: 'phone',
+            svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>'
+        },
+        {
+            label: 'Email Inquiries',
+            icon: 'email',
+            svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>'
+        },
+        {
+            label: 'Location',
+            icon: 'location',
+            svg: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>'
+        }
+    ];
+
+    function getChannelSvg(text, iconVal) {
+        if (iconVal) {
+            const byIcon = CHANNEL_PRESETS.find(p => p.icon === iconVal);
+            if (byIcon) return byIcon.svg;
+        }
+        const clean = (text || '').toLowerCase().trim();
+        if (!clean) return CHANNEL_PRESETS[1].svg;
+        if (clean.includes('whatsapp') || clean.includes('wa') || clean.includes('chat')) return CHANNEL_PRESETS[0].svg;
+        if (clean.includes('call') || clean.includes('phone') || clean.includes('tel')) return CHANNEL_PRESETS[1].svg;
+        if (clean.includes('email') || clean.includes('mail')) return CHANNEL_PRESETS[2].svg;
+        if (clean.includes('location') || clean.includes('address') || clean.includes('map') || clean.includes('office')) return CHANNEL_PRESETS[3].svg;
+        return CHANNEL_PRESETS[1].svg;
+    }
+
+    function toggleChannelDropdown(btn) {
+        const wrap = btn.closest('.adm-channel-input-wrap');
+        if (!wrap) return;
+        const menu = wrap.querySelector('.adm-channel-menu');
+        if (!menu) return;
+        const wasOpen = menu.classList.contains('show');
+        document.querySelectorAll('.adm-metric-menu.show').forEach(m => m.classList.remove('show'));
+        if (!wasOpen) {
+            menu.classList.add('show');
+        }
+    }
+
+    function selectChannelOption(itemEl, label, iconType) {
+        const wrap = itemEl.closest('.adm-channel-input-wrap');
+        if (!wrap) return;
+        const card = wrap.closest('.adm-repeater-item');
+        const input = wrap.querySelector('.adm-ch-title-input');
+        const prefixIcon = wrap.querySelector('.adm-metric-prefix-icon');
+        const menu = wrap.querySelector('.adm-channel-menu');
+
+        if (input) {
+            input.value = label;
+            updateCardHeading(input);
+        }
+
+        const itemSvg = itemEl.querySelector('svg');
+        if (prefixIcon && itemSvg) {
+            prefixIcon.innerHTML = itemSvg.outerHTML;
+        }
+
+        if (card) {
+            const iconInput = card.querySelector('.adm-ch-icon-input');
+            if (iconInput) {
+                iconInput.value = iconType;
+            }
+        }
+
+        if (menu) {
+            menu.classList.remove('show');
+        }
+    }
+
+    function onChannelInputChange(input) {
+        updateCardHeading(input);
+        const wrap = input.closest('.adm-channel-input-wrap');
+        if (!wrap) return;
+        const card = wrap.closest('.adm-repeater-item');
+        const prefixIcon = wrap.querySelector('.adm-metric-prefix-icon');
+        const val = (input.value || '').toLowerCase().trim();
+        let detectedIcon = 'phone';
+        if (val.includes('whatsapp') || val.includes('wa') || val.includes('chat')) {
+            detectedIcon = 'whatsapp';
+        } else if (val.includes('call') || val.includes('phone') || val.includes('tel')) {
+            detectedIcon = 'phone';
+        } else if (val.includes('email') || val.includes('mail')) {
+            detectedIcon = 'email';
+        } else if (val.includes('location') || val.includes('address') || val.includes('map') || val.includes('office')) {
+            detectedIcon = 'location';
+        }
+        if (prefixIcon) {
+            prefixIcon.innerHTML = getChannelSvg(val, detectedIcon);
+        }
+        if (card) {
+            const iconInput = card.querySelector('.adm-ch-icon-input');
+            if (iconInput) iconInput.value = detectedIcon;
+        }
+    }
+
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.adm-metric-input-wrap')) {
             document.querySelectorAll('.adm-metric-menu.show').forEach(m => m.classList.remove('show'));
@@ -4006,6 +4284,14 @@
         card.id = `channel_item_${newId}`;
         card.style.opacity = '0';
         card.style.transform = 'translateY(-10px)';
+
+        const menuItemsHtml = CHANNEL_PRESETS.map(p => `
+            <div class="adm-metric-menu-item" onclick="selectChannelOption(this, '${p.label}', '${p.icon}')">
+                <span class="adm-metric-menu-item-icon">${p.svg}</span>
+                <span class="adm-metric-menu-item-label">${p.label}</span>
+            </div>
+        `).join('');
+
         card.innerHTML = `
             <div class="adm-repeater-head">
                 <div class="adm-repeater-title-wrap">
@@ -4013,7 +4299,7 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20V4m0 0L3 8m4-4l4 4"/><path d="M17 4v16m0 0l4-4m-4 4l-4-4"/></svg>
                     </div>
                     <span class="adm-repeater-badge">#${currentCount}</span>
-                    <strong class="adm-repeater-heading-text">New Channel</strong>
+                    <strong class="adm-repeater-heading-text">WhatsApp Us</strong>
                 </div>
                 <div class="adm-repeater-actions-head">
                     <button type="button" class="adm-btn-collapse" onclick="toggleCardCollapse(this)" title="Toggle Collapse"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></button>
@@ -4023,29 +4309,40 @@
                 </div>
             </div>
             <div class="adm-repeater-body">
-                <div class="adm-grid-2-col">
-                    <div class="adm-field">
-                        <label class="adm-label">Channel Title</label>
-                        <input type="text" name="sections[channels][items][${newId}][title]" value="New Channel" class="adm-input"  oninput="updateCardHeading(this)">
-                    </div>
-                    <div class="adm-field">
-                        <label class="adm-label">Icon (whatsapp / phone / email / location)</label>
-                        <input type="text" name="sections[channels][items][${newId}][icon]" value="phone" class="adm-input">
+                <input type="hidden" class="adm-ch-icon-input" name="sections[channels][items][${newId}][icon]" value="whatsapp">
+                <div class="adm-field">
+                    <label class="adm-label">Channel Title</label>
+                    <div class="adm-metric-input-wrap adm-channel-input-wrap">
+                        <div class="adm-metric-input-group">
+                            <span class="adm-metric-prefix-icon" title="Channel Icon">
+                                ${CHANNEL_PRESETS[0].svg}
+                            </span>
+                            <input type="text" name="sections[channels][items][${newId}][title]" value="WhatsApp Us" class="adm-input adm-metric-input adm-ch-title-input" oninput="onChannelInputChange(this)" placeholder="e.g. WhatsApp Us, Direct Call...">
+                            <button type="button" class="adm-metric-dropdown-btn" onclick="toggleChannelDropdown(this)" title="Choose Contact Channel">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="adm-metric-menu adm-channel-menu">
+                            <div class="adm-metric-menu-header">Select Contact Channel</div>
+                            ${menuItemsHtml}
+                        </div>
                     </div>
                 </div>
                 <div class="adm-grid-2-col">
                     <div class="adm-field">
                         <label class="adm-label">Info / Phone / Address</label>
-                        <input type="text" name="sections[channels][items][${newId}][info]" value="+971 50 000 0000" class="adm-input">
+                        <input type="text" name="sections[channels][items][${newId}][info]" value="+971 50 000 0000" class="adm-input" placeholder="+971 50 000 0000">
                     </div>
                     <div class="adm-field">
                         <label class="adm-label">Action Text</label>
-                        <input type="text" name="sections[channels][items][${newId}][action]" value="Call Us →" class="adm-input">
+                        <input type="text" name="sections[channels][items][${newId}][action]" value="Connect on WhatsApp →" class="adm-input" placeholder="Connect on WhatsApp →">
                     </div>
                 </div>
                 <div class="adm-field" style="margin-bottom:0;">
                     <label class="adm-label">URL / Link (wa.me / tel: / mailto: / blank)</label>
-                    <input type="text" name="sections[channels][items][${newId}][url]" value="tel:+971500000000" class="adm-input">
+                    <input type="text" name="sections[channels][items][${newId}][url]" value="https://wa.me/971500000000" class="adm-input" placeholder="https://wa.me/971500000000">
                 </div>
             </div>
         `;
@@ -4054,7 +4351,7 @@
         setTimeout(() => {
             card.style.opacity = '1';
             card.style.transform = 'none';
-            const input = card.querySelector('input');
+            const input = card.querySelector('input.adm-ch-title-input');
             if (input) input.focus();
             card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 50);
@@ -4567,8 +4864,450 @@
         `;
         container.appendChild(card);
         const count = document.getElementById('overviewCount');
-        if (count) count.textContent = container.children.length;
     }
+
+    // Status Dropdown Functions
+    function toggleStatusDropdown(menuId) {
+        const menu = document.getElementById(menuId);
+        if (!menu) return;
+        const isShown = menu.style.display === 'block';
+        document.querySelectorAll('.adm-status-menu').forEach(m => m.style.display = 'none');
+        menu.style.display = isShown ? 'none' : 'block';
+    }
+
+    function selectFormStatus(statusVal, label, bg, border, color, dotColor, inputId, btnId, labelId, menuId) {
+        const hiddenInput = document.getElementById(inputId);
+        if (hiddenInput) hiddenInput.value = statusVal;
+
+        const btn = document.getElementById(btnId);
+        if (btn) {
+            btn.style.background = bg;
+            btn.style.borderColor = border;
+            btn.style.color = color;
+            const dot = btn.querySelector('.status-dot');
+            if (dot) dot.style.background = dotColor;
+        }
+
+        const lbl = document.getElementById(labelId);
+        if (lbl) lbl.textContent = label;
+
+        const menu = document.getElementById(menuId);
+        if (menu) menu.style.display = 'none';
+    }
+
+    // Close status menus on outside click
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.adm-status-dropdown-wrap')) {
+            document.querySelectorAll('.adm-status-menu').forEach(m => m.style.display = 'none');
+        }
+    });
+
+    /* ==========================================================================
+       DRAG & DROP CARD BADGES / ATTRIBUTES MANAGER FOR GENERAL SETTINGS
+       ========================================================================== */
+    function previewCardImg(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = document.getElementById('card_preview_img');
+                if (img) img.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    const ALL_CARD_ATTRIBUTES = ['New', 'Offer', 'Off plan', 'Ready'];
+    const ATTR_STYLES = {
+        'New':      { bg: '#ecfdf5', border: '#a7f3d0', text: '#065f46', activeBg: '#059669' },
+        'Offer':    { bg: '#fffbeb', border: '#fde68a', text: '#92400e', activeBg: '#d97706' },
+        'Off plan': { bg: '#f1f5f9', border: '#cbd5e1', text: '#334155', activeBg: '#1a4731' },
+        'Ready':    { bg: '#eff6ff', border: '#bfdbfe', text: '#1e40af', activeBg: '#2563eb' }
+    };
+
+    class BadgeManager {
+        constructor(prefix, initialSelected = []) {
+            this.prefix = prefix;
+            this.selectedBox = document.getElementById(prefix + '_selected_badges');
+            this.availableBox = document.getElementById(prefix + '_available_badges');
+            this.hiddenInput = document.getElementById(prefix + '_badges_input');
+            this.selected = Array.isArray(initialSelected) ? [...initialSelected] : [];
+            this.render();
+        }
+
+        setSelected(items) {
+            this.selected = Array.isArray(items) ? [...items] : [];
+            this.render();
+        }
+
+        add(attr) {
+            if (!this.selected.includes(attr)) {
+                this.selected.push(attr);
+                this.render();
+            }
+        }
+
+        remove(attr) {
+            this.selected = this.selected.filter(x => x !== attr);
+            this.render();
+        }
+
+        render() {
+            if (this.hiddenInput) {
+                this.hiddenInput.value = JSON.stringify(this.selected);
+            }
+
+            if (this.selectedBox) {
+                this.selectedBox.innerHTML = '';
+                if (this.selected.length === 0) {
+                    this.selectedBox.innerHTML = `
+                        <span class="badge-empty-hint" style="color: #94a3b8; font-size: 12.5px; font-style: italic; pointer-events: none; user-select: none;">
+                            Drag attributes here from Box 2 below (or click them) to display on this card
+                        </span>
+                    `;
+                } else {
+                    this.selected.forEach(attr => {
+                        const style = ATTR_STYLES[attr] || { bg: '#f1f5f9', border: '#cbd5e1', text: '#334155', activeBg: '#1a4731' };
+                        const pill = document.createElement('div');
+                        pill.className = 'badge-drag-pill badge-pill-selected';
+                        pill.draggable = true;
+                        pill.dataset.attr = attr;
+                        pill.style.cssText = `
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 6px;
+                            background: ${style.activeBg};
+                            color: #ffffff;
+                            font-size: 12px;
+                            font-weight: 700;
+                            padding: 6px 12px;
+                            border-radius: 999px;
+                            cursor: grab;
+                            user-select: none;
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+                            transition: transform 0.15s ease;
+                        `;
+                        pill.innerHTML = `
+                            <span style="display:inline-flex; align-items:center; opacity:0.8;">::</span>
+                            <span>${attr}</span>
+                            <span style="display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:rgba(255,255,255,0.25); cursor:pointer; font-size:11px; margin-left:2px;" title="Remove attribute" onclick="event.stopPropagation(); window.pageBadgeManager?.remove('${attr}')">&times;</span>
+                        `;
+                        pill.addEventListener('dragstart', (e) => handleBadgeDragStart(e, attr, 'selected'));
+                        pill.addEventListener('dragend', handleBadgeDragEnd);
+                        this.selectedBox.appendChild(pill);
+                    });
+                }
+            }
+
+            if (this.availableBox) {
+                this.availableBox.innerHTML = '';
+                const available = ALL_CARD_ATTRIBUTES.filter(x => !this.selected.includes(x));
+                if (available.length === 0) {
+                    this.availableBox.innerHTML = `
+                        <span style="color: #94a3b8; font-size: 12px; font-style: italic;">
+                            All attributes assigned to this card! Drag any back from Box 1 to remove.
+                        </span>
+                    `;
+                } else {
+                    available.forEach(attr => {
+                        const style = ATTR_STYLES[attr] || { bg: '#f1f5f9', border: '#cbd5e1', text: '#334155' };
+                        const pill = document.createElement('div');
+                        pill.className = 'badge-drag-pill badge-pill-available';
+                        pill.draggable = true;
+                        pill.dataset.attr = attr;
+                        pill.style.cssText = `
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 6px;
+                            background: ${style.bg};
+                            border: 1px dashed ${style.border};
+                            color: ${style.text};
+                            font-size: 12px;
+                            font-weight: 700;
+                            padding: 6px 14px;
+                            border-radius: 999px;
+                            cursor: grab;
+                            user-select: none;
+                            transition: all 0.15s ease;
+                        `;
+                        pill.innerHTML = `
+                            <span style="display:inline-flex; align-items:center; opacity:0.6;">::</span>
+                            <span>${attr}</span>
+                            <span style="font-size:13px; font-weight:800; opacity:0.75; margin-left:2px;">+</span>
+                        `;
+                        pill.title = 'Click or drag into Box 1';
+                        pill.addEventListener('click', () => this.add(attr));
+                        pill.addEventListener('dragstart', (e) => handleBadgeDragStart(e, attr, 'available'));
+                        pill.addEventListener('dragend', handleBadgeDragEnd);
+                        this.availableBox.appendChild(pill);
+                    });
+                }
+            }
+        }
+    }
+
+    let draggedBadgeAttr = null;
+    let draggedBadgeSource = null;
+
+    function handleBadgeDragStart(e, attr, source) {
+        draggedBadgeAttr = attr;
+        draggedBadgeSource = source;
+        e.dataTransfer.setData('text/plain', attr);
+        e.dataTransfer.effectAllowed = 'move';
+        e.target.style.opacity = '0.4';
+    }
+
+    function handleBadgeDragEnd(e) {
+        e.target.style.opacity = '1';
+        document.querySelectorAll('.badge-drag-box').forEach(b => {
+            b.style.borderColor = '';
+            b.style.background = '';
+        });
+    }
+
+    function handleBadgeDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        const box = e.currentTarget;
+        box.style.borderColor = '#10b981';
+        box.style.background = '#f0fdf4';
+    }
+
+    function handleBadgeDragLeave(e) {
+        const box = e.currentTarget;
+        box.style.borderColor = '';
+        box.style.background = '';
+    }
+
+    function handleBadgeDrop(e, prefix, targetBox) {
+        e.preventDefault();
+        const box = e.currentTarget;
+        box.style.borderColor = '';
+        box.style.background = '';
+
+        const attr = draggedBadgeAttr || e.dataTransfer.getData('text/plain');
+        if (!attr) return;
+
+        const manager = window.pageBadgeManager;
+        if (!manager) return;
+
+        if (targetBox === 'selected') {
+            manager.add(attr);
+        } else if (targetBox === 'available') {
+            manager.remove(attr);
+        }
+
+        draggedBadgeAttr = null;
+        draggedBadgeSource = null;
+    }
+
+    // Dual Box Property Cards Drag & Drop Logic for Pages
+    let draggedDualCard = null;
+
+    function dragCardStart(e) {
+        draggedDualCard = e.currentTarget;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', e.currentTarget.getAttribute('data-id'));
+        setTimeout(() => { if (draggedDualCard) draggedDualCard.style.opacity = '0.4'; }, 0);
+    }
+
+    function dragCardEnd(e) {
+        if (e.currentTarget) {
+            e.currentTarget.style.opacity = '1';
+        }
+        draggedDualCard = null;
+    }
+
+    function allowDropCard(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    }
+
+    function dropCardToSelected(e) {
+        e.preventDefault();
+        const card = draggedDualCard;
+        if (!card) return;
+
+        const box2 = document.getElementById('box2_selectedCards');
+        if (!box2) return;
+
+        const targetCard = e.target.closest('.dual-project-card');
+        if (targetCard && targetCard.parentNode === box2 && targetCard !== card) {
+            box2.insertBefore(card, targetCard);
+        } else {
+            box2.appendChild(card);
+        }
+
+        const id = card.getAttribute('data-id');
+        setCardToSelectedStyle(card, id);
+        updateDualBoxState();
+    }
+
+    function dropCardToAvailable(e) {
+        e.preventDefault();
+        const card = draggedDualCard;
+        if (!card) return;
+
+        const box1 = document.getElementById('box1_availableCards');
+        if (!box1) return;
+
+        box1.appendChild(card);
+        const id = card.getAttribute('data-id');
+        setCardToAvailableStyle(card, id);
+        updateDualBoxState();
+    }
+
+    function moveCardToSelected(id) {
+        const card = document.getElementById('proj_card_' + id);
+        const box2 = document.getElementById('box2_selectedCards');
+        if (!card || !box2) return;
+
+        box2.appendChild(card);
+        setCardToSelectedStyle(card, id);
+        updateDualBoxState();
+    }
+
+    function moveCardToAvailable(id) {
+        const card = document.getElementById('proj_card_' + id);
+        const box1 = document.getElementById('box1_availableCards');
+        if (!card || !box1) return;
+
+        box1.appendChild(card);
+        setCardToAvailableStyle(card, id);
+        updateDualBoxState();
+    }
+
+    function clearAllSelectedCards() {
+        const box1 = document.getElementById('box1_availableCards');
+        const box2 = document.getElementById('box2_selectedCards');
+        if (!box1 || !box2) return;
+
+        const cards = Array.from(box2.querySelectorAll('.dual-project-card'));
+        cards.forEach(card => {
+            box1.appendChild(card);
+            const id = card.getAttribute('data-id');
+            setCardToAvailableStyle(card, id);
+        });
+        updateDualBoxState();
+    }
+
+    function selectAllProjects() {
+        const box1 = document.getElementById('box1_availableCards');
+        const box2 = document.getElementById('box2_selectedCards');
+        if (!box1 || !box2) return;
+
+        const cards = Array.from(box1.querySelectorAll('.dual-project-card'));
+        cards.forEach(card => {
+            box2.appendChild(card);
+            const id = card.getAttribute('data-id');
+            setCardToSelectedStyle(card, id);
+        });
+        updateDualBoxState();
+    }
+
+    function setCardToSelectedStyle(card, id) {
+        card.style.background = '#f0fdf4';
+        card.style.borderColor = '#86efac';
+        const actionBtn = card.querySelector('button');
+        if (actionBtn) {
+            actionBtn.setAttribute('onclick', `moveCardToAvailable(${id})`);
+            actionBtn.setAttribute('title', 'Remove from page');
+            actionBtn.style.background = '#fef2f2';
+            actionBtn.style.borderColor = '#fecaca';
+            actionBtn.style.color = '#dc2626';
+            actionBtn.innerHTML = '✕ Remove';
+        }
+    }
+
+    function setCardToAvailableStyle(card, id) {
+        card.style.background = '#ffffff';
+        card.style.borderColor = '#e2e8f0';
+        const actionBtn = card.querySelector('button');
+        if (actionBtn) {
+            actionBtn.setAttribute('onclick', `moveCardToSelected(${id})`);
+            actionBtn.setAttribute('title', 'Add to page');
+            actionBtn.style.background = '#f0fdf4';
+            actionBtn.style.borderColor = '#bbf7d0';
+            actionBtn.style.color = '#15803d';
+            actionBtn.innerHTML = '+ Add';
+        }
+    }
+
+    function updateDualBoxState() {
+        const box1 = document.getElementById('box1_availableCards');
+        const box2 = document.getElementById('box2_selectedCards');
+        const availCountSpan = document.getElementById('availableCount');
+        const selCountSpan = document.getElementById('selectedCount');
+        const emptyState = document.getElementById('selectedCardsEmptyState');
+        const selInputsContainer = document.getElementById('selectedCardsInputsContainer');
+        const unselInputsContainer = document.getElementById('unselectedCardsInputsContainer');
+
+        if (!box1 || !box2) return;
+
+        const availCards = box1.querySelectorAll('.dual-project-card');
+        const selCards = box2.querySelectorAll('.dual-project-card');
+
+        if (availCountSpan) availCountSpan.textContent = availCards.length;
+        if (selCountSpan) selCountSpan.textContent = selCards.length;
+
+        if (emptyState) {
+            emptyState.style.display = selCards.length === 0 ? 'block' : 'none';
+        }
+
+        if (selInputsContainer) {
+            selInputsContainer.innerHTML = '<input type="hidden" name="dual_boxes_submitted" value="1">';
+            selCards.forEach(card => {
+                const id = card.getAttribute('data-id');
+                if (id) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'selected_project_ids[]';
+                    input.value = id;
+                    selInputsContainer.appendChild(input);
+
+                    const secInput = document.createElement('input');
+                    secInput.type = 'hidden';
+                    secInput.name = 'sections[communities][selected_ids][]';
+                    secInput.value = id;
+                    selInputsContainer.appendChild(secInput);
+                }
+            });
+        }
+
+        if (unselInputsContainer) {
+            unselInputsContainer.innerHTML = '';
+            availCards.forEach(card => {
+                const id = card.getAttribute('data-id');
+                if (id) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'unselected_project_ids[]';
+                    input.value = id;
+                    unselInputsContainer.appendChild(input);
+
+                    const secInput = document.createElement('input');
+                    secInput.type = 'hidden';
+                    secInput.name = 'sections[communities][unselected_ids][]';
+                    secInput.value = id;
+                    unselInputsContainer.appendChild(secInput);
+                }
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        updateDualBoxState();
+
+        if (document.getElementById('page_selected_badges')) {
+            let initialBadges = [];
+            try {
+                const raw = document.getElementById('page_badges_input')?.value || '[]';
+                initialBadges = JSON.parse(raw);
+            } catch(e) {
+                initialBadges = [];
+            }
+            window.pageBadgeManager = new BadgeManager('page', initialBadges);
+        }
+    });
 </script>
 @endpush
 @endsection

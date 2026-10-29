@@ -43,10 +43,10 @@ class PageBlueprintService
                 'icon' => 'spark',
                 'default_order' => 5,
             ],
-            'floor_plans' => [
-                'name' => 'Floor Plans & Layouts',
-                'description' => 'Tabbed floor plans by unit types (Apartments, Villas, Mansions) with floor specs',
-                'icon' => 'grid',
+            'content' => [
+                'name' => 'Content',
+                'description' => 'Single visual WYSIWYG editor containing complete page article, H1/H2/H3 headings, paragraphs, and embedded photos',
+                'icon' => 'edit',
                 'default_order' => 6,
             ],
             'payment_plan' => [
@@ -55,16 +55,22 @@ class PageBlueprintService
                 'icon' => 'trend',
                 'default_order' => 7,
             ],
-            'faq' => [
-                'name' => 'FAQ Accordion',
-                'description' => 'Interactive accordion with frequently asked questions & rich answers',
-                'icon' => 'list',
-                'default_order' => 9,
-            ],
             'master_plan' => [
                 'name' => 'Master Plan',
                 'description' => 'Community master plan visualization diagram & descriptive features',
                 'icon' => 'globe',
+                'default_order' => 8,
+            ],
+            'location' => [
+                'name' => 'Location & Connectivity',
+                'description' => 'Key destination drive times, strategic access & connectivity overview',
+                'icon' => 'globe',
+                'default_order' => 9,
+            ],
+            'faq' => [
+                'name' => 'FAQ Accordion',
+                'description' => 'Interactive accordion with frequently asked questions & rich answers',
+                'icon' => 'list',
                 'default_order' => 10,
             ],
             'contact' => [
@@ -73,10 +79,10 @@ class PageBlueprintService
                 'icon' => 'mail',
                 'default_order' => 11,
             ],
-            'location' => [
-                'name' => 'Location & Connectivity',
-                'description' => 'Key Abu Dhabi destination drive times (Airport, Downtown, Louvre, Grand Mosque)',
-                'icon' => 'globe',
+            'floor_plans' => [
+                'name' => 'Floor Plans & Layouts',
+                'description' => 'Tabbed floor plans by unit types (Apartments, Villas, Mansions) with floor specs',
+                'icon' => 'grid',
                 'default_order' => 12,
             ],
             'toc' => [
@@ -85,17 +91,11 @@ class PageBlueprintService
                 'icon' => 'list',
                 'default_order' => 13,
             ],
-            'content' => [
-                'name' => 'Content',
-                'description' => 'Single visual WYSIWYG editor containing complete page article, H1/H2/H3 headings, paragraphs, and embedded photos',
-                'icon' => 'edit',
-                'default_order' => 3,
-            ],
             'communities' => [
                 'name' => 'Community / Project Cards',
                 'description' => 'Featured residential projects grid with dynamic project page attachment and custom cards',
                 'icon' => 'grid',
-                'default_order' => 5,
+                'default_order' => 14,
             ],
         ];
     }
@@ -108,16 +108,15 @@ class PageBlueprintService
         return [
             'hero',
             'highlights',
-            'content',
             'about',
             'amenities',
             'gallery',
-            'floor_plans',
+            'content',
             'payment_plan',
-            'faq',
             'master_plan',
-            'contact',
             'location',
+            'faq',
+            'contact',
         ];
     }
 
@@ -299,8 +298,42 @@ class PageBlueprintService
 
             'content' => [
                 'title' => $cleanTitle . ' Living & Waterfront Sanctuary',
-                'intro' => '<p>' . e($cleanTitle) . ' is a new benchmark for living in the city’s waterfront. The project is a blend of contemporary design and a tranquil coastal setting. Residents enjoy fresh sea breezes and access to major urban destinations.</p><p style="margin-top:1rem">' . e($cleanTitle) . ' is located on the shores of Hudayriyat Island and faces protected mangrove areas. The development offers a lifestyle for professionals, investors, and families inspired by a resort. Furthermore, the area has a peaceful atmosphere, which is away from the noise and hustle of the city center.</p>',
-                'html' => '<p>The project is a blend of luxury, convenience, and investment value. Hence, buyers can purchase a high-value waterfront property in one of the upcoming coastal areas of Abu Dhabi.</p><h3>World-Class Architecture & Design</h3><p>Designed with meticulous attention to detail, each home offers spacious open-concept living, floor-to-ceiling windows, and private outdoor areas.</p>',
+                'intro' => '<p class="saimaIntroP">' . e($cleanTitle) . ' is a premier benchmark for luxury waterfront living, seamlessly blending contemporary architectural elegance with a tranquil coastal sanctuary. Residents enjoy fresh sea breezes, private beach access, and immediate connectivity to key metropolitan hubs.</p><p class="saimaIntroP" style="margin-top:1rem">Located along prestigious shoreline corridors, the community offers an inspired lifestyle for professionals, investors, and families seeking refined island elegance away from urban congestion.</p><p class="saimaIntroP" style="margin-top:1rem">Every residence offers a harmonious blend of sophistication, security, and long-term capital appreciation, presenting an extraordinary investment opportunity in one of the most coveted coastal addresses.</p>',
+                'html' => '<h2 id="about-the-developers">About the Developers</h2>
+<p>Crafted by premier developers renowned for shaping iconic waterfront communities across the region for decades. Buyers and international investors benefit from a celebrated track record of timely delivery, construction excellence, and sustainable urban design.</p>
+<p>Working alongside leading international architectural consultants and market advisory firms, every aspect of the project is engineered to global standards of prestige and durability.</p>
+
+<h2 id="project-approvals-noc">Approvals &amp; Clearances</h2>
+<p>The project holds full regulatory clearance and title approvals from all relevant municipal and developmental authorities. Complying strictly with environmental and structural guidelines, purchasers can invest with absolute peace of mind and secure freehold ownership.</p>
+
+<h2 id="prime-location-connectivity">Prime Location &amp; Seamless Connectivity</h2>
+<p>Set within a scenic coastal landscape, the project offers rapid access to international airports, commercial business districts, premier private schools, and luxury retail destinations.</p>
+<p><img src="/TOC1.png" alt="Strategic Location &amp; Connectivity Map" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); width: 100%; margin: 15px 0;"></p>
+<p>Surrounded by protected green reserves and pristine waters, residents wake up to panoramic coastal vistas and unpolluted air throughout the year.</p>
+
+<h2 id="architectural-excellence-floor-plans">Architectural Excellence &amp; Floor Plans</h2>
+<p>The layouts focus on space efficiency, panoramic natural lighting, and seamless indoor-outdoor living with spacious private terraces and balconies.</p>
+
+<h3 id="contemporary-luxury-layouts">Curated Residences &amp; Layout Types</h3>
+<p><img src="/TOC2.png" alt="Luxury Layout Plan - Type C" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
+<p>Featuring open-plan living rooms, floor-to-ceiling double-glazed windows, designer show kitchens, and lavish en-suite master bedrooms designed for modern family living.</p>
+
+<p><img src="/TOC3.png" alt="Executive Layout Plan - Type B" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
+<p>Expansive terraces provide seamless entertaining spaces overlooking lush landscaped courtyards and the sparkling coastline.</p>
+
+<p><img src="/TOC4.png" alt="Presidential Villa Layout Plan - Type A" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
+<p>Generous multi-level accommodations including private elevators, maid\'s quarters, private swimming pools, and dedicated family lounges.</p>
+
+<h2 id="master-plan-community-lifestyle">Master Plan &amp; Community Lifestyle</h2>
+<p>The community master plan establishes a secure, private, and walkable residential haven. Dedicated subterranean parking ensures pedestrian safety across surface walkways, cycling trails, and waterfront boardwalks.</p>
+<p><img src="/TOC8.png" alt="Community Master Plan Overview" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
+
+<h2 id="flexible-payment-plan">Flexible Investment &amp; Payment Plan</h2>
+<p>A buyer-friendly, construction-linked payment structure is offered with flexible milestones, making property acquisition straightforward and stress-free.</p>
+<p><img src="/TOC12.png" alt="Milestone Payment Structure" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
+
+<h2 id="world-class-amenities">World-Class Facilities &amp; Amenities</h2>
+<p>Enjoy infinity swimming pools, state-of-the-art fitness centres, private beach cabanas, children\'s play areas, multi-sport courts, and fine-dining waterfront restaurants just steps from your front door.</p>',
                 'appt_title' => 'BOOK AN APPOINTMENT',
             ],
 

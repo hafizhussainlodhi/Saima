@@ -1,15 +1,4 @@
 @php
-$defaultLocations = [
-    ['name' => 'Al Bateen', 'distance' => '5 minutes by car'],
-    ['name' => 'Saadiyat Island', 'distance' => '15 minutes by car'],
-    ['name' => 'Abu Dhabi City Centre', 'distance' => '10 minutes by car'],
-    ['name' => 'Qasr Al Watan & Emirates Palace', 'distance' => '12 minutes by car'],
-];
-$dbLocations = page_section('overview_location', 'locations', null);
-if (!is_array($dbLocations) || empty($dbLocations)) {
-    $dbLocations = $defaultLocations;
-}
-
 $dbImage = page_section('overview_location', 'image', '/images/hudayriyat-overview.jpg');
 if ($dbImage && !str_starts_with($dbImage, 'http') && !str_starts_with($dbImage, '/')) {
     $dbImage = asset($dbImage);
@@ -28,11 +17,15 @@ $dbParagraphs = page_section('overview_location', 'paragraphs', "Hudayriyat Isla
                 </h2>
 
                 <div class="locParagraphs">
-                    @foreach(preg_split("/\r\n\r\n|\n\n/", (string)$dbParagraphs) as $para)
-                        @if(trim($para))
-                            <p>{{ trim($para) }}</p>
-                        @endif
-                    @endforeach
+                    @if(preg_match('/<[a-z][\s\S]*>/i', (string)$dbParagraphs))
+                        {!! $dbParagraphs !!}
+                    @else
+                        @foreach(preg_split("/\r\n\r\n|\n\n/", (string)$dbParagraphs) as $para)
+                            @if(trim($para))
+                                <p>{{ trim($para) }}</p>
+                            @endif
+                        @endforeach
+                    @endif
                 </div>
             </div>
 
@@ -42,16 +35,6 @@ $dbParagraphs = page_section('overview_location', 'paragraphs', "Hudayriyat Isla
                     <img src="{{ $dbImage }}" alt="{{ page_section('overview_location', 'image_alt', 'Hudayriyat Island Overview and Luxury Villas') }}" width="800" height="535" class="locOverviewImage">
                 </div>
             </div>
-        </div>
-
-        <!-- Bottom Row: Location Highlights Grid -->
-        <div class="locLocationBar">
-            @foreach($dbLocations as $item)
-                <div class="locLocationCard">
-                    <h3 class="locLocationTitle">{{ $item['name'] ?? '' }}</h3>
-                    <p class="locLocationSub">{{ $item['distance'] ?? '' }}</p>
-                </div>
-            @endforeach
         </div>
     </div>
 </section>

@@ -21,6 +21,7 @@ class Page extends Model
         'meta_description',
         'meta_keywords',
         'og_image',
+        'status',
     ];
 
     protected $casts = [
@@ -34,7 +35,7 @@ class Page extends Model
      */
     public static function projectSlugs(): array
     {
-        return [
+        $static = [
             'wadeem-gardens',
             'hudayriyat-golf-estates',
             'bashayer-residences',
@@ -46,6 +47,13 @@ class Page extends Model
             'wadeem-plots',
             'nawayef-park-views',
         ];
+
+        try {
+            $dbSlugs = Project::pluck('slug')->filter()->all();
+            return array_values(array_unique(array_merge($static, $dbSlugs)));
+        } catch (\Throwable $e) {
+            return $static;
+        }
     }
 
     public function sections()
@@ -117,6 +125,7 @@ class Page extends Model
             try {
                 return static::where('in_navbar', true)
                     ->where('is_published', true)
+                    ->where('status', '!=', 'draft')
                     ->orderBy('navbar_order', 'asc')
                     ->get();
             } catch (\Throwable $e) {

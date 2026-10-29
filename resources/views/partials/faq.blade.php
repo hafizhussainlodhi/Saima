@@ -43,12 +43,23 @@ $faqs = [
 ];
 
 $pageSlug = isset($page) && $page instanceof \App\Models\Page ? $page->slug : null;
-$dbFaqs = page_section('faq', 'items', null, $pageSlug);
-if (!is_array($dbFaqs) || empty($dbFaqs)) {
+$rawFaqs = page_section('faq', 'items', null, $pageSlug);
+$dbFaqs = [];
+
+if (is_array($rawFaqs)) {
+    foreach ($rawFaqs as $f) {
+        $q = trim((string)($f['question'] ?? ($f['q'] ?? '')));
+        $a = trim((string)($f['answer'] ?? ($f['a'] ?? '')));
+        if ($q !== '' || $a !== '') {
+            $dbFaqs[] = ['q' => $q, 'a' => $a];
+        }
+    }
+} elseif ($rawFaqs === null) {
     $dbFaqs = $faqs;
 }
 @endphp
 
+@if(!empty($dbFaqs))
 <section id="faq" aria-label="Frequently Asked Questions about Hudayriyat Island" class="faqSection">
     <div class="container">
         <div class="section-header">
@@ -57,7 +68,7 @@ if (!is_array($dbFaqs) || empty($dbFaqs)) {
                 $faqSub = page_section('faq', 'subtitle', page_section('faq', 'description', '', $pageSlug), $pageSlug);
             @endphp
             @if(!empty(trim((string)$faqSub)))
-                <p>{{ $faqSub }}</p>
+                {!! str_contains($faqSub, '<p') ? $faqSub : '<p>' . e($faqSub) . '</p>' !!}
             @endif
         </div>
 
@@ -65,7 +76,7 @@ if (!is_array($dbFaqs) || empty($dbFaqs)) {
             <div class="faqList">
                 @foreach($dbFaqs as $index => $faq)
                     <div class="faqItem {{ $index === 0 ? 'faqItemOpen' : '' }}" id="faqItem-{{ $index }}">
-                        <button type="button" class="faqQuestion" onclick="toggleFaq({{ $index }})" aria-expanded="{{ $index === 0 ? 'true' : 'false' }}">
+                        <button type="button" class="faqQuestion" onclick="toggleFaq({{ $index }}, event)" aria-expanded="{{ $index === 0 ? 'true' : 'false' }}">
                             <span>{{ $faq['q'] ?? $faq['question'] ?? '' }}</span>
                             <span class="faqIcon">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -83,13 +94,22 @@ if (!is_array($dbFaqs) || empty($dbFaqs)) {
         </div>
     </div>
 </section>
+@endif
 
 <script>
-    function toggleFaq(index) {
+    function toggleFaq(index, e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         const item = document.getElementById('faqItem-' + index);
         const answer = document.getElementById('faqAnswer-' + index);
+        if (!item || !answer) return;
         const btn = item.querySelector('.faqQuestion');
         const isOpen = item.classList.contains('faqItemOpen');
+
+        // Clear any conflicting inline display styles
+        answer.style.removeProperty('display');
 
         if (isOpen) {
             item.classList.remove('faqItemOpen');

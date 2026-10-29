@@ -17,18 +17,27 @@ class PageController extends Controller
     public function index(Request $request)
     {
         $projectSlugs = Page::projectSlugs();
+        $projectPageIds = \App\Models\Project::whereNotNull('page_id')->pluck('page_id')->all();
+        $cityPageIds = \App\Models\City::whereNotNull('page_id')->pluck('page_id')->all();
+        $citySlugs = \App\Models\City::pluck('slug')->all();
+        $commPageIds = \App\Models\Community::whereNotNull('page_id')->pluck('page_id')->all();
+        $commSlugs = \App\Models\Community::pluck('slug')->all();
+
+        $excludedIds = array_merge($projectPageIds, $cityPageIds, $commPageIds);
+        $excludedSlugs = array_merge($projectSlugs, $citySlugs, $commSlugs);
 
         $pages = Page::withCount('sections')
             ->orderBy('id', 'asc')
             ->get();
 
         $totalPagesCount = $pages->count();
-        $projectsCount = Page::whereIn('slug', $projectSlugs)->count();
-        $generalCount = $totalPagesCount - $projectsCount;
+        $generalCount = $pages->reject(fn($p) => in_array($p->slug, $excludedSlugs, true) || in_array($p->id, $excludedIds, true))->count();
+        $projectsCount = $totalPagesCount - $generalCount;
         $globalSections = PageBlueprintService::getGlobalSections();
         $projectPages = Page::whereIn('slug', $projectSlugs)->orderBy('title', 'asc')->get(['id', 'title', 'slug']);
+        $allProjects = \App\Models\Project::with('page')->orderBy('order', 'asc')->get();
 
-        return view('admin.pages.index', compact('pages', 'globalSections', 'generalCount', 'projectsCount', 'totalPagesCount', 'projectPages', 'projectSlugs'));
+        return view('admin.pages.index', compact('pages', 'globalSections', 'generalCount', 'projectsCount', 'totalPagesCount', 'projectPages', 'projectSlugs', 'projectPageIds', 'cityPageIds', 'citySlugs', 'commPageIds', 'commSlugs', 'allProjects'));
     }
 
     /**
@@ -51,6 +60,7 @@ class PageController extends Controller
             'global_sections'  => ['nullable', 'array'],
             'in_navbar'        => ['nullable', 'boolean'],
             'is_published'     => ['nullable', 'boolean'],
+            'status'           => ['nullable', 'string', 'in:publish,draft,sold_out'],
             'has_hero'         => ['nullable'],
             'hero_title'       => ['nullable', 'string', 'max:500'],
             'hero_subtitle'    => ['nullable', 'string', 'max:1000'],
@@ -104,13 +114,20 @@ class PageController extends Controller
             $heroBgImage = $request->input('hero_bg_image');
         }
 
+        $status = $request->input('status', 'publish');
+        if (!in_array($status, ['publish', 'draft', 'sold_out'])) {
+            $status = 'publish';
+        }
+        $isPublished = ($status !== 'draft');
+
         // Create page
         $page = Page::create([
             'title'            => $validated['title'],
             'slug'             => $cleanSlug,
             'in_navbar'        => $request->boolean('in_navbar', false),
             'navbar_order'     => ((int) Page::max('navbar_order')) + 1,
-            'is_published'     => $request->boolean('is_published', true),
+            'status'           => $status,
+            'is_published'     => $request->boolean('is_published', $isPublished),
             'meta_title'       => $validated['title'] . ' | Hudayriyat Island Abu Dhabi',
             'meta_description' => 'Explore ' . $validated['title'] . ' on Hudayriyat Island, Abu Dhabi. Discover freehold residences, pricing, master plan, and world-class amenities.',
             'meta_keywords'    => $validated['title'] . ', Hudayriyat Island, Abu Dhabi villas, Modon Properties',
@@ -309,7 +326,30 @@ class PageController extends Controller
             if ($request->filled('communities_subtitle')) {
                 $commContent['subtitle'] = $request->input('communities_subtitle');
             }
-            if ($request->has('communities_items') && is_array($request->input('communities_items'))) {
+            if ($request->has('selected_project_ids') && is_array($request->input('selected_project_ids'))) {
+                $selectedIds = array_values(array_filter($request->input('selected_project_ids')));
+                $commContent['project_ids'] = $selectedIds;
+
+                $cleanItems = [];
+                foreach ($selectedIds as $pid) {
+                    $proj = \App\Models\Project::with('page')->find($pid);
+                    if ($proj) {
+                        $href = $proj->page ? ($proj->page->slug === '/' ? '/' : '/' . ltrim($proj->page->slug, '/')) : ($proj->slug ? '/' . ltrim($proj->slug, '/') : '#');
+                        $cleanItems[] = [
+                            'id'          => $proj->id,
+                            'name'        => $proj->title,
+                            'location'    => $proj->location ?: 'Hudayriyat Island, Abu Dhabi',
+                            'price'       => $proj->price ?: '',
+                            'delivery'    => $proj->delivery_date ?: '',
+                            'developer'   => $proj->developer ?: 'Modon Properties',
+                            'paymentPlan' => $proj->payment_plan ?: 'Flexible Payment Plan',
+                            'href'        => $href,
+                            'image'       => $proj->image ?: '/images/communities/wadeem-gardens.png',
+                        ];
+                    }
+                }
+                $commContent['items'] = $cleanItems;
+            } elseif ($request->has('communities_items') && is_array($request->input('communities_items'))) {
                 $cleanItems = [];
                 foreach ($request->input('communities_items') as $idx => $raw) {
                     $itemName = trim($raw['name'] ?? '');
@@ -440,22 +480,72 @@ class PageController extends Controller
     {
         $page->load(['sections' => fn($q) => $q->orderBy('order')]);
 
-        // Ensure page has a 'content' section ready
-        $contentSection = $page->sections->firstWhere('section_key', 'content');
-        if (!$contentSection) {
-            $overviewSection = $page->sections->firstWhere('section_key', 'overview');
-            if ($overviewSection) {
-                $overviewSection->update([
-                    'section_key' => 'content',
-                    'section_name' => 'Content',
-                ]);
+        if ($page->slug !== 'about-us' && $page->slug !== 'about_us') {
+            // Ensure page has a 'content' section ready
+            $contentSection = $page->sections->firstWhere('section_key', 'content');
+            if (!$contentSection) {
+                $overviewSection = $page->sections->firstWhere('section_key', 'overview');
+                if ($overviewSection) {
+                    $overviewSection->update([
+                        'section_key' => 'content',
+                        'section_name' => 'Content',
+                    ]);
+                }
             }
         }
 
         $projectSlugs = Page::projectSlugs();
         $projectPages = Page::whereIn('slug', $projectSlugs)->orderBy('title', 'asc')->get(['id', 'title', 'slug']);
+        $linkedProject = \App\Models\Project::where('page_id', $page->id)->orWhere('slug', $page->slug)->first();
 
-        return view('admin.pages.edit', compact('page', 'projectPages'));
+        $allProjects = \App\Models\Project::with('page')->orderBy('order', 'asc')->get();
+
+        $commSection = $page->sections->firstWhere('section_key', 'communities') 
+                    ?? $page->sections->firstWhere('section_key', 'projects');
+        $commContent = $commSection ? ($commSection->content ?? []) : [];
+        $unselectedProjectIds = (array) ($commContent['unselected_ids'] ?? []);
+
+        // By default: every project is selected! Any newly added project has an ID NOT in unselected_ids, so it defaults to selected.
+        if (isset($commContent['unselected_ids'])) {
+            $allIds = $allProjects->pluck('id')->all();
+            $activeSelected = array_values(array_diff($allIds, array_map('intval', $unselectedProjectIds)));
+            
+            if (!empty($commContent['selected_ids']) && is_array($commContent['selected_ids'])) {
+                $ordered = [];
+                foreach ($commContent['selected_ids'] as $sid) {
+                    $sid = (int) $sid;
+                    if (in_array($sid, $activeSelected, true)) {
+                        $ordered[] = $sid;
+                    }
+                }
+                $newIds = [];
+                foreach ($activeSelected as $sid) {
+                    if (!in_array($sid, $ordered, true)) {
+                        $newIds[] = $sid;
+                    }
+                }
+                // Prepend newly added projects at the TOP!
+                $selectedProjectIds = array_merge($newIds, $ordered);
+            } else {
+                $selectedProjectIds = $activeSelected;
+            }
+        } elseif (isset($commContent['selected_ids']) || isset($commContent['project_ids'])) {
+            $rawSelected = (array) ($commContent['selected_ids'] ?? $commContent['project_ids']);
+            $selectedProjectIds = array_values(array_unique(array_map('intval', $rawSelected)));
+            // Also prepend any newly created project that isn't in selectedProjectIds yet at the TOP!
+            $newProjects = [];
+            foreach ($allProjects as $p) {
+                if (!in_array($p->id, $selectedProjectIds, true)) {
+                    $newProjects[] = $p->id;
+                }
+            }
+            $selectedProjectIds = array_merge($newProjects, $selectedProjectIds);
+        } else {
+            // Default: ALL projects are selected!
+            $selectedProjectIds = $allProjects->pluck('id')->all();
+        }
+
+        return view('admin.pages.edit', compact('page', 'projectPages', 'linkedProject', 'projectSlugs', 'allProjects', 'selectedProjectIds'));
     }
 
     /**
@@ -469,6 +559,10 @@ class PageController extends Controller
             'in_navbar'        => ['nullable', 'boolean'],
             'navbar_order'     => ['nullable', 'integer'],
             'is_published'     => ['nullable', 'boolean'],
+            'status'           => ['nullable', 'string', 'in:publish,draft,sold_out'],
+            'location'         => ['nullable', 'string', 'max:255'],
+            'badges'           => ['nullable'],
+            'card_image'       => ['nullable', 'string', 'max:500'],
             'meta_title'       => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:2000'],
             'meta_keywords'    => ['nullable', 'string', 'max:1000'],
@@ -476,17 +570,62 @@ class PageController extends Controller
             'sections'         => ['nullable', 'array'],
         ]);
 
+        $status = $request->input('status', $page->status ?? 'publish');
+        if (!in_array($status, ['publish', 'draft', 'sold_out'])) {
+            $status = 'publish';
+        }
+        $isPublished = $request->has('status') ? ($status !== 'draft') : $request->boolean('is_published');
+
         $page->update([
             'title'            => $validated['title'],
             'slug'             => $validated['slug'],
             'in_navbar'        => $request->boolean('in_navbar'),
             'navbar_order'     => $validated['navbar_order'] ?? 0,
-            'is_published'     => $request->boolean('is_published'),
+            'status'           => $status,
+            'is_published'     => $isPublished,
             'meta_title'       => $validated['meta_title'] ?? null,
             'meta_description' => $validated['meta_description'] ?? null,
             'meta_keywords'    => $validated['meta_keywords'] ?? null,
             'og_image'         => array_key_exists('og_image', $validated) ? $validated['og_image'] : $page->og_image,
         ]);
+
+        // Sync linked project card if exists
+        $linkedProject = \App\Models\Project::where('page_id', $page->id)->orWhere('slug', $page->slug)->first();
+        if ($linkedProject) {
+            $projectUpdates = [
+                'title'     => $validated['title'],
+                'slug'      => $validated['slug'],
+                'status'    => $status,
+                'is_active' => $isPublished,
+            ];
+
+            if ($request->has('location')) {
+                $projectUpdates['location'] = $request->input('location');
+            }
+
+            if ($request->has('badges')) {
+                $bInput = $request->input('badges');
+                if (is_string($bInput)) {
+                    $bInput = json_decode($bInput, true) ?: [];
+                }
+                $projectUpdates['badges'] = is_array($bInput) ? array_values(array_filter(array_map('trim', $bInput))) : [];
+            }
+
+            if ($request->hasFile('card_image_file')) {
+                $file = $request->file('card_image_file');
+                $uploadDir = public_path('images/projects');
+                if (!file_exists($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+                $safeName = time() . '_card_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+                $file->move($uploadDir, $safeName);
+                $projectUpdates['image'] = '/images/projects/' . $safeName;
+            } elseif ($request->filled('card_image')) {
+                $projectUpdates['image'] = $request->input('card_image');
+            }
+
+            $linkedProject->update($projectUpdates);
+        }
 
         // Update Section Contents
         if (!empty($validated['sections'])) {
@@ -657,10 +796,16 @@ class PageController extends Controller
 
                 if (isset($contentData['plan_tabs'])) {
                     if (is_string($contentData['plan_tabs'])) {
-                        $currentContent['plan_tabs'] = array_values(array_filter(array_map('trim', explode(',', $contentData['plan_tabs']))));
+                        $rawTabs = array_values(array_filter(array_map('trim', explode(',', $contentData['plan_tabs']))));
                     } elseif (is_array($contentData['plan_tabs'])) {
-                        $currentContent['plan_tabs'] = array_values(array_filter(array_map('trim', $contentData['plan_tabs'])));
+                        $rawTabs = array_values(array_filter(array_map('trim', $contentData['plan_tabs'])));
+                    } else {
+                        $rawTabs = [];
                     }
+                    $currentContent['plan_tabs'] = array_values(array_filter($rawTabs, function($t) {
+                        $cl = strtolower(trim($t));
+                        return !str_contains($cl, 'without finance') && !str_contains($cl, 'with finance');
+                    }));
                     unset($contentData['plan_tabs']);
                 }
 
@@ -795,8 +940,49 @@ class PageController extends Controller
                     }
                 }
 
+                if ($secKey === 'communities' || $secKey === 'projects') {
+                    $hasDualPicker = $request->has('selected_project_ids') 
+                                  || $request->has('unselected_project_ids') 
+                                  || $request->has('dual_boxes_submitted')
+                                  || isset($contentData['selected_ids']) 
+                                  || isset($contentData['unselected_ids']);
+
+                    if ($hasDualPicker) {
+                        $rawSel = $request->input('selected_project_ids', $contentData['selected_ids'] ?? []);
+                        $rawUnsel = $request->input('unselected_project_ids', $contentData['unselected_ids'] ?? []);
+
+                        $cleanSelected = array_values(array_filter(array_map('intval', (array) $rawSel)));
+                        $cleanUnselected = array_values(array_filter(array_map('intval', (array) $rawUnsel)));
+
+                        // Crucial fix: Any project that is in selected MUST be removed from unselected!
+                        $cleanUnselected = array_values(array_diff($cleanUnselected, $cleanSelected));
+
+                        $currentContent['selected_ids'] = $cleanSelected;
+                        $currentContent['project_ids'] = $cleanSelected;
+                        $currentContent['unselected_ids'] = $cleanUnselected;
+                    }
+                }
+
                 $section->content = $currentContent;
                 $section->save();
+            }
+        }
+
+        // Catch top-level selected/unselected project IDs if submitted outside sections array
+        if ($request->has('selected_project_ids') || $request->has('unselected_project_ids') || $request->has('dual_boxes_submitted')) {
+            $commSection = $page->sections()->whereIn('section_key', ['communities', 'projects'])->first();
+            if ($commSection) {
+                $cData = $commSection->content ?? [];
+                $cleanSelected = array_values(array_filter(array_map('intval', (array) $request->input('selected_project_ids', []))));
+                $cleanUnselected = array_values(array_filter(array_map('intval', (array) $request->input('unselected_project_ids', []))));
+                
+                // Crucial fix: Any project that is in selected MUST be removed from unselected!
+                $cleanUnselected = array_values(array_diff($cleanUnselected, $cleanSelected));
+
+                $cData['selected_ids'] = $cleanSelected;
+                $cData['project_ids'] = $cleanSelected;
+                $cData['unselected_ids'] = $cleanUnselected;
+                $commSection->update(['content' => $cData]);
             }
         }
 
@@ -849,14 +1035,67 @@ class PageController extends Controller
      */
     public function togglePublished(Page $page)
     {
-        $page->update(['is_published' => !$page->is_published]);
+        $page->is_published = !$page->is_published;
+        $page->status = $page->is_published ? 'publish' : 'draft';
+        $page->save();
+
+        $linkedProject = \App\Models\Project::where('page_id', $page->id)->orWhere('slug', $page->slug)->first();
+        if ($linkedProject) {
+            $linkedProject->status = $page->status;
+            $linkedProject->is_active = $page->is_published;
+            $linkedProject->save();
+        }
 
         return back()->with('success', "Publication status for '{$page->title}' updated.");
     }
 
     /**
+     * Update the publication status (publish, draft, sold_out) of a page and linked project card.
+     */
+    public function updateStatus(Request $request, Page $page)
+    {
+        $status = $request->input('status', 'publish');
+        if (!in_array($status, ['publish', 'draft', 'sold_out'])) {
+            $status = 'publish';
+        }
+
+        $page->status = $status;
+        $page->is_published = ($status !== 'draft');
+        $page->save();
+
+        $linkedProject = \App\Models\Project::where('page_id', $page->id)->orWhere('slug', $page->slug)->first();
+        if ($linkedProject) {
+            $linkedProject->status = $status;
+            $linkedProject->is_active = ($status !== 'draft');
+            $linkedProject->save();
+        }
+
+        $label = match($status) {
+            'sold_out' => 'Sold out',
+            'draft'    => 'Draft',
+            default    => 'Publish',
+        };
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'status'  => $status,
+                'label'   => $label,
+                'message' => "Status updated to {$label}"
+            ]);
+        }
+
+        return back()->with('success', "Page '{$page->title}' status updated to {$label}.");
+    }
+
+    /**
      * Automatically inject slug id attributes into all <h2> tags in HTML content
      * so Table of Contents anchors can accurately target and scroll to them.
+     */
+    /**
+     * Clean HTML content to strip default/auto-injected IDs and classes,
+     * ensuring only pure clean tags remain (e.g. <h2> instead of <h2 id="...">,
+     * and <table> instead of <table class="table table-bordered">).
      */
     protected function ensureHeadingIds(string $html): string
     {
@@ -864,42 +1103,21 @@ class PageController extends Controller
             return $html;
         }
 
-        $usedSlugs = [];
+        // Strip default table classes
+        $html = preg_replace('/<table\s+class=["\'](?:table\s+table-bordered|table-bordered\s+table|table|table-bordered)["\']/i', '<table', $html);
 
-        return preg_replace_callback('/<h2([^>]*)>(.*?)<\/h2>/is', function ($matches) use (&$usedSlugs) {
-            $attributes = $matches[1];
-            $innerHtml = $matches[2];
-            $plainText = trim(strip_tags($innerHtml));
-
-            // Check if there is already a non-empty id
-            if (preg_match('/\bid\s*=\s*["\']([^"\']+)["\']/i', $attributes, $idMatch)) {
-                $existingId = Str::slug($idMatch[1]);
-                if (!empty($existingId)) {
-                    $usedSlugs[$existingId] = true;
-                    return preg_replace('/\bid\s*=\s*["\'][^"\']+["\']/i', 'id="' . $existingId . '"', "<h2{$attributes}>{$innerHtml}</h2>");
-                }
-            }
-
-            // Generate clean slug from heading text
-            $baseSlug = Str::slug($plainText);
-            if (empty($baseSlug)) {
-                $baseSlug = 'heading-' . (count($usedSlugs) + 1);
-            }
-
-            $uniqueSlug = $baseSlug;
-            $counter = 1;
-            while (isset($usedSlugs[$uniqueSlug])) {
-                $uniqueSlug = $baseSlug . '-' . (++$counter);
-            }
-            $usedSlugs[$uniqueSlug] = true;
-
-            // If attributes contain an empty id="" or id='', replace it
-            if (preg_match('/\bid\s*=\s*["\'][^"\']*["\']/i', $attributes)) {
-                $cleanAttrs = preg_replace('/\bid\s*=\s*["\'][^"\']*["\']/i', 'id="' . $uniqueSlug . '"', $attributes);
-                return "<h2{$cleanAttrs}>{$innerHtml}</h2>";
-            }
-
-            return "<h2 id=\"{$uniqueSlug}\"{$attributes}>{$innerHtml}</h2>";
+        // Strip auto-generated id attributes from headings (h1 to h6)
+        $html = preg_replace_callback('/<(h[1-6])([^>]*)>/i', function ($m) {
+            $tag = $m[1];
+            $attrs = $m[2];
+            $attrs = preg_replace('/\s*\bid\s*=\s*["\'][^"\']*["\']/i', '', $attrs);
+            $attrs = preg_replace('/\s*\bclass\s*=\s*["\']\s*["\']/i', '', $attrs);
+            return '<' . $tag . $attrs . '>';
         }, $html);
+
+        // Strip empty class="" or id=""
+        $html = preg_replace('/\s*(?:class|id)\s*=\s*["\']\s*["\']/i', '', $html);
+
+        return $html;
     }
 }

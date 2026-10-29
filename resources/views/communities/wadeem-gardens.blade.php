@@ -168,7 +168,9 @@
             <h2 style="font-size: 32px; font-weight: 700; color: #1a1a1a;">{!! page_section('master_plan', 'title', 'Master Plan', 'wadeem-gardens') !!}</h2>
         </div>
         <div style="max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; padding: 15px;">
-            <img src="{{ page_section('master_plan', 'image', '/images/wadeem-gardens/master-plan.png', 'wadeem-gardens') }}" alt="{!! page_section('master_plan', 'title', 'Master Plan', 'wadeem-gardens') !!}" style="max-width: 100%; height: auto; border-radius: 6px;">
+            <div style="width: 100%; aspect-ratio: 16 / 9; max-height: 580px; border-radius: 6px; overflow: hidden; background: #fbfaf8; position: relative;">
+                <img src="{{ page_section('master_plan', 'image', '/images/wadeem-gardens/master-plan.png', 'wadeem-gardens') }}" alt="{!! page_section('master_plan', 'title', 'Master Plan', 'wadeem-gardens') !!}" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; border-radius: 6px;">
+            </div>
         </div>
     </div>
 </section><section class="WadeemLocation-module__QvUhWq__locationSection" id="location">

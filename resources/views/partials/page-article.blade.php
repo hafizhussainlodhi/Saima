@@ -130,6 +130,65 @@
     margin: 24px 0 12px 0;
 }
 
+.saimaArticleContentCol ul,
+.saimaSummernoteExpanded ul {
+    list-style-type: disc !important;
+    list-style-position: outside !important;
+    margin: 16px 0 20px 0 !important;
+    padding-left: 28px !important;
+}
+
+.saimaArticleContentCol ol,
+.saimaSummernoteExpanded ol {
+    list-style-type: decimal !important;
+    list-style-position: outside !important;
+    margin: 16px 0 20px 0 !important;
+    padding-left: 28px !important;
+}
+
+.saimaArticleContentCol li,
+.saimaSummernoteExpanded li {
+    list-style: inherit !important;
+    display: list-item !important;
+    margin-bottom: 10px !important;
+    font-size: 17px !important;
+    line-height: 1.8 !important;
+    color: #111111 !important;
+}
+
+.saimaArticleContentCol p,
+.saimaArticleContentCol li,
+.saimaArticleContentCol ul,
+.saimaArticleContentCol ol,
+.saimaArticleContentCol b,
+.saimaArticleContentCol strong,
+.saimaArticleContentCol i,
+.saimaArticleContentCol em,
+.saimaArticleContentCol span,
+.saimaSummernoteExpanded p,
+.saimaSummernoteExpanded li,
+.saimaSummernoteExpanded ul,
+.saimaSummernoteExpanded ol,
+.saimaSummernoteExpanded b,
+.saimaSummernoteExpanded strong,
+.saimaSummernoteExpanded i,
+.saimaSummernoteExpanded em,
+.saimaSummernoteExpanded span {
+    color: #111111 !important;
+}
+
+.saimaArticleContentCol p,
+.saimaSummernoteExpanded p {
+    font-size: 17px !important;
+    line-height: 1.8 !important;
+}
+
+.saimaArticleContentCol h2,
+.saimaArticleH2,
+.saimaSummernoteExpanded h2 {
+    color: #1a4731 !important;
+}
+
 .saimaReadMoreBtn {
     background: transparent;
     border: none;

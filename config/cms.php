@@ -119,27 +119,13 @@ return [
             'group' => 'investment', 'label' => 'Investment Button Text', 'type' => 'text',
             'value' => 'Contact a Property Investment Consultant',
         ],
-        'financing_title' => [
-            'group' => 'investment', 'label' => 'Financing Card Title', 'type' => 'text',
-            'value' => 'Flexible Financing Options',
+        'investment_image' => [
+            'group' => 'investment', 'label' => 'Investment Featured Image', 'type' => 'text',
+            'value' => '/images/3_3.jpg',
         ],
-        'financing_description' => [
-            'group' => 'investment', 'label' => 'Financing Card Description', 'type' => 'textarea',
-            'value' => 'Buying an off-plan property or a ready-to-move-in home? Maximise your buying power with competitive mortgage options tailored to your needs.',
-        ],
-        'financing_highlights' => [
-            'group' => 'investment', 'label' => 'Financing Highlights (one per line)', 'type' => 'list',
-            'value' => implode("\n", [
-                'Secure a mortgage during construction to maximize leverage',
-                'Combine developer payment plans with tailored bank financing',
-                'Get pre-approved in as little as 3 days',
-                'Conventional and Sharia-compliant financing available',
-                'No hidden fees or added costs',
-            ]),
-        ],
-        'financing_cta' => [
-            'group' => 'investment', 'label' => 'Financing Button Text', 'type' => 'text',
-            'value' => 'Contact a Mortgage Specialist',
+        'investment_image_alt' => [
+            'group' => 'investment', 'label' => 'Investment Image Alt Text', 'type' => 'text',
+            'value' => 'Hudayriyat Island Investment Potential',
         ],
 
         // ---------------- CONTACT ----------------

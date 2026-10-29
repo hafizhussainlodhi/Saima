@@ -50,10 +50,15 @@
                 <section class="aboutHeroSection">
                     <div class="container">
                         <div class="aboutHeroContent">
-                            <span class="aboutBadge">{{ page_section('hero', 'badge', 'HUDAYRIYAT ISLAND • ABU DHABI', 'about-us') }}</span>
-                            <h1 class="aboutHeroTitle">{{ page_section('hero', 'title', 'About Us', 'about-us') }}</h1>
+                            @php
+                                $heroBadge = trim(strip_tags((string)page_section('hero', 'badge', 'HUDAYRIYAT ISLAND • ABU DHABI', 'about-us')));
+                            @endphp
+                            @if(!empty($heroBadge))
+                                <span class="aboutBadge">{{ $heroBadge }}</span>
+                            @endif
+                            <h1 class="aboutHeroTitle">{{ strip_tags((string)page_section('hero', 'title', 'About Us', 'about-us')) }}</h1>
                             <p class="aboutHeroSubtitle">
-                                {{ page_section('hero', 'subtitle', 'Welcome to your trusted source for exploring property opportunities on Hudayriyat Island, Abu Dhabi.', 'about-us') }}
+                                {{ strip_tags((string)page_section('hero', 'subtitle', 'Welcome to your trusted source for exploring property opportunities on Hudayriyat Island, Abu Dhabi.', 'about-us')) }}
                             </p>
                         </div>
                     </div>
@@ -66,10 +71,10 @@
                     <div class="container">
                         <div class="aboutIntroText">
                             <p class="aboutLeadText">
-                                {{ page_section('intro', 'lead', 'We make property discovery simple by providing clear information, useful market insights, and guidance throughout the buying process.', 'about-us') }}
+                                {{ strip_tags((string)page_section('intro', 'lead', 'We make property discovery simple by providing clear information, useful market insights, and guidance throughout the buying process.', 'about-us')) }}
                             </p>
                             <p class="aboutBodyText">
-                                {{ page_section('intro', 'body', 'Whether you are looking for a new home or an investment opportunity, we help you explore suitable properties on Hudayriyat Island and understand the key details before making a decision.', 'about-us') }}
+                                {{ strip_tags((string)page_section('intro', 'body', 'Whether you are looking for a new home or an investment opportunity, we help you explore suitable properties on Hudayriyat Island and understand the key details before making a decision.', 'about-us')) }}
                             </p>
                         </div>
 
@@ -126,8 +131,8 @@
                                             </svg>
                                         @endif
                                     </div>
-                                    <h3 class="aboutCardTitle">{{ $srvTitle }}</h3>
-                                    <p class="aboutCardDesc">{{ $srvDesc }}</p>
+                                    <h3 class="aboutCardTitle">{{ strip_tags((string)$srvTitle) }}</h3>
+                                    <p class="aboutCardDesc">{{ strip_tags((string)$srvDesc) }}</p>
                                 </div>
                             @endforeach
                         </div>
@@ -167,9 +172,9 @@
                                                 <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
                                             </svg>
                                         @endif
-                                        <h2 class="aboutPillarTitle">{{ $pTitle }}</h2>
+                                        <h2 class="aboutPillarTitle">{{ strip_tags((string)$pTitle) }}</h2>
                                     </div>
-                                    <p class="aboutPillarText">{{ $pDesc }}</p>
+                                    <p class="aboutPillarText">{{ strip_tags((string)$pDesc) }}</p>
                                 </div>
                             @endforeach
                         </div>
@@ -215,8 +220,8 @@
                                             </svg>
                                         @endif
                                     </div>
-                                    <h3 class="aboutWhyUsTitle">{{ $wTitle }}</h3>
-                                    <p class="aboutWhyUsDesc">{{ $wDesc }}</p>
+                                    <h3 class="aboutWhyUsTitle">{{ strip_tags((string)$wTitle) }}</h3>
+                                    <p class="aboutWhyUsDesc">{{ strip_tags((string)$wDesc) }}</p>
                                 </div>
                             @endforeach
                         </div>
@@ -237,10 +242,10 @@
                         <div class="aboutCtaGrid">
                             <!-- Left Column: Heading & Content -->
                             <div class="aboutCtaTextCol">
-                                <span class="aboutSectionTag">{{ page_section('cta', 'tag', 'START YOUR JOURNEY', 'about-us') }}</span>
-                                <h2 class="aboutCtaHeading">{{ page_section('cta', 'heading', 'Looking for Your Dream Property?', 'about-us') }}</h2>
+                                <span class="aboutSectionTag">{{ strip_tags((string)page_section('cta', 'tag', 'START YOUR JOURNEY', 'about-us')) }}</span>
+                                <h2 class="aboutCtaHeading">{{ strip_tags((string)page_section('cta', 'heading', 'Looking for Your Dream Property?', 'about-us')) }}</h2>
                                 <p class="aboutCtaBody">
-                                    {{ page_section('cta', 'body', 'Explore property opportunities on Hudayriyat Island with clear information and professional guidance. Whether you are looking to buy a home or explore an investment, we are here to assist you throughout the process.', 'about-us') }}
+                                    {{ strip_tags((string)page_section('cta', 'body', 'Explore property opportunities on Hudayriyat Island with clear information and professional guidance. Whether you are looking to buy a home or explore an investment, we are here to assist you throughout the process.', 'about-us')) }}
                                 </p>
                                 <div class="aboutBenefitsList">
                                     @foreach($benefitsList as $ben)
@@ -251,7 +256,7 @@
                                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1a4731" stroke-width="2">
                                                 <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
                                             </svg>
-                                            <span>{{ $benText }}</span>
+                                            <span>{{ strip_tags((string)$benText) }}</span>
                                         </div>
                                     @endforeach
                                 </div>
@@ -260,9 +265,9 @@
                             <!-- Right Column: Contact Form Card -->
                             <div class="aboutFormCol">
                                 <div class="aboutFormCard">
-                                    <h3 class="aboutFormTitle">{{ page_section('cta', 'form_title', 'Get in Touch', 'about-us') }}</h3>
+                                    <h3 class="aboutFormTitle">{{ strip_tags((string)page_section('cta', 'form_title', 'Get in Touch', 'about-us')) }}</h3>
                                     <p class="aboutFormSubtitle">
-                                        {{ page_section('cta', 'form_subtitle', 'Enter your details and our team will contact you shortly.', 'about-us') }}
+                                        {{ strip_tags((string)page_section('cta', 'form_subtitle', 'Enter your details and our team will contact you shortly.', 'about-us')) }}
                                     </p>
 
                                     <form id="aboutPageForm" class="aboutForm">

@@ -5,6 +5,18 @@
     $aboutPoster = page_section('about', 'video_poster', '/images/golf-estates/video-poster.jpg', $page->slug);
     $aboutVideo = page_section('about', 'video_src', 'https://www.hudayriyat-island.com/storage/communities/project_description/3ZADXnXTmIbZMrVsBFEsCxAN4vYhHKSeRNLwsGdd.mp4', $page->slug);
 @endphp
+<style>
+.GolfAboutVideo-module__mC9tiq__description p {
+    margin-top: 0 !important;
+    margin-bottom: 20px !important;
+    line-height: 1.8 !important;
+    min-height: 1.25em !important;
+    display: block !important;
+}
+.GolfAboutVideo-module__mC9tiq__description p:last-child {
+    margin-bottom: 0 !important;
+}
+</style>
 <section id="alt-services" class="GolfAboutVideo-module__mC9tiq__aboutSection">
     <div class="container">
         <div class="GolfAboutVideo-module__mC9tiq__aboutGrid">

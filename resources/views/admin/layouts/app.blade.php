@@ -123,8 +123,7 @@
         <a href="{{ route('admin.dashboard') }}" class="adm-brand" id="admBrandLink">
             <div class="adm-brand-mark">H</div>
             <div class="adm-brand-text">
-                <strong>Hudayriyat</strong>
-                <span>Admin CMS</span>
+                <strong>CMS</strong>
             </div>
         </a>
 
@@ -138,12 +137,24 @@
             @php
                 $isPagesActive = request()->routeIs('admin.pages.*');
                 $isProjectsActive = request()->routeIs('admin.projects.*');
+                $isCitiesActive = request()->routeIs('admin.cities.*');
+                $isCommunitiesActive = request()->routeIs('admin.communities.*');
+                $isBlogsActive = request()->routeIs('admin.blogs.*');
             @endphp
             <a href="{{ route('admin.pages.index') }}" id="navPages" class="adm-nav-link {{ $isPagesActive ? 'is-active' : '' }}">
                 @include('admin.partials.icon', ['name' => 'file']) Pages
             </a>
             <a href="{{ route('admin.projects.index') }}" id="navProjects" class="adm-nav-link {{ $isProjectsActive ? 'is-active' : '' }}">
                 @include('admin.partials.icon', ['name' => 'building']) Projects
+            </a>
+            <a href="{{ route('admin.cities.index') }}" id="navCities" class="adm-nav-link {{ $isCitiesActive ? 'is-active' : '' }}">
+                @include('admin.partials.icon', ['name' => 'map-pin']) Cities
+            </a>
+            <a href="{{ route('admin.communities.index') }}" id="navCommunities" class="adm-nav-link {{ $isCommunitiesActive ? 'is-active' : '' }}">
+                @include('admin.partials.icon', ['name' => 'compass']) Neighbourhood/Community
+            </a>
+            <a href="{{ route('admin.blogs.index') }}" id="navBlogs" class="adm-nav-link {{ $isBlogsActive ? 'is-active' : '' }}">
+                @include('admin.partials.icon', ['name' => 'book']) Blog
             </a>
         @endif
 
@@ -260,9 +271,17 @@
 
 <!-- jQuery & Summernote Lite Scripts -->
 <script src="{{ asset('vendor/summernote/jquery-3.7.1.min.js') }}"></script>
-<script src="{{ asset('vendor/summernote/summernote-lite.min.js') }}"></script>
+<script src="{{ asset('vendor/summernote/summernote-lite.min.js') }}?v={{ filemtime(public_path('vendor/summernote/summernote-lite.min.js')) }}"></script>
 <script>
     $(document).ready(function() {
+        function stripAutoTagAttrs(html) {
+            if (!html || typeof html !== 'string') return html;
+            return html
+                .replace(/<table\s+class=["'](?:table\s+table-bordered|table-bordered\s+table|table|table-bordered)["']/gi, '<table')
+                .replace(/<(h[1-6])\s+id=["'][^"']*["']/gi, '<$1')
+                .replace(/\s+(?:id|class)=["']\s*["']/gi, '');
+        }
+
         // Initialize Summernote on all textareas with .adm-summernote or .summernote
         function initSummernote(selector = '.adm-summernote, .summernote') {
             $(selector).each(function() {
@@ -272,6 +291,7 @@
                         height: customHeight,
                         minHeight: 120,
                         tabsize: 2,
+                        tableClassName: '', // Do NOT add default class="table table-bordered" to tables
                         toolbar: [
                             ['style', ['style']],
                             ['font', ['bold', 'italic', 'underline', 'clear']],
@@ -291,8 +311,18 @@
                         ],
                         callbacks: {
                             onChange: function(contents) {
-                                // Keep textarea value synchronized in real-time
-                                $(this).val(contents);
+                                // Keep textarea value synchronized and stripped of auto IDs/classes
+                                const clean = stripAutoTagAttrs(contents);
+                                $(this).val(clean);
+                            },
+                            onBlur: function() {
+                                $(this).summernote('saveRange');
+                            },
+                            onKeyUp: function() {
+                                $(this).summernote('saveRange');
+                            },
+                            onMouseUp: function() {
+                                $(this).summernote('saveRange');
                             }
                         }
                     });
@@ -303,11 +333,42 @@
 
         initSummernote();
 
-        // Ensure Summernote code is synced before any form submission
+        // Ensure clean pure tags when toggling Code View
+        $(document).on('click', '.note-btn[data-original-title="Code View"], .note-btn[aria-label="Code View"], .btn-codeview', function() {
+            const $editor = $(this).closest('.note-editor').prev('textarea.adm-summernote, textarea.summernote');
+            if ($editor.length) {
+                setTimeout(function() {
+                    const $codable = $editor.next('.note-editor').find('textarea.note-codable');
+                    if ($codable.length) {
+                        const val = stripAutoTagAttrs($codable.val());
+                        $codable.val(val);
+                        $editor.val(val);
+                    }
+                }, 30);
+            }
+        });
+
+        // Ensure cursor location is preserved before toolbar table dropdown or dimension picker is clicked
+        $(document).on('mousedown', '.note-btn[aria-label="Table"], .note-btn[data-original-title="Table"], .note-table .dropdown-toggle', function() {
+            const $editor = $(this).closest('.note-editor').prev('textarea.adm-summernote, textarea.summernote');
+            if ($editor.length) {
+                $editor.summernote('saveRange');
+            }
+        });
+
+        $(document).on('mousedown', '.note-dimension-picker-mousecatcher', function() {
+            const $editor = $(this).closest('.note-editor').prev('textarea.adm-summernote, textarea.summernote');
+            if ($editor.length) {
+                $editor.summernote('restoreRange');
+            }
+        });
+
+        // Ensure Summernote code is cleaned and synced before any form submission
         $('form').on('submit', function() {
             $('.adm-summernote, .summernote').each(function() {
                 if ($(this).data('summernote')) {
-                    $(this).val($(this).summernote('code'));
+                    const clean = stripAutoTagAttrs($(this).summernote('code'));
+                    $(this).val(clean);
                 }
             });
         });

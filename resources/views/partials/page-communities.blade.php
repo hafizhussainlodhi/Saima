@@ -2,8 +2,31 @@
     $secHeading = page_section('communities', 'heading', 'Projects', $page->slug ?? null);
     $secSubtitle = page_section('communities', 'subtitle', 'Explore the premier waterfront residential communities on Hudayriyat Island', $page->slug ?? null);
     
-    $dbProjects = \App\Models\Project::where('is_active', true)->with('page')->orderBy('order', 'asc')->get();
-    $hasDbProjects = $dbProjects->isNotEmpty();
+    $selectedProjectIds = page_section('communities', 'selected_ids', null, $page->slug ?? null)
+        ?: page_section('communities', 'project_ids', null, $page->slug ?? null);
+
+    $isCityPage = isset($page) && (
+        \App\Models\City::where('page_id', $page->id)->exists()
+        || \App\Models\City::where('slug', $page->slug)->exists()
+        || \App\Models\Community::where('page_id', $page->id)->exists()
+        || \App\Models\Community::where('slug', $page->slug)->exists()
+    );
+
+    if (!empty($selectedProjectIds) && is_array($selectedProjectIds)) {
+        $dbProjects = \App\Models\Project::whereIn('id', $selectedProjectIds)
+            ->with('page')
+            ->get()
+            ->sortBy(function($model) use ($selectedProjectIds) {
+                return array_search($model->id, $selectedProjectIds);
+            });
+        $hasDbProjects = $dbProjects->isNotEmpty();
+    } elseif ($isCityPage) {
+        $dbProjects = collect();
+        $hasDbProjects = false;
+    } else {
+        $dbProjects = \App\Models\Project::where('is_active', true)->with('page')->orderBy('order', 'asc')->get();
+        $hasDbProjects = $dbProjects->isNotEmpty();
+    }
 
     $secCommunities = page_section('communities', 'items', null, $page->slug ?? null);
     if (!is_array($secCommunities) || empty($secCommunities)) {
@@ -11,8 +34,7 @@
             [
                 'name' => 'Wadeem Gardens',
                 'location' => 'Hudayriyat Island, Abu Dhabi',
-                'price' => 'Launch Price: 8.7M AED',
-                'delivery' => 'Delivery Date: Q2 2031',
+                'badges' => ['Off plan'],
                 'developer' => 'MÖDON',
                 'paymentPlan' => 'Flexible Payment Plan',
                 'href' => '/wadeem-gardens',
@@ -21,8 +43,7 @@
             [
                 'name' => 'Hudayriyat Golf Estates',
                 'location' => 'Hudayriyat Island, Abu Dhabi',
-                'price' => 'Launch Price: 4.3M AED',
-                'delivery' => 'Delivery Date: Q3 2030',
+                'badges' => ['New'],
                 'developer' => 'MÖDON',
                 'paymentPlan' => 'Flexible Payment Plan',
                 'href' => '/hudayriyat-golf-estates',
@@ -31,8 +52,7 @@
             [
                 'name' => 'Al Naseem Villas',
                 'location' => 'Hudayriyat Island, Abu Dhabi',
-                'price' => 'Launch Price: 7.8M AED',
-                'delivery' => 'Delivery Date: Q1 2031',
+                'badges' => ['Ready'],
                 'developer' => 'MÖDON',
                 'paymentPlan' => 'Flexible Payment Plan',
                 'href' => '/al-naseem-villas',
@@ -42,10 +62,10 @@
     }
 @endphp
 
-<section id="communities" aria-label="Featured Residential Projects and Communities" class="communitiesSection" style="padding: 20px 0 60px 0; background: #ffffff;">
+<section id="communities" aria-label="Featured Residential Projects and Communities" class="communitiesSection" style="padding: 10px 0 50px 0; background: #ffffff;">
     <div class="container" style="max-width: 1240px; margin: 0 auto; padding: 0 20px;">
         <!-- Section Header -->
-        <div class="section-header" style="text-align: center; margin-bottom: 30px;">
+        <div class="section-header" style="text-align: center; margin-bottom: 24px;">
             <h2 style="font-size: 32px; font-weight: 700; color: #111827; margin: 0 0 10px 0;">{{ $secHeading }}</h2>
             @if(!empty($secSubtitle))
                 <p style="font-size: 15px; color: #6b7280; max-width: 700px; margin: 0 auto; line-height: 1.6;">{{ $secSubtitle }}</p>
@@ -59,92 +79,71 @@
                     @php
                         $imgSrc = $item->image_url;
                         $cardHref = $item->url;
+                        $isSoldOut = ($item->status === 'sold_out') || ($item->page?->status === 'sold_out');
                     @endphp
                     <a href="{{ $cardHref }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item->title }} by {{ $item->developer ?? 'Modon Properties' }}">
-                        <!-- Top-Left Launch Price & Delivery Badges -->
+                        <!-- Top-Left Badges (New, Offer, Off plan, Ready) -->
                         <div class="topTags">
-                            @if(!empty($item->price))
-                                <span class="badgeTag">{{ $item->price }}</span>
-                            @endif
-                            @if(!empty($item->delivery_date))
-                                <span class="badgeTag">{{ $item->delivery_date }}</span>
+                            @if(!empty($item->badges) && is_array($item->badges))
+                                @foreach($item->badges as $badge)
+                                    <span class="badgeTag">{{ $badge }}</span>
+                                @endforeach
                             @endif
                         </div>
 
-                        <!-- Top-Right Sparkle Icon -->
-                        <div class="sparkleBtn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
-                            </svg>
-                        </div>
+                        <!-- Top-Right Sold out Badge -->
+                        @if($isSoldOut)
+                            <span class="soldOutBadge">Sold out</span>
+                        @endif
 
                         <!-- Main Image -->
-                        <div class="imgWrapper">
-                            <img src="{{ $imgSrc }}" alt="{{ $item->title }} luxury property by Modon Properties" class="mainImage" loading="lazy">
-                        </div>
+                        <img src="{{ $imgSrc }}" alt="{{ $item->title }} luxury property" class="mainImage" loading="lazy">
 
                         <!-- Bottom Content Area -->
                         <div class="bottomContent">
-                            <div class="modonBadge">
-                                <span class="modonText">{{ $item->developer ?? 'MÖDON' }}</span>
-                            </div>
-
                             <h3 class="cardTitle">{{ $item->title }}</h3>
                             <p class="cardLocation">{{ $item->location ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
 
-                            @if(!empty($item->payment_plan))
-                                <div class="planBadge">{{ $item->payment_plan }}</div>
-                            @endif
+                            <!-- Big Green Rounded BOOK NOW Button -->
+                            <div class="cardBookBtn">BOOK NOW</div>
                         </div>
                     </a>
                 @endforeach
-            @else
+            @elseif(!$isCityPage)
                 @foreach($secCommunities as $index => $item)
                     @php
                         $imgSrc = $item['image'] ?? '/images/communities/wadeem-gardens.png';
                         $cardHref = $item['href'] ?? '#';
+                        $isSoldOut = (isset($item['status']) && $item['status'] === 'sold_out');
                     @endphp
                     <a href="{{ $cardHref }}" class="cardCustom" style="text-decoration: none; cursor: pointer;">
-                        <!-- Top-Left Launch Price & Delivery Badges -->
-                    <div class="topTags">
-                        @if(!empty($item['price']))
-                            <span class="badgeTag">{{ $item['price'] }}</span>
-                        @endif
-                        @if(!empty($item['delivery']))
-                            <span class="badgeTag">{{ $item['delivery'] }}</span>
-                        @endif
-                    </div>
-
-                    <!-- Top-Right Sparkle Icon -->
-                    <div class="sparkleBtn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
-                        </svg>
-                    </div>
-
-                    <!-- Main Community Photo -->
-                    <img src="{{ $imgSrc }}" alt="{{ $item['name'] ?? '' }}" class="mainImage">
-
-                    <!-- Bottom Content Area -->
-                    <div class="bottomContent">
-                        <!-- Developer Modon Badge -->
-                        <div class="modonBadge">
-                            <span class="modonText">{{ $item['developer'] ?? 'MÖDON' }}</span>
+                        <!-- Top-Left Badges (New, Offer, Off plan, Ready) -->
+                        <div class="topTags">
+                            @if(!empty($item['badges']) && is_array($item['badges']))
+                                @foreach($item['badges'] as $badge)
+                                    <span class="badgeTag">{{ $badge }}</span>
+                                @endforeach
+                            @endif
                         </div>
 
-                        <!-- Community Title -->
-                        <h3 class="cardTitle">{{ $item['name'] ?? '' }}</h3>
-
-                        <!-- Location -->
-                        <p class="cardLocation">{{ $item['location'] ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
-
-                        <!-- Payment Plan Badge -->
-                        @if(!empty($item['paymentPlan']) || !empty($item['payment_plan']))
-                            <div class="planBadge">{{ $item['paymentPlan'] ?? $item['payment_plan'] }}</div>
+                        <!-- Top-Right Sold out Badge -->
+                        @if($isSoldOut)
+                            <span class="soldOutBadge">Sold out</span>
                         @endif
-                    </div>
-                </a>
-            @endforeach
+
+                        <!-- Main Community Photo -->
+                        <img src="{{ $imgSrc }}" alt="{{ $item['name'] ?? '' }}" class="mainImage">
+
+                        <!-- Bottom Content Area -->
+                        <div class="bottomContent">
+                            <h3 class="cardTitle">{{ $item['name'] ?? '' }}</h3>
+                            <p class="cardLocation">{{ $item['location'] ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
+
+                            <!-- Big Green Rounded BOOK NOW Button -->
+                            <div class="cardBookBtn">BOOK NOW</div>
+                        </div>
+                    </a>
+                @endforeach
             @endif
         </div>
     </div>
@@ -166,6 +165,11 @@
 .cardCustom:hover {
     transform: translateY(-6px);
     box-shadow: 0 20px 42px rgba(0, 0, 0, 0.22);
+}
+
+.imgWrapper {
+    width: 100%;
+    height: 100%;
 }
 
 .mainImage {
@@ -294,6 +298,52 @@
     width: fit-content;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     margin-top: 3px;
+}
+
+.cardBookBtn {
+    background: #1a4731;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    padding: 11px 24px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(26, 71, 49, 0.45);
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    transition: all 0.25s ease;
+}
+
+.cardCustom:hover .cardBookBtn {
+    background: #133825;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(26, 71, 49, 0.6);
+}
+
+.soldOutBadge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: #ffffff;
+    color: #dc2626;
+    font-size: 11.5px;
+    font-weight: 800;
+    -webkit-text-stroke: 0.3px #dc2626;
+    padding: 5px 14px;
+    border-radius: 999px;
+    width: fit-content;
+    letter-spacing: 0.3px;
+    border: 1px solid rgba(220, 38, 38, 0.25);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    text-transform: capitalize;
+    z-index: 3;
 }
 
 @media (max-width: 768px) {

@@ -1241,8 +1241,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -1939,8 +1937,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -2709,8 +2705,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -3395,8 +3389,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -4124,8 +4116,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -4853,8 +4843,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -5523,8 +5511,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -6240,8 +6226,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -6904,8 +6888,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',
@@ -7721,8 +7703,6 @@ With its waterfront setting, recreational facilities, and convenient location, H
           'description' => 'Flexible installment plan structured with milestone payments from booking through construction to handover.',
           'plan_tabs' => 
           array (
-            0 => 'Without Finance - 45/55',
-            1 => 'With Finance - 25/75',
           ),
           'download_text' => 'DOWNLOAD PAYMENT PLAN',
           'download_url' => '#',

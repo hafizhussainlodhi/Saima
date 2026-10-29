@@ -16,6 +16,9 @@
     <!-- 5. 8 Interactive Real Estate FAQs -->
     @include('partials.faq')
 
-    <!-- 6. Let's Connect / Callback Request Section -->
+    <!-- 6. Latest News & Articles (Blogs) -->
+    @include('partials.home-blogs')
+
+    <!-- 7. Let's Connect / Callback Request Section -->
     @include('partials.contact')
 @endsection

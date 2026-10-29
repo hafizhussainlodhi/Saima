@@ -202,7 +202,9 @@ by Modon', 'nawayef-village'))) !!}</h1><p class="ProjectHero-module__aC6oka__su
             <h2 style="font-size: 32px; font-weight: 700; color: #1a1a1a;">{!! page_section('master_plan', 'title', 'Master Plan', 'nawayef-village') !!}</h2>
         </div>
         <div style="max-width: 1100px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; padding: 15px;">
-            <img src="{{ page_section('master_plan', 'image', '/images/nawayef-village/master-plan.png', 'nawayef-village') }}" alt="{!! page_section('master_plan', 'title', 'Master Plan', 'nawayef-village') !!}" style="max-width: 100%; height: auto; border-radius: 6px;">
+            <div style="width: 100%; aspect-ratio: 16 / 9; max-height: 580px; border-radius: 6px; overflow: hidden; background: #fbfaf8; position: relative;">
+                <img src="{{ page_section('master_plan', 'image', '/images/nawayef-village/master-plan.png', 'nawayef-village') }}" alt="{!! page_section('master_plan', 'title', 'Master Plan', 'nawayef-village') !!}" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; border-radius: 6px;">
+            </div>
         </div>
     </div>
 </section><section class="ProjectLocation-module__r1qLLG__locationSection" id="location">

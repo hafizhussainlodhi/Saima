@@ -948,6 +948,17 @@
   line-height: 1.8;
 }
 
+.GolfAboutVideo-module__mC9tiq__description p {
+  margin-top: 0;
+  margin-bottom: 18px;
+  line-height: 1.8;
+  min-height: 1em;
+}
+
+.GolfAboutVideo-module__mC9tiq__description p:last-child {
+  margin-bottom: 0;
+}
+
 .GolfAboutVideo-module__mC9tiq__rightCol {
   width: 100%;
   position: relative;

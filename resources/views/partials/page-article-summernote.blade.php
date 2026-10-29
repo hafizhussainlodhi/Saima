@@ -58,5 +58,23 @@
 .saimaSummernoteAfterProjects p {
     margin: 0 0 16px 0;
 }
+.saimaSummernoteBodyContent ul {
+    list-style-type: disc !important;
+    list-style-position: outside !important;
+    margin: 16px 0 20px 0 !important;
+    padding-left: 28px !important;
+}
+.saimaSummernoteBodyContent ol {
+    list-style-type: decimal !important;
+    list-style-position: outside !important;
+    margin: 16px 0 20px 0 !important;
+    padding-left: 28px !important;
+}
+.saimaSummernoteBodyContent li {
+    list-style: inherit !important;
+    display: list-item !important;
+    margin-bottom: 8px !important;
+    line-height: 1.75 !important;
+}
 </style>
 @endif

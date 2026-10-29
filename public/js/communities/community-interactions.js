@@ -535,6 +535,9 @@
   function initAccordions() {
     var accordionItems = document.querySelectorAll('div[class*="accordionItem"], div[class*="faqItem"]');
     accordionItems.forEach(function(item) {
+      if (item.classList.contains('faqItem') || (item.id && item.id.indexOf('faqItem-') === 0)) {
+        return; // Handled directly by toggleFaq
+      }
       var header = item.querySelector('button, div[class*="accordionHeader"], div[class*="faqQuestion"], div[class*="header"]');
       var body = item.querySelector('div[class*="accordionBody"], div[class*="faqAnswer"], div[class*="content"]');
 

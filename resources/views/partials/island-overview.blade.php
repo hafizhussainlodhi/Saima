@@ -1,3 +1,43 @@
+<!-- Overview & Content Section -->
+<style>
+.overviewSection .blogContainer ul,
+.overviewSection ul:not(.navbar-nav):not(.nav),
+.blogContainer ul {
+    list-style-type: disc !important;
+    list-style-position: outside !important;
+    margin: 16px 0 20px 0 !important;
+    padding-left: 28px !important;
+}
+.overviewSection .blogContainer ol,
+.overviewSection ol,
+.blogContainer ol {
+    list-style-type: decimal !important;
+    list-style-position: outside !important;
+    margin: 16px 0 20px 0 !important;
+    padding-left: 28px !important;
+}
+.overviewSection .blogContainer li,
+.overviewSection li:not(.navbar-nav li),
+.blogContainer li {
+    list-style: inherit !important;
+    display: list-item !important;
+    margin-bottom: 8px !important;
+    line-height: 1.75 !important;
+    color: #2b2b2b !important;
+}
+.overviewSection .blogContainer ul ul,
+.overviewSection ul ul,
+.blogContainer ul ul {
+    list-style-type: circle !important;
+    margin: 8px 0 8px 0 !important;
+    padding-left: 24px !important;
+}
+.overviewSection .blogContainer ul ul ul,
+.overviewSection ul ul ul,
+.blogContainer ul ul ul {
+    list-style-type: square !important;
+}
+</style>
 <section class="overviewSection" aria-label="Hudayriyat Island Projects: The Residential Communities">
     <div class="container">
         <div class="blogContainer">

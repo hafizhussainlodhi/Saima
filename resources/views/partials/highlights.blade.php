@@ -1,43 +1,19 @@
 @php
-$defaultHighlights = [
-    [
-        'key' => 'developer',
-        'label' => 'Developer',
-        'value' => page_section('highlights', 'developer', 'Modon Properties'),
-        'icon' => 'developer',
-    ],
-    [
-        'key' => 'price',
-        'label' => 'Price',
-        'value' => page_section('highlights', 'price', page_section('highlights', 'launch_price', 'AED 4,300,000*')),
-        'icon' => 'price',
-    ],
-    [
-        'key' => 'handover',
-        'label' => 'Handover Date',
-        'value' => page_section('highlights', 'handover', 'Q3 2030'),
-        'icon' => 'handover',
-    ],
-    [
-        'key' => 'property_type',
-        'label' => 'Property Type',
-        'value' => page_section('highlights', 'property_type', 'Villas & Apartments'),
-        'icon' => 'property_type',
-    ],
-    [
-        'key' => 'ownership',
-        'label' => 'Ownership',
-        'value' => page_section('highlights', 'ownership', 'Freehold'),
-        'icon' => 'ownership',
-    ],
-];
+$rawItems = page_section('highlights', 'items', null);
+$items = [];
 
-$items = page_section('highlights', 'items', null);
-if (!is_array($items) || empty($items)) {
-    $items = $defaultHighlights;
+if (is_array($rawItems)) {
+    foreach ($rawItems as $highlight) {
+        $label = trim((string)($highlight['label'] ?? ($highlight['title'] ?? '')));
+        $value = trim((string)($highlight['value'] ?? ($highlight['description'] ?? '')));
+        if ($label !== '' || $value !== '') {
+            $items[] = $highlight;
+        }
+    }
 }
 @endphp
 
+@if(!empty($items))
 <section class="highlightsSection">
     <div class="container">
         <div class="highlightsGrid">
@@ -87,3 +63,4 @@ if (!is_array($items) || empty($items)) {
         </div>
     </div>
 </section>
+@endif

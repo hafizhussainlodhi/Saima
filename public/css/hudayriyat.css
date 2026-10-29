@@ -51,15 +51,15 @@ h1 {
 }
 
 h2 {
-  font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 h3 {
-  font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem);
   font-weight: 700;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 h4 {
@@ -575,31 +575,32 @@ header[class*="Header"].sticky-header,
 }
 
 .heroTitle {
-  font-size: 64px;
-  font-weight: 800;
+  font-size: clamp(32px, 3.8vw, 46px);
+  font-weight: 700;
   color: #ffffff;
-  line-height: 1.1;
-  margin-bottom: 22px;
-  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+  line-height: 1.22;
+  margin-bottom: 18px;
+  letter-spacing: -0.015em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
   animation: heroFadeDown 0.6s ease-out;
 }
 
 .heroSubtitle {
-  font-size: 24px;
-  font-weight: 500;
-  color: #ffffff;
-  line-height: 1.35;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  font-size: clamp(15px, 1.35vw, 18px);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.55;
+  margin-bottom: 16px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
   animation: heroFadeUp 0.7s ease-out;
 }
 
 .freeholdText {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.88);
   line-height: 1.4;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
   animation: heroFadeRight 0.8s ease-out;
 }
 
@@ -1055,8 +1056,190 @@ header[class*="Header"].sticky-header,
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
 }
 
+.cardBookBtn {
+  background: #1a4731;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  padding: 11px 24px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(26, 71, 49, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.25s ease;
+}
+
+.cardCustom:hover .cardBookBtn {
+  background: #133825;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(26, 71, 49, 0.6);
+}
+
+[class*="AboutVideo-module__"] [class*="description"] p,
+.GolfAboutVideo-module__mC9tiq__description p,
+.NaseemAboutVideo-module__M_AgRG__description p,
+.BashayerAboutVideo-module__Jx6bxq__description p,
+.NawayefAboutVideo-module___kfhmG__description p,
+.ProjectAbout-module__uFzpvW__description p {
+  margin-top: 0 !important;
+  margin-bottom: 20px !important;
+  line-height: 1.8 !important;
+  min-height: 1.25em !important;
+  display: block !important;
+}
+
+[class*="AboutVideo-module__"] [class*="description"] p:last-child,
+.GolfAboutVideo-module__mC9tiq__description p:last-child,
+.ProjectAbout-module__uFzpvW__description p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* CMS / Article / Summernote Content Lists */
+.saimaContentCol ul:not(.saimaTocList),
+.saimaDynamicArticleContent ul,
+.saimaArticleContentCol ul,
+.saimaSummernoteExpanded ul,
+.saimaSummernoteBodyContent ul,
+.saimaLongContentBody ul,
+.saimaShortContent ul,
+.saimaLongContentSection ul,
+.blogContainer ul,
+.overviewSection ul:not(.navbar-nav):not(.nav) {
+  list-style-type: disc !important;
+  list-style-position: outside !important;
+  margin: 16px 0 20px 0 !important;
+  padding-left: 28px !important;
+}
+
+.saimaContentCol ol:not(.saimaTocList),
+.saimaDynamicArticleContent ol,
+.saimaArticleContentCol ol,
+.saimaSummernoteExpanded ol,
+.saimaSummernoteBodyContent ol,
+.saimaLongContentBody ol,
+.saimaShortContent ol,
+.saimaLongContentSection ol,
+.blogContainer ol,
+.overviewSection ol {
+  list-style-type: decimal !important;
+  list-style-position: outside !important;
+  margin: 16px 0 20px 0 !important;
+  padding-left: 28px !important;
+}
+
+.saimaContentCol ul:not(.saimaTocList) li,
+.saimaContentCol ol:not(.saimaTocList) li,
+.saimaDynamicArticleContent li,
+.saimaArticleContentCol li,
+.saimaSummernoteExpanded li,
+.saimaSummernoteBodyContent li,
+.saimaLongContentBody li,
+.saimaShortContent li,
+.saimaLongContentSection li,
+.blogContainer li,
+.overviewSection li:not(.navbar-nav li) {
+  list-style: inherit !important;
+  display: list-item !important;
+  margin-bottom: 8px !important;
+  line-height: 1.75 !important;
+  color: #222222 !important;
+}
+
+.blogContainer ul ul,
+.overviewSection ul ul,
+.saimaContentCol ul ul,
+.saimaLongContentBody ul ul {
+  list-style-type: circle !important;
+  margin: 8px 0 8px 0 !important;
+  padding-left: 24px !important;
+}
+
+.blogContainer ul ul ul,
+.overviewSection ul ul ul,
+.saimaContentCol ul ul ul,
+.saimaLongContentBody ul ul ul {
+  list-style-type: square !important;
+}
+
+/* Ensure ALL body text elements have the exact same color, while h2 remains green */
+.saimaContentCol p,
+.saimaContentCol li,
+.saimaContentCol ul,
+.saimaContentCol ol,
+.saimaContentCol b,
+.saimaContentCol strong,
+.saimaContentCol i,
+.saimaContentCol em,
+.saimaDynamicArticleContent,
+.saimaDynamicArticleContent p,
+.saimaDynamicArticleContent li,
+.saimaDynamicArticleContent b,
+.saimaDynamicArticleContent strong,
+.saimaDynamicArticleContent i,
+.saimaDynamicArticleContent em,
+.saimaDynamicArticleContent span,
+.saimaArticleContentCol p,
+.saimaArticleContentCol li,
+.saimaArticleContentCol b,
+.saimaArticleContentCol strong,
+.saimaArticleContentCol i,
+.saimaArticleContentCol em,
+.saimaArticleContentCol span,
+.saimaSummernoteExpanded p,
+.saimaSummernoteExpanded li,
+.saimaSummernoteExpanded b,
+.saimaSummernoteExpanded strong,
+.saimaSummernoteExpanded i,
+.saimaSummernoteExpanded em,
+.saimaSummernoteExpanded span,
+.saimaSummernoteBodyContent p,
+.saimaSummernoteBodyContent li,
+.saimaSummernoteBodyContent b,
+.saimaSummernoteBodyContent strong,
+.saimaSummernoteBodyContent i,
+.saimaSummernoteBodyContent em,
+.saimaSummernoteBodyContent span {
+  color: #222222 !important;
+}
+
+.saimaContentCol h2,
+.saimaDynamicArticleContent h2,
+.saimaArticleContentCol h2,
+.saimaSummernoteExpanded h2,
+.saimaSummernoteBodyContent h2 {
+  color: #1a4731 !important;
+}
+
+/* Sold Out Badge (Card Top-Right, White background, Red text) */
+.soldOutBadge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #ffffff;
+  color: #dc2626;
+  font-size: 11.5px;
+  font-weight: 800;
+  -webkit-text-stroke: 0.3px #dc2626;
+  padding: 5px 14px;
+  border-radius: 999px;
+  width: fit-content;
+  letter-spacing: 0.3px;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  text-transform: capitalize;
+  z-index: 3;
+}
+
 .centeredRowStart {
-  grid-column: 2 / 3;
+  grid-column: auto;
 }
 
 @media (max-width: 991px) {
@@ -1106,12 +1289,43 @@ header[class*="Header"].sticky-header,
 }
 
 .overviewSubHeading {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   color: #212529;
-  margin-top: 26px;
+  margin-top: 24px;
   margin-bottom: 10px;
   line-height: 1.35;
+}
+
+.blogContainer h2,
+.overviewSection h2 {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+  line-height: 1.35 !important;
+  margin-top: 32px !important;
+  margin-bottom: 12px !important;
+  letter-spacing: -0.2px !important;
+}
+
+.blogContainer h3,
+.overviewSection h3 {
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+  line-height: 1.4 !important;
+  margin-top: 24px !important;
+  margin-bottom: 10px !important;
+}
+
+.blogContainer h4,
+.overviewSection h4 {
+  font-size: 17px !important;
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+  line-height: 1.4 !important;
+  margin-top: 20px !important;
+  margin-bottom: 8px !important;
 }
 
 .overviewParagraph {
@@ -1148,6 +1362,129 @@ header[class*="Header"].sticky-header,
   }
   .overviewParagraph {
     font-size: 14.5px;
+  }
+}
+
+/* ==========================================================================
+   GLOBAL RICH TEXT TABLE STYLING (SUMMERNOTE & CMS EDITORS - CLEAN NEUTRAL)
+   ========================================================================== */
+table,
+.blogContainer table,
+.overviewSection table,
+.investmentSection table,
+.articleSection table,
+.saimaArticleContent table,
+.pageArticleSection table,
+.locParagraphs table,
+.table,
+.table-bordered {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 24px 0 28px !important;
+  border-collapse: collapse !important;
+  background-color: #ffffff !important;
+  border: 1px solid #dee2e6 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: #212529 !important;
+}
+
+/* Header Row / First Row - Clean Neutral */
+table thead th,
+table th,
+.blogContainer table thead th,
+.blogContainer table th,
+.overviewSection table thead th,
+.overviewSection table th,
+.table th,
+.table-bordered th,
+table:not(:has(thead)) tbody > tr:first-child td,
+.blogContainer table:not(:has(thead)) tbody > tr:first-child td,
+.overviewSection table:not(:has(thead)) tbody > tr:first-child td,
+.table:not(:has(thead)) tbody > tr:first-child td,
+.table-bordered:not(:has(thead)) tbody > tr:first-child td {
+  background: #f8f9fa !important;
+  background-image: none !important;
+  color: #212529 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  text-align: left !important;
+  padding: 12px 16px !important;
+  border: 1px solid #dee2e6 !important;
+  letter-spacing: normal !important;
+}
+
+table thead th *,
+table th *,
+table:not(:has(thead)) tbody > tr:first-child td * {
+  color: #212529 !important;
+  font-weight: 700 !important;
+}
+
+/* Body Cells - Pure Clean */
+table td,
+.blogContainer table td,
+.overviewSection table td,
+.investmentSection table td,
+.articleSection table td,
+.saimaArticleContent table td,
+.table td,
+.table-bordered td {
+  padding: 12px 16px !important;
+  border: 1px solid #dee2e6 !important;
+  vertical-align: top !important;
+  font-size: 14.5px !important;
+  line-height: 1.6 !important;
+  color: #212529 !important;
+  background-color: #ffffff !important;
+}
+
+table tbody tr td:first-child,
+.table tbody tr td:first-child {
+  font-weight: normal !important;
+  color: #212529 !important;
+}
+
+table:not(:has(thead)) tbody > tr:first-child td:first-child {
+  font-weight: 700 !important;
+}
+
+table tbody tr:nth-child(even) td,
+.blogContainer table tbody tr:nth-child(even) td,
+.overviewSection table tbody tr:nth-child(even) td,
+.table tbody tr:nth-child(even) td,
+.table-bordered tbody tr:nth-child(even) td {
+  background-color: #ffffff !important;
+}
+
+table tbody tr:hover td,
+.table tbody tr:hover td {
+  background-color: #fbfbfb !important;
+}
+
+@media (max-width: 768px) {
+  table,
+  .blogContainer table,
+  .overviewSection table,
+  .table,
+  .table-bordered {
+    display: block !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  table td,
+  table th,
+  .blogContainer table td,
+  .blogContainer table th,
+  .overviewSection table td,
+  .overviewSection table th {
+    padding: 10px 12px !important;
+    font-size: 13.5px !important;
+    white-space: normal !important;
+    min-width: 140px !important;
   }
 }
 
@@ -1193,6 +1530,15 @@ header[class*="Header"].sticky-header,
   line-height: 1.7;
   color: #4f5359;
   margin-bottom: 24px;
+}
+.investmentDescription p {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #4f5359;
+  margin-bottom: 14px;
+}
+.investmentDescription p:last-child {
+  margin-bottom: 0;
 }
 
 .investmentHighlightsHeading {
@@ -1264,6 +1610,35 @@ header[class*="Header"].sticky-header,
 
 .investmentRightCol {
   width: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+.investmentImageCard {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f6f8fb;
+}
+
+.investmentImage {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  max-height: 600px;
+  object-fit: cover;
+  display: block;
+  border-radius: 20px;
+  transition: transform 0.4s ease;
+}
+
+.investmentImageCard:hover .investmentImage {
+  transform: scale(1.02);
 }
 
 .financingCard {
@@ -1325,6 +1700,11 @@ header[class*="Header"].sticky-header,
   .investmentGrid {
     grid-template-columns: 1fr;
     gap: 40px;
+  }
+
+  .investmentImage {
+    min-height: 320px;
+    max-height: 420px;
   }
 
   .financingCard {

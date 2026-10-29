@@ -29,6 +29,127 @@
     #cmsSearchInput::placeholder {
         color: #94a3b8;
     }
+    .adm-metric-input-wrap {
+        position: relative;
+        width: 100%;
+    }
+    .adm-metric-input-group {
+        display: flex;
+        align-items: center;
+        position: relative;
+        width: 100%;
+    }
+    .adm-metric-prefix-icon {
+        position: absolute;
+        left: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        background: #eaf1ed;
+        color: #234937;
+        pointer-events: none;
+        z-index: 2;
+        transition: color .2s, background .2s;
+    }
+    .adm-metric-prefix-icon svg {
+        width: 15px;
+        height: 15px;
+    }
+    .adm-metric-input {
+        padding-left: 38px !important;
+        padding-right: 32px !important;
+        width: 100% !important;
+    }
+    .adm-metric-dropdown-btn {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        border: 1px solid #d2dbe5;
+        border-radius: 6px;
+        background: #f8fafc;
+        color: #475569;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .15s ease;
+        z-index: 2;
+    }
+    .adm-metric-dropdown-btn:hover {
+        background: #e2e8f0;
+        color: #1e293b;
+        border-color: #94a3b8;
+    }
+    .adm-metric-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 4px);
+        left: 0;
+        right: 0;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15), 0 8px 10px -6px rgba(0,0,0,0.1);
+        z-index: 1050;
+        max-height: 220px;
+        overflow-y: auto;
+        padding: 6px;
+    }
+    .adm-metric-menu.show {
+        display: block;
+        animation: admMetricFadeIn .15s ease-out;
+    }
+    @keyframes admMetricFadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .adm-metric-menu-header {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .05em;
+        color: #64748b;
+        padding: 6px 10px 4px;
+        border-bottom: 1px solid #f1f5f9;
+        margin-bottom: 4px;
+    }
+    .adm-metric-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 10px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        color: #1e293b;
+        transition: background .12s, color .12s;
+    }
+    .adm-metric-menu-item:hover {
+        background: #f1f5f9;
+        color: #234937;
+    }
+    .adm-metric-menu-item-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 6px;
+        background: #f1f5f9;
+        color: #234937;
+        flex-shrink: 0;
+    }
+    .adm-metric-menu-item:hover .adm-metric-menu-item-icon {
+        background: #eaf1ed;
+        color: #1b3d2d;
+    }
 </style>
 @endpush
 
@@ -217,7 +338,7 @@
                 <!-- General Info -->
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px;">
                     <div>
-                        <label class="adm-label" for="newPageTitle" style="font-weight:700;">Page Title <span style="color:#ef4444;">*</span></label>
+                        <label class="adm-label" for="newPageTitle" style="font-weight:700;">Page Name <span style="color:#ef4444;">*</span></label>
                         <input type="text" id="newPageTitle" name="title" required placeholder="e.g. Sunset Residences" class="adm-input" style="font-size:15px; font-weight:600;">
                     </div>
                     <div>
@@ -500,7 +621,7 @@
                                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
                                         <div>
                                             <label class="adm-label" for="heroTitleInput" style="font-weight:600; font-size:12.5px;">Main Heading (H1)</label>
-                                            <input type="text" id="heroTitleInput" name="hero_title" class="adm-input" placeholder="e.g. Sunset Residences" value="Hudayriyat Island Waterfront Sanctuary" style="font-size:13px;">
+                                            <input type="text" id="heroTitleInput" name="hero_title" class="adm-input" placeholder="e.g. Sunset Residences" value="" style="font-size:13px;">
                                         </div>
                                         <div>
                                             <label class="adm-label" for="heroSubtitleInput" style="font-weight:600; font-size:12.5px;">Subtitle / Tagline</label>
@@ -536,17 +657,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Summernote Rich Description -->
-                                    <div style="margin-bottom:6px;">
-                                        <label class="adm-label" for="heroSummernote" style="font-weight:700; font-size:12.5px; color:#111827; margin-bottom:6px;">
-                                            Hero Rich Content / Article (Summernote Editor)
-                                        </label>
-                                        <textarea id="heroSummernote" name="hero_content" class="adm-summernote" style="min-height:160px;">
-<h2>Welcome to Hudayriyat Island Waterfront Sanctuary</h2>
-<p>Discover an extraordinary coastal sanctuary where world-class design meets untouched island nature. Located on the pristine shores of Abu Dhabi's Hudayriyat Island, this masterfully planned community offers unparalleled seaside living.</p>
-<p>Residents enjoy direct access to white sand beaches, tranquil cycling tracks, world-class athletic hubs, and vibrant waterfront dining.</p>
-                                        </textarea>
-                                    </div>
                                 </div>
 
 <div id="hlEditorDrawer" style="display:none; padding:20px; background:#ffffff; border:1.5px solid #1a4731; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,0.06); margin-top:14px; margin-bottom:14px;">
@@ -562,157 +672,81 @@
                                     </div>
 
                                     <div style="font-size:12px; font-weight:700; color:#1a4731; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">
-                                        6 Key Highlight Cards (Customize Label, Value &amp; Icon):
+                                        Key Highlight Cards (Customize Metric Label &amp; Value):
                                     </div>
 
-                                    <!-- 6 Cards Grid -->
+                                    @php
+                                        $metricPresetsList = [
+                                            ['label' => 'Developer', 'key' => 'developer', 'icon' => 'building', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>'],
+                                            ['label' => 'Price', 'key' => 'price', 'icon' => 'price', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/><path d="M12 11v4"/></svg>'],
+                                            ['label' => 'Price From', 'key' => 'price', 'icon' => 'price', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/><path d="M12 11v4"/></svg>'],
+                                            ['label' => 'Handover Date', 'key' => 'handover', 'icon' => 'calendar', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg>'],
+                                            ['label' => 'Property Type', 'key' => 'property_type', 'icon' => 'home', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>'],
+                                            ['label' => 'Ownership', 'key' => 'ownership', 'icon' => 'shield', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'],
+                                            ['label' => 'Bedrooms', 'key' => 'bedrooms', 'icon' => 'bed', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>'],
+                                            ['label' => 'Location', 'key' => 'location', 'icon' => 'map-pin', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'],
+                                            ['label' => 'Plot Size', 'key' => 'plot_size', 'icon' => 'plot_size', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>'],
+                                            ['label' => 'Down Payment', 'key' => 'down_payment', 'icon' => 'credit-card', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>'],
+                                            ['label' => 'Featured Highlight', 'key' => 'featured', 'icon' => 'star', 'svg' => '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'],
+                                        ];
+
+                                        $initialHighlightCards = [
+                                            ['label' => 'Developer', 'value' => 'Modon Properties', 'icon' => 'building'],
+                                            ['label' => 'Price', 'value' => 'AED 4,300,000*', 'icon' => 'price'],
+                                            ['label' => 'Handover Date', 'value' => 'Q3 2030', 'icon' => 'calendar'],
+                                            ['label' => 'Property Type', 'value' => 'Villas', 'icon' => 'home'],
+                                            ['label' => 'Ownership', 'value' => 'Freehold', 'icon' => 'shield'],
+                                        ];
+                                    @endphp
+
+                                    <!-- Highlight Cards Grid -->
                                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-                                        
-                                        <!-- Item 1: Developer -->
-                                        <div style="border:1px solid #e5e7eb; border-radius:8px; padding:10px 12px; background:#faf8f5;">
-                                            <div style="font-size:11.5px; font-weight:700; color:#374151; margin-bottom:6px;">Card 1</div>
-                                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Label</label>
-                                                    <input type="text" name="highlights_items[0][label]" value="Developer" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Value</label>
-                                                    <input type="text" name="highlights_items[0][value]" value="Modon Properties" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Icon</label>
-                                                <select name="highlights_items[0][icon]" class="adm-input" style="font-size:12px; padding:4px 8px;">
-                                                    <option value="building" selected>🏢 Building / Developer</option>
-                                                    <option value="tag">🏷️ Tag / Price</option>
-                                                    <option value="calendar">📅 Calendar / Handover</option>
-                                                    <option value="home">🏠 Home / Property Type</option>
-                                                    <option value="shield">🛡️ Shield / Freehold</option>
-                                                    <option value="bed">🛏️ Bed / Bedrooms</option>
-                                                    <option value="credit-card">💳 Credit Card / Payment Plan</option>
-                                                    <option value="map-pin">📍 Location / Map Pin</option>
-                                                    <option value="star">⭐ Star / Luxury</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <!-- Item 2: Price -->
-                                        <div style="border:1px solid #e5e7eb; border-radius:8px; padding:10px 12px; background:#faf8f5;">
-                                            <div style="font-size:11.5px; font-weight:700; color:#374151; margin-bottom:6px;">Card 2</div>
-                                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Label</label>
-                                                    <input type="text" name="highlights_items[1][label]" value="Price" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Value</label>
-                                                    <input type="text" name="highlights_items[1][value]" value="AED 4,300,000*" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Icon</label>
-                                                <select name="highlights_items[1][icon]" class="adm-input" style="font-size:12px; padding:4px 8px;">
-                                                    <option value="building">🏢 Building / Developer</option>
-                                                    <option value="tag" selected>🏷️ Tag / Price</option>
-                                                    <option value="calendar">📅 Calendar / Handover</option>
-                                                    <option value="home">🏠 Home / Property Type</option>
-                                                    <option value="shield">🛡️ Shield / Freehold</option>
-                                                    <option value="bed">🛏️ Bed / Bedrooms</option>
-                                                    <option value="credit-card">💳 Credit Card / Payment Plan</option>
-                                                    <option value="map-pin">📍 Location / Map Pin</option>
-                                                    <option value="star">⭐ Star / Luxury</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <!-- Item 3: Handover -->
-                                        <div style="border:1px solid #e5e7eb; border-radius:8px; padding:10px 12px; background:#faf8f5;">
-                                            <div style="font-size:11.5px; font-weight:700; color:#374151; margin-bottom:6px;">Card 3</div>
-                                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Label</label>
-                                                    <input type="text" name="highlights_items[2][label]" value="Handover Date" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Value</label>
-                                                    <input type="text" name="highlights_items[2][value]" value="Q3 2030" class="adm-input" style="font-size:12px; padding:5px 8px;">
+                                        @foreach($initialHighlightCards as $idx => $card)
+                                            <div style="border:1px solid #e5e7eb; border-radius:8px; padding:10px 12px; background:#faf8f5;">
+                                                <div style="font-size:11.5px; font-weight:700; color:#374151; margin-bottom:6px;">Card {{ $idx + 1 }}</div>
+                                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                                                    <div>
+                                                        <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px; font-weight:600;">Metric</label>
+                                                        <input type="hidden" name="highlights_items[{{ $idx }}][icon]" class="adm-hl-icon-input" value="{{ $card['icon'] }}">
+                                                        <div class="adm-metric-input-wrap">
+                                                            <div class="adm-metric-input-group">
+                                                                <span class="adm-metric-prefix-icon" title="Metric Icon">
+                                                                    @php
+                                                                        $matchedSvg = $metricPresetsList[0]['svg'];
+                                                                        foreach($metricPresetsList as $mp) {
+                                                                            if(strtolower($mp['label']) === strtolower($card['label'])) {
+                                                                                $matchedSvg = $mp['svg'];
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                    @endphp
+                                                                    {!! $matchedSvg !!}
+                                                                </span>
+                                                                <input type="text" name="highlights_items[{{ $idx }}][label]" value="{{ $card['label'] }}" class="adm-input adm-metric-input" oninput="onMetricInputChange(this)" placeholder="Metric Label" style="font-size:12px; padding:5px 30px 5px 38px;">
+                                                                <button type="button" class="adm-metric-dropdown-btn" onclick="toggleMetricDropdown(this)" title="Choose Metric Name">
+                                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <polyline points="6 9 12 15 18 9"></polyline>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                            <div class="adm-metric-menu">
+                                                                <div class="adm-metric-menu-header">Select Predefined Metric</div>
+                                                                @foreach($metricPresetsList as $preset)
+                                                                    <div class="adm-metric-menu-item" onclick="selectMetricOption(this, '{{ $preset['label'] }}', '{{ $preset['key'] }}', '{{ $preset['icon'] }}')">
+                                                                        <span class="adm-metric-menu-item-icon">{!! $preset['svg'] !!}</span>
+                                                                        <span class="adm-metric-menu-item-label">{{ $preset['label'] }}</span>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px; font-weight:600;">Value</label>
+                                                        <input type="text" name="highlights_items[{{ $idx }}][value]" value="{{ $card['value'] }}" class="adm-input" style="font-size:12px; padding:5px 8px;">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Icon</label>
-                                                <select name="highlights_items[2][icon]" class="adm-input" style="font-size:12px; padding:4px 8px;">
-                                                    <option value="building">🏢 Building / Developer</option>
-                                                    <option value="tag">🏷️ Tag / Price</option>
-                                                    <option value="calendar" selected>📅 Calendar / Handover</option>
-                                                    <option value="home">🏠 Home / Property Type</option>
-                                                    <option value="shield">🛡️ Shield / Freehold</option>
-                                                    <option value="bed">🛏️ Bed / Bedrooms</option>
-                                                    <option value="credit-card">💳 Credit Card / Payment Plan</option>
-                                                    <option value="map-pin">📍 Location / Map Pin</option>
-                                                    <option value="star">⭐ Star / Luxury</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <!-- Item 4: Property Type -->
-                                        <div style="border:1px solid #e5e7eb; border-radius:8px; padding:10px 12px; background:#faf8f5;">
-                                            <div style="font-size:11.5px; font-weight:700; color:#374151; margin-bottom:6px;">Card 4</div>
-                                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Label</label>
-                                                    <input type="text" name="highlights_items[3][label]" value="Property Type" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Value</label>
-                                                    <input type="text" name="highlights_items[3][value]" value="Villas" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Icon</label>
-                                                <select name="highlights_items[3][icon]" class="adm-input" style="font-size:12px; padding:4px 8px;">
-                                                    <option value="building">🏢 Building / Developer</option>
-                                                    <option value="tag">🏷️ Tag / Price</option>
-                                                    <option value="calendar">📅 Calendar / Handover</option>
-                                                    <option value="home" selected>🏠 Home / Property Type</option>
-                                                    <option value="shield">🛡️ Shield / Freehold</option>
-                                                    <option value="bed">🛏️ Bed / Bedrooms</option>
-                                                    <option value="credit-card">💳 Credit Card / Payment Plan</option>
-                                                    <option value="map-pin">📍 Location / Map Pin</option>
-                                                    <option value="star">⭐ Star / Luxury</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <!-- Item 5: Ownership -->
-                                        <div style="border:1px solid #e5e7eb; border-radius:8px; padding:10px 12px; background:#faf8f5;">
-                                            <div style="font-size:11.5px; font-weight:700; color:#374151; margin-bottom:6px;">Card 5</div>
-                                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;">
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Label</label>
-                                                    <input type="text" name="highlights_items[4][label]" value="Ownership" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                                <div>
-                                                    <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Value</label>
-                                                    <input type="text" name="highlights_items[4][value]" value="Freehold" class="adm-input" style="font-size:12px; padding:5px 8px;">
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px;">Icon</label>
-                                                <select name="highlights_items[4][icon]" class="adm-input" style="font-size:12px; padding:4px 8px;">
-                                                    <option value="building">🏢 Building / Developer</option>
-                                                    <option value="tag">🏷️ Tag / Price</option>
-                                                    <option value="calendar">📅 Calendar / Handover</option>
-                                                    <option value="home">🏠 Home / Property Type</option>
-                                                    <option value="shield" selected>🛡️ Shield / Freehold</option>
-                                                    <option value="bed">🛏️ Bed / Bedrooms</option>
-                                                    <option value="credit-card">💳 Credit Card / Payment Plan</option>
-                                                    <option value="map-pin">📍 Location / Map Pin</option>
-                                                    <option value="star">⭐ Star / Luxury</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
+                                        @endforeach
                                     </div>
                                 </div>
 
@@ -818,127 +852,82 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
                                         </div>
                                     </div>
 
-                                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e5e7eb; padding-bottom:8px;">
-                                        <span style="font-size:12.5px; font-weight:700; color:#1a4731; text-transform:uppercase; letter-spacing:0.5px;">
-                                            Project Cards List (Attach Pages &amp; Customize Details):
-                                        </span>
-                                        <span style="font-size:11.5px; color:#6b7280;">Click "+ Add to Card" below to add more cards</span>
-                                    </div>
+                                    @php
+                                        $allAvailableProjects = $allProjects ?? \App\Models\Project::with('page')->orderBy('order', 'asc')->get();
+                                    @endphp
 
-                                    <!-- Repeater Cards Container -->
-                                    <div id="communitiesCardsContainer" style="display:flex; flex-direction:column; gap:14px; margin-bottom:16px;">
-                                        
-                                        <!-- Card Item 1 (Default Wadeem Gardens) -->
-                                        <div class="comm-repeater-card" id="commCard_0" style="border:1px solid #e5e7eb; border-radius:10px; background:#faf8f5; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
-                                            <!-- Card Header -->
-                                            <div style="display:flex; align-items:center; justify-content:space-between; padding:9px 14px; background:#f4efe8; border-bottom:1px solid #e7ded2;">
-                                                <div style="display:flex; align-items:center; gap:8px;">
-                                                    <span style="cursor:move; color:#9ca3af; font-size:14px;">⇅</span>
-                                                    <span class="commCardBadge" style="background:#1a4731; color:#ffffff; font-size:11px; padding:2px 7px; border-radius:4px; font-weight:700;">#1</span>
-                                                    <strong class="commCardHeadingTitle" style="font-size:13px; color:#111827;">Wadeem Gardens</strong>
-                                                </div>
-                                                <div style="display:flex; align-items:center; gap:8px;">
-                                                    <button type="button" onclick="deleteCommunityCard(this)" style="background:#fee2e2; border:1px solid #fca5a5; color:#b91c1c; font-size:11.5px; padding:3px 9px; border-radius:5px; cursor:pointer; display:inline-flex; align-items:center; gap:4px; font-weight:600;">
-                                                        🗑 Delete
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <!-- Card Body -->
-                                            <div style="padding:14px 16px; background:#ffffff;">
-                                                <!-- Row 1: Name & Location -->
-                                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                                                    <div>
-                                                        <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Community / Project Name</label>
-                                                        <input type="text" name="communities_items[0][name]" value="Wadeem Gardens" class="adm-input commCardNameInput" style="font-size:12.5px;" oninput="updateCardHeading(this, 0)">
-                                                    </div>
-                                                    <div>
-                                                        <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Location</label>
-                                                        <input type="text" name="communities_items[0][location]" value="Hudayriyat Island, Abu Dhabi" class="adm-input" style="font-size:12.5px;">
-                                                    </div>
-                                                </div>
-
-                                                <!-- Row 2: Price & Delivery -->
-                                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                                                    <div>
-                                                        <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Launch Price Tag</label>
-                                                        <input type="text" name="communities_items[0][price]" value="Launch Price: 8.7M AED" class="adm-input" style="font-size:12.5px;" placeholder="e.g. Launch Price: 8.7M AED">
-                                                    </div>
-                                                    <div>
-                                                        <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Delivery Date Tag</label>
-                                                        <input type="text" name="communities_items[0][delivery]" value="Delivery Date: Q2 2031" class="adm-input" style="font-size:12.5px;" placeholder="e.g. Delivery Date: Q2 2031">
-                                                    </div>
-                                                </div>
-
-                                                <!-- Row 3: Developer & Payment Plan -->
-                                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                                                    <div>
-                                                        <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Developer Badge</label>
-                                                        <input type="text" name="communities_items[0][developer]" value="Modon Properties" class="adm-input" style="font-size:12.5px;">
-                                                    </div>
-                                                    <div>
-                                                        <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Payment Plan Badge</label>
-                                                        <input type="text" name="communities_items[0][paymentPlan]" value="Flexible Payment Plan" class="adm-input" style="font-size:12.5px;" placeholder="e.g. Flexible Payment Plan">
-                                                    </div>
-                                                </div>
-
-                                                <!-- Row 4: Dropdown to Attach Project Page (Replacing plain text input) -->
-                                                <div style="margin-bottom:12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:10px 12px;">
-                                                    <label class="adm-label" style="font-size:12px; font-weight:700; color:#1e40af; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
-                                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                                                        Attach Project Page (Detail Page URL / Route Dropdown)
-                                                    </label>
-                                                    <select name="communities_items[0][href]" class="adm-input commCardHrefSelect" style="font-size:12.5px; background:#ffffff; border-color:#93c5fd; color:#1e3a8a; font-weight:600;" onchange="handleProjectDropdownChange(this, 0)">
-                                                        <option value="">-- Select Project Page to Attach to this Card --</option>
-                                                        @if(isset($projectPages) && $projectPages->count())
-                                                            @foreach($projectPages as $pPage)
-                                                                <option value="/{{ ltrim($pPage->slug, '/') }}" data-title="{{ $pPage->title }}" {{ (ltrim($pPage->slug, '/') === 'wadeem-gardens') ? 'selected' : '' }}>
-                                                                    {{ $pPage->title }} (/{{ ltrim($pPage->slug, '/') }})
-                                                                </option>
-                                                            @endforeach
-                                                        @else
-                                                            <option value="/wadeem-gardens" selected>Wadeem Gardens (/wadeem-gardens)</option>
-                                                            <option value="/hudayriyat-golf-estates">Hudayriyat Golf Estates (/hudayriyat-golf-estates)</option>
-                                                            <option value="/al-naseem-villas">Al Naseem Villas (/al-naseem-villas)</option>
-                                                            <option value="/bashayer-residences">Bashayer Residences (/bashayer-residences)</option>
-                                                        @endif
-                                                    </select>
-                                                    <span style="font-size:11px; color:#3b82f6; margin-top:3px; display:block;">When clicked on the website, this attached project page will open directly.</span>
-                                                </div>
-
-                                                <!-- Row 5: Project Photo (Change Image / Upload) -->
-                                                <div>
-                                                    <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Project Photo (Change Image / Upload)</label>
-                                                    <div style="display:flex; gap:10px; align-items:center; background:#f9fafb; border:1px solid #e5e7eb; padding:8px 12px; border-radius:8px;">
-                                                        <div style="width:68px; height:44px; border-radius:6px; overflow:hidden; border:1px solid #d1d5db; flex-shrink:0; background:#e5e7eb;">
-                                                            <img id="commPreview_0" src="{{ asset('images/communities/wadeem-gardens.png') }}" style="width:100%; height:100%; object-fit:cover; display:block;">
-                                                        </div>
-                                                        <div style="flex:1; display:flex; flex-direction:column; gap:4px; min-width:0;">
-                                                            <div style="display:flex; gap:6px; align-items:center;">
-                                                                <input type="file" id="commFileInput_0" name="communities_items[0][image_file]" accept="image/*" style="display:none;" onchange="handleCardImageFileChange(this, 0)">
-                                                                <button type="button" onclick="document.getElementById('commFileInput_0').click()" class="adm-btn adm-btn-secondary" style="padding:4px 9px; font-size:11.5px; font-weight:600; white-space:nowrap; background:#ffffff; border:1px solid #d1d5db; color:#374151;">
-                                                                    Choose File
-                                                                </button>
-                                                                <input type="text" name="communities_items[0][image]" value="/images/communities/wadeem-gardens.png" class="adm-input" style="font-size:12px; padding:4px 8px; height:auto;" placeholder="Or image path" oninput="updateCommPreviewFromUrl(this.value, 0)">
-                                                            </div>
-                                                            <span id="commFileHint_0" style="font-size:11px; color:#6b7280; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">Default: /images/communities/wadeem-gardens.png</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                    <div style="margin-top: 18px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                                            <span style="font-size: 13px; font-weight: 700; color: #1a4731; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                Select Property Cards (Drag &amp; Drop Between Boxes):
+                                            </span>
+                                            <span style="font-size: 12px; color: #64748b;">
+                                                Mouse se card ko pakar kar right box me le aayein
+                                            </span>
                                         </div>
 
-                                    </div>
+                                        <!-- Dual Boxes Grid (Side-by-side tall boxes) -->
+                                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                            
+                                            <!-- BOX 1: All Available Property Cards -->
+                                            <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 12px; padding: 16px; display: flex; flex-direction: column;">
+                                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0;">
+                                                    <div>
+                                                        <strong style="font-size: 13.5px; color: #1e293b; display: flex; align-items: center; gap: 6px;">
+                                                            📁 Available Property Cards (<span id="availableCount">{{ $allAvailableProjects->count() }}</span>)
+                                                        </strong>
+                                                        <span style="font-size: 11.5px; color: #64748b;">All created property cards in your system</span>
+                                                    </div>
+                                                </div>
 
-                                    <!-- Bottom Action: Add to Card Button -->
-                                    <div style="text-align:center; padding:12px; border:2px dashed #d1d5db; border-radius:8px; background:#faf8f5;">
-                                        <button type="button" onclick="addCommunityCard()" class="adm-btn adm-btn-primary" style="padding:8px 20px; font-size:13px; font-weight:700; display:inline-flex; align-items:center; gap:6px;">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                                            Add to Card (Create Another Card)
-                                        </button>
-                                        <div style="font-size:11.5px; color:#6b7280; margin-top:4px;">
-                                            You can create as many cards as you want and assign any project page to each card.
+                                                <div id="box1_availableCards" ondragover="allowDropCard(event)" ondrop="dropCardToAvailable(event)" style="display: flex; flex-direction: column; gap: 8px; min-height: 380px; max-height: 540px; overflow-y: auto; padding: 4px;">
+                                                    @foreach($allAvailableProjects as $proj)
+                                                        <div class="dual-project-card" id="proj_card_{{ $proj->id }}" data-id="{{ $proj->id }}" draggable="true" ondragstart="dragCardStart(event)" ondragend="dragCardEnd(event)" style="display: flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; cursor: grab; box-shadow: 0 1px 2px rgba(0,0,0,0.03); transition: all 0.15s ease;">
+                                                            <span style="color: #94a3b8; font-size: 14px; cursor: grab; user-select: none;">⠿</span>
+                                                            <img src="{{ $proj->image_url }}" alt="" style="width: 48px; height: 34px; object-fit: cover; border-radius: 5px; border: 1px solid #cbd5e1; flex-shrink: 0; background: #f1f5f9;">
+                                                            <div style="flex: 1; min-width: 0;">
+                                                                <strong class="dual-card-title" style="display: block; font-size: 13px; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $proj->title }}</strong>
+                                                                <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Hudayriyat Island') }}</span>
+                                                            </div>
+                                                            <button type="button" onclick="moveCardToSelected({{ $proj->id }})" title="Add to page" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
+                                                                + Add
+                                                            </button>
+                                                        </div>
+                                                    @endforeach
+                                                    @if($allAvailableProjects->isEmpty())
+                                                        <div style="text-align: center; padding: 40px 10px; color: #94a3b8; font-size: 13px;">
+                                                            No property cards found.<br>
+                                                            <a href="{{ route('admin.projects.index') }}" target="_blank" style="color: #0284c7; text-decoration: underline;">Create property cards in Projects module</a>
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <!-- BOX 2: Selected Cards for This Page -->
+                                            <div style="background: #ffffff; border: 1.5px solid #1a4731; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; box-shadow: 0 4px 14px rgba(26, 71, 49, 0.05);">
+                                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;">
+                                                    <div>
+                                                        <strong style="font-size: 13.5px; color: #1a4731; display: flex; align-items: center; gap: 6px;">
+                                                            ✓ Selected Cards for This Page (<span id="selectedCount">0</span>)
+                                                        </strong>
+                                                        <span style="font-size: 11.5px; color: #64748b;">Sirf ye cards aapke page par dikhenge</span>
+                                                    </div>
+                                                    <button type="button" onclick="clearAllSelectedCards()" style="background: none; border: none; font-size: 11.5px; color: #ef4444; cursor: pointer; text-decoration: underline;">Clear All</button>
+                                                </div>
+
+                                                <div id="box2_selectedCards" ondragover="allowDropCard(event)" ondrop="dropCardToSelected(event)" style="display: flex; flex-direction: column; gap: 8px; min-height: 380px; max-height: 540px; overflow-y: auto; padding: 4px; border-radius: 8px;">
+                                                    <!-- Empty placeholder when 0 cards -->
+                                                    <div id="selectedCardsEmptyState" style="text-align: center; padding: 80px 20px; border: 2px dashed #e2e8f0; border-radius: 8px; color: #94a3b8;">
+                                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.8" style="margin: 0 auto 10px; display: block;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                                                        <strong style="display: block; font-size: 14px; color: #475569; margin-bottom: 4px;">Drag Cards Here</strong>
+                                                        <span style="font-size: 12px; color: #94a3b8;">Left box se mouse se pakar kar yahan chhor dein (drop karein)</span>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Hidden container for form inputs -->
+                                                <div id="selectedCardsInputsContainer"></div>
+                                            </div>
+
                                         </div>
                                     </div>
 
@@ -1182,6 +1171,8 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
                 document.getElementById('newPageTitle')?.focus();
             }, 50);
         }
+        manuallyEditedSlug = false;
+        manuallyEditedHeroTitle = false;
     }
 
     function closeCreatePageModal() {
@@ -1452,24 +1443,6 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
     function initSummernote() {
         setTimeout(function() {
             if (typeof $ !== 'undefined') {
-                if ($('#heroSummernote').length && !$('#heroSummernote').data('summernote')) {
-                    $('#heroSummernote').summernote({
-                        height: 160,
-                        toolbar: [
-                            ['style', ['style']],
-                            ['font', ['bold', 'italic', 'underline', 'clear']],
-                            ['para', ['ul', 'ol', 'paragraph']],
-                            ['insert', ['link', 'picture', 'hr']],
-                            ['view', ['fullscreen', 'codeview']]
-                        ],
-                        styleTags: [
-                            'p',
-                            { title: 'Heading 1', tag: 'h1', className: '', value: 'h1' },
-                            { title: 'Heading 2', tag: 'h2', className: '', value: 'h2' },
-                            { title: 'Heading 3', tag: 'h3', className: '', value: 'h3' },
-                        ]
-                    });
-                }
                 if ($('#articleSummernote').length && !$('#articleSummernote').data('summernote')) {
                     $('#articleSummernote').summernote({
                         height: 180,
@@ -1523,6 +1496,74 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
         }
     }
 
+    const METRIC_PRESETS_DATA = [
+        { label: 'Developer', key: 'developer', icon: 'building', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>' },
+        { label: 'Price', key: 'price', icon: 'price', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/><path d="M12 11v4"/></svg>' },
+        { label: 'Price From', key: 'price', icon: 'price', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3"/><path d="M12 11v4"/></svg>' },
+        { label: 'Handover Date', key: 'handover', icon: 'calendar', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/><path d="m9 16 2 2 4-4"/></svg>' },
+        { label: 'Property Type', key: 'property_type', icon: 'home', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>' },
+        { label: 'Ownership', key: 'ownership', icon: 'shield', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>' },
+        { label: 'Bedrooms', key: 'bedrooms', icon: 'bed', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></svg>' },
+        { label: 'Location', key: 'location', icon: 'map-pin', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' },
+        { label: 'Plot Size', key: 'plot_size', icon: 'plot_size', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>' },
+        { label: 'Down Payment', key: 'down_payment', icon: 'credit-card', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>' },
+        { label: 'Featured Highlight', key: 'featured', icon: 'star', svg: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' }
+    ];
+
+    function toggleMetricDropdown(btn) {
+        const wrap = btn.closest('.adm-metric-input-wrap');
+        if (!wrap) return;
+        const menu = wrap.querySelector('.adm-metric-menu');
+        if (!menu) return;
+        const wasOpen = menu.classList.contains('show');
+        document.querySelectorAll('.adm-metric-menu.show').forEach(m => m.classList.remove('show'));
+        if (!wasOpen) menu.classList.add('show');
+    }
+
+    function selectMetricOption(itemEl, label, key, iconType) {
+        const wrap = itemEl.closest('.adm-metric-input-wrap');
+        if (!wrap) return;
+        const card = wrap.closest('[style*="border-radius:8px"]') || wrap.parentElement.parentElement.parentElement;
+        const input = wrap.querySelector('.adm-metric-input');
+        const prefixIcon = wrap.querySelector('.adm-metric-prefix-icon');
+        const menu = wrap.querySelector('.adm-metric-menu');
+
+        if (input) input.value = label;
+        const itemSvg = itemEl.querySelector('svg');
+        if (prefixIcon && itemSvg) prefixIcon.innerHTML = itemSvg.outerHTML;
+
+        if (card) {
+            const iconInput = card.querySelector('.adm-hl-icon-input');
+            if (iconInput) iconInput.value = iconType;
+        }
+        if (menu) menu.classList.remove('show');
+    }
+
+    function onMetricInputChange(input) {
+        const wrap = input.closest('.adm-metric-input-wrap');
+        if (!wrap) return;
+        const prefixIcon = wrap.querySelector('.adm-metric-prefix-icon');
+        const card = wrap.closest('[style*="border-radius:8px"]') || wrap.parentElement.parentElement.parentElement;
+        const low = (input.value || '').toLowerCase().trim();
+        const match = METRIC_PRESETS_DATA.find(p => {
+            const pLow = p.label.toLowerCase();
+            return low.includes(pLow) || pLow.includes(low);
+        });
+        if (prefixIcon && match) {
+            prefixIcon.innerHTML = match.svg;
+        }
+        if (card && match) {
+            const iconInput = card.querySelector('.adm-hl-icon-input');
+            if (iconInput) iconInput.value = match.icon;
+        }
+    }
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.adm-metric-input-wrap')) {
+            document.querySelectorAll('.adm-metric-menu.show').forEach(m => m.classList.remove('show'));
+        }
+    });
+
     // Auto-generate slug and prefill heading from page title
     document.addEventListener('DOMContentLoaded', function () {
         const titleInput = document.getElementById('newPageTitle');
@@ -1563,7 +1604,7 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
                     slugInput.value = slug;
                 }
                 if (!manuallyEditedHeroTitle && heroTitleInput) {
-                    heroTitleInput.value = this.value.trim() ? this.value.trim() + ' Waterfront Sanctuary' : 'Hudayriyat Island Waterfront Sanctuary';
+                    heroTitleInput.value = this.value;
                 }
                 if (!manuallyEditedAboutTitle && aboutTitleInput) {
                     aboutTitleInput.value = this.value.trim() ? this.value.trim() + ' by Modon' : 'Hudayriyat Island Waterfront Sanctuary by Modon';
@@ -1585,201 +1626,168 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
         }
     }
 
-    // Available project pages serialized for dynamic card creation
-    const availableProjectPages = @json($projectPages ?? []);
+    // ==========================================
+    // DUAL-BOX PROJECT CARDS SELECTION (DRAG & DROP)
+    // ==========================================
+    let draggedDualCard = null;
 
-    // Add to Card: dynamically appends a new community card
-    function addCommunityCard() {
-        const container = document.getElementById('communitiesCardsContainer');
-        if (!container) return;
+    function dragCardStart(e) {
+        draggedDualCard = e.currentTarget;
+        e.dataTransfer.setData('text/plain', e.currentTarget.getAttribute('data-id') || '');
+        e.dataTransfer.effectAllowed = 'move';
+        e.currentTarget.style.opacity = '0.5';
+        e.currentTarget.style.border = '1.5px dashed #0284c7';
+    }
 
-        const idx = commCardCount++;
-        const cardNum = container.querySelectorAll('.comm-repeater-card').length + 1;
+    function dragCardEnd(e) {
+        if (e.currentTarget) {
+            e.currentTarget.style.opacity = '1';
+            e.currentTarget.style.border = '1px solid #e2e8f0';
+        }
+        draggedDualCard = null;
+    }
 
-        // Build options HTML for project pages
-        let optionsHtml = '<option value="">-- Select Project Page to Attach to this Card --</option>';
-        if (availableProjectPages && availableProjectPages.length > 0) {
-            availableProjectPages.forEach(p => {
-                const cleanSlug = p.slug.replace(/^\/+/, '');
-                optionsHtml += `<option value="/${cleanSlug}" data-title="${p.title}">${p.title} (/${cleanSlug})</option>`;
-            });
+    function allowDropCard(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    }
+
+    function dropCardToSelected(e) {
+        e.preventDefault();
+        const card = draggedDualCard;
+        if (!card) return;
+
+        const box2 = document.getElementById('box2_selectedCards');
+        if (!box2) return;
+
+        // If dropped onto a specific card in Box 2, insert before it for precise ordering
+        const targetCard = e.target.closest('.dual-project-card');
+        if (targetCard && targetCard.parentNode === box2 && targetCard !== card) {
+            box2.insertBefore(card, targetCard);
         } else {
-            optionsHtml += `
-                <option value="/wadeem-gardens">Wadeem Gardens (/wadeem-gardens)</option>
-                <option value="/hudayriyat-golf-estates">Hudayriyat Golf Estates (/hudayriyat-golf-estates)</option>
-                <option value="/al-naseem-villas">Al Naseem Villas (/al-naseem-villas)</option>
-                <option value="/bashayer-residences">Bashayer Residences (/bashayer-residences)</option>
-            `;
+            box2.appendChild(card);
         }
 
-        const newCardHtml = `
-            <div class="comm-repeater-card" id="commCard_${idx}" style="border:1px solid #e5e7eb; border-radius:10px; background:#faf8f5; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.04);">
-                <div style="display:flex; align-items:center; justify-content:space-between; padding:9px 14px; background:#f4efe8; border-bottom:1px solid #e7ded2;">
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span style="cursor:move; color:#9ca3af; font-size:14px;">⇅</span>
-                        <span class="commCardBadge" style="background:#1a4731; color:#ffffff; font-size:11px; padding:2px 7px; border-radius:4px; font-weight:700;">#${cardNum}</span>
-                        <strong class="commCardHeadingTitle" style="font-size:13px; color:#111827;">New Project ${cardNum}</strong>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <button type="button" onclick="deleteCommunityCard(this)" style="background:#fee2e2; border:1px solid #fca5a5; color:#b91c1c; font-size:11.5px; padding:3px 9px; border-radius:5px; cursor:pointer; display:inline-flex; align-items:center; gap:4px; font-weight:600;">
-                            🗑 Delete
-                        </button>
-                    </div>
-                </div>
-
-                <div style="padding:14px 16px; background:#ffffff;">
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                        <div>
-                            <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Community / Project Name</label>
-                            <input type="text" name="communities_items[${idx}][name]" value="New Project ${cardNum}" class="adm-input commCardNameInput" style="font-size:12.5px;" oninput="updateCardHeading(this, ${idx})">
-                        </div>
-                        <div>
-                            <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Location</label>
-                            <input type="text" name="communities_items[${idx}][location]" value="Hudayriyat Island, Abu Dhabi" class="adm-input" style="font-size:12.5px;">
-                        </div>
-                    </div>
-
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                        <div>
-                            <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Launch Price Tag</label>
-                            <input type="text" name="communities_items[${idx}][price]" value="Launch Price: 4.5M AED" class="adm-input" style="font-size:12.5px;" placeholder="e.g. Launch Price: 4.5M AED">
-                        </div>
-                        <div>
-                            <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Delivery Date Tag</label>
-                            <input type="text" name="communities_items[${idx}][delivery]" value="Delivery Date: Q4 2030" class="adm-input" style="font-size:12.5px;" placeholder="e.g. Delivery Date: Q4 2030">
-                        </div>
-                    </div>
-
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:10px;">
-                        <div>
-                            <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Developer Badge</label>
-                            <input type="text" name="communities_items[${idx}][developer]" value="Modon Properties" class="adm-input" style="font-size:12.5px;">
-                        </div>
-                        <div>
-                            <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Payment Plan Badge</label>
-                            <input type="text" name="communities_items[${idx}][paymentPlan]" value="Flexible Payment Plan" class="adm-input" style="font-size:12.5px;" placeholder="e.g. Flexible Payment Plan">
-                        </div>
-                    </div>
-
-                    <!-- Dropdown to Attach Project Page -->
-                    <div style="margin-bottom:12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:10px 12px;">
-                        <label class="adm-label" style="font-size:12px; font-weight:700; color:#1e40af; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-                            Attach Project Page (Detail Page URL / Route Dropdown)
-                        </label>
-                        <select name="communities_items[${idx}][href]" class="adm-input commCardHrefSelect" style="font-size:12.5px; background:#ffffff; border-color:#93c5fd; color:#1e3a8a; font-weight:600;" onchange="handleProjectDropdownChange(this, ${idx})">
-                            ${optionsHtml}
-                        </select>
-                        <span style="font-size:11px; color:#3b82f6; margin-top:3px; display:block;">When clicked on the website, this attached project page will open directly.</span>
-                    </div>
-
-                    <!-- Project Photo -->
-                    <div>
-                        <label class="adm-label" style="font-size:11.5px; font-weight:600; color:#374151;">Project Photo (Change Image / Upload)</label>
-                        <div style="display:flex; gap:10px; align-items:center; background:#f9fafb; border:1px solid #e5e7eb; padding:8px 12px; border-radius:8px;">
-                            <div style="width:68px; height:44px; border-radius:6px; overflow:hidden; border:1px solid #d1d5db; flex-shrink:0; background:#e5e7eb;">
-                                <img id="commPreview_${idx}" src="/images/communities/golf-estates.jpg" style="width:100%; height:100%; object-fit:cover; display:block;">
-                            </div>
-                            <div style="flex:1; display:flex; flex-direction:column; gap:4px; min-width:0;">
-                                <div style="display:flex; gap:6px; align-items:center;">
-                                    <input type="file" id="commFileInput_${idx}" name="communities_items[${idx}][image_file]" accept="image/*" style="display:none;" onchange="handleCardImageFileChange(this, ${idx})">
-                                    <button type="button" onclick="document.getElementById('commFileInput_${idx}').click()" class="adm-btn adm-btn-secondary" style="padding:4px 9px; font-size:11.5px; font-weight:600; white-space:nowrap; background:#ffffff; border:1px solid #d1d5db; color:#374151;">
-                                        Choose File
-                                    </button>
-                                    <input type="text" name="communities_items[${idx}][image]" value="/images/communities/golf-estates.jpg" class="adm-input" style="font-size:12px; padding:4px 8px; height:auto;" placeholder="Or image path" oninput="updateCommPreviewFromUrl(this.value, ${idx})">
-                                </div>
-                                <span id="commFileHint_${idx}" style="font-size:11px; color:#6b7280; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">Default: /images/communities/golf-estates.jpg</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        `;
-
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = newCardHtml;
-        container.appendChild(tempDiv.firstElementChild);
-        renumberCommunityCards();
+        const id = card.getAttribute('data-id');
+        setCardToSelectedStyle(card, id);
+        updateDualBoxState();
     }
 
-    // Delete a community card
-    function deleteCommunityCard(btn) {
-        const card = btn.closest('.comm-repeater-card');
-        if (card) {
-            const container = document.getElementById('communitiesCardsContainer');
-            if (container.querySelectorAll('.comm-repeater-card').length <= 1) {
-                alert('At least one project card is recommended.');
-                return;
-            }
-            card.remove();
-            renumberCommunityCards();
-        }
+    function dropCardToAvailable(e) {
+        e.preventDefault();
+        const card = draggedDualCard;
+        if (!card) return;
+
+        const box1 = document.getElementById('box1_availableCards');
+        if (!box1) return;
+
+        box1.appendChild(card);
+        const id = card.getAttribute('data-id');
+        setCardToAvailableStyle(card, id);
+        updateDualBoxState();
     }
 
-    // Renumber remaining cards (#1, #2, etc.)
-    function renumberCommunityCards() {
-        const container = document.getElementById('communitiesCardsContainer');
-        if (!container) return;
-        const cards = container.querySelectorAll('.comm-repeater-card');
-        cards.forEach((card, index) => {
-            const badge = card.querySelector('.commCardBadge');
-            if (badge) badge.innerText = '#' + (index + 1);
+    function moveCardToSelected(id) {
+        const card = document.getElementById('proj_card_' + id);
+        const box2 = document.getElementById('box2_selectedCards');
+        if (!card || !box2) return;
+
+        box2.appendChild(card);
+        setCardToSelectedStyle(card, id);
+        updateDualBoxState();
+    }
+
+    function moveCardToAvailable(id) {
+        const card = document.getElementById('proj_card_' + id);
+        const box1 = document.getElementById('box1_availableCards');
+        if (!card || !box1) return;
+
+        box1.appendChild(card);
+        setCardToAvailableStyle(card, id);
+        updateDualBoxState();
+    }
+
+    function clearAllSelectedCards() {
+        const box1 = document.getElementById('box1_availableCards');
+        const box2 = document.getElementById('box2_selectedCards');
+        if (!box1 || !box2) return;
+
+        const cards = Array.from(box2.querySelectorAll('.dual-project-card'));
+        cards.forEach(card => {
+            box1.appendChild(card);
+            const id = card.getAttribute('data-id');
+            setCardToAvailableStyle(card, id);
         });
+        updateDualBoxState();
     }
 
-    // Handle project dropdown change
-    function handleProjectDropdownChange(selectEl, idx) {
-        const selectedOption = selectEl.options[selectEl.selectedIndex];
-        if (selectedOption && selectedOption.dataset.title) {
-            const card = selectEl.closest('.comm-repeater-card');
-            if (card) {
-                const nameInput = card.querySelector('.commCardNameInput');
-                if (nameInput && (!nameInput.value || nameInput.value.startsWith('New Project') || nameInput.value === 'Wadeem Gardens')) {
-                    nameInput.value = selectedOption.dataset.title;
-                    const headingText = card.querySelector('.commCardHeadingTitle');
-                    if (headingText) headingText.innerText = selectedOption.dataset.title;
+    function setCardToSelectedStyle(card, id) {
+        card.style.background = '#f0fdf4';
+        card.style.borderColor = '#86efac';
+        const actionBtn = card.querySelector('button');
+        if (actionBtn) {
+            actionBtn.setAttribute('onclick', `moveCardToAvailable(${id})`);
+            actionBtn.setAttribute('title', 'Remove from page');
+            actionBtn.style.background = '#fef2f2';
+            actionBtn.style.borderColor = '#fecaca';
+            actionBtn.style.color = '#dc2626';
+            actionBtn.innerHTML = '✕ Remove';
+        }
+    }
+
+    function setCardToAvailableStyle(card, id) {
+        card.style.background = '#ffffff';
+        card.style.borderColor = '#e2e8f0';
+        const actionBtn = card.querySelector('button');
+        if (actionBtn) {
+            actionBtn.setAttribute('onclick', `moveCardToSelected(${id})`);
+            actionBtn.setAttribute('title', 'Add to page');
+            actionBtn.style.background = '#f0fdf4';
+            actionBtn.style.borderColor = '#bbf7d0';
+            actionBtn.style.color = '#15803d';
+            actionBtn.innerHTML = '+ Add';
+        }
+    }
+
+    function updateDualBoxState() {
+        const box1 = document.getElementById('box1_availableCards');
+        const box2 = document.getElementById('box2_selectedCards');
+        const availCountSpan = document.getElementById('availableCount');
+        const selCountSpan = document.getElementById('selectedCount');
+        const emptyState = document.getElementById('selectedCardsEmptyState');
+        const inputsContainer = document.getElementById('selectedCardsInputsContainer');
+
+        if (!box1 || !box2) return;
+
+        const availCards = box1.querySelectorAll('.dual-project-card');
+        const selCards = box2.querySelectorAll('.dual-project-card');
+
+        if (availCountSpan) availCountSpan.textContent = availCards.length;
+        if (selCountSpan) selCountSpan.textContent = selCards.length;
+
+        if (emptyState) {
+            emptyState.style.display = selCards.length === 0 ? 'block' : 'none';
+        }
+
+        // Re-generate hidden inputs for selected_project_ids in exact DOM order
+        if (inputsContainer) {
+            inputsContainer.innerHTML = '';
+            selCards.forEach(card => {
+                const id = card.getAttribute('data-id');
+                if (id) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'selected_project_ids[]';
+                    input.value = id;
+                    inputsContainer.appendChild(input);
                 }
-            }
+            });
         }
     }
 
-    // Live update card heading title as user types
-    function updateCardHeading(input, idx) {
-        const card = input.closest('.comm-repeater-card');
-        if (card) {
-            const headingText = card.querySelector('.commCardHeadingTitle');
-            if (headingText) {
-                headingText.innerText = input.value.trim() || ('Project ' + (idx + 1));
-            }
-        }
-    }
-
-    // Handle Card Photo File Upload preview
-    function handleCardImageFileChange(input, idx) {
-        if (input.files && input.files[0]) {
-            const file = input.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const preview = document.getElementById('commPreview_' + idx);
-                if (preview) preview.src = e.target.result;
-                const hint = document.getElementById('commFileHint_' + idx);
-                if (hint) {
-                    hint.textContent = 'Selected: ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
-                    hint.style.color = '#1a4731';
-                    hint.style.fontWeight = '600';
-                }
-            };
-            reader.readAsDataURL(file);
-        }
-    }
-
-    function updateCommPreviewFromUrl(url, idx) {
-        const preview = document.getElementById('commPreview_' + idx);
-        if (preview && url) {
-            preview.src = url;
-        }
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        updateDualBoxState();
+    });
 
     // Toggle FAQ Drawer
     function toggleFaqEditorDrawer() {

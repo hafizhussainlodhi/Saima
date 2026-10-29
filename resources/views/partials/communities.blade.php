@@ -1,6 +1,35 @@
 @php
 $dbHeading = page_section('communities', 'heading', 'Projects');
-$dbProjects = \App\Models\Project::where('is_active', true)->with('page')->orderBy('order', 'asc')->get();
+
+// Retrieve Home page or current page communities section data
+$curPage = page_data('/') ?? (page_data('home') ?? page_data());
+$commSec = $curPage ? $curPage->sections()->whereIn('section_key', ['communities', 'projects'])->first() : null;
+$commSecData = $commSec ? ($commSec->content ?? []) : [];
+$unselectedProjectIds = (array) ($commSecData['unselected_ids'] ?? []);
+$selectedProjectIds = (array) ($commSecData['selected_ids'] ?? ($commSecData['project_ids'] ?? []));
+
+$allDbProjects = \App\Models\Project::where('is_active', true)->with('page')->orderBy('order', 'asc')->get();
+
+if (!empty($unselectedProjectIds) || !empty($selectedProjectIds)) {
+    // Exclude projects explicitly unselected by mouse in CMS
+    $unselectedInts = array_map('intval', $unselectedProjectIds);
+    $filteredProjects = $allDbProjects->reject(function($p) use ($unselectedInts) {
+        return in_array((int)$p->id, $unselectedInts, true);
+    });
+
+    // If custom order of selected cards was saved, preserve it; append new projects at the end
+    if (!empty($selectedProjectIds)) {
+        $idOrderMap = array_flip(array_map('intval', $selectedProjectIds));
+        $dbProjects = $filteredProjects->sortBy(function($p) use ($idOrderMap) {
+            return $idOrderMap[(int)$p->id] ?? -1;
+        })->values();
+    } else {
+        $dbProjects = $filteredProjects->values();
+    }
+} else {
+    // By default, show all active projects (any newly added project is included by default)
+    $dbProjects = $allDbProjects;
+}
 
 $hasDbProjects = $dbProjects->isNotEmpty();
 
@@ -9,8 +38,7 @@ $communitiesData = [
         'name' => 'Wadeem Gardens',
         'image' => asset('images/communities/wadeem-gardens.png'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 8.7M AED',
-        'delivery' => 'Delivery Date: Q2 2031',
+        'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => 'Flexible Payment Plan',
         'href' => '/wadeem-gardens',
@@ -19,8 +47,7 @@ $communitiesData = [
         'name' => 'Hudayriyat Golf Estates',
         'image' => asset('images/communities/golf-estates.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 4.3M AED*',
-        'delivery' => 'Delivery Date: Q3 2030',
+        'badges' => ['New'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '5/35/60 Payment Plan',
         'href' => '/hudayriyat-golf-estates',
@@ -29,8 +56,7 @@ $communitiesData = [
         'name' => 'Bashayer Residences',
         'image' => asset('images/communities/bashayer-residences.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 2.4M AED',
-        'delivery' => 'Delivery Date: Q1 2030',
+        'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
         'href' => '/bashayer-residences',
@@ -39,8 +65,7 @@ $communitiesData = [
         'name' => 'Nawayef East Hills',
         'image' => asset('images/communities/nawayef-east.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 6.6M AED',
-        'delivery' => 'Delivery Date: Q1 2028',
+        'badges' => ['Offer'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/30/60 Payment Plan',
         'href' => '/nawayef-east-hills',
@@ -49,8 +74,7 @@ $communitiesData = [
         'name' => 'Bashayer Villas',
         'image' => asset('images/communities/bashayer-villas.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 6M AED',
-        'delivery' => 'Delivery Date: Q3 2028',
+        'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '20/30/50 Payment Plan',
         'href' => '/bashayer-villas',
@@ -59,8 +83,7 @@ $communitiesData = [
         'name' => 'Al Naseem Villas',
         'image' => asset('images/communities/al-naseem.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 7.8M AED',
-        'delivery' => 'Delivery Date: Q4 2026',
+        'badges' => ['Ready'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/30/60 Payment Plan',
         'href' => '/al-naseem-villas',
@@ -69,8 +92,7 @@ $communitiesData = [
         'name' => 'Masyaf Plots',
         'image' => asset('images/communities/masyaf-plots.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: Launch Soon',
-        'delivery' => 'Delivery Date: Launch Soon',
+        'badges' => ['New'],
         'developer' => 'Modon Properties',
         'paymentPlan' => 'Payment Plan: Launch Soon',
         'href' => '/masyaf-plots',
@@ -79,8 +101,7 @@ $communitiesData = [
         'name' => 'Nawayef Village',
         'image' => asset('images/communities/nawayef-village.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 4.1M AED',
-        'delivery' => 'Delivery Date: Q1 2029',
+        'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
         'href' => '/nawayef-village',
@@ -89,8 +110,7 @@ $communitiesData = [
         'name' => 'Wadeem Plots',
         'image' => asset('images/communities/wadeem-plots.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 3.7M AED',
-        'delivery' => 'Delivery Date: Q4 2028',
+        'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
         'href' => '/wadeem-plots',
@@ -99,8 +119,7 @@ $communitiesData = [
         'name' => 'Nawayef Park Views',
         'image' => asset('images/communities/nawayef-park-views.jpg'),
         'location' => 'Hudayriyat Island, Abu Dhabi',
-        'price' => 'Launch Price: 2.1M AED',
-        'delivery' => 'Delivery Date: Q1 2028',
+        'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
         'href' => '/nawayef-park-views',
@@ -122,45 +141,36 @@ $communitiesData = [
                     @php
                         $targetUrl = $item->url;
                         $imgSrc = $item->image_url;
+                        $isSoldOut = ($item->status === 'sold_out') || ($item->page?->status === 'sold_out');
                     @endphp
-                    <a href="{{ $targetUrl }}" class="cardCustom {{ $index === 8 ? 'centeredRowStart' : '' }}" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item->title }} by {{ $item->developer ?? 'Modon Properties' }}">
-                        <!-- Top-Left Launch Price & Delivery Badges -->
+                    <a href="{{ $targetUrl }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item->title }}">
+                        <!-- Top-Left Badges (New, Offer, Off plan, Ready) -->
                         <div class="topTags">
-                            @if(!empty($item->price))
-                                <span class="badgeTag">{{ $item->price }}</span>
-                            @endif
-                            @if(!empty($item->delivery_date))
-                                <span class="badgeTag">{{ $item->delivery_date }}</span>
+                            @if(!empty($item->badges) && is_array($item->badges))
+                                @foreach($item->badges as $badge)
+                                    <span class="badgeTag">{{ $badge }}</span>
+                                @endforeach
                             @endif
                         </div>
 
-                        <!-- Top-Right Sparkle Icon -->
-                        <div class="sparkleBtn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
-                            </svg>
-                        </div>
+                        <!-- Top-Right Sold out Badge -->
+                        @if($isSoldOut)
+                            <span class="soldOutBadge">Sold out</span>
+                        @endif
 
                         <!-- Main Community Photo -->
-                        <img src="{{ $imgSrc }}" alt="{{ $item->title }} luxury property by Modon Properties at Hudayriyat Island Abu Dhabi" class="mainImage">
+                        <img src="{{ $imgSrc }}" alt="{{ $item->title }} luxury property" class="mainImage">
 
                         <!-- Bottom Content Area -->
                         <div class="bottomContent">
-                            <!-- Developer Modon Badge -->
-                            <div class="modonBadge">
-                                <span class="modonText">{{ $item->developer ?? 'MÖDON' }}</span>
-                            </div>
-
                             <!-- Community Title -->
                             <h3 class="cardTitle">{{ $item->title }}</h3>
 
                             <!-- Location -->
                             <p class="cardLocation">{{ $item->location ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
 
-                            <!-- Payment Plan Badge -->
-                            @if(!empty($item->payment_plan))
-                                <div class="planBadge">{{ $item->payment_plan }}</div>
-                            @endif
+                            <!-- Big Green Rounded BOOK NOW Button -->
+                            <div class="cardBookBtn">BOOK NOW</div>
                         </div>
                     </a>
                 @endforeach
@@ -171,45 +181,36 @@ $communitiesData = [
                         if ($imgSrc && !str_starts_with($imgSrc, 'http') && !str_starts_with($imgSrc, '/')) {
                             $imgSrc = asset($imgSrc);
                         }
+                        $isSoldOut = (isset($item['status']) && $item['status'] === 'sold_out');
                     @endphp
-                    <a href="{{ $item['href'] ?? '#' }}" class="cardCustom {{ $index === 8 ? 'centeredRowStart' : '' }}" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item['name'] }} by Modon Properties">
-                        <!-- Top-Left Launch Price & Delivery Badges -->
+                    <a href="{{ $item['href'] ?? '#' }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item['name'] }}">
+                        <!-- Top-Left Badges (New, Offer, Off plan, Ready) -->
                         <div class="topTags">
-                            @if(!empty($item['price']))
-                                <span class="badgeTag">{{ $item['price'] }}</span>
-                            @endif
-                            @if(!empty($item['delivery']))
-                                <span class="badgeTag">{{ $item['delivery'] }}</span>
+                            @if(!empty($item['badges']) && is_array($item['badges']))
+                                @foreach($item['badges'] as $badge)
+                                    <span class="badgeTag">{{ $badge }}</span>
+                                @endforeach
                             @endif
                         </div>
 
-                        <!-- Top-Right Sparkle Icon -->
-                        <div class="sparkleBtn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
-                            </svg>
-                        </div>
+                        <!-- Top-Right Sold out Badge -->
+                        @if($isSoldOut)
+                            <span class="soldOutBadge">Sold out</span>
+                        @endif
 
                         <!-- Main Community Photo -->
-                        <img src="{{ $imgSrc }}" alt="{{ $item['name'] ?? '' }} luxury property by Modon Properties at Hudayriyat Island Abu Dhabi" class="mainImage">
+                        <img src="{{ $imgSrc }}" alt="{{ $item['name'] ?? '' }} luxury property" class="mainImage">
 
                         <!-- Bottom Content Area -->
                         <div class="bottomContent">
-                            <!-- Developer Modon Badge -->
-                            <div class="modonBadge">
-                                <span class="modonText">{{ $item['developer'] ?? 'MÖDON' }}</span>
-                            </div>
-
                             <!-- Community Title -->
                             <h3 class="cardTitle">{{ $item['name'] ?? '' }}</h3>
 
                             <!-- Location -->
                             <p class="cardLocation">{{ $item['location'] ?? '' }}</p>
 
-                            <!-- Payment Plan Badge -->
-                            @if(!empty($item['paymentPlan']))
-                                <div class="planBadge">{{ $item['paymentPlan'] }}</div>
-                            @endif
+                            <!-- Big Green Rounded BOOK NOW Button -->
+                            <div class="cardBookBtn">BOOK NOW</div>
                         </div>
                     </a>
                 @endforeach

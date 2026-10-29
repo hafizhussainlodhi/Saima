@@ -40,6 +40,7 @@
                 @break
             @case('faq')
                 @include('partials.faq')
+                @include('partials.home-blogs')
                 @break
             @case('contact')
                 @include('partials.contact')
@@ -55,6 +56,7 @@
     @include('partials.investment-potential')
     @include('partials.overview-location')
     @include('partials.faq')
+    @include('partials.home-blogs')
     @include('partials.contact')
 @endif
 @endsection

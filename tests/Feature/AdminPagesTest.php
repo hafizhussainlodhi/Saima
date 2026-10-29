@@ -618,14 +618,8 @@ class AdminPagesTest extends TestCase
                     'title' => 'Updated Privacy Charter',
                     'subtitle' => 'Our updated commitment to your privacy.',
                 ],
-                'policy_content' => [
-                    '_has_items' => '1',
-                    'items' => [
-                        [
-                            'title' => 'Dynamic Data Governance',
-                            'description' => 'Zero third-party telemetry is allowed on our client records.',
-                        ],
-                    ],
+                'content' => [
+                    'html' => '<h2>Dynamic Data Governance</h2><p>Zero third-party telemetry is allowed on our client records.</p>',
                 ],
             ],
         ]);
@@ -649,14 +643,8 @@ class AdminPagesTest extends TestCase
                     'title' => 'Client Engagement Terms',
                     'subtitle' => 'Guidelines governing private viewings and bookings.',
                 ],
-                'terms_content' => [
-                    '_has_items' => '1',
-                    'items' => [
-                        [
-                            'title' => 'Private Viewing Protocol',
-                            'description' => 'All villa visits must be scheduled with a certified representative.',
-                        ],
-                    ],
+                'content' => [
+                    'html' => '<h2>Private Viewing Protocol</h2><p>All villa visits must be scheduled with a certified representative.</p>',
                 ],
             ],
         ]);
