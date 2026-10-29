@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 1. FORCE HTTPS
+    RewriteCond %{HTTPS} off [OR]
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # 2. CONTROL DOMAIN / WWW REDIRECT
+    RewriteCond %{HTTP_HOST} ^www\.saimaprojects\.com$ [NC]
+    RewriteRule ^(.*)$ https://saimaprojects.com/$1 [R=301,L]
+
+    # 3. ROUTE REQUESTS TO PUBLIC DIRECTORY (FOR CPANEL ROOT SETUP)
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# 4. GSC SUBDOMAIN INDEXING SHIELD (NOINDEX HEADER)
+<IfModule mod_headers.c>
+    SetEnvIfNoCase Host "^(mail|admin|webmail|cpanel|webdisk|autodiscover|cpcontacts|cpcalendars)\." NOINDEX_SUBDOMAIN
+    Header set X-Robots-Tag "noindex, nofollow, noarchive" env=NOINDEX_SUBDOMAIN
+</IfModule>

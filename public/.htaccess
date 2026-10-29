@@ -1,28 +1,37 @@
 <IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
 
-  # 1. FORCE HTTPS
-  RewriteCond %{HTTPS} off [OR]
-  RewriteCond %{HTTP:X-Forwarded-Proto} =http
-  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+    RewriteEngine On
+    RewriteBase /
 
-  # 2. CONTROL ALL SUBDOMAINS (mail, admin, webmail, cpanel, www, etc.)
-  RewriteCond %{HTTP_HOST} !^hudayriyat-island\.ae$ [NC]
-  RewriteRule ^(.*)$ https://hudayriyat-island.ae/$1 [R=301,L]
+    # 1. FORCE HTTPS
+    RewriteCond %{HTTPS} off [OR]
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  # 3. ROOT URL (/) PROXY DIRECTLY TO NEXT.JS
-  RewriteRule ^$ http://d13021.fra1.stableserver.net:4000/ [P,L]
+    # 2. CONTROL DOMAIN / WWW REDIRECT (Redirect www.saimaprojects.com to saimaprojects.com)
+    RewriteCond %{HTTP_HOST} ^www\.saimaprojects\.com$ [NC]
+    RewriteRule ^(.*)$ https://saimaprojects.com/$1 [R=301,L]
 
-  # 4. PREVENT DIRECTORYINDEX (index.html / index.php) FROM BREAKING NEXT.JS
-  RewriteRule ^index\.(html?|php)$ http://d13021.fra1.stableserver.net:4000/ [P,L]
+    # 3. HANDLE AUTHORIZATION HEADER
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-  # 5. PROXY ALL OTHER PAGES TO NEXT.JS
-  RewriteRule ^(.*)$ http://d13021.fra1.stableserver.net:4000/$1 [P,L]
+    # 4. REDIRECT TRAILING SLASHES IF NOT A FOLDER
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # 5. SEND ALL REQUESTS TO LARAVEL FRONT CONTROLLER (index.php)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
 </IfModule>
 
 # 6. GSC SUBDOMAIN INDEXING SHIELD (NOINDEX HEADER)
 <IfModule mod_headers.c>
-  SetEnvIfNoCase Host "^(mail|admin|webmail|cpanel|webdisk|autodiscover|cpcontacts|cpcalendars)\." NOINDEX_SUBDOMAIN
-  Header set X-Robots-Tag "noindex, nofollow, noarchive" env=NOINDEX_SUBDOMAIN
+    SetEnvIfNoCase Host "^(mail|admin|webmail|cpanel|webdisk|autodiscover|cpcontacts|cpcalendars)\." NOINDEX_SUBDOMAIN
+    Header set X-Robots-Tag "noindex, nofollow, noarchive" env=NOINDEX_SUBDOMAIN
 </IfModule>
