@@ -21,10 +21,6 @@ Route::get('/', function () {
 Route::post('/api/leads', [LeadController::class, 'store'])->name('leads.store');
 Route::get('/api/detect-country', [LeadController::class, 'detectCountry'])->name('leads.detect-country');
 
-// Redirect any underscore variant (e.g. /wadeem_gardens -> /wadeem-gardens)
-Route::get('/{slug}', function ($slug) {
-    return redirect('/' . str_replace('_', '-', $slug), 301);
-})->where('slug', '^[a-zA-Z0-9\-]+_[a-zA-Z0-9_\-]+$');
 
 
 // Dedicated Contact Us Page (Port 3000 Parity)
@@ -204,6 +200,17 @@ Route::get('/blog/{slug}', function ($slug) {
 // Dynamic Public Page Catch-All Route for created pages & blogs
 Route::get('/{slug}', function ($slug) {
     $cleanSlug = ltrim(urldecode($slug), '/');
+
+    // Never intercept admin routes
+    if ($cleanSlug === 'admin' || str_starts_with($cleanSlug, 'admin/')) {
+        abort(404);
+    }
+
+    // Redirect underscore variants (e.g. /wadeem_gardens -> /wadeem-gardens)
+    if (str_contains($cleanSlug, '_')) {
+        return redirect('/' . str_replace('_', '-', $cleanSlug), 301);
+    }
+
     $page = \App\Models\Page::where('slug', $cleanSlug)
         ->orWhere('slug', '/' . $cleanSlug)
         ->first();
@@ -298,6 +305,6 @@ Route::get('/{slug}', function ($slug) {
     }
 
     abort(404);
-})->where('slug', '^[a-zA-Z0-9_\-\/% ]+$')->name('pages.dynamic');
+})->where('slug', '^(?!admin(\/|$))[a-zA-Z0-9_\-\/% ]+$')->name('pages.dynamic');
 
 

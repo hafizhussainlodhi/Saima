@@ -892,7 +892,6 @@
                         </form>
                     </div>
 
-                    @if(!$isNewPage)
                     @php
                         $sidebarProjects = \App\Models\Project::where('is_active', true)
                             ->where(function($q) {
