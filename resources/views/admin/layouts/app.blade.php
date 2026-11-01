@@ -139,6 +139,7 @@
                 $isProjectsActive = request()->routeIs('admin.projects.*');
                 $isCitiesActive = request()->routeIs('admin.cities.*');
                 $isCommunitiesActive = request()->routeIs('admin.communities.*');
+                $isAmenitiesActive = request()->routeIs('admin.amenities.*');
                 $isBlogsActive = request()->routeIs('admin.blogs.*');
             @endphp
             <a href="{{ route('admin.pages.index') }}" id="navPages" class="adm-nav-link {{ $isPagesActive ? 'is-active' : '' }}">
@@ -152,6 +153,9 @@
             </a>
             <a href="{{ route('admin.communities.index') }}" id="navCommunities" class="adm-nav-link {{ $isCommunitiesActive ? 'is-active' : '' }}">
                 @include('admin.partials.icon', ['name' => 'compass']) Neighbourhood/Community
+            </a>
+            <a href="{{ route('admin.amenities.index') }}" id="navAmenities" class="adm-nav-link {{ $isAmenitiesActive ? 'is-active' : '' }}">
+                @include('admin.partials.icon', ['name' => 'amenities', 'size' => 16]) Amenities
             </a>
             <a href="{{ route('admin.blogs.index') }}" id="navBlogs" class="adm-nav-link {{ $isBlogsActive ? 'is-active' : '' }}">
                 @include('admin.partials.icon', ['name' => 'book']) Blog

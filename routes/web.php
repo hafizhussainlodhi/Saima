@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\CityController as AdminCityController;
 use App\Http\Controllers\Admin\CommunityController as AdminCommunityController;
 use App\Http\Controllers\Admin\BlogController as AdminBlogController;
+use App\Http\Controllers\Admin\AmenityController as AdminAmenityController;
 
 Route::get('/', function () {
     return view('home');
@@ -152,6 +153,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::put('/blogs/{blog}', [AdminBlogController::class, 'update'])->name('blogs.update');
             Route::delete('/blogs/{blog}', [AdminBlogController::class, 'destroy'])->name('blogs.destroy');
             Route::patch('/blogs/{blog}/status', [AdminBlogController::class, 'updateStatus'])->name('blogs.status');
+
+            // Amenities CMS
+            Route::get('/amenities', [AdminAmenityController::class, 'index'])->name('amenities.index');
+            Route::post('/amenities', [AdminAmenityController::class, 'store'])->name('amenities.store');
+            Route::put('/amenities/{amenity}', [AdminAmenityController::class, 'update'])->name('amenities.update');
+            Route::delete('/amenities/{amenity}', [AdminAmenityController::class, 'destroy'])->name('amenities.destroy');
+            Route::get('/api/amenities', [AdminAmenityController::class, 'listJson'])->name('amenities.json');
         });
 
         // Table of Contents

@@ -103,7 +103,7 @@ class ProjectController extends Controller
             $page = Page::create([
                 'title'            => $title,
                 'slug'             => $uniqueSlug,
-                'in_navbar'        => $request->boolean('in_navbar', true),
+                'in_navbar'        => $request->boolean('in_navbar'),
                 'navbar_order'     => (int) ($request->input('navbar_order') ?: (((int) Page::max('navbar_order')) + 1)),
                 'status'           => $status,
                 'is_published'     => $request->boolean('is_published', $isActive),

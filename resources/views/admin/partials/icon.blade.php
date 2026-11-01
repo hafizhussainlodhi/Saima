@@ -35,6 +35,7 @@ $icons = [
     'grip'   => '<circle cx="9" cy="5" r="1.5" fill="currentColor"/><circle cx="9" cy="12" r="1.5" fill="currentColor"/><circle cx="9" cy="19" r="1.5" fill="currentColor"/><circle cx="15" cy="5" r="1.5" fill="currentColor"/><circle cx="15" cy="12" r="1.5" fill="currentColor"/><circle cx="15" cy="19" r="1.5" fill="currentColor"/>',
     'panels' => '<rect width="7" height="18" x="3" y="3" rx="1.5"/><rect width="11" height="8" x="10" y="3" rx="1.5"/><rect width="11" height="8" x="10" y="13" rx="1.5"/>',
     'compass'=> '<circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>',
+    'amenities' => '<polyline points="7 9 3 13 7 17"/><line x1="3" y1="13" x2="21" y2="13"/><polyline points="17 15 21 11 17 7"/><line x1="21" y1="11" x2="3" y2="11"/>',
 ];
 $iconSize = $size ?? 14;
 @endphp

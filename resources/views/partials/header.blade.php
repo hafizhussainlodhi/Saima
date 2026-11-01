@@ -11,26 +11,49 @@
                 <li class="navItem">
                     <a href="/" class="navLink navLinkActive">HOME</a>
                 </li>
-                <li class="navItem" id="navProjectsItem">
-                    <button type="button" class="navLink" id="navProjectsBtn" style="background: none; border: none; cursor: pointer;">
-                        PROJECTS
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m6 9 6 6 6-6"/>
-                        </svg>
-                    </button>
-                    <div class="dropdownMenu" id="navProjectsDropdown">
-                        <a href="/wadeem-gardens" class="dropdownItem">Wadeem Gardens</a>
-                        <a href="/hudayriyat-golf-estates" class="dropdownItem">Hudayriyat Golf Estates</a>
-                        <a href="/bashayer-residences" class="dropdownItem">Bashayer Residences</a>
-                        <a href="/nawayef-east-hills" class="dropdownItem">Nawayef East Hills</a>
-                        <a href="/bashayer-villas" class="dropdownItem">Bashayer Villas</a>
-                        <a href="/al-naseem-villas" class="dropdownItem">Al Naseem Villas</a>
-                        <a href="/masyaf-plots" class="dropdownItem">Masyaf Plots</a>
-                        <a href="/nawayef-village" class="dropdownItem">Nawayef Village</a>
-                        <a href="/wadeem-plots" class="dropdownItem">Wadeem Plots</a>
-                        <a href="/nawayef-park-views" class="dropdownItem">Nawayef Park Views</a>
-                    </div>
-                </li>
+                @php
+                    if (!isset($navbarProjects)) {
+                        $navbarProjects = \App\Models\Project::with('page')
+                            ->where(function ($q) {
+                                $q->where('status', 'publish')
+                                  ->orWhere(function ($q2) {
+                                      $q2->whereNull('status')->where('is_active', true);
+                                  });
+                            })
+                            ->whereHas('page', function ($pq) {
+                                $pq->where('in_navbar', true)
+                                   ->where(function ($sq) {
+                                       $sq->where('status', 'publish')
+                                          ->orWhere(function ($sq2) {
+                                              $sq2->whereNull('status')->where('is_published', true);
+                                          });
+                                   });
+                            })
+                            ->orderBy('order', 'asc')
+                            ->get();
+                    }
+                @endphp
+
+                @if($navbarProjects->isNotEmpty())
+                    <li class="navItem" id="navProjectsItem">
+                        <button type="button" class="navLink" id="navProjectsBtn" style="background: none; border: none; cursor: pointer;">
+                            PROJECTS
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="dropdownMenu" id="navProjectsDropdown">
+                            @foreach($navbarProjects as $navProj)
+                                @php
+                                    $navUrl = $navProj->page 
+                                        ? ($navProj->page->slug === '/' ? '/' : '/' . ltrim($navProj->page->slug, '/'))
+                                        : ($navProj->slug ? '/' . ltrim($navProj->slug, '/') : '#');
+                                @endphp
+                                <a href="{{ $navUrl }}" class="dropdownItem">{{ $navProj->title }}</a>
+                            @endforeach
+                        </div>
+                    </li>
+                @endif
                 <li class="navItem">
                     <a href="#faq" class="navLink">FAQ</a>
                 </li>
@@ -72,6 +95,7 @@
         <li>
             <a href="/" class="mobileNavLink">HOME</a>
         </li>
+        @if(isset($navbarProjects) && $navbarProjects->isNotEmpty())
         <li>
             <button type="button" id="mobileProjectsToggle" class="mobileNavLink">
                 <span>PROJECTS</span>
@@ -80,18 +104,17 @@
                 </svg>
             </button>
             <div id="mobileProjectsSubmenu" class="mobileSubList" style="display: none;">
-                <a href="/wadeem-gardens" class="mobileSubItem">Wadeem Gardens</a>
-                <a href="/hudayriyat-golf-estates" class="mobileSubItem">Hudayriyat Golf Estates</a>
-                <a href="/bashayer-residences" class="mobileSubItem">Bashayer Residences</a>
-                <a href="/nawayef-east-hills" class="mobileSubItem">Nawayef East Hills</a>
-                <a href="/bashayer-villas" class="mobileSubItem">Bashayer Villas</a>
-                <a href="/al-naseem-villas" class="mobileSubItem">Al Naseem Villas</a>
-                <a href="/masyaf-plots" class="mobileSubItem">Masyaf Plots</a>
-                <a href="/nawayef-village" class="mobileSubItem">Nawayef Village</a>
-                <a href="/wadeem-plots" class="mobileSubItem">Wadeem Plots</a>
-                <a href="/nawayef-park-views" class="mobileSubItem">Nawayef Park Views</a>
+                @foreach($navbarProjects as $navProj)
+                    @php
+                        $navUrl = $navProj->page 
+                            ? ($navProj->page->slug === '/' ? '/' : '/' . ltrim($navProj->page->slug, '/'))
+                            : ($navProj->slug ? '/' . ltrim($navProj->slug, '/') : '#');
+                    @endphp
+                    <a href="{{ $navUrl }}" class="mobileSubItem">{{ $navProj->title }}</a>
+                @endforeach
             </div>
         </li>
+        @endif
         <li>
             <a href="#faq" class="mobileNavLink">FAQ</a>
         </li>

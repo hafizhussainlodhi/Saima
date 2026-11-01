@@ -152,6 +152,23 @@
         overflow-y: auto !important;
     }
 
+    /* Full-width sticky save bar at bottom */
+    .adm-add-save-bar {
+        position: sticky;
+        bottom: 0;
+        z-index: 9999;
+        background: #ffffff;
+        border: 1.5px solid #d4c7b5;
+        border-radius: 12px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.05);
+        padding: 14px 22px;
+        margin-top: 20px;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
     .adm-edit-layout .tab-pane {
         display: none;
     }
@@ -425,6 +442,17 @@
                             <div class="adm-help">When you enter a headline here, it automatically applies to the Hero Section of the inner detail page.</div>
                         </div>
 
+                        <!-- Show in Navigation Menu Toggle -->
+                        <div class="adm-field" style="margin-bottom: 20px; padding: 12px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                            <label class="adm-check" style="cursor: pointer; display: flex; align-items: center; gap: 10px; margin: 0; user-select: none;">
+                                <input type="checkbox" name="in_navbar" value="1" id="add_prop_in_navbar" checked style="width: 17px; height: 17px; accent-color: #1a4731; cursor: pointer;">
+                                <span style="font-weight: 600; color: #1e293b; font-size: 13.5px;">Show in Navigation Menu (Navbar Dropdown)</span>
+                            </label>
+                            <div class="adm-help" style="margin: 4px 0 0 27px; font-size: 12px; color: #64748b;">
+                                Check this to include this property in the website's top navbar dropdown (only shows when Published). If Draft or unchecked, it will not appear in the navbar.
+                            </div>
+                        </div>
+
                         <!-- Neighbourhood / Community -->
                         <div class="adm-field" style="margin-bottom: 20px;">
                             <label class="adm-label">Neighbourhood/Community <span style="font-weight: 400; color: #64748b; font-size: 12px;">(Select Community)</span></label>
@@ -499,13 +527,13 @@
                         <div class="adm-field">
                             <label class="adm-label">Property Image</label>
                             <div class="adm-img-box">
-                                <img id="preview_add_card_img" src="/images/communities/wadeem-gardens.png" class="adm-img-thumb-lg" alt="Card Preview">
+                                <img id="preview_add_card_img" src="/images/placeholder.svg" class="adm-img-thumb-lg" alt="Card Preview" style="object-fit: contain; background: #f8fafc;">
                                 <div style="flex: 1;">
                                     <div style="margin-bottom: 8px;">
                                         <label class="adm-label" style="font-size: 11.5px; color: #64748b;">Upload from computer:</label>
                                         <input type="file" name="image_file" accept="image/*" class="adm-input" onchange="previewAddCardAndHeroImage(this)">
                                     </div>
-                                    <input type="text" name="image" id="input_add_card_img" value="/images/communities/wadeem-gardens.png" class="adm-input" placeholder="Or enter image URL path (e.g. /images/communities/wadeem-gardens.png)" oninput="syncCardAndHeroImageUrl(this.value)">
+                                    <input type="text" name="image" id="input_add_card_img" value="" class="adm-input" placeholder="Or enter image URL path (e.g. /images/communities/my-property.png)" oninput="syncCardAndHeroImageUrl(this.value)">
                                     <div class="adm-help">Whichever image you upload or set here will show on the card front and also automatically on the inner page hero section.</div>
                                 </div>
                             </div>
@@ -537,12 +565,12 @@
                         <div class="adm-field">
                             <label class="adm-label">Hero Background Image (Change Photo / Upload)</label>
                             <div class="adm-img-box">
-                                <img id="preview_add_hero_img" src="/images/hero/slide-1.jpg" class="adm-img-thumb-lg" alt="Hero Preview">
+                                <img id="preview_add_hero_img" src="/images/placeholder.svg" class="adm-img-thumb-lg" alt="Hero Preview" style="object-fit: contain; background: #f8fafc;">
                                 <div style="flex: 1;">
                                     <div style="margin-bottom: 8px;">
                                         <input type="file" name="section_files[hero][bg_image]" accept="image/*" class="adm-input" onchange="previewAddImage(this, 'preview_add_hero_img', 'input_add_hero_img')">
                                     </div>
-                                    <input type="text" name="sections[hero][bg_image]" id="input_add_hero_img" value="/images/hero/slide-1.jpg" class="adm-input" placeholder="Or enter image path / URL (e.g. /images/hero/slide-1.jpg)" oninput="document.getElementById('preview_add_hero_img').src = this.value">
+                                    <input type="text" name="sections[hero][bg_image]" id="input_add_hero_img" value="" class="adm-input" placeholder="Or enter image path / URL (e.g. /images/hero/slide-1.jpg)" oninput="document.getElementById('preview_add_hero_img').src = this.value || '/images/placeholder.svg'">
                                     <div class="adm-help">Upload a new hero background photo from your computer or specify a file path / URL.</div>
                                 </div>
                             </div>
@@ -556,7 +584,7 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Badge / Pretitle</label>
-                            <input type="text" name="sections[hero][badge]" value="Freehold for All Nationalities" class="adm-input" placeholder="e.g. Freehold for All Nationalities">
+                            <input type="text" name="sections[hero][badge]" value="" class="adm-input" placeholder="e.g. Freehold for All Nationalities">
                         </div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
@@ -568,7 +596,7 @@
 
                             <div class="adm-field">
                                 <label class="adm-label">Subtitle / Tagline</label>
-                                <textarea name="sections[hero][subtitle]" id="add_hero_subtitle" class="adm-textarea" rows="2" placeholder="Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island">Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island</textarea>
+                                <textarea name="sections[hero][subtitle]" id="add_hero_subtitle" class="adm-textarea" rows="2" placeholder="e.g. Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island"></textarea>
                             </div>
                         </div>
                     </div>
@@ -585,24 +613,14 @@
 
                         <div id="add_highlights_list" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
                             <div class="adm-highlight-card" style="display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
-                                <input type="text" name="sections[highlights][items][0][label]" value="Developer" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name">
-                                <input type="text" name="sections[highlights][items][0][value]" value="Modon Properties" class="adm-input" style="flex: 1;" placeholder="Value">
+                                <input type="text" name="sections[highlights][items][0][label]" value="" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name (e.g. Developer)">
+                                <input type="text" name="sections[highlights][items][0][value]" value="" class="adm-input" style="flex: 1;" placeholder="Value (e.g. Modon Properties)">
+                                <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
                             </div>
                             <div class="adm-highlight-card" style="display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
-                                <input type="text" name="sections[highlights][items][1][label]" value="Price" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name">
-                                <input type="text" name="sections[highlights][items][1][value]" value="AED 2,500,000" class="adm-input" style="flex: 1;" placeholder="Value">
-                            </div>
-                            <div class="adm-highlight-card" style="display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
-                                <input type="text" name="sections[highlights][items][2][label]" value="Handover Date" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name">
-                                <input type="text" name="sections[highlights][items][2][value]" value="Q4 2028" class="adm-input" style="flex: 1;" placeholder="Value">
-                            </div>
-                            <div class="adm-highlight-card" style="display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
-                                <input type="text" name="sections[highlights][items][3][label]" value="Property Type" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name">
-                                <input type="text" name="sections[highlights][items][3][value]" value="Luxury Villas &amp; Apartments" class="adm-input" style="flex: 1;" placeholder="Value">
-                            </div>
-                            <div class="adm-highlight-card" style="display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
-                                <input type="text" name="sections[highlights][items][4][label]" value="Ownership" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name">
-                                <input type="text" name="sections[highlights][items][4][value]" value="Freehold" class="adm-input" style="flex: 1;" placeholder="Value">
+                                <input type="text" name="sections[highlights][items][1][label]" value="" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name (e.g. Price)">
+                                <input type="text" name="sections[highlights][items][1][value]" value="" class="adm-input" style="flex: 1;" placeholder="Value (e.g. AED 2,500,000)">
+                                <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
                             </div>
                         </div>
 
@@ -623,28 +641,28 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Headline / Title</label>
-                            <input type="text" name="sections[about][title]" id="add_about_title" class="adm-input" placeholder="e.g. Wadeem Gardens by Modon">
+                            <input type="text" name="sections[about][title]" id="add_about_title" value="" class="adm-input" placeholder="e.g. Wadeem Gardens by Modon">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Community Overview &amp; Narrative</label>
-                            <textarea name="sections[about][description]" id="add_about_desc" class="adm-textarea" rows="6" placeholder="Detailed story, architectural styling, villa sizes, and lifestyle details...">&lt;p&gt;A premier residential development by Modon Properties on Abu Dhabi’s prestigious Hudayriyat Island. Surrounded by pristine coastlines and lush parklands, this community offers a refined island lifestyle that effortlessly blends contemporary sophistication with seaside serenity.&lt;/p&gt;&lt;p&gt;Featuring open layouts, expansive terraces, and curated modern architecture, each residence is designed to maximize natural light and panoramic views of the Arabian Gulf.&lt;/p&gt;</textarea>
+                            <textarea name="sections[about][description]" id="add_about_desc" class="adm-textarea" rows="6" placeholder="Detailed story, architectural styling, villa sizes, and lifestyle details..."></textarea>
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Featured Video Stream URL (.mp4 or link)</label>
-                            <input type="text" name="sections[about][video_url]" value="/images/nawayef-park-views/asset_15.mp4" class="adm-input" placeholder="https://www.hudayriyat-island.com/storage/...mp4">
+                            <input type="text" name="sections[about][video_url]" value="" class="adm-input" placeholder="e.g. /images/projects/video.mp4 or https://...">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Video Poster / Cover Image</label>
                             <div class="adm-img-box">
-                                <img id="preview_add_about_poster" src="/images/nawayef-park-views/asset_14.jpg" class="adm-img-thumb-lg" alt="Poster">
+                                <img id="preview_add_about_poster" src="/images/placeholder.svg" class="adm-img-thumb-lg" alt="Poster" style="object-fit: contain; background: #f8fafc;">
                                 <div style="flex: 1;">
                                     <div style="margin-bottom: 8px;">
                                         <input type="file" name="section_files[about][video_poster]" class="adm-input" accept="image/*" onchange="previewAddImage(this, 'preview_add_about_poster', 'input_add_about_poster')">
                                     </div>
-                                    <input type="text" name="sections[about][video_poster]" id="input_add_about_poster" value="/images/nawayef-park-views/asset_14.jpg" class="adm-input" oninput="document.getElementById('preview_add_about_poster').src = this.value">
+                                    <input type="text" name="sections[about][video_poster]" id="input_add_about_poster" value="" class="adm-input" placeholder="Or enter image URL path" oninput="document.getElementById('preview_add_about_poster').src = this.value || '/images/placeholder.svg'">
                                 </div>
                             </div>
                         </div>
@@ -662,35 +680,31 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[amenities][title]" id="add_amenities_title" value="Community Amenities" class="adm-input">
+                            <input type="text" name="sections[amenities][title]" id="add_amenities_title" value="" placeholder="e.g. Community Amenities" class="adm-input">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Subtitle / Lifestyle Description</label>
-                            <textarea name="sections[amenities][subtitle]" class="adm-textarea" rows="2">Offers a complete coastal lifestyle with luxury amenities for wellness, recreation, and community living.</textarea>
+                            <textarea name="sections[amenities][subtitle]" class="adm-textarea" rows="2" placeholder="e.g. Offers a complete coastal lifestyle with luxury amenities for wellness, recreation, and community living."></textarea>
                         </div>
 
                         <div id="add_amenities_container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 14px;">
-                            @php
-                                $defAmenities = [
-                                    ['name' => 'Gymnasium', 'icon' => '/images/nawayef-park-views/asset_16.png'],
-                                    ['name' => 'Yoga Zone', 'icon' => '/images/nawayef-park-views/asset_17.png'],
-                                    ['name' => 'Co-working Area', 'icon' => '/images/nawayef-park-views/asset_18.png'],
-                                    ['name' => 'Private Beach', 'icon' => '/images/nawayef-park-views/asset_20.png'],
-                                    ['name' => 'Swimming Pool', 'icon' => '/images/nawayef-park-views/asset_22.png'],
-                                    ['name' => 'Club House', 'icon' => '/images/nawayef-park-views/asset_23.png'],
-                                ];
-                            @endphp
-                            @foreach($defAmenities as $aIdx => $amenity)
-                                <div class="adm-card" style="border: 1px solid #e2e8f0; background: #fff; padding: 12px; border-radius: 8px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                        <img src="{{ $amenity['icon'] }}" style="width: 24px; height: 24px; object-fit: contain;">
-                                        <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
-                                    </div>
-                                    <input type="text" name="sections[amenities][items][{{ $aIdx }}][name]" value="{{ $amenity['name'] }}" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 6px;">
-                                    <input type="text" name="sections[amenities][items][{{ $aIdx }}][icon]" value="{{ $amenity['icon'] }}" class="adm-input" style="font-size: 11px;">
+                            <div class="adm-card" style="border: 1px solid #e2e8f0; background: #fff; padding: 12px; border-radius: 8px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                    <img src="/images/placeholder.svg" style="width: 24px; height: 24px; object-fit: contain;">
+                                    <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
                                 </div>
-                            @endforeach
+                                <select class="adm-select" onchange="applyProjectAmenity(this)" style="font-size: 11px; margin-bottom: 6px; padding: 4px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
+                                    <option value="">-- Choose from Amenities --</option>
+                                    @if(isset($allAmenities))
+                                        @foreach($allAmenities as $am)
+                                            <option value="{{ $am->name }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                                <input type="text" name="sections[amenities][items][0][name]" value="" placeholder="Amenity Name" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 6px;">
+                                <input type="text" name="sections[amenities][items][0][icon]" value="" placeholder="Icon path / SVG" class="adm-input" style="font-size: 11px;">
+                            </div>
                         </div>
 
                         <button type="button" class="adm-btn adm-btn-secondary" onclick="addAddAmenityCard()" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
@@ -710,28 +724,21 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Gallery Title</label>
-                            <input type="text" name="sections[gallery][title]" value="Project Gallery" class="adm-input">
+                            <input type="text" name="sections[gallery][title]" value="" placeholder="e.g. Project Gallery" class="adm-input">
                         </div>
 
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
-                            @php
-                                $defGallery = [
-                                    ['src' => '/images/hero/slide-1.jpg', 'alt' => 'Exterior View'],
-                                    ['src' => '/images/nawayef-park-views/asset_2.jpg', 'alt' => 'Architecture'],
-                                    ['src' => '/images/wadeem-gardens/hero-1.png', 'alt' => 'Coastal Views'],
-                                    ['src' => '/images/bashayer-residences/hero-slider-1.jpg', 'alt' => 'Interior Design'],
-                                    ['src' => '/images/al-naseem-villas/hero-slider-1.jpg', 'alt' => 'Living Lounge'],
-                                    ['src' => '/images/golf-estates/hero-1.jpg', 'alt' => 'Scenic Surroundings'],
-                                ];
-                            @endphp
-                            @foreach($defGallery as $gIdx => $gItem)
-                                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px;">
-                                    <img id="preview_add_gal_{{ $gIdx }}" src="{{ $gItem['src'] }}" style="width: 100%; height: 95px; object-fit: cover; border-radius: 6px; margin-bottom: 8px;">
-                                    <input type="text" name="sections[gallery][images][{{ $gIdx }}][src]" value="{{ $gItem['src'] }}" class="adm-input" style="font-size: 11px; margin-bottom: 6px;" oninput="document.getElementById('preview_add_gal_{{ $gIdx }}').src = this.value">
-                                    <input type="text" name="sections[gallery][images][{{ $gIdx }}][alt]" value="{{ $gItem['alt'] }}" class="adm-input" placeholder="Alt text" style="font-size: 11px;">
-                                </div>
-                            @endforeach
+                        <div id="add_gallery_container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
+                            <div class="adm-gal-box" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; position: relative;">
+                                <button type="button" onclick="this.closest('.adm-gal-box').remove()" style="position: absolute; right: 8px; top: 8px; background: #fff; border: 1px solid #fecaca; color: #ef4444; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer;">✕</button>
+                                <img id="preview_add_gal_0" src="/images/placeholder.svg" style="width: 100%; height: 95px; object-fit: contain; border-radius: 6px; margin-bottom: 8px; background: #f1f5f9;">
+                                <input type="text" name="sections[gallery][images][0][src]" value="" class="adm-input" placeholder="Image URL / path (e.g. /images/hero/photo.jpg)" style="font-size: 11px; margin-bottom: 6px;" oninput="document.getElementById('preview_add_gal_0').src = this.value || '/images/placeholder.svg'">
+                                <input type="text" name="sections[gallery][images][0][alt]" value="" class="adm-input" placeholder="Alt text (e.g. Exterior View)" style="font-size: 11px;">
+                            </div>
                         </div>
+
+                        <button type="button" class="adm-btn adm-btn-secondary" onclick="addAddGalleryItem()" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
+                            + Add Gallery Photo
+                        </button>
                     </div>
 
                     <!-- 7. CONTENT TAB (WYSIWYG) -->
@@ -746,45 +753,7 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Page Article &amp; Community Body (Headings, Paragraphs, Images)</label>
-                            <textarea name="sections[content][html]" id="add_content_wysiwyg" class="adm-textarea adm-summernote" data-height="500" rows="22"><p class="saimaIntroP">A premier benchmark for luxury waterfront living, seamlessly blending contemporary architectural elegance with a tranquil coastal sanctuary. Residents enjoy fresh sea breezes, private beach access, and immediate connectivity to key metropolitan hubs.</p>
-<p class="saimaIntroP">Located along prestigious shoreline corridors, the community offers an inspired lifestyle for professionals, investors, and families seeking refined island elegance away from urban congestion.</p>
-<p class="saimaIntroP">Every residence offers a harmonious blend of sophistication, security, and long-term capital appreciation, presenting an extraordinary investment opportunity in one of the most coveted coastal addresses.</p>
-
-<h2 id="about-the-developers">About the Developers</h2>
-<p>Crafted by premier developers renowned for shaping iconic waterfront communities across the region for decades. Buyers and international investors benefit from a celebrated track record of timely delivery, construction excellence, and sustainable urban design.</p>
-<p>Working alongside leading international architectural consultants and market advisory firms, every aspect of the project is engineered to global standards of prestige and durability.</p>
-
-<h2 id="project-approvals-noc">Approvals &amp; Clearances</h2>
-<p>The project holds full regulatory clearance and title approvals from all relevant municipal and developmental authorities. Complying strictly with environmental and structural guidelines, purchasers can invest with absolute peace of mind and secure freehold ownership.</p>
-
-<h2 id="prime-location-connectivity">Prime Location &amp; Seamless Connectivity</h2>
-<p>Set within a scenic coastal landscape, the project offers rapid access to international airports, commercial business districts, premier private schools, and luxury retail destinations.</p>
-<p><img src="/TOC1.png" alt="Strategic Location &amp; Connectivity Map" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); width: 100%; margin: 15px 0;"></p>
-<p>Surrounded by protected green reserves and pristine waters, residents wake up to panoramic coastal vistas and unpolluted air throughout the year.</p>
-
-<h2 id="architectural-excellence-floor-plans">Architectural Excellence &amp; Floor Plans</h2>
-<p>The layouts focus on space efficiency, panoramic natural lighting, and seamless indoor-outdoor living with spacious private terraces and balconies.</p>
-
-<h3 id="contemporary-luxury-layouts">Curated Residences &amp; Layout Types</h3>
-<p><img src="/TOC2.png" alt="Luxury Layout Plan - Type C" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
-<p>Featuring open-plan living rooms, floor-to-ceiling double-glazed windows, designer show kitchens, and lavish en-suite master bedrooms designed for modern family living.</p>
-
-<p><img src="/TOC3.png" alt="Executive Layout Plan - Type B" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
-<p>Expansive terraces provide seamless entertaining spaces overlooking lush landscaped courtyards and the sparkling coastline.</p>
-
-<p><img src="/TOC4.png" alt="Presidential Villa Layout Plan - Type A" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
-<p>Generous multi-level accommodations including private elevators, maid's quarters, private swimming pools, and dedicated family lounges.</p>
-
-<h2 id="master-plan-community-lifestyle">Master Plan &amp; Community Lifestyle</h2>
-<p>The community master plan establishes a secure, private, and walkable residential haven. Dedicated subterranean parking ensures pedestrian safety across surface walkways, cycling trails, and waterfront boardwalks.</p>
-<p><img src="/TOC8.png" alt="Community Master Plan Overview" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
-
-<h2 id="flexible-payment-plan">Flexible Investment &amp; Payment Plan</h2>
-<p>A buyer-friendly, construction-linked payment structure is offered with flexible milestones, making property acquisition straightforward and stress-free.</p>
-<p><img src="/TOC12.png" alt="Milestone Payment Structure" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); margin: 10px 0;"></p>
-
-<h2 id="world-class-amenities">World-Class Facilities &amp; Amenities</h2>
-<p>Enjoy infinity swimming pools, state-of-the-art fitness centres, private beach cabanas, children's play areas, multi-sport courts, and fine-dining waterfront restaurants just steps from your front door.</p></textarea>
+                            <textarea name="sections[content][html]" id="add_content_wysiwyg" class="adm-textarea adm-summernote" data-height="500" rows="22" placeholder="Write or paste your custom article content, headings, and images here..."></textarea>
                         </div>
                     </div>
 
@@ -800,52 +769,45 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[payment_plan][title]" value="Payment Plan" class="adm-input">
+                            <input type="text" name="sections[payment_plan][title]" value="" placeholder="e.g. Payment Plan" class="adm-input">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Description</label>
-                            <textarea name="sections[payment_plan][description]" class="adm-textarea" rows="2">A flexible, milestone-linked payment structure making ownership effortless and transparent throughout the development phase.</textarea>
+                            <textarea name="sections[payment_plan][description]" class="adm-textarea" rows="2" placeholder="e.g. A flexible, milestone-linked payment structure making ownership effortless and transparent..."></textarea>
                         </div>
 
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px;">
                             <div>
                                 <label class="adm-label">Down Payment</label>
-                                <input type="text" name="sections[payment_plan][down_payment]" value="10%" class="adm-input">
+                                <input type="text" name="sections[payment_plan][down_payment]" value="" placeholder="e.g. 10%" class="adm-input">
                             </div>
                             <div>
                                 <label class="adm-label">During Construction</label>
-                                <input type="text" name="sections[payment_plan][during_construction]" value="40%" class="adm-input">
+                                <input type="text" name="sections[payment_plan][during_construction]" value="" placeholder="e.g. 40%" class="adm-input">
                             </div>
                             <div>
                                 <label class="adm-label">On Handover</label>
-                                <input type="text" name="sections[payment_plan][on_handover]" value="50%" class="adm-input">
+                                <input type="text" name="sections[payment_plan][on_handover]" value="" placeholder="e.g. 50%" class="adm-input">
                             </div>
                         </div>
 
                         <!-- Milestone Breakdown Rows -->
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            @php
-                                $defMilestones = [
-                                    ['milestone' => 'Down Payment', 'percentage' => '10%', 'due' => 'On Booking Date'],
-                                    ['milestone' => 'Construction Milestone 1', 'percentage' => '10%', 'due' => '6 Months after Booking'],
-                                    ['milestone' => 'Construction Milestone 2', 'percentage' => '10%', 'due' => '12 Months after Booking'],
-                                    ['milestone' => 'Construction Milestone 3', 'percentage' => '10%', 'due' => '18 Months after Booking'],
-                                    ['milestone' => 'Construction Milestone 4', 'percentage' => '10%', 'due' => '24 Months after Booking'],
-                                    ['milestone' => 'On Handover', 'percentage' => '50%', 'due' => '100% Completion'],
-                                ];
-                            @endphp
-                            @foreach($defMilestones as $mIdx => $mItem)
-                                <div style="display: grid; grid-template-columns: 2fr 1fr 2fr; gap: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px;">
-                                    <input type="text" name="sections[payment_plan][items][{{ $mIdx }}][milestone]" value="{{ $mItem['milestone'] }}" class="adm-input" style="font-size: 12px; font-weight: 600;">
-                                    <input type="text" name="sections[payment_plan][items][{{ $mIdx }}][percentage]" value="{{ $mItem['percentage'] }}" class="adm-input" style="font-size: 12px; text-align: center;">
-                                    <input type="text" name="sections[payment_plan][items][{{ $mIdx }}][due]" value="{{ $mItem['due'] }}" class="adm-input" style="font-size: 12px;">
-                                </div>
-                            @endforeach
+                        <div id="add_milestones_container" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px;">
+                            <div class="adm-milestone-row" style="display: grid; grid-template-columns: 2fr 1fr 2fr auto; gap: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; align-items: center;">
+                                <input type="text" name="sections[payment_plan][items][0][milestone]" value="" placeholder="Milestone (e.g. Down Payment)" class="adm-input" style="font-size: 12px; font-weight: 600;">
+                                <input type="text" name="sections[payment_plan][items][0][percentage]" value="" placeholder="e.g. 10%" class="adm-input" style="font-size: 12px; text-align: center;">
+                                <input type="text" name="sections[payment_plan][items][0][due]" value="" placeholder="Due Date (e.g. On Booking Date)" class="adm-input" style="font-size: 12px;">
+                                <button type="button" onclick="this.closest('.adm-milestone-row').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
+                            </div>
                         </div>
+
+                        <button type="button" class="adm-btn adm-btn-secondary" onclick="addAddMilestoneItem()" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
+                            + Add Milestone Row
+                        </button>
                     </div>
 
-                    <!-- 8. MASTER PLAN TAB -->
+                    <!-- 9. MASTER PLAN TAB -->
                     <div id="add_tab_master_plan" class="tab-pane">
                         <div class="adm-card-head">
                             <div>
@@ -857,29 +819,29 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[master_plan][title]" value="Master Plan" class="adm-input">
+                            <input type="text" name="sections[master_plan][title]" value="" placeholder="e.g. Master Plan" class="adm-input">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Description</label>
-                            <textarea name="sections[master_plan][description]" class="adm-textarea" rows="3">The master plan creates a harmonious, walkable enclave where residential clusters are woven naturally into open green parklands, pedestrian corridors, and scenic waterfront trails.</textarea>
+                            <textarea name="sections[master_plan][description]" class="adm-textarea" rows="3" placeholder="e.g. The master plan creates a harmonious, walkable enclave where residential clusters are woven naturally..."></textarea>
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Master Plan Image</label>
                             <div class="adm-img-box">
-                                <img id="preview_add_master_img" src="/images/nawayef-park-views/asset_2.jpg" class="adm-img-thumb-lg" alt="Master Plan">
+                                <img id="preview_add_master_img" src="/images/placeholder.svg" class="adm-img-thumb-lg" alt="Master Plan" style="object-fit: contain; background: #f8fafc;">
                                 <div style="flex: 1;">
                                     <div style="margin-bottom: 8px;">
                                         <input type="file" name="section_files[master_plan][image]" class="adm-input" accept="image/*" onchange="previewAddImage(this, 'preview_add_master_img', 'input_add_master_img')">
                                     </div>
-                                    <input type="text" name="sections[master_plan][image]" id="input_add_master_img" value="/images/nawayef-park-views/asset_2.jpg" class="adm-input" oninput="document.getElementById('preview_add_master_img').src = this.value">
+                                    <input type="text" name="sections[master_plan][image]" id="input_add_master_img" value="" class="adm-input" placeholder="Or enter image URL path (e.g. /images/projects/master-plan.jpg)" oninput="document.getElementById('preview_add_master_img').src = this.value || '/images/placeholder.svg'">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 9. LOCATION & CONNECTIVITY TAB -->
+                    <!-- 10. LOCATION & CONNECTIVITY TAB -->
                     <div id="add_tab_location" class="tab-pane">
                         <div class="adm-card-head">
                             <div>
@@ -891,35 +853,28 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[location][title]" value="Seamless Access, Prime Location" class="adm-input">
+                            <input type="text" name="sections[location][title]" value="" placeholder="e.g. Seamless Access, Prime Location" class="adm-input">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Description</label>
-                            <textarea name="sections[location][description]" class="adm-textarea" rows="2">Conveniently located on Hudayriyat Island with direct access via modern bridges to Abu Dhabi’s key commercial, cultural, and travel hubs.</textarea>
+                            <textarea name="sections[location][description]" class="adm-textarea" rows="2" placeholder="e.g. Conveniently located on Hudayriyat Island with direct access via modern bridges..."></textarea>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            @php
-                                $defLocations = [
-                                    ['place' => 'Downtown Abu Dhabi', 'time' => '20 mins'],
-                                    ['place' => 'Emirates Palace', 'time' => '23 mins'],
-                                    ['place' => 'Sheikh Zayed Grand Mosque', 'time' => '23 mins'],
-                                    ['place' => 'Abu Dhabi Global Financial Centre', 'time' => '30 mins'],
-                                    ['place' => 'Louvre Abu Dhabi', 'time' => '33 mins'],
-                                    ['place' => 'Zayed International Airport', 'time' => '34 mins'],
-                                ];
-                            @endphp
-                            @foreach($defLocations as $lIdx => $lItem)
-                                <div style="display: flex; gap: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px;">
-                                    <input type="text" name="sections[location][items][{{ $lIdx }}][place]" value="{{ $lItem['place'] }}" class="adm-input" style="flex: 2; font-size: 12px; font-weight: 600;">
-                                    <input type="text" name="sections[location][items][{{ $lIdx }}][time]" value="{{ $lItem['time'] }}" class="adm-input" style="flex: 1; font-size: 12px; text-align: center;">
-                                </div>
-                            @endforeach
+                        <div id="add_locations_container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+                            <div class="adm-loc-row" style="display: flex; gap: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; align-items: center;">
+                                <input type="text" name="sections[location][items][0][place]" value="" placeholder="Destination (e.g. Downtown)" class="adm-input" style="flex: 2; font-size: 12px; font-weight: 600;">
+                                <input type="text" name="sections[location][items][0][time]" value="" placeholder="Time (e.g. 20 mins)" class="adm-input" style="flex: 1; font-size: 12px; text-align: center;">
+                                <button type="button" onclick="this.closest('.adm-loc-row').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
+                            </div>
                         </div>
+
+                        <button type="button" class="adm-btn adm-btn-secondary" onclick="addAddLocationItem()" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
+                            + Add Destination
+                        </button>
                     </div>
 
-                    <!-- 10. FREQUENTLY ASKED QUESTIONS TAB -->
+                    <!-- 11. FREQUENTLY ASKED QUESTIONS TAB -->
                     <div id="add_tab_faq" class="tab-pane">
                         <div class="adm-card-head">
                             <div>
@@ -931,33 +886,23 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[faq][title]" value="Frequently Asked Questions" class="adm-input">
+                            <input type="text" name="sections[faq][title]" value="" placeholder="e.g. Frequently Asked Questions" class="adm-input">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Description</label>
-                            <textarea name="sections[faq][description]" class="adm-textarea" rows="2">Key information and helpful answers regarding property purchases on Hudayriyat Island.</textarea>
+                            <textarea name="sections[faq][description]" class="adm-textarea" rows="2" placeholder="e.g. Key information and helpful answers regarding property purchases..."></textarea>
                         </div>
 
                         <div id="add_faq_container" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px;">
-                            @php
-                                $defFaqs = [
-                                    ['q' => 'Is this a freehold development?', 'a' => 'Yes, it is a 100% freehold development open to buyers and investors of all nationalities worldwide.'],
-                                    ['q' => 'What are the expected handover dates?', 'a' => 'Handover is scheduled for Q4 2028, with milestone construction progress reports delivered periodically to registered owners.'],
-                                    ['q' => 'What amenities are available within the community?', 'a' => 'Residents enjoy private access to a clubhouse, swimming pools, fitness centers, sports courts, cycle tracks, and direct beach access.'],
-                                    ['q' => 'Does this purchase qualify for the UAE Golden Visa?', 'a' => 'Yes, property investments valued at AED 2,000,000 or above qualify for the 10-year renewable UAE Golden Visa.'],
-                                ];
-                            @endphp
-                            @foreach($defFaqs as $fIdx => $fItem)
-                                <div class="adm-card" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                                        <strong style="font-size: 12px; color: #475569;">Question #{{ $fIdx + 1 }}</strong>
-                                        <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
-                                    </div>
-                                    <input type="text" name="sections[faq][items][{{ $fIdx }}][question]" value="{{ $fItem['q'] }}" class="adm-input" placeholder="Question..." style="margin-bottom: 6px; font-weight: 600; font-size: 12.5px;">
-                                    <textarea name="sections[faq][items][{{ $fIdx }}][answer]" class="adm-textarea" rows="2" placeholder="Answer..." style="font-size: 12px;">{{ $fItem['a'] }}</textarea>
+                            <div class="adm-card" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                    <strong style="font-size: 12px; color: #475569;">Question #1</strong>
+                                    <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
                                 </div>
-                            @endforeach
+                                <input type="text" name="sections[faq][items][0][question]" value="" class="adm-input" placeholder="Question (e.g. Is this a freehold development?)" style="margin-bottom: 6px; font-weight: 600; font-size: 12.5px;">
+                                <textarea name="sections[faq][items][0][answer]" class="adm-textarea" rows="2" placeholder="Answer..." style="font-size: 12px;"></textarea>
+                            </div>
                         </div>
 
                         <button type="button" class="adm-btn adm-btn-secondary" onclick="addAddFaqItem()" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
@@ -965,7 +910,7 @@
                         </button>
                     </div>
 
-                    <!-- 11. CONTACT & BOOKING CTA TAB -->
+                    <!-- 12. CONTACT & BOOKING CTA TAB -->
                     <div id="add_tab_contact" class="tab-pane">
                         <div class="adm-card-head">
                             <div>
@@ -977,26 +922,26 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Headline / Title</label>
-                            <input type="text" name="sections[contact][title]" value="Register Your Interest" class="adm-input">
+                            <input type="text" name="sections[contact][title]" value="" placeholder="e.g. Register Your Interest" class="adm-input">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Subtitle / Narrative</label>
-                            <textarea name="sections[contact][subtitle]" class="adm-textarea" rows="2">Our property specialists will contact you with VIP floor plans, pricing sheets, and private site visit bookings.</textarea>
+                            <textarea name="sections[contact][subtitle]" class="adm-textarea" rows="2" placeholder="e.g. Our property specialists will contact you with VIP floor plans, pricing sheets, and private site visit bookings."></textarea>
                         </div>
 
                         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;">
                             <div>
                                 <label class="adm-label">Button Text</label>
-                                <input type="text" name="sections[contact][button_text]" value="REGISTER INTEREST" class="adm-input">
+                                <input type="text" name="sections[contact][button_text]" value="" placeholder="e.g. REGISTER INTEREST" class="adm-input">
                             </div>
                             <div>
                                 <label class="adm-label">Phone</label>
-                                <input type="text" name="sections[contact][phone]" value="+971 2 000 0000" class="adm-input">
+                                <input type="text" name="sections[contact][phone]" value="" placeholder="e.g. +971 2 000 0000" class="adm-input">
                             </div>
                             <div>
                                 <label class="adm-label">Email</label>
-                                <input type="text" name="sections[contact][email]" value="info@hudayriyat-island.com" class="adm-input">
+                                <input type="text" name="sections[contact][email]" value="" placeholder="e.g. info@hudayriyat-island.com" class="adm-input">
                             </div>
                         </div>
                     </div>
@@ -1027,20 +972,21 @@
                         </div>
                     </div>
 
-                    <!-- Sticky Bottom Action Bar matching Screenshot 1 -->
-                    <div class="adm-sticky-save" style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 24px;">
-                        <div style="font-size: 13.5px; color: #475569;">
-                            Saving changes for <strong id="newCardNamePreview" style="color: #1e293b;">New Property</strong>
-                        </div>
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <button type="button" class="adm-btn adm-btn-secondary" onclick="toggleAddCardForm()" style="padding: 9px 18px; border-radius: 8px; font-size: 13px;">Cancel</button>
-                            <button type="submit" class="adm-btn adm-btn-primary" style="background: #1a4731; border-color: #1a4731; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 13.5px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(26,71,49,0.2);">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                Save Changes
-                            </button>
-                        </div>
-                    </div>
 
+                </div>
+            </div>
+
+            <!-- Sticky Bottom Action Bar (full width, below layout) -->
+            <div class="adm-add-save-bar">
+                <div style="font-size: 13.5px; color: #475569;">
+                    Saving changes for <strong id="newCardNamePreview" style="color: #1e293b;">New Property</strong>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button type="button" class="adm-btn adm-btn-secondary" onclick="toggleAddCardForm()" style="padding: 9px 18px; border-radius: 8px; font-size: 13px;">Cancel</button>
+                    <button type="submit" class="adm-btn adm-btn-primary" style="background: #1a4731; border-color: #1a4731; color: #fff; padding: 10px 24px; border-radius: 8px; font-weight: 600; font-size: 13.5px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 6px rgba(26,71,49,0.2);">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        Save Changes
+                    </button>
                 </div>
             </div>
         </form>
@@ -1338,6 +1284,54 @@
         }
     }
 
+    function applyProjectAmenity(selectEl) {
+        const card = selectEl.closest('.adm-card');
+        if (!card) return;
+        const opt = selectEl.options[selectEl.selectedIndex];
+        if (!opt || !opt.value) return;
+
+        const nameInput = card.querySelector('input[name*="[name]"]');
+        if (nameInput) nameInput.value = opt.value;
+
+        const iconInput = card.querySelector('input[name*="[icon]"]');
+        const iconUrl = opt.getAttribute('data-icon') || '';
+        if (iconInput) iconInput.value = iconUrl;
+
+        const img = card.querySelector('img');
+        if (img && iconUrl) img.src = iconUrl;
+    }
+
+    function addAddAmenityCard() {
+        const container = document.getElementById('add_amenities_container');
+        if (!container) return;
+        const idx = Date.now();
+        const card = document.createElement('div');
+        card.className = 'adm-card';
+        card.style.cssText = 'border: 1px solid #e2e8f0; background: #fff; padding: 12px; border-radius: 8px;';
+
+        const options = `
+            <option value="">-- Choose from Amenities --</option>
+            @if(isset($allAmenities))
+                @foreach($allAmenities as $am)
+                    <option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
+                @endforeach
+            @endif
+        `;
+
+        card.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <img src="/images/placeholder.svg" style="width: 24px; height: 24px; object-fit: contain;">
+                <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
+            </div>
+            <select class="adm-select" onchange="applyProjectAmenity(this)" style="font-size: 11px; margin-bottom: 6px; padding: 4px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
+                ${options}
+            </select>
+            <input type="text" name="sections[amenities][items][${idx}][name]" value="" placeholder="Amenity Name" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 6px;">
+            <input type="text" name="sections[amenities][items][${idx}][icon]" value="" placeholder="Icon path / SVG" class="adm-input" style="font-size: 11px;">
+        `;
+        container.appendChild(card);
+    }
+
     let slugUserEdited = false;
     document.getElementById('add_prop_slug')?.addEventListener('input', function() {
         slugUserEdited = true;
@@ -1365,47 +1359,7 @@
             if (slugInput) slugInput.value = cleanSlug;
             updateSlugLivePreview(cleanSlug);
         }
-
-        // Auto-fill Headline from Property Name
-        const headlineInput = document.getElementById('add_prop_headline');
-        if (headlineInput && !headlineInput.dataset.edited) {
-            headlineInput.value = val;
-            syncHeadline(val);
-        }
-
-        // Auto pre-populate defaults for sections
-        const heroTitle = document.getElementById('add_hero_title');
-        if (heroTitle && !heroTitle.dataset.edited) {
-            heroTitle.value = val ? (val + '\nat Hudayriyat Island') : '';
-        }
-
-        const heroAlt = document.getElementById('add_hero_alt');
-        if (heroAlt && !heroAlt.dataset.edited) {
-            heroAlt.value = val ? (val + ' at Hudayriyat Island') : '';
-        }
-
-        const aboutTitle = document.getElementById('add_about_title');
-        if (aboutTitle && !aboutTitle.dataset.edited) {
-            aboutTitle.value = val ? (val + ' by Modon') : '';
-        }
-
-        const amTitle = document.getElementById('add_amenities_title');
-        if (amTitle && !amTitle.dataset.edited) {
-            amTitle.value = val ? (val + ' Amenities') : 'Community Amenities';
-        }
-
-        const metaTitle = document.getElementById('add_meta_title');
-        if (metaTitle && !metaTitle.dataset.edited) {
-            metaTitle.value = val ? (val + ' | Luxury Freehold Villas at Hudayriyat Island Abu Dhabi') : '';
-        }
     }
-
-    // Track manual edits so auto-sync doesn't override intentional user changes
-    ['add_prop_headline', 'add_hero_title', 'add_hero_alt', 'add_about_title', 'add_amenities_title', 'add_meta_title'].forEach(id => {
-        document.getElementById(id)?.addEventListener('input', function() {
-            this.dataset.edited = 'true';
-        });
-    });
 
     document.getElementById('edit_title')?.addEventListener('input', function() {
         const editHeadline = document.getElementById('edit_headline');
@@ -1439,11 +1393,11 @@
 
     function syncCardAndHeroImageUrl(val) {
         const cardPreview = document.getElementById('preview_add_card_img');
-        if (cardPreview) cardPreview.src = val;
+        if (cardPreview) cardPreview.src = val || '/images/placeholder.svg';
         const heroInput = document.getElementById('input_add_hero_img');
         if (heroInput) heroInput.value = val;
         const heroPreview = document.getElementById('preview_add_hero_img');
-        if (heroPreview) heroPreview.src = val;
+        if (heroPreview) heroPreview.src = val || '/images/placeholder.svg';
     }
 
     function updateSlugLivePreview(val) {
@@ -1464,7 +1418,7 @@
         }
     }
 
-    let addHighlightIdx = 5;
+    let addHighlightIdx = 10;
     function addAddHighlightItem() {
         const container = document.getElementById('add_highlights_list');
         if (!container) return;
@@ -1472,31 +1426,59 @@
         row.className = 'adm-highlight-card';
         row.style.cssText = 'display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;';
         row.innerHTML = `
-            <input type="text" name="sections[highlights][items][${addHighlightIdx}][label]" placeholder="Metric Name (e.g. Bedrooms)" class="adm-input" style="flex: 1; font-weight: 600;">
-            <input type="text" name="sections[highlights][items][${addHighlightIdx}][value]" placeholder="Value (e.g. 3 to 6 Bedrooms)" class="adm-input" style="flex: 1;">
+            <input type="text" name="sections[highlights][items][${addHighlightIdx}][label]" value="" placeholder="Metric Name (e.g. Bedrooms)" class="adm-input" style="flex: 1; font-weight: 600;">
+            <input type="text" name="sections[highlights][items][${addHighlightIdx}][value]" value="" placeholder="Value (e.g. 3 to 6 Bedrooms)" class="adm-input" style="flex: 1;">
             <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
         `;
         container.appendChild(row);
         addHighlightIdx++;
     }
 
-    let addAmenityIdx = 10;
-    function addAddAmenityCard() {
-        const container = document.getElementById('add_amenities_container');
+    function addAddGalleryItem() {
+        const container = document.getElementById('add_gallery_container');
         if (!container) return;
-        const card = document.createElement('div');
-        card.className = 'adm-card';
-        card.style.cssText = 'border: 1px solid #e2e8f0; background: #fff; padding: 12px; border-radius: 8px;';
-        card.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <img src="/images/nawayef-park-views/asset_16.png" style="width: 24px; height: 24px; object-fit: contain;">
-                <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
-            </div>
-            <input type="text" name="sections[amenities][items][${addAmenityIdx}][name]" placeholder="Amenity Name" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 6px;">
-            <input type="text" name="sections[amenities][items][${addAmenityIdx}][icon]" value="/images/nawayef-park-views/asset_16.png" class="adm-input" style="font-size: 11px;">
+        const idx = Date.now();
+        const box = document.createElement('div');
+        box.className = 'adm-gal-box';
+        box.style.cssText = 'background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; position: relative;';
+        box.innerHTML = `
+            <button type="button" onclick="this.closest('.adm-gal-box').remove()" style="position: absolute; right: 8px; top: 8px; background: #fff; border: 1px solid #fecaca; color: #ef4444; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer;">✕</button>
+            <img id="preview_add_gal_${idx}" src="/images/placeholder.svg" style="width: 100%; height: 95px; object-fit: contain; border-radius: 6px; margin-bottom: 8px; background: #f1f5f9;">
+            <input type="text" name="sections[gallery][images][${idx}][src]" value="" class="adm-input" placeholder="Image URL / path (e.g. /images/hero/photo.jpg)" style="font-size: 11px; margin-bottom: 6px;" oninput="document.getElementById('preview_add_gal_${idx}').src = this.value || '/images/placeholder.svg'">
+            <input type="text" name="sections[gallery][images][${idx}][alt]" value="" class="adm-input" placeholder="Alt text (e.g. Exterior View)" style="font-size: 11px;">
         `;
-        container.appendChild(card);
-        addAmenityIdx++;
+        container.appendChild(box);
+    }
+
+    function addAddMilestoneItem() {
+        const container = document.getElementById('add_milestones_container');
+        if (!container) return;
+        const idx = Date.now();
+        const row = document.createElement('div');
+        row.className = 'adm-milestone-row';
+        row.style.cssText = 'display: grid; grid-template-columns: 2fr 1fr 2fr auto; gap: 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; align-items: center;';
+        row.innerHTML = `
+            <input type="text" name="sections[payment_plan][items][${idx}][milestone]" value="" placeholder="Milestone (e.g. Construction Milestone)" class="adm-input" style="font-size: 12px; font-weight: 600;">
+            <input type="text" name="sections[payment_plan][items][${idx}][percentage]" value="" placeholder="e.g. 10%" class="adm-input" style="font-size: 12px; text-align: center;">
+            <input type="text" name="sections[payment_plan][items][${idx}][due]" value="" placeholder="Due Date (e.g. 12 Months after Booking)" class="adm-input" style="font-size: 12px;">
+            <button type="button" onclick="this.closest('.adm-milestone-row').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
+        `;
+        container.appendChild(row);
+    }
+
+    function addAddLocationItem() {
+        const container = document.getElementById('add_locations_container');
+        if (!container) return;
+        const idx = Date.now();
+        const row = document.createElement('div');
+        row.className = 'adm-loc-row';
+        row.style.cssText = 'display: flex; gap: 8px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; align-items: center;';
+        row.innerHTML = `
+            <input type="text" name="sections[location][items][${idx}][place]" value="" placeholder="Destination (e.g. Downtown)" class="adm-input" style="flex: 2; font-size: 12px; font-weight: 600;">
+            <input type="text" name="sections[location][items][${idx}][time]" value="" placeholder="Time (e.g. 20 mins)" class="adm-input" style="flex: 1; font-size: 12px; text-align: center;">
+            <button type="button" onclick="this.closest('.adm-loc-row').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
+        `;
+        container.appendChild(row);
     }
 
     let addFaqIdx = 10;
@@ -1508,10 +1490,10 @@
         card.style.cssText = 'background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px;';
         card.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <strong style="font-size: 12px; color: #475569;">New Question</strong>
+                <strong style="font-size: 12px; color: #475569;">Question</strong>
                 <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
             </div>
-            <input type="text" name="sections[faq][items][${addFaqIdx}][question]" placeholder="Question..." class="adm-input" style="margin-bottom: 6px; font-weight: 600; font-size: 12.5px;">
+            <input type="text" name="sections[faq][items][${addFaqIdx}][question]" value="" placeholder="Question..." class="adm-input" style="margin-bottom: 6px; font-weight: 600; font-size: 12.5px;">
             <textarea name="sections[faq][items][${addFaqIdx}][answer]" class="adm-textarea" rows="2" placeholder="Answer..." style="font-size: 12px;"></textarea>
         `;
         container.appendChild(card);

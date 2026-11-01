@@ -439,28 +439,26 @@
                         </div>
 
                         <div class="adm-form-row">
-                            <!-- City Dropdown -->
+                            <!-- Neighbourhood / Community Dropdown (Matching Add Property) -->
                             <div class="adm-field">
-                                <label class="adm-label" for="projectCity">City</label>
-                                <select id="projectCity" name="location" class="adm-input" style="width: 100%; border-radius: 8px;">
-                                    @php $currLoc = old('location', $linkedProject->location ?? 'Karachi'); @endphp
-                                    <optgroup label="Popular Cities">
-                                        @foreach(['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Hyderabad', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Gujranwala', 'Sialkot', 'Abbottabad', 'Gwadar', 'Murree', 'Gilgit'] as $city)
-                                            <option value="{{ $city }}" {{ strcasecmp($currLoc, $city) === 0 ? 'selected' : '' }}>{{ $city }}</option>
-                                        @endforeach
-                                    </optgroup>
-                                    <optgroup label="Provinces &amp; Regions">
-                                        @foreach(['Punjab', 'Sindh', 'Khyber Pakhtunkhwa', 'Balochistan', 'Islamabad Capital Territory', 'Azad Jammu & Kashmir', 'Gilgit-Baltistan'] as $region)
-                                            <option value="{{ $region }}" {{ strcasecmp($currLoc, $region) === 0 ? 'selected' : '' }}>{{ $region }}</option>
-                                        @endforeach
-                                    </optgroup>
-                                    <optgroup label="Other Cities of Pakistan">
-                                        @foreach(['Bahawalpur', 'Sargodha', 'Sukkur', 'Larkana', 'Nawabshah', 'Sheikhupura', 'Jhang', 'Rahim Yar Khan', 'Gujrat', 'Sahiwal', 'Wah Cantonment', 'Mardan', 'Kasur', 'Okara', 'Mingora / Swat', 'Mirpur', 'Muzaffarabad', 'Skardu', 'Dera Ghazi Khan', 'Dera Ismail Khan', 'Chiniot', 'Kamoke', 'Hafizabad', 'Kohat', 'Bannu', 'Turbat', 'Khuzdar'] as $city)
-                                            <option value="{{ $city }}" {{ strcasecmp($currLoc, $city) === 0 ? 'selected' : '' }}>{{ $city }}</option>
-                                        @endforeach
-                                    </optgroup>
+                                <label class="adm-label" for="projectCommunity">Neighbourhood/Community <span style="font-weight: 400; color: #64748b; font-size: 12px;">(Select Community)</span></label>
+                                @php
+                                    $currLoc = old('location', $linkedProject->location ?? '');
+                                @endphp
+                                <select id="projectCommunity" name="location" class="adm-select" style="width: 100%; border-radius: 8px; background: #ffffff; cursor: pointer;">
+                                    <option value="">-- Select Neighbourhood/Community --</option>
+                                    @forelse($communities ?? [] as $comm)
+                                        @php
+                                            $locValue = $comm->name . ($comm->city ? ', ' . $comm->city->name : '');
+                                        @endphp
+                                        <option value="{{ $locValue }}" {{ (strcasecmp($currLoc, $locValue) === 0 || strcasecmp($currLoc, $comm->name) === 0) ? 'selected' : '' }}>
+                                            {{ $locValue }}
+                                        </option>
+                                    @empty
+                                        <option value="" disabled>No communities found. Please add a community from sidebar first.</option>
+                                    @endforelse
                                 </select>
-                                <div class="adm-help">Location displayed on the property card.</div>
+                                <div class="adm-help">Jo community sidebar se add ki hai wo yahan dropdown me ayegi (Community, City format me card par show hogi).</div>
                             </div>
 
                             <!-- Card Image -->
@@ -725,6 +723,15 @@
                                                                     <span class="adm-metric-menu-item-label">{{ $preset['label'] }}</span>
                                                                 </div>
                                                             @endforeach
+                                                            @if(isset($allAmenities) && $allAmenities->isNotEmpty())
+                                                                <div class="adm-metric-menu-header" style="border-top: 1px solid #e2e8f0; margin-top: 6px; padding-top: 8px; color: #0284c7;">Uploaded Amenities &amp; Icons</div>
+                                                                @foreach($allAmenities as $am)
+                                                                    <div class="adm-metric-menu-item" onclick="selectAmenityMetricOption(this, '{{ addslashes($am->name) }}', '{{ $am->icon }}')">
+                                                                        <span class="adm-metric-menu-item-icon">{!! $am->rendered_svg !!}</span>
+                                                                        <span class="adm-metric-menu-item-label">{{ $am->name }}</span>
+                                                                    </div>
+                                                                @endforeach
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2498,12 +2505,21 @@
                                                 ✕ Delete
                                             </button>
                                         </div>
+                                        <label class="adm-label" style="font-size: 11px; margin-bottom: 2px; color: #0284c7; font-weight: 700;">Select from Amenities (Auto-fills Icon)</label>
+                                        <select class="adm-select" onchange="applyPredefinedAmenity(this, '{{ $aIdx }}')" style="font-size: 11.5px; margin-bottom: 8px; background: #f0f9ff; border-color: #bae6fd; padding: 5px 8px; border-radius: 6px; cursor: pointer; width: 100%;">
+                                            <option value="">-- Choose Predefined Amenity --</option>
+                                            @if(isset($allAmenities))
+                                                @foreach($allAmenities as $am)
+                                                    <option value="{{ $am->name }}" data-icon="{{ $am->icon }}" {{ ($aItem['name'] ?? '') === $am->name ? 'selected' : '' }}>{{ $am->name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
                                         <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Amenity Name</label>
-                                        <input type="text" name="sections[amenities][items][{{ $aIdx }}][name]" value="{{ $aItem['name'] ?? '' }}" class="adm-input" placeholder="e.g. Clubhouses" style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">
-                                        <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Icon URL</label>
-                                        <input type="text" name="sections[amenities][items][{{ $aIdx }}][icon]" id="input_amenity_{{ $aIdx }}" value="{{ $aItem['icon'] ?? '' }}" class="adm-input" placeholder="/images/...png" style="font-size: 11px;" oninput="document.getElementById('preview_amenity_{{ $aIdx }}').src = this.value">
-                                        <label class="adm-label" style="font-size: 11px; margin-top: 6px; margin-bottom: 2px;">Upload Icon</label>
-                                        <input type="file" name="section_files[amenities][items][{{ $aIdx }}][icon]" class="adm-input" accept="image/*" style="font-size: 10px; padding: 3px;" onchange="previewUploadedImage(this, 'preview_amenity_{{ $aIdx }}', 'input_amenity_{{ $aIdx }}')">
+                                        <input type="text" name="sections[amenities][items][{{ $aIdx }}][name]" id="name_amenity_{{ $aIdx }}" value="{{ $aItem['name'] ?? '' }}" class="adm-input" placeholder="e.g. Clubhouses" style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">
+                                        <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Icon URL (SVG / Image)</label>
+                                        <input type="text" name="sections[amenities][items][{{ $aIdx }}][icon]" id="input_amenity_{{ $aIdx }}" value="{{ $aItem['icon'] ?? '' }}" class="adm-input" placeholder="/uploads/amenities/...svg" style="font-size: 11px;" oninput="document.getElementById('preview_amenity_{{ $aIdx }}').src = this.value">
+                                        <label class="adm-label" style="font-size: 11px; margin-top: 6px; margin-bottom: 2px;">Or Upload Custom Icon</label>
+                                        <input type="file" name="section_files[amenities][items][{{ $aIdx }}][icon]" class="adm-input" accept="image/*,.svg" style="font-size: 10px; padding: 3px;" onchange="previewUploadedImage(this, 'preview_amenity_{{ $aIdx }}', 'input_amenity_{{ $aIdx }}')">
                                     </div>
                                 @endforeach
                             </div>
@@ -4721,6 +4737,54 @@
         renumberGalleryRows();
     }
 
+    function applyPredefinedAmenity(selectEl, idx) {
+        const opt = selectEl.options[selectEl.selectedIndex];
+        if (!opt || !opt.value) return;
+        const name = opt.value;
+        const icon = opt.getAttribute('data-icon') || '';
+
+        const nameInput = document.getElementById('name_amenity_' + idx);
+        if (nameInput) nameInput.value = name;
+
+        const iconInput = document.getElementById('input_amenity_' + idx);
+        if (iconInput) iconInput.value = icon;
+
+        const previewImg = document.getElementById('preview_amenity_' + idx);
+        if (previewImg && icon) previewImg.src = icon;
+    }
+
+    function selectAmenityMetricOption(itemEl, name, iconUrl) {
+        const wrap = itemEl.closest('.adm-metric-input-wrap');
+        if (!wrap) return;
+        const card = wrap.closest('.adm-repeater-item');
+        const input = wrap.querySelector('.adm-metric-input');
+        const prefixIcon = wrap.querySelector('.adm-metric-prefix-icon');
+        const menu = wrap.querySelector('.adm-metric-menu');
+
+        if (input) {
+            input.value = name;
+            if (typeof updateCardHeading === 'function') updateCardHeading(input);
+        }
+
+        const itemSvg = itemEl.querySelector('svg');
+        if (prefixIcon) {
+            if (itemSvg) {
+                prefixIcon.innerHTML = itemSvg.outerHTML;
+            } else if (iconUrl) {
+                prefixIcon.innerHTML = `<img src="${iconUrl}" style="width:18px;height:18px;object-fit:contain;" alt="">`;
+            }
+        }
+
+        if (card) {
+            const iconInput = card.querySelector('.adm-hl-icon-input');
+            if (iconInput) {
+                iconInput.value = iconUrl;
+            }
+        }
+
+        if (menu) menu.classList.remove('show');
+    }
+
     function addAmenityCard() {
         const grid = document.getElementById('amenities_cards_container');
         if (!grid) return;
@@ -4729,6 +4793,16 @@
         card.className = 'adm-card';
         card.id = `amenity_card_${newIdx}`;
         card.style.cssText = 'border: 1px solid #dcd3c6; background: #fff; margin-bottom: 0; padding: 14px;';
+
+        const amenitiesOptions = `
+            <option value="">-- Choose Predefined Amenity --</option>
+            @if(isset($allAmenities))
+                @foreach($allAmenities as $am)
+                    <option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
+                @endforeach
+            @endif
+        `;
+
         card.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <div style="width: 44px; height: 44px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: flex; align-items: center; justify-content: center;">
@@ -4738,12 +4812,16 @@
                     ✕ Delete
                 </button>
             </div>
+            <label class="adm-label" style="font-size: 11px; margin-bottom: 2px; color: #0284c7; font-weight: 700;">Select from Amenities (Auto-fills Icon)</label>
+            <select class="adm-select" onchange="applyPredefinedAmenity(this, '${newIdx}')" style="font-size: 11.5px; margin-bottom: 8px; background: #f0f9ff; border-color: #bae6fd; padding: 5px 8px; border-radius: 6px; cursor: pointer; width: 100%;">
+                ${amenitiesOptions}
+            </select>
             <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Amenity Name</label>
-            <input type="text" name="sections[amenities][items][${newIdx}][name]" value="New Amenity" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">
-            <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Icon URL</label>
+            <input type="text" name="sections[amenities][items][${newIdx}][name]" id="name_amenity_${newIdx}" value="New Amenity" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">
+            <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Icon URL (SVG / Image)</label>
             <input type="text" name="sections[amenities][items][${newIdx}][icon]" id="input_amenity_${newIdx}" value="/images/wadeem-gardens/amenity-club.png" class="adm-input" style="font-size: 11px;" oninput="document.getElementById('preview_amenity_${newIdx}').src = this.value">
-            <label class="adm-label" style="font-size: 11px; margin-top: 6px; margin-bottom: 2px;">Upload Icon</label>
-            <input type="file" name="section_files[amenities][items][${newIdx}][icon]" class="adm-input" accept="image/*" style="font-size: 10px; padding: 3px;" onchange="previewUploadedImage(this, 'preview_amenity_${newIdx}', 'input_amenity_${newIdx}')">
+            <label class="adm-label" style="font-size: 11px; margin-top: 6px; margin-bottom: 2px;">Or Upload Custom Icon</label>
+            <input type="file" name="section_files[amenities][items][${newIdx}][icon]" class="adm-input" accept="image/*,.svg" style="font-size: 10px; padding: 3px;" onchange="previewUploadedImage(this, 'preview_amenity_${newIdx}', 'input_amenity_${newIdx}')">
         `;
         grid.appendChild(card);
         const countSpan = document.getElementById('amenitiesCount');

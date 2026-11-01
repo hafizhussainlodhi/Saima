@@ -545,7 +545,9 @@ class PageController extends Controller
             $selectedProjectIds = $allProjects->pluck('id')->all();
         }
 
-        return view('admin.pages.edit', compact('page', 'projectPages', 'linkedProject', 'projectSlugs', 'allProjects', 'selectedProjectIds'));
+        $communities = \App\Models\Community::with('city')->orderBy('order', 'asc')->orderBy('name', 'asc')->get();
+
+        return view('admin.pages.edit', compact('page', 'projectPages', 'linkedProject', 'projectSlugs', 'allProjects', 'selectedProjectIds', 'communities'));
     }
 
     /**
