@@ -11,7 +11,7 @@
     RewriteCond %{HTTP:X-Forwarded-Proto} =http
     RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-    # 2. CONTROL DOMAIN / WWW TO NON-WWW
+    # 2. CONTROL DOMAIN / WWW REDIRECT (Redirect www.saimaprojects.com to saimaprojects.com)
     RewriteCond %{HTTP_HOST} ^www\.saimaprojects\.com$ [NC]
     RewriteRule ^(.*)$ https://saimaprojects.com/$1 [R=301,L]
 
@@ -24,7 +24,7 @@
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # 5. SEND ALL REQUESTS TO LARAVEL FRONT CONTROLLER
+    # 5. SEND ALL REQUESTS TO LARAVEL FRONT CONTROLLER (index.php)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]

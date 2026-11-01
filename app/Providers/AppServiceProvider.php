@@ -42,20 +42,18 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['partials.header', 'layouts.app'], function ($view) {
             try {
                 if (\Illuminate\Support\Facades\Schema::hasTable('projects')) {
+                    // Merged rules: active & non-draft project (incoming draft fix)
+                    // + linked page with in_navbar enabled, published, non-draft (local)
                     $navbarProjects = \App\Models\Project::with('page')
+                        ->where('is_active', true)
                         ->where(function ($q) {
-                            $q->where('status', 'publish')
-                              ->orWhere(function ($q2) {
-                                  $q2->whereNull('status')->where('is_active', true);
-                              });
+                            $q->whereNull('status')->orWhere('status', '!=', 'draft');
                         })
                         ->whereHas('page', function ($pq) {
                             $pq->where('in_navbar', true)
+                               ->where('is_published', true)
                                ->where(function ($sq) {
-                                   $sq->where('status', 'publish')
-                                      ->orWhere(function ($sq2) {
-                                          $sq2->whereNull('status')->where('is_published', true);
-                                      });
+                                   $sq->whereNull('status')->orWhere('status', '!=', 'draft');
                                });
                         })
                         ->orderBy('order', 'asc')

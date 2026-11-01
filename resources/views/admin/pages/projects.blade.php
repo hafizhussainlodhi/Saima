@@ -625,14 +625,14 @@
                                         </div>
                                         <div>
                                             <label class="adm-label" for="heroSubtitleInput" style="font-weight:600; font-size:12.5px;">Subtitle / Tagline</label>
-                                            <input type="text" id="heroSubtitleInput" name="hero_subtitle" class="adm-input" placeholder="Tagline description" value="Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island" style="font-size:13px;">
+                                            <input type="text" id="heroSubtitleInput" name="hero_subtitle" class="adm-input" placeholder="e.g. Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination" value="" style="font-size:13px;">
                                         </div>
                                     </div>
 
                                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
                                         <div>
                                             <label class="adm-label" for="heroBadgeInput" style="font-weight:600; font-size:12.5px;">Badge / Pretitle</label>
-                                            <input type="text" id="heroBadgeInput" name="hero_badge" class="adm-input" placeholder="e.g. Freehold for All Nationalities" value="Freehold for All Nationalities" style="font-size:13px;">
+                                            <input type="text" id="heroBadgeInput" name="hero_badge" class="adm-input" placeholder="e.g. Freehold for All Nationalities" value="" style="font-size:13px;">
                                         </div>
                                         <div>
                                             <label class="adm-label" style="font-weight:600; font-size:12.5px; display:flex; justify-content:space-between; align-items:center;">
@@ -647,11 +647,11 @@
                                                     <div style="display:flex; gap:6px; align-items:center;">
                                                         <input type="file" id="heroFileInput" name="hero_image_file" accept="image/*" style="display:none;" onchange="handleHeroFileChange(this)">
                                                         <button type="button" onclick="document.getElementById('heroFileInput').click()" class="adm-btn adm-btn-secondary" style="padding:4px 9px; font-size:11.5px; font-weight:600; white-space:nowrap; background:#faf8f5; border:1px solid #1a4731; color:#1a4731;">
-                                                            Upload Image
+                                                             Upload Image
                                                         </button>
-                                                        <input type="text" id="heroBgImageInput" name="hero_bg_image" class="adm-input" placeholder="/images/hero/slide-1.jpg" value="/images/hero/slide-1.jpg" style="font-size:12px; padding:4px 8px; height:auto;" oninput="updateHeroPreviewFromUrl(this.value)">
+                                                        <input type="text" id="heroBgImageInput" name="hero_bg_image" class="adm-input" placeholder="/images/hero/slide-1.jpg" value="" style="font-size:12px; padding:4px 8px; height:auto;" oninput="updateHeroPreviewFromUrl(this.value)">
                                                     </div>
-                                                    <span id="heroFileNameHint" style="font-size:11px; color:#6b7280; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">Default: /images/hero/slide-1.jpg</span>
+                                                    <span id="heroFileNameHint" style="font-size:11px; color:#6b7280; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;">e.g. /images/hero/slide-1.jpg</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -668,7 +668,7 @@
                                 </div>
                                     <div style="margin-bottom:14px;">
                                         <label class="adm-label" for="hlSectionTitle" style="font-weight:600; font-size:12.5px;">Section Title</label>
-                                        <input type="text" id="hlSectionTitle" name="highlights_title" class="adm-input" value="Project Highlights" style="font-size:13px; max-width:350px;">
+                                        <input type="text" id="hlSectionTitle" name="highlights_title" class="adm-input" placeholder="e.g. Project Highlights" value="" style="font-size:13px; max-width:350px;">
                                     </div>
 
                                     <div style="font-size:12px; font-weight:700; color:#1a4731; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.5px;">
@@ -691,11 +691,11 @@
                                         ];
 
                                         $initialHighlightCards = [
-                                            ['label' => 'Developer', 'value' => 'Modon Properties', 'icon' => 'building'],
-                                            ['label' => 'Price', 'value' => 'AED 4,300,000*', 'icon' => 'price'],
-                                            ['label' => 'Handover Date', 'value' => 'Q3 2030', 'icon' => 'calendar'],
-                                            ['label' => 'Property Type', 'value' => 'Villas', 'icon' => 'home'],
-                                            ['label' => 'Ownership', 'value' => 'Freehold', 'icon' => 'shield'],
+                                            ['label' => 'Developer', 'value' => 'e.g. Saima Group', 'icon' => 'building'],
+                                            ['label' => 'Price', 'value' => 'e.g. Starting from 1.5 Cr', 'icon' => 'price'],
+                                            ['label' => 'Handover Date', 'value' => 'e.g. Dec 2026', 'icon' => 'calendar'],
+                                            ['label' => 'Property Type', 'value' => 'e.g. Luxury Apartments', 'icon' => 'home'],
+                                            ['label' => 'Ownership', 'value' => 'e.g. Freehold', 'icon' => 'shield'],
                                         ];
                                     @endphp
 
@@ -722,7 +722,7 @@
                                                                     @endphp
                                                                     {!! $matchedSvg !!}
                                                                 </span>
-                                                                <input type="text" name="highlights_items[{{ $idx }}][label]" value="{{ $card['label'] }}" class="adm-input adm-metric-input" oninput="onMetricInputChange(this)" placeholder="Metric Label" style="font-size:12px; padding:5px 30px 5px 38px;">
+                                                                <input type="text" name="highlights_items[{{ $idx }}][label]" value="" class="adm-input adm-metric-input" oninput="onMetricInputChange(this)" placeholder="{{ $card['label'] }}" style="font-size:12px; padding:5px 30px 5px 38px;">
                                                                 <button type="button" class="adm-metric-dropdown-btn" onclick="toggleMetricDropdown(this)" title="Choose Metric Name">
                                                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                                                         <polyline points="6 9 12 15 18 9"></polyline>
@@ -742,7 +742,7 @@
                                                     </div>
                                                     <div>
                                                         <label style="font-size:11px; color:#6b7280; display:block; margin-bottom:2px; font-weight:600;">Value</label>
-                                                        <input type="text" name="highlights_items[{{ $idx }}][value]" value="{{ $card['value'] }}" class="adm-input" style="font-size:12px; padding:5px 8px;">
+                                                        <input type="text" name="highlights_items[{{ $idx }}][value]" value="" placeholder="{{ $card['value'] }}" class="adm-input" style="font-size:12px; padding:5px 8px;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -759,17 +759,17 @@
                                 </div>
                                     <div style="margin-bottom:12px;">
                                         <label class="adm-label" for="aboutTitleInput" style="font-weight:600; font-size:12.5px;">Section Title / Heading</label>
-                                        <input type="text" id="aboutTitleInput" name="about_title" class="adm-input" value="Hudayriyat Island Waterfront Sanctuary by Modon" style="font-size:13px;">
+                                        <input type="text" id="aboutTitleInput" name="about_title" class="adm-input" placeholder="e.g. Waterfront Sanctuary by Developer" value="" style="font-size:13px;">
                                     </div>
 
                                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
                                         <div>
                                             <label class="adm-label" for="aboutVideoPosterInput" style="font-weight:600; font-size:12.5px;">Video Poster Image URL</label>
-                                            <input type="text" id="aboutVideoPosterInput" name="about_video_poster" class="adm-input" value="/images/golf-estates/video-poster.jpg" style="font-size:12.5px;">
+                                            <input type="text" id="aboutVideoPosterInput" name="about_video_poster" class="adm-input" placeholder="/images/golf-estates/video-poster.jpg" value="" style="font-size:12.5px;">
                                         </div>
                                         <div>
                                             <label class="adm-label" for="aboutVideoSrcInput" style="font-weight:600; font-size:12.5px;">Video File / Stream URL (.mp4)</label>
-                                            <input type="text" id="aboutVideoSrcInput" name="about_video_src" class="adm-input" value="https://www.hudayriyat-island.com/storage/communities/project_description/3ZADXnXTmIbZMrVsBFEsCxAN4vYhHKSeRNLwsGdd.mp4" style="font-size:12.5px;">
+                                            <input type="text" id="aboutVideoSrcInput" name="about_video_src" class="adm-input" placeholder="https://example.com/video.mp4" value="" style="font-size:12.5px;">
                                         </div>
                                     </div>
 
@@ -777,11 +777,7 @@
                                         <label class="adm-label" for="aboutDescInput" style="font-weight:700; font-size:12.5px; color:#111827; margin-bottom:6px;">
                                             Community Narrative / Editorial Story
                                         </label>
-                                        <textarea id="aboutDescInput" name="about_description" class="adm-input" style="min-height:120px; font-size:13px; line-height:1.5;">
-<p>Discover an extraordinary coastal sanctuary where world-class architecture meets untouched island nature. Located on the pristine shores of Abu Dhabi's Hudayriyat Island, this masterfully planned community offers unparalleled seaside living.</p>
-<p style="margin-top:1rem">Featuring open layouts, expansive terraces, and curated modern architecture, each residence is designed to maximize natural light and panoramic views of the Arabian Gulf and Abu Dhabi skyline.</p>
-<p style="margin-top:1rem">Handover is planned for Q3 2030, with freehold ownership available for all nationalities.</p>
-                                        </textarea>
+                                        <textarea id="aboutDescInput" name="about_description" class="adm-input" placeholder="Write community narrative or editorial story here..." style="min-height:120px; font-size:13px; line-height:1.5;"></textarea>
                                     </div>
                                 </div>
 
@@ -794,7 +790,7 @@
                                 </div>
                                     <div style="margin-bottom:12px;">
                                         <label class="adm-label" for="articleTitleInput" style="font-weight:600; font-size:12.5px;">Main Heading (Title)</label>
-                                        <input type="text" id="articleTitleInput" name="article_title" class="adm-input" value="Saima Mangrove Residences is a new benchmark for living in the city’s waterfront." style="font-size:13px;">
+                                        <input type="text" id="articleTitleInput" name="article_title" class="adm-input" placeholder="e.g. Saima Residences is a new benchmark for living" value="" style="font-size:13px;">
                                     </div>
 
                                     <!-- Simple Text Area -->
@@ -805,9 +801,7 @@
                                         <div style="font-size:11.5px; color:#6b7280; margin-bottom:6px;">
                                             Text entered here appears directly at the top. The &quot;Read More&quot; button will automatically appear at the end of these paragraphs.
                                         </div>
-                                        <textarea id="articleIntroInput" name="article_intro" class="adm-input" rows="5" style="min-height:100px; font-size:13px; line-height:1.6;">The project is a blend of contemporary design and a tranquil coastal setting. Residents enjoy fresh sea breezes and access to major urban destinations.
-
-Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road and faces protected mangrove areas. The development offers a lifestyle for professionals, investors, and families inspired by a resort. Furthermore, the area has a peaceful atmosphere, which is away from the noise and hustle of the city center.</textarea>
+                                        <textarea id="articleIntroInput" name="article_intro" class="adm-input" rows="5" placeholder="Enter introductory paragraphs here..." style="min-height:100px; font-size:13px; line-height:1.6;"></textarea>
                                     </div>
 
                                     <!-- Summernote Editor (Right Below Textarea) -->
@@ -818,18 +812,13 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
                                         <div style="font-size:11.5px; color:#6b7280; margin-bottom:6px;">
                                             Add rich text, headings, detailed descriptions, images, and formatting. This is revealed when clicking &quot;Read More&quot;.
                                         </div>
-                                        <textarea id="articleSummernote" name="article_summernote" class="adm-summernote" style="min-height:180px;">
-<p>The project is a blend of luxury, convenience, and investment value. Hence, buyers can purchase a high-value waterfront property in one of the upcoming coastal areas of Karachi.</p>
-<h3>Prime Waterfront Location</h3>
-<p>Located directly overlooking serene mangrove vistas, the residences offer panoramic views, seamless highway connectivity, and 24/7 guarded security.</p>
-<p>World-class lifestyle amenities include an infinity pool, fully equipped gymnasium, children's play areas, landscaped podium gardens, and dedicated parking.</p>
-                                        </textarea>
+                                        <textarea id="articleSummernote" name="article_summernote" class="adm-summernote" placeholder="Write full article content here..." style="min-height:180px;"></textarea>
                                     </div>
 
                                     <!-- Appointment Form Title -->
                                     <div>
                                         <label class="adm-label" for="articleApptTitleInput" style="font-weight:600; font-size:12.5px;">Appointment Form Header</label>
-                                        <input type="text" id="articleApptTitleInput" name="article_appt_title" class="adm-input" value="BOOK AN APPOINTMENT" style="font-size:13px; max-width:350px;">
+                                        <input type="text" id="articleApptTitleInput" name="article_appt_title" class="adm-input" placeholder="e.g. BOOK AN APPOINTMENT" value="" style="font-size:13px; max-width:350px;">
                                     </div>
                                 </div>
 
@@ -844,11 +833,11 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
                                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
                                         <div>
                                             <label class="adm-label" for="communitiesHeadingInput" style="font-weight:600; font-size:12.5px;">Section Heading</label>
-                                            <input type="text" id="communitiesHeadingInput" name="communities_heading" class="adm-input" value="Featured Projects" style="font-size:13px;">
+                                            <input type="text" id="communitiesHeadingInput" name="communities_heading" class="adm-input" value="" placeholder="e.g. Featured Projects" style="font-size:13px;">
                                         </div>
                                         <div>
                                             <label class="adm-label" for="communitiesSubtitleInput" style="font-weight:600; font-size:12.5px;">Section Subtitle / Tagline</label>
-                                            <input type="text" id="communitiesSubtitleInput" name="communities_subtitle" class="adm-input" value="Explore the premier waterfront residential communities on Hudayriyat Island" style="font-size:13px;">
+                                            <input type="text" id="communitiesSubtitleInput" name="communities_subtitle" class="adm-input" value="" placeholder="e.g. Explore premier residential communities" style="font-size:13px;">
                                         </div>
                                     </div>
 
@@ -943,7 +932,7 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
                                     <!-- Section Header Configuration -->
                                     <div style="margin-bottom:16px;">
                                         <label class="adm-label" for="faqHeadingInput" style="font-weight:600; font-size:12.5px;">Section Heading</label>
-                                        <input type="text" id="faqHeadingInput" name="faq_heading" class="adm-input" value="Frequently Asked Questions" style="font-size:13px;">
+                                        <input type="text" id="faqHeadingInput" name="faq_heading" class="adm-input" value="" placeholder="e.g. Frequently Asked Questions" style="font-size:13px;">
                                     </div>
 
                                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; border-bottom:1px solid #e5e7eb; padding-bottom:8px;">
@@ -965,8 +954,8 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
                                             <div style="display:flex; align-items:center; justify-content:center; width:34px; height:36px; border:1px solid #d1d5db; background:#ffffff; border-radius:6px; color:#1a4731; cursor:grab;" title="Drag to reorder">
                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 20V4m0 0L3 8m4-4l4 4"/><path d="M17 4v16m0 0l4-4m-4 4l-4-4"/></svg>
                                             </div>
-                                            <input type="text" name="faq_items[0][q]" value="Is this a freehold property development?" class="adm-input" placeholder="Question" style="margin:0; min-height:36px; font-size:13px;">
-                                            <textarea name="faq_items[0][a]" class="adm-textarea" rows="1" placeholder="Answer" style="margin:0; min-height:36px; font-size:13px; resize:vertical; line-height:1.4;">Yes, all residential communities on Hudayriyat Island offer 100% freehold ownership for both UAE nationals and international buyers worldwide.</textarea>
+                                            <input type="text" name="faq_items[0][q]" value="" class="adm-input" placeholder="Question (e.g. Is this a freehold development?)" style="margin:0; min-height:36px; font-size:13px;">
+                                            <textarea name="faq_items[0][a]" class="adm-textarea" rows="1" placeholder="Answer..." style="margin:0; min-height:36px; font-size:13px; resize:vertical; line-height:1.4;"></textarea>
                                             <button type="button" onclick="deleteFaqCard(this)" title="Delete row" style="width:34px; height:36px; border:1px solid #fecaca; background:#fef2f2; color:#b91c1c; border-radius:6px; cursor:pointer; font-size:14px; line-height:1; display:flex; align-items:center; justify-content:center; transition:all 0.15s ease;">&#10005;</button>
                                         </div>
 
@@ -975,8 +964,8 @@ Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road 
                                             <div style="display:flex; align-items:center; justify-content:center; width:34px; height:36px; border:1px solid #d1d5db; background:#ffffff; border-radius:6px; color:#1a4731; cursor:grab;" title="Drag to reorder">
                                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 20V4m0 0L3 8m4-4l4 4"/><path d="M17 4v16m0 0l4-4m-4 4l-4-4"/></svg>
                                             </div>
-                                            <input type="text" name="faq_items[1][q]" value="What is the payment plan schedule?" class="adm-input" placeholder="Question" style="margin:0; min-height:36px; font-size:13px;">
-                                            <textarea name="faq_items[1][a]" class="adm-textarea" rows="1" placeholder="Answer" style="margin:0; min-height:36px; font-size:13px; resize:vertical; line-height:1.4;">Flexible milestone-linked construction payment plans are available with down payments starting from 5% or 10% and balance on handover.</textarea>
+                                            <input type="text" name="faq_items[1][q]" value="" class="adm-input" placeholder="Question (e.g. What is the payment plan schedule?)" style="margin:0; min-height:36px; font-size:13px;">
+                                            <textarea name="faq_items[1][a]" class="adm-textarea" rows="1" placeholder="Answer..." style="margin:0; min-height:36px; font-size:13px; resize:vertical; line-height:1.4;"></textarea>
                                             <button type="button" onclick="deleteFaqCard(this)" title="Delete row" style="width:34px; height:36px; border:1px solid #fecaca; background:#fef2f2; color:#b91c1c; border-radius:6px; cursor:pointer; font-size:14px; line-height:1; display:flex; align-items:center; justify-content:center; transition:all 0.15s ease;">&#10005;</button>
                                         </div>
                                     </div>

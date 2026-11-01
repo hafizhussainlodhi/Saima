@@ -1,3 +1,25 @@
+@php
+    // Navbar projects: normally provided by AppServiceProvider view composer.
+    // Fallback query merges both rule sets:
+    //  - Incoming (draft fix): project active & not draft; page not draft & published
+    //  - Local: page must have "Show in navbar" (in_navbar) enabled
+    if (!isset($navbarProjects)) {
+        $navbarProjects = \App\Models\Project::with('page')
+            ->where('is_active', true)
+            ->where(function ($q) {
+                $q->whereNull('status')->orWhere('status', '!=', 'draft');
+            })
+            ->whereHas('page', function ($pq) {
+                $pq->where('in_navbar', true)
+                   ->where('is_published', true)
+                   ->where(function ($sq) {
+                       $sq->whereNull('status')->orWhere('status', '!=', 'draft');
+                   });
+            })
+            ->orderBy('order', 'asc')
+            ->get();
+    }
+@endphp
 <header id="siteHeader" class="header">
     <div class="container headerContainer">
         <!-- Logo on the left -->
@@ -11,29 +33,6 @@
                 <li class="navItem">
                     <a href="/" class="navLink navLinkActive">HOME</a>
                 </li>
-                @php
-                    if (!isset($navbarProjects)) {
-                        $navbarProjects = \App\Models\Project::with('page')
-                            ->where(function ($q) {
-                                $q->where('status', 'publish')
-                                  ->orWhere(function ($q2) {
-                                      $q2->whereNull('status')->where('is_active', true);
-                                  });
-                            })
-                            ->whereHas('page', function ($pq) {
-                                $pq->where('in_navbar', true)
-                                   ->where(function ($sq) {
-                                       $sq->where('status', 'publish')
-                                          ->orWhere(function ($sq2) {
-                                              $sq2->whereNull('status')->where('is_published', true);
-                                          });
-                                   });
-                            })
-                            ->orderBy('order', 'asc')
-                            ->get();
-                    }
-                @endphp
-
                 @if($navbarProjects->isNotEmpty())
                     <li class="navItem" id="navProjectsItem">
                         <button type="button" class="navLink" id="navProjectsBtn" style="background: none; border: none; cursor: pointer;">
@@ -95,7 +94,7 @@
         <li>
             <a href="/" class="mobileNavLink">HOME</a>
         </li>
-        @if(isset($navbarProjects) && $navbarProjects->isNotEmpty())
+        @if($navbarProjects->isNotEmpty())
         <li>
             <button type="button" id="mobileProjectsToggle" class="mobileNavLink">
                 <span>PROJECTS</span>
