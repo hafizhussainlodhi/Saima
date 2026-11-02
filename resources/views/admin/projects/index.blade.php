@@ -442,14 +442,28 @@
                             <div class="adm-help">When you enter a headline here, it automatically applies to the Hero Section of the inner detail page.</div>
                         </div>
 
-                        <!-- Show in Navigation Menu Toggle -->
-                        <div class="adm-field" style="margin-bottom: 20px; padding: 12px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
-                            <label class="adm-check" style="cursor: pointer; display: flex; align-items: center; gap: 10px; margin: 0; user-select: none;">
-                                <input type="checkbox" name="in_navbar" value="1" id="add_prop_in_navbar" checked style="width: 17px; height: 17px; accent-color: #1a4731; cursor: pointer;">
-                                <span style="font-weight: 600; color: #1e293b; font-size: 13.5px;">Show in Navigation Menu (Navbar Dropdown)</span>
-                            </label>
-                            <div class="adm-help" style="margin: 4px 0 0 27px; font-size: 12px; color: #64748b;">
-                                Check this to include this property in the website's top navbar dropdown (only shows when Published). If Draft or unchecked, it will not appear in the navbar.
+                        <!-- Navbar Dropdown Options -->
+                        <div class="adm-field" style="margin-bottom: 20px; padding: 14px 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;">
+                            <div style="font-weight: 700; color: #1e293b; font-size: 13.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a4731" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                                </svg>
+                                Navbar Dropdown Placement
+                            </div>
+                            <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                                <label class="adm-check" style="cursor: pointer; display: flex; align-items: center; gap: 8px; margin: 0; user-select: none;">
+                                    <input type="checkbox" name="show_in_projects" value="1" id="add_prop_show_in_projects" checked style="width: 17px; height: 17px; accent-color: #1a4731; cursor: pointer;">
+                                    <span style="font-weight: 600; color: #334155; font-size: 13px;">Show in Projects Dropdown</span>
+                                </label>
+                                <label class="adm-check" style="cursor: pointer; display: flex; align-items: center; gap: 8px; margin: 0; user-select: none;">
+                                    <input type="checkbox" name="show_in_commercial" value="1" id="add_prop_show_in_commercial" style="width: 17px; height: 17px; accent-color: #1a4731; cursor: pointer;">
+                                    <span style="font-weight: 600; color: #334155; font-size: 13px;">Show in Commercial Dropdown</span>
+                                </label>
+                            </div>
+                            <div class="adm-help" style="margin-top: 6px; font-size: 12px; color: #64748b;">
+                                Select which navbar dropdown this property will appear under (Projects and/or Commercial). If the user visits this property's page, it will automatically hide from that dropdown.
                             </div>
                         </div>
 
@@ -523,21 +537,7 @@
                             <div class="adm-help" style="margin-top: 4px;">Click or drag any attribute into Box 1 above with your mouse. Drag back to remove.</div>
                         </div>
 
-                        <!-- Property Card Image (Auto-syncs to Hero Background) -->
-                        <div class="adm-field">
-                            <label class="adm-label">Property Image</label>
-                            <div class="adm-img-box">
-                                <img id="preview_add_card_img" src="/images/placeholder.svg" class="adm-img-thumb-lg" alt="Card Preview" style="object-fit: contain; background: #f8fafc;">
-                                <div style="flex: 1;">
-                                    <div style="margin-bottom: 8px;">
-                                        <label class="adm-label" style="font-size: 11.5px; color: #64748b;">Upload from computer:</label>
-                                        <input type="file" name="image_file" accept="image/*" class="adm-input" onchange="previewAddCardAndHeroImage(this)">
-                                    </div>
-                                    <input type="text" name="image" id="input_add_card_img" value="" class="adm-input" placeholder="Or enter image URL path (e.g. /images/communities/my-property.png)" oninput="syncCardAndHeroImageUrl(this.value)">
-                                    <div class="adm-help">Whichever image you upload or set here will show on the card front and also automatically on the inner page hero section.</div>
-                                </div>
-                            </div>
-                        </div>
+
 
                         <!-- Page Nav & Publish Options -->
                         <div style="display: flex; gap: 24px; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid #f1f5f9;">
@@ -571,7 +571,7 @@
                                         <input type="file" name="section_files[hero][bg_image]" accept="image/*" class="adm-input" onchange="previewAddImage(this, 'preview_add_hero_img', 'input_add_hero_img')">
                                     </div>
                                     <input type="text" name="sections[hero][bg_image]" id="input_add_hero_img" value="" class="adm-input" placeholder="Or enter image path / URL (e.g. /images/hero/slide-1.jpg)" oninput="document.getElementById('preview_add_hero_img').src = this.value || '/images/placeholder.svg'">
-                                    <div class="adm-help">Upload a new hero background photo from your computer or specify a file path / URL.</div>
+                                    <div class="adm-help" style="color: #1a4731; font-weight: 600;">✓ Jo image yahan Hero Banner pr upload/set hogi, wahi image Property Card pr bhi automatically lag jayegi.</div>
                                 </div>
                             </div>
                         </div>
@@ -603,6 +603,7 @@
 
                     <!-- 3. PROJECT HIGHLIGHTS TAB -->
                     <div id="add_tab_highlights" class="tab-pane">
+                        <input type="hidden" name="sections[highlights][_has_items]" value="1">
                         <div class="adm-card-head">
                             <div>
                                 <h2>Project Highlights</h2>
@@ -612,15 +613,41 @@
                         </div>
 
                         <div id="add_highlights_list" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
-                            <div class="adm-highlight-card" style="display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
-                                <input type="text" name="sections[highlights][items][0][label]" value="" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name (e.g. Developer)">
-                                <input type="text" name="sections[highlights][items][0][value]" value="" class="adm-input" style="flex: 1;" placeholder="Value (e.g. Modon Properties)">
-                                <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
+                            <div class="adm-highlight-card" style="display: flex; gap: 10px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;">
+                                <div style="display: flex; gap: 8px; align-items: center; width: 100%; max-width: 250px;">
+                                    <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <img src="/images/placeholder.svg" style="width: 20px; height: 20px; object-fit: contain;">
+                                    </span>
+                                    <select class="adm-select add-hl-select" name="sections[highlights][items][0][label]" onchange="applyAddHighlightChoice(this)" style="font-size: 11.5px; padding: 5px 8px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
+                                        <option value="">-- Choose Amenity --</option>
+                                        @if(isset($allAmenities) && $allAmenities->isNotEmpty())
+                                            @foreach($allAmenities as $am)
+                                                <option value="{{ $am->name }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <input type="hidden" name="sections[highlights][items][0][icon]" value="">
+                                <input type="text" name="sections[highlights][items][0][value]" value="" class="adm-input" style="flex: 1; min-width: 160px;" placeholder="Value (e.g. Included / 500 sqm / Modon Properties)">
+                                <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer; padding: 4px;" title="Remove Item">✕</button>
                             </div>
-                            <div class="adm-highlight-card" style="display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;">
-                                <input type="text" name="sections[highlights][items][1][label]" value="" class="adm-input" style="flex: 1; font-weight: 600;" placeholder="Metric Name (e.g. Price)">
-                                <input type="text" name="sections[highlights][items][1][value]" value="" class="adm-input" style="flex: 1;" placeholder="Value (e.g. AED 2,500,000)">
-                                <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
+                            <div class="adm-highlight-card" style="display: flex; gap: 10px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;">
+                                <div style="display: flex; gap: 8px; align-items: center; width: 100%; max-width: 250px;">
+                                    <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <img src="/images/placeholder.svg" style="width: 20px; height: 20px; object-fit: contain;">
+                                    </span>
+                                    <select class="adm-select add-hl-select" name="sections[highlights][items][1][label]" onchange="applyAddHighlightChoice(this)" style="font-size: 11.5px; padding: 5px 8px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
+                                        <option value="">-- Choose Amenity --</option>
+                                        @if(isset($allAmenities) && $allAmenities->isNotEmpty())
+                                            @foreach($allAmenities as $am)
+                                                <option value="{{ $am->name }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <input type="hidden" name="sections[highlights][items][1][icon]" value="">
+                                <input type="text" name="sections[highlights][items][1][value]" value="" class="adm-input" style="flex: 1; min-width: 160px;" placeholder="Value (e.g. AED 2,500,000 / Included)">
+                                <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer; padding: 4px;" title="Remove Item">✕</button>
                             </div>
                         </div>
 
@@ -650,11 +677,6 @@
                         </div>
 
                         <div class="adm-field">
-                            <label class="adm-label">Featured Video Stream URL (.mp4 or link)</label>
-                            <input type="text" name="sections[about][video_url]" value="" class="adm-input" placeholder="e.g. /images/projects/video.mp4 or https://...">
-                        </div>
-
-                        <div class="adm-field">
                             <label class="adm-label">Video Poster / Cover Image</label>
                             <div class="adm-img-box">
                                 <img id="preview_add_about_poster" src="/images/placeholder.svg" class="adm-img-thumb-lg" alt="Poster" style="object-fit: contain; background: #f8fafc;">
@@ -677,6 +699,7 @@
                             </div>
                             <span class="adm-chip">amenities</span>
                         </div>
+                        <input type="hidden" name="sections[amenities][_has_items]" value="1">
 
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
@@ -688,22 +711,23 @@
                             <textarea name="sections[amenities][subtitle]" class="adm-textarea" rows="2" placeholder="e.g. Offers a complete coastal lifestyle with luxury amenities for wellness, recreation, and community living."></textarea>
                         </div>
 
-                        <div id="add_amenities_container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 14px;">
-                            <div class="adm-card" style="border: 1px solid #e2e8f0; background: #fff; padding: 12px; border-radius: 8px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                    <img src="/images/placeholder.svg" style="width: 24px; height: 24px; object-fit: contain;">
-                                    <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
+                        <div id="add_amenities_container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 14px;">
+                            <div class="adm-card" style="border: 1px solid #e2e8f0; background: #fff; padding: 10px 12px; border-radius: 8px;">
+                                <div style="display: flex; gap: 10px; align-items: center;">
+                                    <div style="width: 36px; height: 36px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <img src="/images/placeholder.svg" style="width: 22px; height: 22px; object-fit: contain;">
+                                    </div>
+                                    <select class="adm-select add-amenity-select" name="sections[amenities][items][0][name]" onchange="applyProjectAmenity(this)" style="flex: 1; min-width: 120px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd;">
+                                        <option value="">-- Choose Amenity --</option>
+                                        @if(isset($allAmenities))
+                                            @foreach($allAmenities as $am)
+                                                <option value="{{ $am->name }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    <input type="hidden" name="sections[amenities][items][0][icon]" value="">
+                                    <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 13px; cursor: pointer; padding: 4px; flex-shrink: 0;" title="Delete">✕</button>
                                 </div>
-                                <select class="adm-select" onchange="applyProjectAmenity(this)" style="font-size: 11px; margin-bottom: 6px; padding: 4px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
-                                    <option value="">-- Choose from Amenities --</option>
-                                    @if(isset($allAmenities))
-                                        @foreach($allAmenities as $am)
-                                            <option value="{{ $am->name }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-                                <input type="text" name="sections[amenities][items][0][name]" value="" placeholder="Amenity Name" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 6px;">
-                                <input type="text" name="sections[amenities][items][0][icon]" value="" placeholder="Icon path / SVG" class="adm-input" style="font-size: 11px;">
                             </div>
                         </div>
 
@@ -731,8 +755,8 @@
                             <div class="adm-gal-box" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; position: relative;">
                                 <button type="button" onclick="this.closest('.adm-gal-box').remove()" style="position: absolute; right: 8px; top: 8px; background: #fff; border: 1px solid #fecaca; color: #ef4444; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer;">✕</button>
                                 <img id="preview_add_gal_0" src="/images/placeholder.svg" style="width: 100%; height: 95px; object-fit: contain; border-radius: 6px; margin-bottom: 8px; background: #f1f5f9;">
-                                <input type="text" name="sections[gallery][images][0][src]" value="" class="adm-input" placeholder="Image URL / path (e.g. /images/hero/photo.jpg)" style="font-size: 11px; margin-bottom: 6px;" oninput="document.getElementById('preview_add_gal_0').src = this.value || '/images/placeholder.svg'">
-                                <input type="text" name="sections[gallery][images][0][alt]" value="" class="adm-input" placeholder="Alt text (e.g. Exterior View)" style="font-size: 11px;">
+                                <input type="text" name="sections[gallery][images][0][src]" value="" class="adm-input" placeholder="Image URL / path (e.g. /images/hero/photo.jpg)" style="font-size: 11px;" oninput="document.getElementById('preview_add_gal_0').src = this.value || '/images/placeholder.svg'">
+                                <input type="hidden" name="sections[gallery][images][0][alt]" value="Project Photo">
                             </div>
                         </div>
 
@@ -1029,7 +1053,7 @@
                             <td style="padding:16px 12px; font-size:14.5px; color:#334155; font-weight:500;">
                                 <a href="{{ route('admin.projects.edit', $project) }}" style="font-weight:600; color:#1e293b; text-decoration:none;" onmouseover="this.style.color='#0284c7'" onmouseout="this.style.color='#1e293b'">{{ $project->title }}</a>
                                 <span style="font-size:12px; color:#94a3b8; display:block; margin-top:3px; font-family:Consolas, Monaco, monospace;">
-                                    /{{ ltrim($project->page->slug ?? $project->slug ?? '', '/') }}
+                                    /project/{{ ltrim(preg_replace('#^project/#', '', ltrim($project->page->slug ?? $project->slug ?? '', '/')), '/') }}
                                 </span>
                             </td>
 
@@ -1061,7 +1085,7 @@
 
                                     @if($project->page)
                                     <!-- Edit Linked Detail Page -->
-                                    <a href="{{ route('admin.pages.edit', $project->page) }}" class="cms-action-btn" title="Edit Detail Page (Hero, Highlights, FAQ...)">
+                                    <a href="{{ route('admin.projects.edit', $project) }}" class="cms-action-btn" title="Edit Detail Page (Hero, Highlights, FAQ...)">
                                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                             <polyline points="14 2 14 8 20 8"></polyline>
@@ -1176,6 +1200,24 @@
                     </select>
                 </div>
 
+                <!-- Navbar Dropdown Options -->
+                <div style="grid-column: span 2; padding: 12px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <div style="font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 6px; text-transform: uppercase;">
+                        Navbar Dropdown Placement
+                    </div>
+                    <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 600; color: #334155;">
+                            <input type="checkbox" name="show_in_projects" id="edit_show_in_projects" value="1" style="width: 16px; height: 16px; accent-color: #1a4731; cursor: pointer;">
+                            Show in Projects Dropdown
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; font-weight: 600; color: #334155;">
+                            <input type="checkbox" name="show_in_commercial" id="edit_show_in_commercial" value="1" style="width: 16px; height: 16px; accent-color: #1a4731; cursor: pointer;">
+                            Show in Commercial Dropdown
+                        </label>
+                    </div>
+                    <input type="hidden" name="from_project_modal" value="1">
+                </div>
+
                 <!-- Card Badges / Attributes Drag & Drop (City ke neeche do input field) -->
                 <div style="grid-column: span 2; margin-top: 4px;">
                     <label style="display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: #1e293b; margin-bottom: 6px; text-transform: uppercase;">
@@ -1284,6 +1326,88 @@
         }
     }
 
+    window.ALL_AMENITIES = @json($allAmenities ?? []);
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function syncAmenitiesFromApi() {
+        fetch('/admin/api/amenities')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data) && data.length) {
+                    window.ALL_AMENITIES = data;
+                }
+            })
+            .catch(() => {});
+    }
+    syncAmenitiesFromApi();
+
+    function applyAddHighlightChoice(selectEl) {
+        const card = selectEl.closest('.adm-highlight-card');
+        if (!card) return;
+        const opt = selectEl.options[selectEl.selectedIndex];
+        if (!opt || !opt.value) return;
+
+        const labelInput = card.querySelector('.add-hl-label') || card.querySelector('input[name*="[label]"]');
+        if (labelInput) labelInput.value = opt.value;
+
+        const iconInput = card.querySelector('input[name*="[icon]"]');
+        const iconVal = opt.getAttribute('data-icon') || '';
+        if (iconInput) iconInput.value = iconVal;
+
+        const img = card.querySelector('.adm-hl-icon-preview img');
+        if (img) {
+            if (iconVal && (iconVal.startsWith('/') || iconVal.startsWith('http'))) {
+                img.src = iconVal;
+            } else {
+                img.src = '/images/placeholder.svg';
+            }
+        }
+    }
+
+    function addAddHighlightItem() {
+        const list = document.getElementById('add_highlights_list');
+        if (!list) return;
+        const newId = Date.now();
+        let amenitiesOptHtml = '';
+        if (window.ALL_AMENITIES && window.ALL_AMENITIES.length) {
+            amenitiesOptHtml = window.ALL_AMENITIES.map(am => `<option value="${escapeHtml(am.name)}" data-icon="${am.icon || ''}">${escapeHtml(am.name)}</option>`).join('');
+        } else {
+            @if(isset($allAmenities))
+                @foreach($allAmenities as $am)
+                    amenitiesOptHtml += `<option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>`;
+                @endforeach
+            @endif
+        }
+
+        const card = document.createElement('div');
+        card.className = 'adm-highlight-card';
+        card.style.cssText = 'display: flex; gap: 10px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;';
+        card.innerHTML = `
+            <div style="display: flex; gap: 8px; align-items: center; width: 100%; max-width: 250px;">
+                <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <img src="/images/placeholder.svg" style="width: 20px; height: 20px; object-fit: contain;">
+                </span>
+                <select class="adm-select add-hl-select" name="sections[highlights][items][${newId}][label]" onchange="applyAddHighlightChoice(this)" style="font-size: 11.5px; padding: 5px 8px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
+                    <option value="">-- Choose Amenity --</option>
+                    ${amenitiesOptHtml}
+                </select>
+            </div>
+            <input type="hidden" name="sections[highlights][items][${newId}][icon]" value="">
+            <input type="text" name="sections[highlights][items][${newId}][value]" value="" class="adm-input" style="flex: 1; min-width: 160px;" placeholder="Value (e.g. Included / 500 sqm / Modon Properties)">
+            <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer; padding: 4px;" title="Remove Item">✕</button>
+        `;
+        list.appendChild(card);
+    }
+
     function applyProjectAmenity(selectEl) {
         const card = selectEl.closest('.adm-card');
         if (!card) return;
@@ -1307,27 +1431,30 @@
         const idx = Date.now();
         const card = document.createElement('div');
         card.className = 'adm-card';
-        card.style.cssText = 'border: 1px solid #e2e8f0; background: #fff; padding: 12px; border-radius: 8px;';
+        card.style.cssText = 'border: 1px solid #e2e8f0; background: #fff; padding: 10px 12px; border-radius: 8px;';
 
-        const options = `
-            <option value="">-- Choose from Amenities --</option>
+        let amenitiesOptions = '<option value="">-- Choose Amenity --</option>';
+        if (window.ALL_AMENITIES && window.ALL_AMENITIES.length) {
+            amenitiesOptions += window.ALL_AMENITIES.map(am => `<option value="${escapeHtml(am.name)}" data-icon="${am.icon || ''}">${escapeHtml(am.name)}</option>`).join('');
+        } else {
             @if(isset($allAmenities))
                 @foreach($allAmenities as $am)
-                    <option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
+                    amenitiesOptions += `<option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>`;
                 @endforeach
             @endif
-        `;
+        }
 
         card.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <img src="/images/placeholder.svg" style="width: 24px; height: 24px; object-fit: contain;">
-                <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 11px; cursor: pointer;">✕ Delete</button>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="width: 36px; height: 36px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <img src="/images/placeholder.svg" style="width: 22px; height: 22px; object-fit: contain;">
+                </div>
+                <select class="adm-select add-amenity-select" name="sections[amenities][items][${idx}][name]" onchange="applyProjectAmenity(this)" style="flex: 1; min-width: 120px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd;">
+                    ${amenitiesOptions}
+                </select>
+                <input type="hidden" name="sections[amenities][items][${idx}][icon]" value="">
+                <button type="button" onclick="this.closest('.adm-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 13px; cursor: pointer; padding: 4px; flex-shrink: 0;" title="Delete">✕</button>
             </div>
-            <select class="adm-select" onchange="applyProjectAmenity(this)" style="font-size: 11px; margin-bottom: 6px; padding: 4px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
-                ${options}
-            </select>
-            <input type="text" name="sections[amenities][items][${idx}][name]" value="" placeholder="Amenity Name" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 6px;">
-            <input type="text" name="sections[amenities][items][${idx}][icon]" value="" placeholder="Icon path / SVG" class="adm-input" style="font-size: 11px;">
         `;
         container.appendChild(card);
     }
@@ -1379,26 +1506,7 @@
         }
     }
 
-    function previewAddCardAndHeroImage(input) {
-        previewAddImage(input, 'preview_add_card_img', 'input_add_card_img');
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const heroPreview = document.getElementById('preview_add_hero_img');
-                if (heroPreview) heroPreview.src = e.target.result;
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
 
-    function syncCardAndHeroImageUrl(val) {
-        const cardPreview = document.getElementById('preview_add_card_img');
-        if (cardPreview) cardPreview.src = val || '/images/placeholder.svg';
-        const heroInput = document.getElementById('input_add_hero_img');
-        if (heroInput) heroInput.value = val;
-        const heroPreview = document.getElementById('preview_add_hero_img');
-        if (heroPreview) heroPreview.src = val || '/images/placeholder.svg';
-    }
 
     function updateSlugLivePreview(val) {
         const previewEl = document.getElementById('slugLivePreview');
@@ -1422,16 +1530,38 @@
     function addAddHighlightItem() {
         const container = document.getElementById('add_highlights_list');
         if (!container) return;
+        const idx = addHighlightIdx++;
+
+        let amenitiesOptions = '';
+        if (window.ALL_AMENITIES && window.ALL_AMENITIES.length) {
+            amenitiesOptions = window.ALL_AMENITIES.map(am => `<option value="${escapeHtml(am.name)}" data-icon="${am.icon || ''}">${escapeHtml(am.name)}</option>`).join('');
+        } else {
+            @if(isset($allAmenities))
+                @foreach($allAmenities as $am)
+                    amenitiesOptions += `<option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>`;
+                @endforeach
+            @endif
+        }
+
         const row = document.createElement('div');
         row.className = 'adm-highlight-card';
-        row.style.cssText = 'display: flex; gap: 12px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px;';
+        row.style.cssText = 'display: flex; gap: 10px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;';
         row.innerHTML = `
-            <input type="text" name="sections[highlights][items][${addHighlightIdx}][label]" value="" placeholder="Metric Name (e.g. Bedrooms)" class="adm-input" style="flex: 1; font-weight: 600;">
-            <input type="text" name="sections[highlights][items][${addHighlightIdx}][value]" value="" placeholder="Value (e.g. 3 to 6 Bedrooms)" class="adm-input" style="flex: 1;">
-            <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer;">✕</button>
+            <div style="display: flex; gap: 8px; align-items: center; width: 100%; max-width: 250px;">
+                <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <img src="/images/placeholder.svg" style="width: 20px; height: 20px; object-fit: contain;">
+                </span>
+                <select class="adm-select add-hl-select" onchange="applyAddHighlightChoice(this)" style="font-size: 11.5px; padding: 5px 8px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
+                    <option value="">-- Choose Amenity --</option>
+                    ${amenitiesOptions}
+                </select>
+            </div>
+            <input type="hidden" name="sections[highlights][items][${idx}][icon]" value="">
+            <input type="hidden" name="sections[highlights][items][${idx}][label]" value="" class="add-hl-label">
+            <input type="text" name="sections[highlights][items][${idx}][value]" value="" class="adm-input" style="flex: 1; min-width: 160px;" placeholder="Value (e.g. AED 2,500,000 / Included)">
+            <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer; padding: 4px;" title="Remove Item">✕</button>
         `;
         container.appendChild(row);
-        addHighlightIdx++;
     }
 
     function addAddGalleryItem() {
@@ -1444,8 +1574,8 @@
         box.innerHTML = `
             <button type="button" onclick="this.closest('.adm-gal-box').remove()" style="position: absolute; right: 8px; top: 8px; background: #fff; border: 1px solid #fecaca; color: #ef4444; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer;">✕</button>
             <img id="preview_add_gal_${idx}" src="/images/placeholder.svg" style="width: 100%; height: 95px; object-fit: contain; border-radius: 6px; margin-bottom: 8px; background: #f1f5f9;">
-            <input type="text" name="sections[gallery][images][${idx}][src]" value="" class="adm-input" placeholder="Image URL / path (e.g. /images/hero/photo.jpg)" style="font-size: 11px; margin-bottom: 6px;" oninput="document.getElementById('preview_add_gal_${idx}').src = this.value || '/images/placeholder.svg'">
-            <input type="text" name="sections[gallery][images][${idx}][alt]" value="" class="adm-input" placeholder="Alt text (e.g. Exterior View)" style="font-size: 11px;">
+            <input type="text" name="sections[gallery][images][${idx}][src]" value="" class="adm-input" placeholder="Image URL / path (e.g. /images/hero/photo.jpg)" style="font-size: 11px;" oninput="document.getElementById('preview_add_gal_${idx}').src = this.value || '/images/placeholder.svg'">
+            <input type="hidden" name="sections[gallery][images][${idx}][alt]" value="Project Photo">
         `;
         container.appendChild(box);
     }
@@ -1538,6 +1668,15 @@
         document.getElementById('edit_image').value = project.image || '';
         document.getElementById('edit_status').value = project.status || (project.is_active ? 'publish' : 'draft');
         document.getElementById('edit_preview_img').src = project.image || '/images/communities/wadeem-gardens.png';
+
+        const showInProjEl = document.getElementById('edit_show_in_projects');
+        if (showInProjEl) {
+            showInProjEl.checked = (project.show_in_projects !== false && project.show_in_projects !== 0 && project.show_in_projects !== '0');
+        }
+        const showInCommEl = document.getElementById('edit_show_in_commercial');
+        if (showInCommEl) {
+            showInCommEl.checked = Boolean(project.show_in_commercial && project.show_in_commercial !== '0');
+        }
         
         // Sync project badges to editBadgeManager
         if (window.editBadgeManager) {

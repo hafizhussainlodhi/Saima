@@ -527,7 +527,7 @@
   letter-spacing: .5px;
   cursor: pointer;
   text-transform: uppercase;
-  background-color: #1a4731;
+  background-color: #d9232d;
   border: none;
   border-radius: 4px;
   padding: 14px 32px;
@@ -538,7 +538,7 @@
 }
 
 .NaseemHero-module__pYTndW__brochureBtn:hover {
-  background-color: #123322;
+  background-color: #b71a23;
   transform: translateY(-2px);
   box-shadow: 0 6px 18px #1a473166;
 }
@@ -753,24 +753,27 @@
 }
 
 .NaseemHighlights-module__duUEsa__accentCircle {
-  opacity: .85;
-  z-index: 1;
-  background: #1a4731;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: 3px;
-  right: 3px;
+  opacity: 1 !important;
+  z-index: 1 !important;
+  background: #1a4731 !important;
+  border-radius: 50% !important;
+  width: 38px !important;
+  height: 38px !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
 }
 
 .NaseemHighlights-module__duUEsa__svgIcon {
-  z-index: 2;
-  color: #26292e;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  position: relative;
+  z-index: 2 !important;
+  color: #ffffff !important;
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .NaseemHighlights-module__duUEsa__highlightInfo {

@@ -309,21 +309,31 @@
   // 3. Communities Dropdown & Mobile Menu
   // ========================================================================
   function initCommunitiesDropdown() {
-    // 1. Desktop Nav Projects / Communities Dropdown (Hover & Click)
-    var navItems = document.querySelectorAll('li[class*="navItem"], .navItem');
+    // 1. Desktop Nav Projects / Commercial / Communities Dropdown (Hover & Click)
+    var navItems = document.querySelectorAll('li[class*="navItem"], .navItem, li[class*="dropdown"], .dropdown');
     navItems.forEach(function(item) {
-      var dropdown = item.querySelector('div[class*="dropdownMenu"], div[class*="DropdownMenu"], ul[class*="dropdown"], div[class*="dropdown"]');
-      var btn = item.querySelector('button');
+      var dropdown = item.querySelector('div[class*="dropdownMenu"], div[class*="DropdownMenu"], ul[class*="dropdownMenu"], ul[class*="dropdown"], div[class*="dropdown"]');
+      var btn = item.querySelector('button, span[class*="navLink"], a[class*="navLink"]');
       if (!dropdown || !btn) return;
 
-      var btnText = (btn.innerText || '').toUpperCase();
-      if (btnText.includes('PROJECT') || btnText.includes('COMMUNIT')) {
+      var btnText = (btn.innerText || btn.textContent || '').toUpperCase();
+      if (btnText.includes('PROJECT') || btnText.includes('COMMUNIT') || btnText.includes('COMMERCIAL')) {
         function showDropdown() {
           dropdown.classList.add('dropdownOpen');
+          dropdown.style.setProperty('display', 'block', 'important');
+          dropdown.style.setProperty('opacity', '1', 'important');
+          dropdown.style.setProperty('visibility', 'visible', 'important');
+          dropdown.style.setProperty('transform', 'translateY(0)', 'important');
+          dropdown.style.setProperty('pointer-events', 'auto', 'important');
         }
 
         function hideDropdown() {
           dropdown.classList.remove('dropdownOpen');
+          dropdown.style.removeProperty('display');
+          dropdown.style.removeProperty('opacity');
+          dropdown.style.removeProperty('visibility');
+          dropdown.style.removeProperty('transform');
+          dropdown.style.removeProperty('pointer-events');
         }
 
         // Hover for Desktop
@@ -334,16 +344,25 @@
         btn.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
-          dropdown.classList.toggle('dropdownOpen');
+          var isOpen = dropdown.classList.contains('dropdownOpen');
+          if (isOpen) {
+            hideDropdown();
+          } else {
+            showDropdown();
+          }
         });
       }
     });
 
     // Close on click outside
     document.addEventListener('click', function(e) {
-      if (!e.target.closest('li[class*="navItem"], .navItem')) {
-        document.querySelectorAll('div[class*="dropdownMenu"], div[class*="DropdownMenu"], .dropdownMenu').forEach(function(d) {
+      if (!e.target.closest('li[class*="navItem"], .navItem, li[class*="dropdown"], .dropdown')) {
+        document.querySelectorAll('div[class*="dropdownMenu"], div[class*="DropdownMenu"], ul[class*="dropdownMenu"], .dropdownMenu').forEach(function(d) {
           d.classList.remove('dropdownOpen');
+          d.style.removeProperty('display');
+          d.style.removeProperty('opacity');
+          d.style.removeProperty('visibility');
+          d.style.removeProperty('transform');
         });
       }
     });
@@ -360,12 +379,12 @@
         mobileDrawer.classList.add('mobileDrawerOpen');
 
         // Ensure submenus start completely closed when drawer opens (pehle jesa clean look)
-        var allSubmenus = mobileDrawer.querySelectorAll('.mobileSubList, div[class*="mobileSubList"], #mobileProjectsSubmenu');
+        var allSubmenus = mobileDrawer.querySelectorAll('.mobileSubList, div[class*="mobileSubList"], #mobileProjectsSubmenu, #mobileCommercialSubmenu');
         allSubmenus.forEach(function(sub) {
           sub.style.setProperty('display', 'none', 'important');
           sub.classList.remove('mobileSubListOpen');
         });
-        var allChevrons = mobileDrawer.querySelectorAll('button[class*="mobileNavLink"] svg, #mobileChevronIcon');
+        var allChevrons = mobileDrawer.querySelectorAll('button[class*="mobileNavLink"] svg, #mobileChevronIcon, #mobileCommChevronIcon');
         allChevrons.forEach(function(svg) {
           svg.style.transform = 'none';
         });
@@ -386,11 +405,11 @@
     if (mobileClose) mobileClose.addEventListener('click', closeMobile);
     if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobile);
 
-    // Mobile submenu toggle: ONLY opens when user clicks the Projects button / chevron arrow
-    var mobileNavBtns = document.querySelectorAll('button[class*="mobileNavLink"], button#mobileProjectsToggle');
+    // Mobile submenu toggle: opens when user clicks Projects or Commercial button / chevron arrow
+    var mobileNavBtns = document.querySelectorAll('button[class*="mobileNavLink"], button#mobileProjectsToggle, button#mobileCommercialToggle');
     mobileNavBtns.forEach(function(btn) {
       var text = (btn.innerText || btn.textContent || '').trim().toUpperCase();
-      if (text.includes('PROJECT')) {
+      if (text.includes('PROJECT') || text.includes('COMMERCIAL') || text.includes('COMMUNIT')) {
         btn.style.cursor = 'pointer';
 
         btn.addEventListener('click', function(e) {
@@ -398,7 +417,7 @@
           e.stopPropagation();
 
           var parentLi = btn.closest('li') || btn.parentElement;
-          var sub = parentLi ? parentLi.querySelector('.mobileSubList, div[class*="mobileSubList"], #mobileProjectsSubmenu') : null;
+          var sub = parentLi ? parentLi.querySelector('.mobileSubList, div[class*="mobileSubList"], #mobileProjectsSubmenu, #mobileCommercialSubmenu') : null;
           var svg = btn.querySelector('svg');
 
           if (sub) {
@@ -621,12 +640,21 @@
         }
 
         var formData = new FormData(form);
+        var projName = document.title.split('|')[0].trim() || 'Hudayriyat Island';
         var payload = {
           name: formData.get('name') || form.querySelector('input[name*="name"], input[placeholder*="Name"]')?.value || 'Website Visitor',
           email: formData.get('email') || form.querySelector('input[type="email"]')?.value || '',
           phone: formData.get('phone') || form.querySelector('input[type="tel"]')?.value || '',
-          project: document.title.split('|')[0].trim(),
-          source: window.location.pathname
+          project: projName,
+          developer: 'Modon Properties',
+          community: projName,
+          property_type: 'Residential',
+          source: 'Website',
+          sub_source: 'saima project',
+          campaign_url: 'https://saimaprojects.com/',
+          utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+          key_requirement: formData.get('comment') || formData.get('message') || '',
+          activity_description: 'Community Page Lead Submission'
         };
 
         var csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');

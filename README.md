@@ -748,5 +748,261 @@ Seamlessly renders dynamic page content from MySQL with zero-downtime fallbacks:
 - Replaced the simple pill-chip selector in **Project Card** tab with the complete dual-box interactive drag & drop / click assignment system matching Image 2:
   - **Left Box (Available Property Cards)**: Displays all created property cards with drag handle (?), image thumbnail, title, price/location, and + Add button.
   - **Right Box (Selected Cards for This Page)**: Displays selected cards with ? Selected Cards for This Page count, Clear All button, and drag-and-drop dropzone with empty state placeholder (Drag Cards Here).
-  - **Interaction**: Administrators can either drag and drop cards between boxes or click + Add / ? Remove.
+  - **Interaction**: Administrators can either drag and drop cards between 
+  
+  boxes or click + Add / ? Remove.
   - **Ordering & Persistence**: Synchronizes exact card IDs and reorder sequence directly into selected_project_ids[].
+
+---
+
+### 🚀 Hero Section Dynamic Badge & BOOK NOW Scroll Button
+- **Dynamic Hero Badge ("Freehold for All Nationalities")**:
+  - Removed static hardcoded `"Freehold for All Nationalities"` badge fallback across Homepage Hero (`partials/hero.blade.php`), Dynamic Page Hero (`partials/page-hero.blade.php`), and all 10 Community Blade Views (`resources/views/communities/*.blade.php`).
+  - Badge is now 100% dynamic via CMS (`sections[hero][badge]`). If left empty, the badge tag does not render at all. If filled in the CMS, it renders dynamically with full styling.
+- **Hero CTA Button ("BOOK NOW")**:
+  - Replaced `"Download Brochure"` button in Hero sections across all pages with `"BOOK NOW"`.
+  - Added the `"BOOK NOW"` CTA button to the **Homepage Hero** (`partials/hero.blade.php`) matching the property detail pages style and behavior.
+  - Added smooth scroll handler on click targeting the on-page callback/inquiry form (`document.querySelector('...form...')?.scrollIntoView({behavior: 'smooth'})`).
+- **Country Flag-Based Phone Validation**:
+  - Implemented client-side HTML5 native phone validation (`setCustomValidity` and `reportValidity`) matching each country's exact phone length requirements (UAE: 9 digits, PK: 10 digits, SA: 9 digits, IN: 10 digits, etc.) without altering any DOM hierarchy or styles.
+
+---
+
+### 🏢 Dedicated Project Edit Route Retention (`/admin/projects/{id}/edit`)
+- **Direct Route Rendering**: Clicking to edit any project in `/admin/projects` now opens directly at `/admin/projects/{project}/edit` without redirecting to `/admin/pages/{id}/edit`.
+- **Sidebar Active State**: The sidebar now keeps **Projects** highlighted as active (`is-active`), rather than jumping to `Pages`.
+- **Breadcrumbs & Navigation**:
+  - Breadcrumbs reflect project hierarchy: `Home – Projects – Manage {Project Title}`.
+  - Return button dynamically links back to **"Back to Projects"** (`/admin/projects`).
+- **Form Submission**: Submitting changes from `/admin/projects/{project}/edit` posts to `admin.projects.update` and safely redirects back to `/admin/projects/{project}/edit` with active tab preserved.
+
+---
+
+### 🏊 Global Sidebar Amenities Dropdown Sync (Project Highlights & Facilities)
+- **Centralized Synchronization**:
+  - Amenities added, edited, or deleted in the sidebar CMS (`/admin/amenities` with icons and names) automatically synchronize across both:
+    1. **Project Highlights** section dropdowns.
+    2. **Amenities & Facilities** section dropdowns.
+- **Universal Coverage Across CMS Entry Points**:
+  - **Add Property Drawer** (`/admin/projects` -> "+ Add Property Card"):
+    - Highlights: Dropdown strictly lists sidebar amenities (no standard metrics). Redundant visible label text input removed (hidden input used); only the Value text input is displayed alongside the dropdown.
+    - Amenities & Facilities: Duplicate text input removed; dropdown is aligned directly beside the icon in a clean single flex row (`[Icon Preview] [Dropdown] [✕ Delete]`) with hidden icon input.
+  - **Full Project Editor** (`/admin/projects/{id}/edit`) & **Pages Editor** (`/admin/pages/{id}/edit`):
+    - Highlights repeater: Dropdown displays only sidebar amenities, with label stored via hidden input and a single visible Value input.
+    - Amenities & Facilities: Duplicate text input removed; displays a single flex row (`[Icon Preview] [Dropdown] [✕ Delete]`) with hidden icon input.
+- **Dynamic CRUD Sync**:
+  - Embedded client-side `syncAmenitiesFromApi()` fetches `/admin/api/amenities` dynamically so any newly added or updated amenities in the CMS appear immediately in the dropdowns without requiring manual configuration.
+- **Frontend UI Icon Rendering**:
+  - `partials/highlight-icon.blade.php` dynamically detects uploaded SVG/PNG/JPG amenity icon URLs or paths, inlining local SVGs in pure white (`stroke="#ffffff"`) and applying `filter: brightness(0) invert(1)` to images so all icons appear crisp white (`#ffffff`) and stand out sharply.
+  - Green circular badges (`.accentCircle`) have been centered (`top: 50%; left: 50%; transform: translate(-50%, -50%); width: 38px; height: 38px`) across all community and dynamic page templates with 20px calibrated icon sizing to ensure proper alignment and contrast.
+  - Custom amenities chosen in Project Highlights and Amenities & Facilities automatically render on the Home page (`partials/highlights.blade.php`), Project detail pages (`dynamic-page.blade.php`), and community landing pages.
+
+---
+
+### 🏢 Commercial Navbar Dropdown & Dynamic Property Placement (CMS & Frontend)
+- **Navbar Layout & Hierarchy**:
+  - Added a dedicated **COMMERCIAL** dropdown item directly beside **PROJECTS** in the header navigation (both desktop navigation and mobile drawer menu).
+  - Matches the exact luxury styling, typography, chevron down animation, hover states, and smooth slide-down transitions of the Projects dropdown.
+- **Dynamic Property Filtering (Active Property Omission)**:
+  - When a user is visiting any property/project page (e.g. `/hasan`, `/hussain`, `/hudayriyat-golf-estates`, `/wadeem-gardens`, `/al-naseem-villas`, etc.), that property is **automatically excluded/omitted** from the navbar dropdowns so users are not presented with a link to the page they are already browsing.
+  - Whichever other active properties belong to Projects or Commercial will show properly.
+  - Applies universally across:
+    - Main Header (`partials/header.blade.php`) - Home, About Us, Contact Us, Privacy, Blogs (`/blogs`, `/blog/{slug}`).
+    - Dynamic Page Template (`dynamic-page.blade.php`) - Dynamic properties, Cities, Custom Pages (e.g. `/hasan`, `/hussain`).
+    - All 10 Community Blade Templates (`resources/views/communities/*.blade.php`) - `al-naseem-villas`, `bashayer-residences`, `bashayer-villas`, `hudayriyat-golf-estates`, `masyaf-plots`, `nawayef-east-hills`, `nawayef-park-views`, `nawayef-village`, `wadeem-gardens`, `wadeem-plots`.
+    - Next.js Main Header (`src/components/Header.tsx`)
+    - All 8 Next.js Community & Project Detail Headers (`GolfHeader`, `BashayerHeader`, `VillasHeader`, `WadeemHeader`, `NaseemHeader`, `NawayefHeader`, `ParkViewsHeader`, `ProjectHeader`) via the reactive hook `src/lib/useNavbarItems.ts`.
+- **Interaction & Hover Fixes**:
+  - `community-interactions.js` includes `COMMERCIAL` in dropdown button listeners, allowing hover and click opening.
+  - `communities/global.css` and `dynamic-page.blade.php` include universal CSS `:hover` selectors for instant dropdown visibility.
+- **Admin CMS Checkboxes (Property Placement Control)**:
+  - **"+ Add Property Card" Modal** (`/admin/projects`): General Settings tab includes:
+    - `Show in Projects Dropdown` (checkbox, checked by default).
+    - `Show in Commercial Dropdown` (checkbox, unchecked by default).
+  - **"Edit Property Card" Modal** (`/admin/projects`): Includes both checkboxes with automatic state population.
+  - **Page Editor** (`/admin/pages/{id}/edit`): General tab includes both checkboxes, syncing seamlessly to the linked property card.
+  - Whichever checkbox is selected determines whether the property shows in Projects, Commercial, both, or neither.
+- **Public API Endpoint**:
+  - Endpoint: `/api/navbar-items?current_slug={slug}`
+  - Returns categorized active properties `{ projects: [...], commercial: [...] }` with active property filtering built in.
+
+---
+
+### 🎨 Hero Heading Typography Parity (Home Page Parity Across All Properties)
+- **Problem**:
+  - Previously on property detail pages (e.g. `/hasan`, `/wadeem-gardens`, and any new property created in the CMS), the hero `<h1>` title was hardcoded at `52px` font size with extra-heavy `800` weight.
+  - This caused the heading to appear disproportionately large and wrap across 3 lines compared to the balanced Home page hero heading.
+- **Home Page Reference Baseline (`public/css/hudayriyat.css`)**:
+  - `font-size: clamp(32px, 3.8vw, 46px);`
+  - `font-weight: 700;`
+  - `line-height: 1.22;`
+  - `letter-spacing: -0.015em;`
+  - `text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);`
+  - `margin-bottom: 18px;`
+  - Responsive: `36px` on tablet (`<= 991px`), `30px` on mobile (`<= 576px`).
+  - Subtitle: `font-size: clamp(15px, 1.35vw, 18px); font-weight: 400; line-height: 1.55; margin-bottom: 16px;`.
+- **Universal Fixes Applied**:
+  - `public/css/communities/hudayriyat-golf-estates.css`: Updated `.GolfHero-module__9JtUKq__title` to `clamp(32px, 3.8vw, 46px)` with `700` weight and `1.22` line height.
+  - `resources/views/dynamic-page.blade.php`: Injected scoped typography rules so every newly created property automatically enforces the identical Home page hero font sizing.
+  - `resources/views/partials/page-hero.blade.php`: Added `.heroTitle` and `.heroSubtitle` classes to the hero headline and subtitle elements.
+
+---
+
+### 🌍 Universal Contact Form, Auto Country Flag Detection & Dynamic Phone Validation
+- **Global Contact Form Parity**:
+  - All contact forms located below the FAQ section on every page (Home, Dynamic Pages like `/hasan` and `/hussain`, Cities, Communities, Blogs, and dedicated contact/about pages) now share a unified, state-of-the-art international phone input component.
+- **Auto-Detect Country & Flag**:
+  - Automatically identifies visitor's country with 0ms delay using client timezone analysis (`Intl.DateTimeFormat().resolvedOptions().timeZone`), accompanied by an asynchronous IP geolocation lookup (`https://api.country.is` with fallback to `ipapi.co`).
+  - Automatically displays the visitor's country flag and dials code by default across all forms on the page.
+- **218 Worldwide Countries Alphabetical Dropdown (A to Z) with Real-Time Search**:
+  - Clicking the country flag opens a luxury dropdown displaying all 218 countries worldwide, sorted strictly alphabetically (A to Z).
+  - Features an embedded search box (`Search country or dial code...`) allowing instant filtering by country name, ISO code, or dial code.
+  - Powered by high-definition FlagCDN assets (`https://flagcdn.com/w40/{code}.png`).
+- **Dynamic Phone Length & Numbers-Only Validation**:
+  - Restricts input exclusively to numbers; letters, punctuation, and invalid characters are blocked on keydown, input, and paste.
+  - Dynamically adapts placeholder, max length, and validation boundaries to the specific country selected (e.g. 9 digits for UAE, 10 digits for Pakistan/US/India, 8 digits for Qatar/Kuwait/Oman/Bahrain).
+  - Enforces native HTML5 form validation (`reportValidity()`) to prevent submission with incomplete or invalid phone numbers.
+- **Site-Wide Global Coverage**:
+  - Contact Section below FAQ on all pages (`partials/contact.blade.php`).
+  - Dynamic page template (`dynamic-page.blade.php`).
+  - All 10 Community Blade templates (`resources/views/communities/*.blade.php`).
+  - Home Page Hero Callback Form (`partials/hero.blade.php`).
+  - "List Your Property" Navbar Modal (`layouts/app.blade.php`).
+  - Dedicated Contact Us Page (`contact-us.blade.php`).
+  - About Us Page Inquiry Form (`about-us.blade.php`).
+  - Sticky Sidebar Appointment Forms (`partials/article.blade.php`, `partials/page-article.blade.php`, `blogs/show.blade.php`).
+  - Blog Detail Page (`blogs/show.blade.php`) - contact section below FAQ.
+
+- **Bug Fixes & UX Hardening Applied**:
+  - **Raw Script Text Removed**: Fixed a premature closing `</script>` tag in `resources/views/partials/contact.blade.php` that was previously causing JavaScript lead-handler code to leak and render as plain text under the contact card on all pages.
+  - **Flag Click & Dropdown Visibility Restored**: Fixed CSS specificity collision in `public/css/communities/global.css` where global navbar rule `[class*="dropdownMenu"]` was inappropriately applying `opacity: 0` and `visibility: hidden` to `.countryDropdownMenu`. Excluded `.countryDropdownMenu` and added explicit `.dropdownOpen` and `.isOpen` styles with `pointer-events: none` on inner flag/caret child elements to guarantee instantaneous, responsive opening upon clicking the flag.
+
+
+
+
+  7. **Duplicate Dropdown Fix in Appointment Forms**:
+     - **Issue**: In `BOOK AN APPOINTMENT` sidebar forms (e.g. in `resources/views/partials/page-article.blade.php`, `article.blade.php`, and `blogs/show.blade.php`), the input was already structured inside a `phoneUnifiedContainer`. An auto-discovery loop in `public/js/universal-phone-selector.js` was erroneously injecting a second nested `phoneUnifiedContainer` beside the existing trigger button, causing two side-by-side dropdown buttons to render on the UI.
+     - **Fix**: Added a guard condition `if (input.closest('.phoneUnifiedContainer') || input._phoneInstance) return;` so that inputs already encased in unified containers are never duplicated. Verified on live pages that exactly one clean flag trigger button and dropdown are rendered.
+
+
+---
+
+### ⚡ Site-Wide n8n Webhook & Lead Automation Integration
+- **Webhook Endpoint**: `https://n8n.srv1625508.hstgr.cloud/webhook/979a4b97-a515-4ee0-96e3-5d0ddb475e99`
+- **Authentication**: Header Auth using `Authorization: fsa_n8n_secret_token_2026_x99a` (redundantly backed by `X-Token` and `token` headers).
+- **Architecture**:
+  - Centralized lead dispatcher inside `app/Http/Controllers/LeadController.php` (`dispatchToN8n`).
+  - Automatically captures submissions from:
+    1. **Contact Section** (below FAQ across all pages)
+    2. **Book An Appointment Sidebar** (Project pages, Dynamic pages, and Blog articles)
+    3. **Homepage Hero Callback Form**
+    4. **List Your Property Modal** (Header & Mobile Drawer)
+    5. **Dedicated Contact Us Page** (`/contact-us`)
+    6. **About Us Page Inquiry Form** (`/about-us`)
+    7. **Community Project Direct Inquiries**
+  - Sends exact 13-field JSON payload:
+```json
+{
+  "name": "{{ $json.body.name }}",
+  "phone": "{{ $json.body.phone }}",
+  "email": "{{ $json.body.email }}",
+  "source": "{{ $json.body.source || '' }}",
+  "sub_source": "{{ $json.body.sub_source || '' }}",
+  "utm_campaign": "{{ $json.body.utm_campaign || '' }}",
+  "campaign_url": "{{ $json.body.campaign_url || '' }}",
+  "project": "{{ $json.body.project || '' }}",
+  "developer": "{{ $json.body.developer || '' }}",
+  "community": "{{ $json.body.community || '' }}",
+  "property_type": "{{ $json.body.property_type || '' }}",
+  "key_requirement": "{{ $json.body.key_requirement || '' }}",
+  "activity_description": "{{ $json.body.activity_description || '' }}"
+}
+```
+- **Resilience**: Non-blocking asynchronous dispatch with try-catch fallback. If n8n or external services experience latency or downtime, lead data is safely preserved in MySQL and user interface responds with 0 interruption.
+- **Verification**: Verified live with HTTP 200 `{"message":"Workflow was started"}` logged in `storage/logs/laravel.log`.
+
+- **Default Routing Values (CRM & Attribution)**:
+  - `sub_source`: Always set to `"saima project"`.
+  - `campaign_url`: Always set to `"https://saimaprojects.com/"`.
+
+
+---
+
+### 🗺️ Dynamic XML Sitemap (`/sitemap.xml`)
+- **Route**: `GET /sitemap.xml` (alias: `/sitemap` 301 redirect).
+- **Controller**: `app/Http/Controllers/SitemapController.php`
+- **Dynamic Content Inclusion**:
+  - **Core Routes**: Home (`/`), About Us (`/about-us`), Contact Us (`/contact-us`), Blog Archive (`/blogs`), Legal Pages (`/privacy-policy`, `/terms-and-conditions`, `/disclaimer`).
+  - **Dynamic Pages**: All published records from MySQL `pages` table.
+  - **Dynamic Projects**: All active records from MySQL `projects` table & 10 luxury community templates.
+  - **Dynamic Cities**: All active records from MySQL `cities` table.
+  - **Dynamic Communities**: All active records from MySQL `communities` table.
+  - **Dynamic Blogs**: All published articles from MySQL `blogs` table (`/blog/{slug}`).
+- **SEO Features**: Canonical domain compliance, automatic ISO 8601 `lastmod` timestamps, dynamic priority & change frequency weighting, automatic deduplication, and integration with `robots.txt`.
+
+---
+
+### 🔴 Global Hero Section: "BOOK NOW" Red Color Update
+- **Change**: Updated the background color of the hero CTA button (`"BOOK NOW"`) across all website hero sections from green (`#1a4731`) to signature red (`#d9232d`, hover: `#b71a23`).
+- **Scope**: Applied universally across the Home page hero, dynamic property page heroes, and all community project templates.
+
+---
+
+### 🏛️ Universal Property URLs Restructuring (`/project/{slug}`) & Automatic 301 Redirects
+- **Objective**: Standardize all property/project endpoints so that every property URL is prefixed with `/project/` (e.g. `http://127.0.0.1:8000/project/wadeem-gardens`).
+- **Architecture**:
+  - **Direct Dedicated Route**: `GET /project/{slug}` resolves all project details pages (database projects, dynamic CMS pages, and custom luxury community templates).
+  - **SEO-Friendly 301 Permanent Redirect**: Visiting legacy property URLs (e.g. `http://127.0.0.1:8000/wadeem-gardens` or `wadeem_gardens`) instantly issues an HTTP `301 Moved Permanently` redirect to `/project/{slug}`.
+  - **Safety Isolation**: Non-project routes (Cities like `/lahore`, Communities like `/jamshed-road-number`, General Pages `/about-us`, Blogs `/blog/{slug}`) remain untouched at their standard routes.
+  - **Navigation & Helper Sync**:
+    - `get_navbar_items()` outputs all project dropdown links under `/project/{slug}` and handles active property exclusion.
+    - `Project` Eloquent model `$project->url` accessor automatically prepends `/project/`.
+    - All community cards, latest project sidebars, and footer links updated to `/project/{slug}`.
+    - Dynamic `/sitemap.xml` automatically emits all project links as `https://saimaprojects.com/project/{slug}`.
+    - Admin panel ("View Live Page" button, Page URL banner, and Projects table) reflect `/project/{slug}`.
+
+---
+
+### 🏙️ Universal City (`/city/{slug}`) & Community (`/area/{slug}`) URLs & 301 Redirects
+- **City Endpoints**: All existing and newly created city pages are strictly served at `http://127.0.0.1:8000/city/{endpoint}` (e.g. `/city/lahore`, `/city/karachi`, `/city/punjab`).
+- **Community / Area Endpoints**: All existing and newly created community/neighbourhood pages are strictly served at `http://127.0.0.1:8000/area/{endpoint}` (e.g. `/area/jamshed-road-number`).
+- **301 Permanent Redirects**:
+  - Legacy URLs (e.g. `http://127.0.0.1:8000/lahore` or `lahore_city`) automatically 301 redirect to `/city/lahore`.
+  - Legacy URLs (e.g. `http://127.0.0.1:8000/jamshed-road-number` or `jamshed_road_number`) automatically 301 redirect to `/area/jamshed-road-number`.
+- **Model URL Accessors**:
+  - `City::getUrlAttribute()` dynamically formats as `/city/{slug}`.
+  - `Community::getUrlAttribute()` dynamically formats as `/area/{slug}`.
+- **Admin CMS Views**:
+  - Page URL banners, live view buttons, slug input prefixes, and listing tables in both City and Community CMS managers updated to `/city/` and `/area/` respectively.
+- **Sitemap Note**: As per instruction, `sitemap.xml` was left completely untouched for later review.
+
+
+
+---
+
+### 🗺️ Dedicated Core Pages XML Sitemap (`/sitemap/page-sitemap.xml`)
+- **Primary Endpoint**: `https://saimaprojects.com/sitemap/page-sitemap.xml` (local development: `http://127.0.0.1:8000/sitemap/page-sitemap.xml` or `/page-sitemap.xml`).
+- **Core 6 Static / Institutional Pages Included**:
+  1. **Home Page** (`https://saimaprojects.com/`): Priority `1.0`, Change frequency: `daily`
+  2. **Contact Us** (`https://saimaprojects.com/contact-us`): Priority `0.5`, Change frequency: `monthly`
+  3. **About Us** (`https://saimaprojects.com/about-us`): Priority `0.5`, Change frequency: `monthly`
+  4. **Privacy Policy** (`https://saimaprojects.com/privacy-policy`): Priority `0.5`, Change frequency: `yearly`
+  5. **Disclaimer** (`https://saimaprojects.com/disclaimer`): Priority `0.5`, Change frequency: `yearly`
+  6. **Terms & Conditions** (`https://saimaprojects.com/terms-and-conditions`): Priority `0.5`, Change frequency: `yearly`
+- **Dynamic Timestamps**: Automatically checks the MySQL database (`pages` table) for each slug's exact `updated_at` timestamp and renders it in standardized UTC ISO 8601 format.
+- **Root Sitemap Integration**:
+  - `https://saimaprojects.com/sitemap.xml` points directly to `https://saimaprojects.com/sitemap/page-sitemap.xml` with the latest modification timestamp among the 6 pages.
+
+---
+
+### 🌐 Complete Multi-XML Sitemap Architecture (`/sitemap.xml`)
+- **Master Sitemap Index**: `https://saimaprojects.com/sitemap.xml` (local: `http://127.0.0.1:8000/sitemap.xml`)
+- **Included Silo Sitemaps**:
+  1. `https://saimaprojects.com/sitemap/page-sitemap.xml`: 6 core institutional pages (Home priority: 1.0, Contact/About/Legal priority: 0.5).
+  2. `https://saimaprojects.com/sitemap/project-sitemap.xml`: All active projects under `/project/{slug}` (Priority: 0.8).
+  3. `https://saimaprojects.com/sitemap/city-sitemap.xml`: All active city landing pages under `/city/{slug}` (Priority: 0.8).
+  4. `https://saimaprojects.com/sitemap/area-sitemap.xml`: All active community / area landing pages under `/area/{slug}` (Priority: 0.8).
+  5. `https://saimaprojects.com/sitemap/blog-sitemap.xml`: All published blog posts under `/blog/{slug}` and `/blogs` (Priority: 0.8).
+  6. `https://saimaprojects.com/sitemap/dynamic-sitemap.xml`: All custom dynamic pages added via `+ Add Page` in CMS (Image 2) (Priority: 0.8).
+
+> **Dynamic CMS Sync Note**: `/sitemap/project-sitemap.xml` strictly outputs projects that have status `Publish` and `is_active = true` in the CMS (`/admin/projects`). Projects in `Draft` status (e.g. Hasan) and un-created templates are automatically excluded.

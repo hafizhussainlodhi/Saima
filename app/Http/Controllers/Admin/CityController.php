@@ -43,7 +43,8 @@ class CityController extends Controller
 
         $name = trim($validated['name']);
         $rawSlug = trim($request->input('slug') ?: $name);
-        $slug = Str::slug($rawSlug);
+        $cleanRawSlug = ltrim(preg_replace('#^city/#', '', ltrim($rawSlug, '/')), '/');
+        $slug = Str::slug($cleanRawSlug ?: $name);
 
         $status = $request->input('status', 'publish');
         if (!in_array($status, ['publish', 'draft', 'sold_out'])) {
@@ -293,7 +294,8 @@ class CityController extends Controller
 
         $name = trim($validated['name']);
         $rawSlug = trim($request->input('slug') ?: $name);
-        $slug = Str::slug($rawSlug);
+        $cleanRawSlug = ltrim(preg_replace('#^city/#', '', ltrim($rawSlug, '/')), '/');
+        $slug = Str::slug($cleanRawSlug ?: $name);
 
         $status = $request->input('status', 'publish');
         if (!in_array($status, ['publish', 'draft', 'sold_out'])) {
@@ -450,7 +452,9 @@ class CityController extends Controller
             }
         }
 
-        return redirect()->route('admin.cities.index')->with('success', "City '{$name}' updated successfully!");
+        $activeTab = $request->input('active_tab', $request->query('tab', 'general'));
+        return redirect()->route('admin.cities.edit', ['city' => $city->id, 'tab' => $activeTab])
+            ->with('success', "City '{$name}' updated successfully! Changes are saved.");
     }
 
     /**

@@ -8,46 +8,15 @@
             $items = $sec->content['images'];
         }
     }
-    // Extract unique categories
-    $categories = [];
-    foreach ($items as $itm) {
-        $cat = trim($itm['category'] ?? '');
-        if ($cat && strtolower($cat) !== 'all') {
-            $formatted = ucfirst(strtolower($cat));
-            if (!in_array($formatted, $categories)) {
-                $categories[] = $formatted;
-            }
-        }
-    }
     $galleryUid = 'gal_' . md5($gallerySlug . '_' . $title);
 @endphp
 
 @if(!empty($items))
 <section class="StandardProjectGallery-module__MeUPXW__gallerySection" id="gallery" style="position: relative; overflow: hidden; background-color: #ffffff; padding: 70px 0 50px; width: 100%;">
-    <div class="StandardProjectGallery-module__MeUPXW__header" style="text-align: center; max-width: 900px; margin: 0 auto 36px; padding: 0 20px;">
-        <h2 class="StandardProjectGallery-module__MeUPXW__title" style="color: #1a1a1a; letter-spacing: -0.01em; margin-bottom: 22px; font-size: clamp(1.85rem, 3.2vw, 2.35rem); font-weight: 700;">
+    <div class="StandardProjectGallery-module__MeUPXW__header" style="text-align: center; max-width: 900px; margin: 0 auto 30px; padding: 0 20px;">
+        <h2 class="StandardProjectGallery-module__MeUPXW__title" style="color: #1a1a1a; letter-spacing: -0.01em; margin-bottom: 0; font-size: clamp(1.85rem, 3.2vw, 2.35rem); font-weight: 700;">
             {{ $title }}
         </h2>
-
-        {{-- Category Filter Tabs --}}
-        @if(count($categories) > 0)
-            <div class="StandardProjectGallery-module__MeUPXW__tabNav" id="{{ $galleryUid }}_tabs" style="display: flex; justify-content: center; align-items: center; gap: 32px; flex-wrap: wrap;">
-                <button type="button" 
-                        class="StandardProjectGallery-module__MeUPXW__tabBtn StandardProjectGallery-module__MeUPXW__tabActive" 
-                        onclick="{{ $galleryUid }}_filter('ALL', this)"
-                        style="cursor: pointer; background: none; border: none; border-bottom: 2px solid #b37748; padding: 6px 4px 10px; font-size: 15px; font-weight: 600; color: #b37748; transition: all 0.25s;">
-                    ALL
-                </button>
-                @foreach($categories as $cat)
-                    <button type="button" 
-                            class="StandardProjectGallery-module__MeUPXW__tabBtn" 
-                            onclick="{{ $galleryUid }}_filter('{{ $cat }}', this)"
-                            style="cursor: pointer; background: none; border: none; border-bottom: 2px solid transparent; padding: 6px 4px 10px; font-size: 15px; font-weight: 500; color: #666666; transition: all 0.25s;">
-                        {{ $cat }}
-                    </button>
-                @endforeach
-            </div>
-        @endif
     </div>
 
     {{-- Carousel Container with Peek on both sides --}}

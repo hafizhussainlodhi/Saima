@@ -50,7 +50,7 @@ $communitiesData = [
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => 'Flexible Payment Plan',
-        'href' => '/wadeem-gardens',
+        'href' => '/project/wadeem-gardens',
     ],
     [
         'name' => 'Hudayriyat Golf Estates',
@@ -59,7 +59,7 @@ $communitiesData = [
         'badges' => ['New'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '5/35/60 Payment Plan',
-        'href' => '/hudayriyat-golf-estates',
+        'href' => '/project/hudayriyat-golf-estates',
     ],
     [
         'name' => 'Bashayer Residences',
@@ -68,7 +68,7 @@ $communitiesData = [
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
-        'href' => '/bashayer-residences',
+        'href' => '/project/bashayer-residences',
     ],
     [
         'name' => 'Nawayef East Hills',
@@ -77,7 +77,7 @@ $communitiesData = [
         'badges' => ['Offer'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/30/60 Payment Plan',
-        'href' => '/nawayef-east-hills',
+        'href' => '/project/nawayef-east-hills',
     ],
     [
         'name' => 'Bashayer Villas',
@@ -86,7 +86,7 @@ $communitiesData = [
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '20/30/50 Payment Plan',
-        'href' => '/bashayer-villas',
+        'href' => '/project/bashayer-villas',
     ],
     [
         'name' => 'Al Naseem Villas',
@@ -95,7 +95,7 @@ $communitiesData = [
         'badges' => ['Ready'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/30/60 Payment Plan',
-        'href' => '/al-naseem-villas',
+        'href' => '/project/al-naseem-villas',
     ],
     [
         'name' => 'Masyaf Plots',
@@ -104,7 +104,7 @@ $communitiesData = [
         'badges' => ['New'],
         'developer' => 'Modon Properties',
         'paymentPlan' => 'Payment Plan: Launch Soon',
-        'href' => '/masyaf-plots',
+        'href' => '/project/masyaf-plots',
     ],
     [
         'name' => 'Nawayef Village',
@@ -113,7 +113,7 @@ $communitiesData = [
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
-        'href' => '/nawayef-village',
+        'href' => '/project/nawayef-village',
     ],
     [
         'name' => 'Wadeem Plots',
@@ -122,7 +122,7 @@ $communitiesData = [
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
-        'href' => '/wadeem-plots',
+        'href' => '/project/wadeem-plots',
     ],
     [
         'name' => 'Nawayef Park Views',
@@ -131,7 +131,7 @@ $communitiesData = [
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
-        'href' => '/nawayef-park-views',
+        'href' => '/project/nawayef-park-views',
     ],
 ];
 @endphp

@@ -87,16 +87,16 @@ class FooterSection extends Model
             [
                 'header' => 'Properties',
                 'links' => [
-                    ['label' => 'Wadeem Gardens', 'url' => '/wadeem-gardens'],
-                    ['label' => 'Hudayriyat Golf Estates', 'url' => '/hudayriyat-golf-estates'],
-                    ['label' => 'Bashayer Villas', 'url' => '/bashayer-villas'],
-                    ['label' => 'Bashayer Residences', 'url' => '/bashayer-residences'],
-                    ['label' => 'Al Naseem Villas', 'url' => '/al-naseem-villas'],
-                    ['label' => 'Nawayef East Hills', 'url' => '/nawayef-east-hills'],
-                    ['label' => 'Masyaf Plots', 'url' => '/masyaf-plots'],
-                    ['label' => 'Nawayef Village', 'url' => '/nawayef-village'],
-                    ['label' => 'Wadeem Plots', 'url' => '/wadeem-plots'],
-                    ['label' => 'Nawayef Park Views', 'url' => '/nawayef-park-views'],
+                    ['label' => 'Wadeem Gardens', 'url' => '/project/wadeem-gardens'],
+                    ['label' => 'Hudayriyat Golf Estates', 'url' => '/project/hudayriyat-golf-estates'],
+                    ['label' => 'Bashayer Villas', 'url' => '/project/bashayer-villas'],
+                    ['label' => 'Bashayer Residences', 'url' => '/project/bashayer-residences'],
+                    ['label' => 'Al Naseem Villas', 'url' => '/project/al-naseem-villas'],
+                    ['label' => 'Nawayef East Hills', 'url' => '/project/nawayef-east-hills'],
+                    ['label' => 'Masyaf Plots', 'url' => '/project/masyaf-plots'],
+                    ['label' => 'Nawayef Village', 'url' => '/project/nawayef-village'],
+                    ['label' => 'Wadeem Plots', 'url' => '/project/wadeem-plots'],
+                    ['label' => 'Nawayef Park Views', 'url' => '/project/nawayef-park-views'],
                 ]
             ],
             [

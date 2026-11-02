@@ -67,11 +67,34 @@
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        if (typeof setupPhoneSelector === 'function') {
-            setupPhoneSelector('contactCountryBtn', 'contactCountryDropdown', 'contactFlagSlot', 'contactPhoneInput');
+    (function() {
+        function initContactPhone() {
+            if (typeof window.setupPhoneSelector === 'function') {
+                window.setupPhoneSelector('contactCountryBtn', 'contactCountryDropdown', 'contactFlagSlot', 'contactPhoneInput');
+            }
         }
-    });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                if (typeof window.setupPhoneSelector === 'function') {
+                    initContactPhone();
+                } else {
+                    const s = document.createElement('script');
+                    s.src = "{{ asset('js/universal-phone-selector.js') }}?v={{ time() }}";
+                    s.onload = initContactPhone;
+                    document.head.appendChild(s);
+                }
+            });
+        } else {
+            if (typeof window.setupPhoneSelector === 'function') {
+                initContactPhone();
+            } else {
+                const s = document.createElement('script');
+                s.src = "{{ asset('js/universal-phone-selector.js') }}?v={{ time() }}";
+                s.onload = initContactPhone;
+                document.head.appendChild(s);
+            }
+        }
+    })();
 
     const contactForm = document.getElementById('contactLeadForm');
     contactForm?.addEventListener('submit', async (e) => {
@@ -91,10 +114,17 @@
                 },
                 body: JSON.stringify({
                     name: formData.get('name'),
-                    email: formData.get('email'),
+                    email: formData.get('email') || '',
                     phone: formData.get('phone'),
-                    project: 'Hudayriyat Island',
-                    developer: 'Modon Properties',
+                    source: 'Website',
+                    sub_source: 'saima project',
+                    utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+                    campaign_url: 'https://saimaprojects.com/',
+                    project: '{{ isset($page) ? addslashes($page->title) : 'Hudayriyat Island' }}',
+                    developer: '{{ (isset($page) && isset($page->project) && !empty($page->project->developer)) ? addslashes($page->project->developer) : 'Modon Properties' }}',
+                    community: '{{ isset($page) ? addslashes($page->title) : 'Hudayriyat Island' }}',
+                    property_type: '{{ (isset($page) && isset($page->project) && !empty($page->project->property_type)) ? addslashes($page->project->property_type) : 'Residential' }}',
+                    key_requirement: formData.get('comment') || formData.get('message') || '',
                     activity_description: 'General Contact Section Call Back Request'
                 })
             });

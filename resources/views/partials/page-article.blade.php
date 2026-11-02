@@ -57,7 +57,16 @@
                         <h3 class="saimaApptTitle">{{ $apptTitle ?: 'BOOK AN APPOINTMENT' }}</h3>
                         <form id="saimaArticleApptForm" class="saimaApptForm">
                             <input type="text" name="name" class="saimaInput" placeholder="Name" required>
-                            <input type="tel" name="phone" class="saimaInput" placeholder="Phone" required>
+                            <div class="phoneUnifiedContainer" style="margin-bottom: 12px; height: 42px !important; background: #fff !important; border: 1px solid #dcdcdc !important;">
+                                <div class="countryTriggerWrapper">
+                                    <button type="button" class="countryTriggerBtn" id="pageArticleCountryBtn" aria-label="Country selector" style="height: 100%;">
+                                        <span class="flagSlot" id="pageArticleFlagSlot"></span>
+                                        <span class="caretDown"></span>
+                                    </button>
+                                    <ul class="countryDropdownMenu" id="pageArticleCountryDropdown" style="display: none;"></ul>
+                                </div>
+                                <input type="tel" name="phone" id="pageArticlePhoneInput" class="phoneInputField" value="+971 " required>
+                            </div>
                             <input type="email" name="email" class="saimaInput" placeholder="Email" required>
                             <textarea name="comment" class="saimaTextarea" placeholder="Leave a comment here"></textarea>
                             <button type="submit" class="saimaSubmitBtn">SUBMIT</button>
@@ -366,8 +375,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: form.querySelector('input[name="name"]')?.value || '',
                 phone: form.querySelector('input[name="phone"]')?.value || '',
                 email: form.querySelector('input[name="email"]')?.value || '',
+                key_requirement: form.querySelector('textarea[name="comment"]')?.value || '',
                 comment: form.querySelector('textarea[name="comment"]')?.value || '',
-                source: window.location.pathname
+                source: 'Website',
+                sub_source: 'saima project',
+                utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+                campaign_url: 'https://saimaprojects.com/',
+                project: '{{ isset($page) ? addslashes($page->title) : 'Hudayriyat Island' }}',
+                developer: '{{ (isset($page) && isset($page->project) && !empty($page->project->developer)) ? addslashes($page->project->developer) : 'Modon Properties' }}',
+                community: '{{ isset($page) ? addslashes($page->title) : 'Hudayriyat Island' }}',
+                property_type: '{{ (isset($page) && isset($page->project) && !empty($page->project->property_type)) ? addslashes($page->project->property_type) : 'Residential' }}',
+                activity_description: 'Book an Appointment Sidebar Request'
             };
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';

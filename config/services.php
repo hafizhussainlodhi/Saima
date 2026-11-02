@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'n8n' => [
+        'webhook_url' => env('N8N_WEBHOOK_URL', 'https://n8n.srv1625508.hstgr.cloud/webhook/979a4b97-a515-4ee0-96e3-5d0ddb475e99'),
+        'token' => env('N8N_WEBHOOK_TOKEN', 'fsa_n8n_secret_token_2026_x99a'),
+    ],
+
 ];

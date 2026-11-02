@@ -1,24 +1,6 @@
 @php
-    // Navbar projects: normally provided by AppServiceProvider view composer.
-    // Fallback query merges both rule sets:
-    //  - Incoming (draft fix): project active & not draft; page not draft & published
-    //  - Local: page must have "Show in navbar" (in_navbar) enabled
-    if (!isset($navbarProjects)) {
-        $navbarProjects = \App\Models\Project::with('page')
-            ->where('is_active', true)
-            ->where(function ($q) {
-                $q->whereNull('status')->orWhere('status', '!=', 'draft');
-            })
-            ->whereHas('page', function ($pq) {
-                $pq->where('in_navbar', true)
-                   ->where('is_published', true)
-                   ->where(function ($sq) {
-                       $sq->whereNull('status')->orWhere('status', '!=', 'draft');
-                   });
-            })
-            ->orderBy('order', 'asc')
-            ->get();
-    }
+    $navbarProjects = get_navbar_projects($page->slug ?? null, $page->id ?? null);
+    $navbarCommercial = get_navbar_commercial($page->slug ?? null, $page->id ?? null);
 @endphp
 <header id="siteHeader" class="header">
     <div class="container headerContainer">
@@ -43,12 +25,22 @@
                         </button>
                         <div class="dropdownMenu" id="navProjectsDropdown">
                             @foreach($navbarProjects as $navProj)
-                                @php
-                                    $navUrl = $navProj->page 
-                                        ? ($navProj->page->slug === '/' ? '/' : '/' . ltrim($navProj->page->slug, '/'))
-                                        : ($navProj->slug ? '/' . ltrim($navProj->slug, '/') : '#');
-                                @endphp
-                                <a href="{{ $navUrl }}" class="dropdownItem">{{ $navProj->title }}</a>
+                                <a href="{{ $navProj->url }}" class="dropdownItem">{{ $navProj->title }}</a>
+                            @endforeach
+                        </div>
+                    </li>
+                @endif
+                @if($navbarCommercial->isNotEmpty())
+                    <li class="navItem" id="navCommercialItem">
+                        <button type="button" class="navLink" id="navCommercialBtn" style="background: none; border: none; cursor: pointer;">
+                            COMMERCIAL
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </button>
+                        <div class="dropdownMenu" id="navCommercialDropdown">
+                            @foreach($navbarCommercial as $navComm)
+                                <a href="{{ $navComm->url }}" class="dropdownItem">{{ $navComm->title }}</a>
                             @endforeach
                         </div>
                     </li>
@@ -80,7 +72,7 @@
 <!-- Mobile Navigation Backdrop -->
 <div id="mobileBackdrop" class="mobileDrawerOverlay"></div>
 
-<!-- Mobile Navigation Drawer (EXACT MATCH TO IMAGE 2 FROM PORT 3000) -->
+<!-- Mobile Navigation Drawer -->
 <aside id="mobileDrawer" class="mobileDrawer">
     <!-- Clean Close Cross Button on Top Right -->
     <button type="button" id="mobileDrawerClose" class="mobileCloseBtn" aria-label="Close menu">
@@ -89,7 +81,7 @@
         </svg>
     </button>
 
-    <!-- Clean Navigation Links (Home, Projects, FAQ, Contact Us, List Your Property) -->
+    <!-- Clean Navigation Links (Home, Projects, Commercial, FAQ, Contact Us, List Your Property) -->
     <ul class="mobileNavList">
         <li>
             <a href="/" class="mobileNavLink">HOME</a>
@@ -104,12 +96,22 @@
             </button>
             <div id="mobileProjectsSubmenu" class="mobileSubList" style="display: none;">
                 @foreach($navbarProjects as $navProj)
-                    @php
-                        $navUrl = $navProj->page 
-                            ? ($navProj->page->slug === '/' ? '/' : '/' . ltrim($navProj->page->slug, '/'))
-                            : ($navProj->slug ? '/' . ltrim($navProj->slug, '/') : '#');
-                    @endphp
-                    <a href="{{ $navUrl }}" class="mobileSubItem">{{ $navProj->title }}</a>
+                    <a href="{{ $navProj->url }}" class="mobileSubItem">{{ $navProj->title }}</a>
+                @endforeach
+            </div>
+        </li>
+        @endif
+        @if($navbarCommercial->isNotEmpty())
+        <li>
+            <button type="button" id="mobileCommercialToggle" class="mobileNavLink">
+                <span>COMMERCIAL</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="mobileCommChevronIcon" style="transition: transform 0.25s ease;">
+                    <path d="m6 9 6 6 6-6"/>
+                </svg>
+            </button>
+            <div id="mobileCommercialSubmenu" class="mobileSubList" style="display: none;">
+                @foreach($navbarCommercial as $navComm)
+                    <a href="{{ $navComm->url }}" class="mobileSubItem">{{ $navComm->title }}</a>
                 @endforeach
             </div>
         </li>
@@ -137,6 +139,7 @@
     projectsBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
         projectsDropdown?.classList.toggle('dropdownOpen');
+        commercialDropdown?.classList.remove('dropdownOpen');
     });
 
     projectsItem?.addEventListener('mouseenter', () => {
@@ -147,11 +150,31 @@
         projectsDropdown?.classList.remove('dropdownOpen');
     });
 
-    document.addEventListener('click', () => {
+    // 2. Commercial Dropdown Hover & Click on Desktop
+    const commercialItem = document.getElementById('navCommercialItem');
+    const commercialDropdown = document.getElementById('navCommercialDropdown');
+    const commercialBtn = document.getElementById('navCommercialBtn');
+
+    commercialBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        commercialDropdown?.classList.toggle('dropdownOpen');
         projectsDropdown?.classList.remove('dropdownOpen');
     });
 
-    // 2. STICKY NAVBAR ON SCROLL (EXACT MATCH TO IMAGE 3)
+    commercialItem?.addEventListener('mouseenter', () => {
+        commercialDropdown?.classList.add('dropdownOpen');
+    });
+
+    commercialItem?.addEventListener('mouseleave', () => {
+        commercialDropdown?.classList.remove('dropdownOpen');
+    });
+
+    document.addEventListener('click', () => {
+        projectsDropdown?.classList.remove('dropdownOpen');
+        commercialDropdown?.classList.remove('dropdownOpen');
+    });
+
+    // 3. STICKY NAVBAR ON SCROLL
     const siteHeader = document.getElementById('siteHeader');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 40) {
@@ -161,7 +184,7 @@
         }
     });
 
-    // 3. Mobile Navigation Drawer Controls
+    // 4. Mobile Navigation Drawer Controls
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileDrawer = document.getElementById('mobileDrawer');
     const mobileBackdrop = document.getElementById('mobileBackdrop');
@@ -169,6 +192,10 @@
     const mobileProjectsToggle = document.getElementById('mobileProjectsToggle');
     const mobileProjectsSubmenu = document.getElementById('mobileProjectsSubmenu');
     const mobileChevronIcon = document.getElementById('mobileChevronIcon');
+
+    const mobileCommercialToggle = document.getElementById('mobileCommercialToggle');
+    const mobileCommercialSubmenu = document.getElementById('mobileCommercialSubmenu');
+    const mobileCommChevronIcon = document.getElementById('mobileCommChevronIcon');
 
     const openMenu = () => {
         mobileDrawer?.classList.add('mobileDrawerOpen');
@@ -188,7 +215,7 @@
 
     // Close on any link click
     document.querySelectorAll('.mobileNavLink, .mobileSubItem').forEach(item => {
-        if (item.id !== 'mobileProjectsToggle') {
+        if (item.id !== 'mobileProjectsToggle' && item.id !== 'mobileCommercialToggle') {
             item.addEventListener('click', closeMenu);
         }
     });
@@ -199,5 +226,13 @@
         const isOpen = mobileProjectsSubmenu.style.display === 'flex';
         mobileProjectsSubmenu.style.display = isOpen ? 'none' : 'flex';
         mobileChevronIcon.style.transform = isOpen ? 'none' : 'rotate(180deg)';
+    });
+
+    // Toggle Mobile Commercial Submenu
+    mobileCommercialToggle?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isOpen = mobileCommercialSubmenu.style.display === 'flex';
+        mobileCommercialSubmenu.style.display = isOpen ? 'none' : 'flex';
+        mobileCommChevronIcon.style.transform = isOpen ? 'none' : 'rotate(180deg)';
     });
 </script>

@@ -41,30 +41,14 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer(['partials.header', 'layouts.app'], function ($view) {
             try {
-                if (\Illuminate\Support\Facades\Schema::hasTable('projects')) {
-                    // Merged rules: active & non-draft project (incoming draft fix)
-                    // + linked page with in_navbar enabled, published, non-draft (local)
-                    $navbarProjects = \App\Models\Project::with('page')
-                        ->where('is_active', true)
-                        ->where(function ($q) {
-                            $q->whereNull('status')->orWhere('status', '!=', 'draft');
-                        })
-                        ->whereHas('page', function ($pq) {
-                            $pq->where('in_navbar', true)
-                               ->where('is_published', true)
-                               ->where(function ($sq) {
-                                   $sq->whereNull('status')->orWhere('status', '!=', 'draft');
-                               });
-                        })
-                        ->orderBy('order', 'asc')
-                        ->get();
-
-                    $view->with('navbarProjects', $navbarProjects);
-                } else {
-                    $view->with('navbarProjects', collect());
-                }
+                $viewData = $view->getData();
+                $pageSlug = $viewData['page']->slug ?? null;
+                $pageId = $viewData['page']->id ?? null;
+                $view->with('navbarProjects', get_navbar_projects($pageSlug, $pageId));
+                $view->with('navbarCommercial', get_navbar_commercial($pageSlug, $pageId));
             } catch (\Throwable $e) {
                 $view->with('navbarProjects', collect());
+                $view->with('navbarCommercial', collect());
             }
         });
     }

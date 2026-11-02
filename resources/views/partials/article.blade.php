@@ -1,12 +1,67 @@
-<!-- Saima Mangrove Residences Editorial Section with Interactive TOC & Sticky Appointment Sidebar -->
+@php
+    $articleSlug = $slug ?? ($page->slug ?? request()->path());
+    if ($articleSlug === '/' || empty($articleSlug)) {
+        $articleSlug = '/';
+    }
+    $originalCommunities = [
+        'wadeem-gardens', 'hudayriyat-golf-estates', 'bashayer-villas', 'bashayer-residences',
+        'al-naseem-villas', 'nawayef-east-hills', 'masyaf-plots', 'nawayef-village',
+        'wadeem-plots', 'nawayef-park-views'
+    ];
+    $cleanSlug = trim($articleSlug, '/');
+    if ($cleanSlug === '' || $cleanSlug === '/') {
+        $cleanSlug = 'home';
+    }
+
+    $isProperty = false;
+    if (isset($page) && !empty($page->id)) {
+        $isProperty = \App\Models\Project::where('page_id', $page->id)->exists();
+    }
+    if (!$isProperty) {
+        $isProperty = in_array($cleanSlug, \App\Models\Page::projectSlugs(), true)
+            || \App\Models\Project::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->exists();
+    }
+
+    $isCity = false;
+    if (isset($page) && !empty($page->id)) {
+        $isCity = \App\Models\City::where('page_id', $page->id)->exists();
+    }
+    if (!$isCity) {
+        $isCity = \App\Models\City::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->exists();
+    }
+    $isCommunity = false;
+    if (isset($page) && !empty($page->id)) {
+        $isCommunity = \App\Models\Community::where('page_id', $page->id)->exists();
+    }
+    if (!$isCommunity) {
+        $isCommunity = \App\Models\Community::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->exists();
+    }
+
+    $isNewPage = !$isProperty && !$isCity && !$isCommunity && ((isset($isNewPage) && $isNewPage) || (isset($page) && $page->id) || request()->routeIs('pages.dynamic'));
+    $isSaimaMangrove = str_contains($articleSlug, 'saima-mangrove') || str_contains($cleanSlug, 'saima-mangrove');
+    $shortContentHtml = page_section('content', 'intro', null, $articleSlug);
+    $longContentHtml = (isset($page) && !empty($page->body)) ? $page->body : (page_section('content', 'html', null, $articleSlug) ?: page_section('content', 'body', null, $articleSlug));
+    $tocCollection = $isSaimaMangrove ? toc_items() : collect();
+    $hasRealToc = !empty($tocCollection) && $tocCollection->isNotEmpty();
+    $longTextOnly = trim(str_replace(['&nbsp;', "\xc2\xa0"], ' ', strip_tags((string)$longContentHtml)));
+    $hasLongContent = ($longTextOnly !== '' || preg_match('/<(img|iframe|video|svg|embed|object)\b/i', (string)$longContentHtml));
+
+    $shortTextOnly = trim(str_replace(['&nbsp;', "\xc2\xa0"], ' ', strip_tags((string)$shortContentHtml)));
+    $hasShortContent = ($shortTextOnly !== '' || preg_match('/<(img|iframe|video|svg|embed|object)\b/i', (string)$shortContentHtml));
+
+    $hasContentSection = $hasLongContent || $hasShortContent;
+@endphp
+
+@if($hasContentSection || $isSaimaMangrove)
+<!-- Editorial Section with Interactive TOC & Sticky Appointment Sidebar -->
 <style>
 .saimaArticleWrapper {
     width: 100%;
     background-color: #ffffff;
-    padding: 40px 0 60px 0;
+    padding: 30px 0 50px 0;
     font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: #2b2b2b;
-    line-height: 1.8;
+    line-height: 1.55;
 }
 
 .saimaContainer {
@@ -62,8 +117,8 @@
     border: 1px solid #dcdcdc;
     border-radius: 6px;
     background-color: #ffffff;
-    padding: 18px 24px;
-    margin-bottom: 32px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
 
@@ -71,14 +126,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 12px;
+    padding-bottom: 8px;
     border-bottom: 1px solid #eeeeee;
 }
 
 .saimaTocTitle {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
-    color: #1a1a1a;
+    color: #1a4731;
     margin: 0;
     line-height: 1.3;
 }
@@ -127,9 +182,9 @@
 }
 
 .saimaTocList > li {
-    margin-bottom: 12px;
-    font-size: 18px;
-    line-height: 1.6;
+    margin-bottom: 6px;
+    font-size: 14.5px;
+    line-height: 1.45;
 }
 
 .saimaTocList a {
@@ -153,43 +208,57 @@
     text-decoration: underline !important;
 }
 
-/* Headings in Article (Exact #1a4731 Gold/Brown from Image 3, Large Prominent Size matching Image 2) */
+/* Headings in Article (Compact and readable sizes) */
 .saimaIntroP {
-    font-size: 17px;
+    font-size: 15px;
     color: #222222;
-    margin-bottom: 24px;
-    line-height: 1.8;
+    margin-bottom: 12px;
+    line-height: 1.55;
 }
 
 .saimaH2,
-.saimaContentCol h2 {
+.saimaContentCol h2,
+.saimaDynamicArticleContent h2 {
     color: #1a4731 !important;
-    font-size: 34px;
-    font-weight: 700;
-    margin-top: 48px;
-    margin-bottom: 18px;
-    line-height: 1.3;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    margin-top: 32px !important;
+    margin-bottom: 12px !important;
+    line-height: 1.35 !important;
     scroll-margin-top: 100px;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.2px !important;
 }
 
 .saimaH3,
-.saimaContentCol h3 {
+.saimaContentCol h3,
+.saimaDynamicArticleContent h3 {
     color: #1a4731 !important;
-    font-size: 26px;
-    font-weight: 700;
-    margin-top: 34px;
-    margin-bottom: 16px;
-    line-height: 1.35;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    margin-top: 24px !important;
+    margin-bottom: 10px !important;
+    line-height: 1.4 !important;
+    scroll-margin-top: 100px;
+}
+
+.saimaH4,
+.saimaContentCol h4,
+.saimaDynamicArticleContent h4 {
+    color: #1a4731 !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    margin-top: 20px !important;
+    margin-bottom: 8px !important;
+    line-height: 1.4 !important;
     scroll-margin-top: 100px;
 }
 
 .saimaP,
 .saimaContentCol p {
-    font-size: 17px;
+    font-size: 15px;
     color: #111111;
-    margin-bottom: 24px;
-    line-height: 1.8;
+    margin-bottom: 12px;
+    line-height: 1.55;
 }
 
 .saimaContentCol img {
@@ -293,8 +362,9 @@
 .saimaDynamicArticleContent p,
 .saimaDynamicArticleContent ul:not(.saimaTocList) li,
 .saimaDynamicArticleContent ol:not(.saimaTocList) li {
-    font-size: 17px !important;
-    line-height: 1.8 !important;
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    margin-bottom: 12px !important;
 }
 
 .saimaH2,
@@ -575,58 +645,13 @@
     }
 }
 </style>
-
-@php
-    $articleSlug = $slug ?? ($page->slug ?? request()->path());
-    if ($articleSlug === '/' || empty($articleSlug)) {
-        $articleSlug = '/';
-    }
-    $originalCommunities = [
-        'wadeem-gardens', 'hudayriyat-golf-estates', 'bashayer-villas', 'bashayer-residences',
-        'al-naseem-villas', 'nawayef-east-hills', 'masyaf-plots', 'nawayef-village',
-        'wadeem-plots', 'nawayef-park-views'
-    ];
-    $cleanSlug = trim($articleSlug, '/');
-    if ($cleanSlug === '' || $cleanSlug === '/') {
-        $cleanSlug = 'home';
-    }
-
-    $isProperty = false;
-    if (isset($page) && !empty($page->id)) {
-        $isProperty = \App\Models\Project::where('page_id', $page->id)->exists();
-    }
-    if (!$isProperty) {
-        $isProperty = in_array($cleanSlug, \App\Models\Page::projectSlugs(), true)
-            || \App\Models\Project::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->exists();
-    }
-
-    $isCity = false;
-    if (isset($page) && !empty($page->id)) {
-        $isCity = \App\Models\City::where('page_id', $page->id)->exists();
-    }
-    if (!$isCity) {
-        $isCity = \App\Models\City::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->exists();
-    }
-    $isCommunity = false;
-    if (isset($page) && !empty($page->id)) {
-        $isCommunity = \App\Models\Community::where('page_id', $page->id)->exists();
-    }
-    if (!$isCommunity) {
-        $isCommunity = \App\Models\Community::where('slug', $cleanSlug)->orWhere('slug', '/' . $cleanSlug)->exists();
-    }
-
-    $isNewPage = !$isProperty && !$isCity && !$isCommunity && ((isset($isNewPage) && $isNewPage) || (isset($page) && $page->id) || request()->routeIs('pages.dynamic'));
-    $shortContentHtml = page_section('content', 'intro', null, $articleSlug);
-    $longContentHtml = (isset($page) && !empty($page->body)) ? $page->body : (page_section('content', 'html', null, $articleSlug) ?: page_section('content', 'body', null, $articleSlug));
-@endphp
-
 <section class="saimaArticleWrapper" id="saima-article-section" style="{{ $isNewPage ? 'padding: 35px 0 10px 0;' : '' }}">
     <div class="saimaContainer">
         <div class="saimaMainGrid">
             <!-- Left Column: Article Content -->
             <article class="saimaContentCol">
                 @if($isNewPage)
-                    @if(!empty($shortContentHtml))
+                    @if($hasShortContent)
                         <div class="saimaShortContent" style="font-size: 16.5px; line-height: 1.8; color: #2b2b2b;">
                             {!! $shortContentHtml !!}
                             <div class="saimaReadMoreWrap">
@@ -636,8 +661,8 @@
                                 </a>
                             </div>
                         </div>
-                    @else
-                        <!-- Default Intro Paragraphs for New Page -->
+                    @elseif($isSaimaMangrove)
+                        <!-- Default Intro Paragraphs for Saima Mangrove -->
                         <p class="saimaIntroP">
                             Saima Mangrove Residences is a new benchmark for living in the city’s waterfront. The project is a blend of contemporary design and a tranquil coastal setting. Residents enjoy fresh sea breezes and access to major urban destinations.
                         </p>
@@ -656,6 +681,12 @@
                     @endif
                 @else
                     <!-- PROPERTY PAGE: Classic Original Layout (Table of Contents + Full Content / TOC Sections) -->
+                    @if($hasShortContent)
+                        <div class="saimaShortContent" style="font-size: 16.5px; line-height: 1.8; color: #2b2b2b; margin-bottom: 25px;">
+                            {!! $shortContentHtml !!}
+                        </div>
+                    @endif
+                    @if($hasRealToc)
                     <div class="saimaTocBox" id="saimaToc">
                         <div class="saimaTocHeader">
                             <span class="saimaTocTitle">Table of Contents</span>
@@ -669,7 +700,7 @@
 
                         <div id="saimaTocContent">
                             <ol class="saimaTocList">
-                                @forelse(toc_items() as $index => $item)
+                                @foreach($tocCollection as $index => $item)
                                     <li>
                                         <a href="#{{ $item->target_id }}" class="saimaTocLink">{{ $index + 1 }}. {{ $item->title }}</a>
                                         @if(isset($item->children) && $item->children->isNotEmpty())
@@ -684,27 +715,17 @@
                                             </ul>
                                         @endif
                                     </li>
-                                @empty
-                                    <li><a href="#about-the-developers" class="saimaTocLink">1. About the Developers</a></li>
-                                    <li><a href="#saima-mangrove-residences-noc" class="saimaTocLink">2. Saima Mangrove Residences NOC</a></li>
-                                    <li><a href="#saima-mangrove-residences-location" class="saimaTocLink">3. Saima Mangrove Residences Location</a></li>
-                                    <li><a href="#saima-mangrove-residences-location-map" class="saimaTocLink">4. Saima Mangrove Residences Location Map</a></li>
-                                    <li><a href="#saima-mangrove-residences-floor-plan" class="saimaTocLink">5. Saima Mangrove Residences Floor Plan</a></li>
-                                    <li><a href="#saima-mangrove-residences-master-plan" class="saimaTocLink">6. Saima Mangrove Residences Master Plan</a></li>
-                                    <li><a href="#saima-mangrove-residences-payment-plan" class="saimaTocLink">7. Saima Mangrove Residences Payment Plan</a></li>
-                                    <li><a href="#saima-mangrove-residences-installation-plan" class="saimaTocLink">8. Saima Mangrove Residences Installation Plan</a></li>
-                                    <li><a href="#apartments-for-sale-in-saima-mangrove-residences" class="saimaTocLink">9. Apartments for Sale in Saima Mangrove Residences</a></li>
-                                    <li><a href="#facilities-and-amenities" class="saimaTocLink">10. Facilities and Amenities</a></li>
-                                @endforelse
+                                @endforeach
                             </ol>
                         </div>
                     </div>
+                    @endif
 
-                    @if(!empty(trim($longContentHtml ?? '')))
+                    @if($hasLongContent)
                         <div class="saimaDynamicContent" style="font-size: 17px; line-height: 1.8; color: #2b2b2b;">
                             {!! $longContentHtml !!}
                         </div>
-                    @else
+                    @elseif($isSaimaMangrove)
                         <!-- Intro Paragraphs (Enlarged & Comfortable line-height matching Image 2) -->
                         <p class="saimaIntroP">
                             Saima Mangrove Residences is a new benchmark for living in the city’s waterfront. The project is a blend of contemporary design and a tranquil coastal setting. Residents enjoy fresh sea breezes and access to major urban destinations.
@@ -882,7 +903,16 @@
                         <h3 class="saimaApptTitle">BOOK AN APPOINTMENT</h3>
                         <form id="saimaAppointmentForm" class="saimaApptForm">
                             <input type="text" name="name" class="saimaInput" placeholder="Name" required>
-                            <input type="tel" name="phone" class="saimaInput" placeholder="Phone" required>
+                            <div class="phoneUnifiedContainer" style="margin-bottom: 12px; height: 42px !important; background: #fff !important; border: 1px solid #dcdcdc !important;">
+                                <div class="countryTriggerWrapper">
+                                    <button type="button" class="countryTriggerBtn" id="sidebarCountryBtn" aria-label="Country selector" style="height: 100%;">
+                                        <span class="flagSlot" id="sidebarFlagSlot"></span>
+                                        <span class="caretDown"></span>
+                                    </button>
+                                    <ul class="countryDropdownMenu" id="sidebarCountryDropdown" style="display: none;"></ul>
+                                </div>
+                                <input type="tel" name="phone" id="saimaPhoneInput" class="phoneInputField" value="+971 " required>
+                            </div>
                             <input type="email" name="email" class="saimaInput" placeholder="Email" required>
                             <textarea name="comment" class="saimaTextarea" placeholder="Leave a comment here"></textarea>
                             <button type="submit" class="saimaSubmitBtn">SUBMIT</button>
@@ -893,28 +923,45 @@
                     </div>
 
                     @php
-                        $sidebarProjects = \App\Models\Project::where('is_active', true)
+                        $sidebarProjectsQuery = \App\Models\Project::where('is_active', true)
                             ->where(function($q) {
                                 $q->whereNull('status')->orWhere('status', '!=', 'draft');
                             })
                             ->whereDoesntHave('page', function($q) {
                                 $q->where('status', 'draft')->orWhere('is_published', false);
-                            })
+                            });
+
+                        // Exclude current property from Latest Projects
+                        if (isset($page) && !empty($page->id)) {
+                            $sidebarProjectsQuery->where('page_id', '!=', $page->id);
+                        }
+                        $currExcludeSlug = !empty($cleanSlug) ? $cleanSlug : trim($articleSlug ?? '', '/');
+                        if (!empty($currExcludeSlug)) {
+                            $sidebarProjectsQuery->where('slug', '!=', $currExcludeSlug)
+                                                 ->where('slug', '!=', '/' . $currExcludeSlug);
+                        }
+                        $currReqPath = trim(request()->path(), '/');
+                        if (!empty($currReqPath)) {
+                            $sidebarProjectsQuery->where('slug', '!=', $currReqPath)
+                                                 ->where('slug', '!=', '/' . $currReqPath);
+                        }
+
+                        $sidebarProjects = $sidebarProjectsQuery
                             ->orderBy('order', 'asc')
                             ->take(5)
                             ->get();
                     @endphp
-                    @if(!$isNewPage && $sidebarProjects->isNotEmpty())
-                    <!-- Latest Projects Card -->
-                    <div class="saimaProjectsWidget">
+
+                    @if($sidebarProjects->isNotEmpty())
+                    <div class="saimaProjectsCard">
                         <h4 class="saimaProjectsHeader">Latest Projects</h4>
-                        <div class="saimaProjectList">
-                            @foreach($sidebarProjects as $sProj)
-                                <a href="{{ url(ltrim($sProj->slug, '/')) }}" class="saimaProjectItem">
-                                    <img src="{{ $sProj->image_url ?: asset('LP1.png') }}" alt="{{ $sProj->title }}" class="saimaProjectThumb">
+                        <div class="saimaProjectsList">
+                            @foreach($sidebarProjects as $sp)
+                                <a href="{{ $sp->url }}" class="saimaProjectItem">
+                                    <img src="{{ $sp->image ?: '/images/communities/wadeem-gardens.png' }}" alt="{{ $sp->title }}" class="saimaProjectThumb">
                                     <div class="saimaProjectMeta">
-                                        <span class="saimaProjectItemTitle">{{ $sProj->title }}</span>
-                                        <span class="saimaProjectItemDesc">{{ $sProj->location ?? 'Hudayriyat Island, Abu Dhabi' }}</span>
+                                        <div class="saimaProjectItemTitle">{{ $sp->title }}</div>
+                                        <div class="saimaProjectItemDesc">{{ $sp->location ?? 'Waterfront Residences' }}</div>
                                     </div>
                                 </a>
                             @endforeach
@@ -1145,11 +1192,20 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.disabled = true;
 
             const formData = {
-                name: apptForm.querySelector('input[name="name"]').value,
-                phone: apptForm.querySelector('input[name="phone"]').value,
-                email: apptForm.querySelector('input[name="email"]').value,
-                comment: apptForm.querySelector('textarea[name="comment"]').value,
-                source: window.location.pathname
+                name: apptForm.querySelector('input[name="name"]')?.value || '',
+                phone: apptForm.querySelector('input[name="phone"]')?.value || '',
+                email: apptForm.querySelector('input[name="email"]')?.value || '',
+                key_requirement: apptForm.querySelector('textarea[name="comment"]')?.value || '',
+                comment: apptForm.querySelector('textarea[name="comment"]')?.value || '',
+                source: 'Website',
+                sub_source: 'saima project',
+                utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+                campaign_url: 'https://saimaprojects.com/',
+                project: '{{ isset($project) && isset($project->name) ? addslashes($project->name) : (isset($page) ? addslashes($page->title) : "Hudayriyat Island") }}',
+                developer: '{{ isset($project) && isset($project->developer) ? addslashes($project->developer) : "Modon Properties" }}',
+                community: 'Hudayriyat Island',
+                property_type: 'Residential',
+                activity_description: 'Book an Appointment Sidebar Request'
             };
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
@@ -1202,3 +1258,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+@endif

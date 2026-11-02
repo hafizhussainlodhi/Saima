@@ -49,9 +49,11 @@ class ProjectController extends Controller
             'payment_plan'  => ['nullable', 'string', 'max:255'],
             'image'         => ['nullable', 'string', 'max:500'],
             'image_file'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,avif', 'max:5120'],
-            'badges'        => ['nullable'],
-            'is_active'     => ['nullable', 'boolean'],
-            'status'        => ['nullable', 'string', 'in:publish,draft,sold_out'],
+            'badges'             => ['nullable'],
+            'is_active'          => ['nullable', 'boolean'],
+            'status'             => ['nullable', 'string', 'in:publish,draft,sold_out'],
+            'show_in_projects'   => ['nullable', 'boolean'],
+            'show_in_commercial' => ['nullable', 'boolean'],
         ]);
 
         $status = $request->input('status', 'publish');
@@ -60,29 +62,36 @@ class ProjectController extends Controller
         }
         $isActive = ($status !== 'draft');
 
+        $showInProjects = $request->boolean('show_in_projects');
+        $showInCommercial = $request->boolean('show_in_commercial');
+        if (!$request->has('show_in_projects') && !$request->has('show_in_commercial')) {
+            $showInProjects = true;
+        }
+
         $title = trim($validated['title']);
         $rawSlug = trim($request->input('slug') ?: $title);
         $slug = Str::slug($rawSlug);
 
-        // Handle Property Card Image first so Hero auto-syncs with it
-        $cardImage = $validated['image'] ?? '/images/communities/wadeem-gardens.png';
-        if ($request->hasFile('image_file')) {
-            $file = $request->file('image_file');
-            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/projects'), $filename);
-            $cardImage = '/images/projects/' . $filename;
-        }
-
-        // Hero image auto-syncs from card image unless a distinct hero file was uploaded
-        $heroBgImage = $cardImage;
+        // Primary property image is Hero Section background image
+        $heroBgImage = null;
         if ($request->hasFile('section_files.hero.bg_image')) {
             $file = $request->file('section_files.hero.bg_image');
             $filename = time() . '_hero_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('images/projects'), $filename);
             $heroBgImage = '/images/projects/' . $filename;
-        } elseif ($request->filled('sections.hero.bg_image') && $request->input('sections.hero.bg_image') !== '/images/hero/slide-1.jpg') {
-            $heroBgImage = $request->input('sections.hero.bg_image');
+        } elseif ($request->filled('sections.hero.bg_image')) {
+            $heroBgImage = trim($request->input('sections.hero.bg_image'));
+        } elseif ($request->hasFile('image_file')) { // backward compatibility
+            $file = $request->file('image_file');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/projects'), $filename);
+            $heroBgImage = '/images/projects/' . $filename;
+        } elseif ($request->filled('image')) {
+            $heroBgImage = trim($request->input('image'));
         }
+
+        // Property Card image is always whatever was set for Hero
+        $cardImage = $heroBgImage ?: null;
 
         // 1. Determine or Create Linked Detail Page
         $pageId = $request->input('page_id');
@@ -101,16 +110,18 @@ class ProjectController extends Controller
             }
 
             $page = Page::create([
-                'title'            => $title,
-                'slug'             => $uniqueSlug,
-                'in_navbar'        => $request->boolean('in_navbar'),
-                'navbar_order'     => (int) ($request->input('navbar_order') ?: (((int) Page::max('navbar_order')) + 1)),
-                'status'           => $status,
-                'is_published'     => $request->boolean('is_published', $isActive),
-                'meta_title'       => $request->input('meta_title') ?: ($title . ' | Luxury Properties'),
-                'meta_description' => $request->input('meta_description') ?: ("Explore {$title}. Discover luxury residences, pricing, master plan, and world-class amenities."),
-                'meta_keywords'    => $request->input('meta_keywords') ?: ("{$title}, luxury villas, properties"),
-                'og_image'         => $heroBgImage,
+                'title'              => $title,
+                'slug'               => $uniqueSlug,
+                'in_navbar'          => ($showInProjects || $showInCommercial),
+                'show_in_projects'   => $showInProjects,
+                'show_in_commercial' => $showInCommercial,
+                'navbar_order'       => (int) ($request->input('navbar_order') ?: (((int) Page::max('navbar_order')) + 1)),
+                'status'             => $status,
+                'is_published'       => $request->boolean('is_published', $isActive),
+                'meta_title'         => $request->input('meta_title') ?: ($title . ' | Luxury Properties'),
+                'meta_description'   => $request->input('meta_description') ?: ("Explore {$title}. Discover luxury residences, pricing, master plan, and world-class amenities."),
+                'meta_keywords'      => $request->input('meta_keywords') ?: ("{$title}, luxury villas, properties"),
+                'og_image'           => $heroBgImage,
             ]);
 
             // Attach standard sections
@@ -124,9 +135,9 @@ class ProjectController extends Controller
             $heroSec = $page->sections()->where('section_key', 'hero')->first();
             if ($heroSec) {
                 $hContent = $heroSec->content ?? [];
-                $hContent['bg_image'] = $heroBgImage;
-                $hContent['bg_image_alt'] = $request->input('sections.hero.bg_image_alt') ?: ($title . ' at ' . ($validated['location'] ?? ''));
-                $hContent['badge'] = $request->input('sections.hero.badge') ?: 'Freehold for All Nationalities';
+                $hContent['bg_image'] = $heroBgImage ?: '';
+                $hContent['bg_image_alt'] = $request->input('sections.hero.bg_image_alt') ?: '';
+                $hContent['badge'] = $request->input('sections.hero.badge') ?: '';
                 $hContent['title'] = $request->input('sections.hero.title') ?: $title;
                 
                 // Headline automatically updates the inner page hero section subtitle
@@ -136,7 +147,7 @@ class ProjectController extends Controller
                 } elseif ($request->filled('sections.hero.subtitle')) {
                     $hContent['subtitle'] = $request->input('sections.hero.subtitle');
                 } else {
-                    $hContent['subtitle'] = "Exclusive Lifestyle Destination";
+                    $hContent['subtitle'] = '';
                 }
 
                 $heroSec->update(['content' => $hContent]);
@@ -146,8 +157,9 @@ class ProjectController extends Controller
             $hlSec = $page->sections()->where('section_key', 'highlights')->first();
             if ($hlSec) {
                 $hlContent = $hlSec->content ?? [];
-                if (!empty($submittedSections['highlights']['items']) && is_array($submittedSections['highlights']['items'])) {
-                    $hlContent['items'] = array_values(array_filter($submittedSections['highlights']['items'], fn($item) => !empty(trim($item['label'] ?? ''))));
+                if (isset($submittedSections['highlights']['_has_items']) || isset($submittedSections['highlights']['items'])) {
+                    $rawHl = (array)($submittedSections['highlights']['items'] ?? []);
+                    $hlContent['items'] = array_values(array_filter($rawHl, fn($item) => is_array($item) && !empty(trim($item['label'] ?? ''))));
                 }
                 $hlSec->update(['content' => $hlContent]);
             }
@@ -173,11 +185,14 @@ class ProjectController extends Controller
             $contentSec = $page->sections()->where('section_key', 'content')->first();
             if ($contentSec) {
                 $cContent = $contentSec->content ?? [];
-                if (!empty($submittedSections['content']['html'])) {
-                    $cContent['html'] = $submittedSections['content']['html'];
-                    $cContent['body'] = $submittedSections['content']['html'];
-                    $page->update(['body' => $submittedSections['content']['html']]);
-                }
+                $rawHtml = $submittedSections['content']['html'] ?? '';
+                $cleanText = trim(str_replace(['&nbsp;', "\xc2\xa0"], ' ', strip_tags($rawHtml)));
+                $hasRealContent = ($cleanText !== '' || preg_match('/<(img|iframe|video|svg)\b/i', $rawHtml));
+                $finalHtml = $hasRealContent ? $rawHtml : '';
+
+                $cContent['html'] = $finalHtml;
+                $cContent['body'] = $finalHtml;
+                $page->update(['body' => $finalHtml]);
                 $contentSec->update(['content' => $cContent]);
             }
 
@@ -185,10 +200,11 @@ class ProjectController extends Controller
             $amenitiesSec = $page->sections()->where('section_key', 'amenities')->first();
             if ($amenitiesSec) {
                 $amContent = $amenitiesSec->content ?? [];
-                if (!empty($submittedSections['amenities']['title'])) $amContent['title'] = $submittedSections['amenities']['title'];
-                if (!empty($submittedSections['amenities']['subtitle'])) $amContent['subtitle'] = $submittedSections['amenities']['subtitle'];
-                if (!empty($submittedSections['amenities']['items']) && is_array($submittedSections['amenities']['items'])) {
-                    $amContent['items'] = array_values(array_filter($submittedSections['amenities']['items'], fn($item) => !empty(trim($item['name'] ?? ''))));
+                if (isset($submittedSections['amenities']['title'])) $amContent['title'] = $submittedSections['amenities']['title'];
+                if (isset($submittedSections['amenities']['subtitle'])) $amContent['subtitle'] = $submittedSections['amenities']['subtitle'];
+                if (isset($submittedSections['amenities']['_has_items']) || isset($submittedSections['amenities']['items'])) {
+                    $rawAm = (array)($submittedSections['amenities']['items'] ?? []);
+                    $amContent['items'] = array_values(array_filter($rawAm, fn($item) => is_array($item) && !empty(trim($item['name'] ?? ''))));
                 }
                 $amenitiesSec->update(['content' => $amContent]);
             }
@@ -308,19 +324,21 @@ class ProjectController extends Controller
         // 3. Create Project Card (placed at the top of the list)
         Project::query()->increment('order');
         $project = Project::create([
-            'title'         => $title,
-            'slug'          => $page->slug ?? $slug,
-            'page_id'       => $page->id,
-            'location'      => $validated['location'] ?? null,
-            'price'         => null,
-            'delivery_date' => null,
-            'badges'        => $badges,
-            'developer'     => $extractedDeveloper ?? 'Modon Properties',
-            'payment_plan'  => $extractedPaymentPlan ?? 'Flexible Payment Plan',
-            'image'         => $cardImage,
-            'status'        => $status,
-            'is_active'     => $isActive,
-            'order'         => 1,
+            'title'              => $title,
+            'slug'               => $page->slug ?? $slug,
+            'page_id'            => $page->id,
+            'location'           => $validated['location'] ?? null,
+            'price'              => null,
+            'delivery_date'      => null,
+            'badges'             => $badges,
+            'developer'          => $extractedDeveloper ?? null,
+            'payment_plan'       => $extractedPaymentPlan ?? null,
+            'image'              => $cardImage,
+            'status'             => $status,
+            'is_active'          => $isActive,
+            'show_in_projects'   => $showInProjects,
+            'show_in_commercial' => $showInCommercial,
+            'order'              => 1,
         ]);
 
         // Automatically put new project at TOP of Home page featured projects (Selected cards)
@@ -366,7 +384,52 @@ class ProjectController extends Controller
             $project->update(['page_id' => $page->id]);
         }
 
-        return redirect()->route('admin.pages.edit', ['page' => $project->page_id, 'from' => 'project']);
+        $page = $project->page ?: Page::findOrFail($project->page_id);
+        $page->load(['sections' => fn($q) => $q->orderBy('order')]);
+
+        if ($page->sections->isEmpty()) {
+            $sectionKeys = PageBlueprintService::getCustomPageSectionKeys();
+            PageBlueprintService::attachSectionsToPage($page, $sectionKeys);
+            $page->load(['sections' => fn($q) => $q->orderBy('order')]);
+        }
+
+        if ($page->slug !== 'about-us' && $page->slug !== 'about_us') {
+            $contentSection = $page->sections->firstWhere('section_key', 'content');
+            if (!$contentSection) {
+                $overviewSection = $page->sections->firstWhere('section_key', 'overview');
+                if ($overviewSection) {
+                    $overviewSection->update([
+                        'section_key' => 'content',
+                        'section_name' => 'Content',
+                    ]);
+                }
+            }
+        }
+
+        $projectSlugs = Page::projectSlugs();
+        $projectPages = Page::whereIn('slug', $projectSlugs)->orderBy('title', 'asc')->get(['id', 'title', 'slug']);
+        $linkedProject = $project;
+        $allProjects = Project::with('page')->orderBy('order', 'asc')->get();
+
+        $commSection = $page->sections->firstWhere('section_key', 'communities') 
+                    ?? $page->sections->firstWhere('section_key', 'projects');
+        $commContent = $commSection ? ($commSection->content ?? []) : [];
+        $unselectedProjectIds = (array) ($commContent['unselected_ids'] ?? []);
+
+        if (isset($commContent['unselected_ids'])) {
+            $allIds = $allProjects->pluck('id')->all();
+            $activeSelected = array_values(array_diff($allIds, array_map('intval', $unselectedProjectIds)));
+            $selectedProjectIds = $activeSelected;
+        } else {
+            $selectedProjectIds = $allProjects->pluck('id')->all();
+        }
+
+        $communities = \App\Models\Community::with('city')->orderBy('order', 'asc')->orderBy('name', 'asc')->get();
+        $isProjectContext = true;
+
+        return view('admin.pages.edit', compact(
+            'page', 'project', 'projectPages', 'linkedProject', 'projectSlugs', 'allProjects', 'selectedProjectIds', 'communities', 'isProjectContext'
+        ));
     }
 
     /**
@@ -374,6 +437,12 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        // If this is the full editor form submitted from /admin/projects/{project}/edit
+        if ($request->has('sections') || $request->has('active_tab') || $request->has('from_project')) {
+            $page = $project->page ?: Page::findOrFail($project->page_id);
+            $request->merge(['from_project' => 1, 'project_id' => $project->id]);
+            return app(PageController::class)->update($request, $page);
+        }
         $validated = $request->validate([
             'title'         => ['required', 'string', 'max:255'],
             'slug'          => ['nullable', 'string', 'max:255'],
@@ -384,11 +453,13 @@ class ProjectController extends Controller
             'delivery_date' => ['nullable', 'string', 'max:255'],
             'badges'        => ['nullable'],
             'developer'     => ['nullable', 'string', 'max:255'],
-            'payment_plan'  => ['nullable', 'string', 'max:255'],
-            'image'         => ['nullable', 'string', 'max:500'],
-            'image_file'    => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,avif', 'max:5120'],
-            'is_active'     => ['nullable', 'boolean'],
-            'status'        => ['nullable', 'string', 'in:publish,draft,sold_out'],
+            'payment_plan'       => ['nullable', 'string', 'max:255'],
+            'image'              => ['nullable', 'string', 'max:500'],
+            'image_file'         => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,avif', 'max:5120'],
+            'is_active'          => ['nullable', 'boolean'],
+            'status'             => ['nullable', 'string', 'in:publish,draft,sold_out'],
+            'show_in_projects'   => ['nullable', 'boolean'],
+            'show_in_commercial' => ['nullable', 'boolean'],
         ]);
 
         $imageUpdated = false;
@@ -419,6 +490,11 @@ class ProjectController extends Controller
             $validated['is_active'] = ($status !== 'draft');
         } else {
             $validated['is_active'] = $request->has('is_active') ? $request->boolean('is_active') : $project->is_active;
+        }
+
+        if ($request->has('from_project_modal') || $request->has('show_in_projects') || $request->has('show_in_commercial')) {
+            $validated['show_in_projects'] = $request->boolean('show_in_projects');
+            $validated['show_in_commercial'] = $request->boolean('show_in_commercial');
         }
 
         // Process badges and clear legacy price/delivery text from cards
@@ -466,11 +542,22 @@ class ProjectController extends Controller
                 $page->update(['og_image' => $newImage]);
             }
 
+            $pageUpdate = [];
+            if (isset($validated['show_in_projects'])) {
+                $pageUpdate['show_in_projects'] = $validated['show_in_projects'];
+            }
+            if (isset($validated['show_in_commercial'])) {
+                $pageUpdate['show_in_commercial'] = $validated['show_in_commercial'];
+            }
+            if (isset($pageUpdate['show_in_projects']) || isset($pageUpdate['show_in_commercial'])) {
+                $pageUpdate['in_navbar'] = ($pageUpdate['show_in_projects'] ?? $project->show_in_projects) || ($pageUpdate['show_in_commercial'] ?? $project->show_in_commercial);
+            }
             if (isset($validated['status'])) {
-                $page->update([
-                    'status'       => $validated['status'],
-                    'is_published' => ($validated['status'] !== 'draft'),
-                ]);
+                $pageUpdate['status'] = $validated['status'];
+                $pageUpdate['is_published'] = ($validated['status'] !== 'draft');
+            }
+            if (!empty($pageUpdate)) {
+                $page->update($pageUpdate);
             }
         }
 

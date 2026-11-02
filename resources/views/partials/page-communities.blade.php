@@ -53,7 +53,7 @@
                 'badges' => ['Off plan'],
                 'developer' => 'MÖDON',
                 'paymentPlan' => 'Flexible Payment Plan',
-                'href' => '/wadeem-gardens',
+                'href' => '/project/wadeem-gardens',
                 'image' => '/images/communities/wadeem-gardens.png',
             ],
             [
@@ -62,7 +62,7 @@
                 'badges' => ['New'],
                 'developer' => 'MÖDON',
                 'paymentPlan' => 'Flexible Payment Plan',
-                'href' => '/hudayriyat-golf-estates',
+                'href' => '/project/hudayriyat-golf-estates',
                 'image' => '/images/communities/golf-estates.jpg',
             ],
             [
@@ -71,7 +71,7 @@
                 'badges' => ['Ready'],
                 'developer' => 'MÖDON',
                 'paymentPlan' => 'Flexible Payment Plan',
-                'href' => '/al-naseem-villas',
+                'href' => '/project/al-naseem-villas',
                 'image' => '/images/communities/al-naseem.jpg',
             ],
         ];
@@ -97,7 +97,7 @@
                         $cardHref = $item->url;
                         $isSoldOut = ($item->status === 'sold_out') || ($item->page?->status === 'sold_out');
                     @endphp
-                    <a href="{{ $cardHref }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item->title }} by {{ $item->developer ?? 'Modon Properties' }}">
+                    <a href="{{ $cardHref }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item->title }}{{ !empty($item->developer) ? ' by ' . $item->developer : '' }}">
                         <!-- Top-Left Badges (New, Offer, Off plan, Ready) -->
                         <div class="topTags">
                             @if(!empty($item->badges) && is_array($item->badges))

@@ -33,9 +33,17 @@
                     <p class="heroSubtitle">
                         {!! nl2br(e(page_section('hero', 'subtitle', "Abu Dhabi’s Most Exclusive Coastal\nLifestyle Destination"))) !!}
                     </p>
-                    <div class="freeholdText">
-                        {{ page_section('hero', 'badge', 'Freehold for All Nationalities') }}
+                    <div class="heroBtnRow">
+                        <button type="button" class="heroBookBtn" onclick="const f = document.querySelector('.rightCol .requestCard, #heroLeadForm, #contact'); if(f) { f.scrollIntoView({behavior: 'smooth'}); f.querySelector('input')?.focus(); }">BOOK NOW</button>
                     </div>
+                    @php
+                        $heroBadge = page_section('hero', 'badge', '');
+                    @endphp
+                    @if(!empty(trim((string)$heroBadge)))
+                        <div class="freeholdText">
+                            {{ $heroBadge }}
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Right Column: Request A Call Back Card -->
@@ -114,10 +122,18 @@
                     },
                     body: JSON.stringify({
                         name: formData.get('name'),
-                        email: formData.get('email'),
+                        email: formData.get('email') || '',
                         phone: formData.get('phone'),
+                        source: 'Website',
+                        sub_source: 'saima project',
+                        utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+                        campaign_url: 'https://saimaprojects.com/',
                         project: 'Hudayriyat Island',
-                        comment: 'Homepage Hero Call Back Request'
+                        developer: 'Modon Properties',
+                        community: 'Hudayriyat Island',
+                        property_type: 'Villas, Mansions, Plots',
+                        key_requirement: 'Homepage Hero Call Back Request',
+                        activity_description: 'Hero Callback Form Submission'
                     })
                 });
 

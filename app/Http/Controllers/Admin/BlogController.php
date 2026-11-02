@@ -177,8 +177,8 @@ class BlogController extends Controller
             'meta_keywords'    => $request->input('meta_keywords'),
         ]);
 
-        return redirect()->route('admin.blogs.index')
-            ->with('success', 'Blog details updated successfully!');
+        return redirect()->route('admin.blogs.index', ['id' => $blog->id])
+            ->with('success', 'Blog details updated successfully! Changes are saved.');
     }
 
     /**

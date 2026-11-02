@@ -130,7 +130,7 @@ class PageController extends Controller
             'is_published'     => $request->boolean('is_published', $isPublished),
             'meta_title'       => $validated['title'] . ' | Hudayriyat Island Abu Dhabi',
             'meta_description' => 'Explore ' . $validated['title'] . ' on Hudayriyat Island, Abu Dhabi. Discover freehold residences, pricing, master plan, and world-class amenities.',
-            'meta_keywords'    => $validated['title'] . ', Hudayriyat Island, Abu Dhabi villas, Modon Properties',
+            'meta_keywords'    => $validated['title'] . ', Hudayriyat Island, Abu Dhabi villas',
             'og_image'         => $heroBgImage,
         ]);
 
@@ -373,7 +373,7 @@ class PageController extends Controller
                             'location'    => trim($raw['location'] ?? 'Hudayriyat Island, Abu Dhabi'),
                             'price'       => trim($raw['price'] ?? ''),
                             'delivery'    => trim($raw['delivery'] ?? ''),
-                            'developer'   => trim($raw['developer'] ?? 'Modon Properties'),
+                            'developer'   => trim($raw['developer'] ?? ''),
                             'paymentPlan' => trim($raw['paymentPlan'] ?? ($raw['payment_plan'] ?? '')),
                             'href'        => $itemHref ?: '#',
                             'image'       => $img,
@@ -558,18 +558,20 @@ class PageController extends Controller
         $validated = $request->validate([
             'title'            => ['required', 'string', 'max:255'],
             'slug'             => ['required', 'string', 'max:255', 'unique:pages,slug,' . $page->id],
-            'in_navbar'        => ['nullable', 'boolean'],
-            'navbar_order'     => ['nullable', 'integer'],
-            'is_published'     => ['nullable', 'boolean'],
-            'status'           => ['nullable', 'string', 'in:publish,draft,sold_out'],
-            'location'         => ['nullable', 'string', 'max:255'],
-            'badges'           => ['nullable'],
-            'card_image'       => ['nullable', 'string', 'max:500'],
-            'meta_title'       => ['nullable', 'string', 'max:255'],
-            'meta_description' => ['nullable', 'string', 'max:2000'],
-            'meta_keywords'    => ['nullable', 'string', 'max:1000'],
-            'og_image'         => ['nullable', 'string', 'max:500'],
-            'sections'         => ['nullable', 'array'],
+            'in_navbar'          => ['nullable', 'boolean'],
+            'show_in_projects'   => ['nullable', 'boolean'],
+            'show_in_commercial' => ['nullable', 'boolean'],
+            'navbar_order'       => ['nullable', 'integer'],
+            'is_published'       => ['nullable', 'boolean'],
+            'status'             => ['nullable', 'string', 'in:publish,draft,sold_out'],
+            'location'           => ['nullable', 'string', 'max:255'],
+            'badges'             => ['nullable'],
+            'card_image'         => ['nullable', 'string', 'max:500'],
+            'meta_title'         => ['nullable', 'string', 'max:255'],
+            'meta_description'   => ['nullable', 'string', 'max:2000'],
+            'meta_keywords'      => ['nullable', 'string', 'max:1000'],
+            'og_image'           => ['nullable', 'string', 'max:500'],
+            'sections'           => ['nullable', 'array'],
         ]);
 
         $status = $request->input('status', $page->status ?? 'publish');
@@ -578,27 +580,35 @@ class PageController extends Controller
         }
         $isPublished = $request->has('status') ? ($status !== 'draft') : $request->boolean('is_published');
 
+        $showInProjects = $request->has('show_in_projects') ? $request->boolean('show_in_projects') : ($page->show_in_projects ?? true);
+        $showInCommercial = $request->has('show_in_commercial') ? $request->boolean('show_in_commercial') : ($page->show_in_commercial ?? false);
+        $inNavbar = ($showInProjects || $showInCommercial || $request->boolean('in_navbar'));
+
         $page->update([
-            'title'            => $validated['title'],
-            'slug'             => $validated['slug'],
-            'in_navbar'        => $request->boolean('in_navbar'),
-            'navbar_order'     => $validated['navbar_order'] ?? 0,
-            'status'           => $status,
-            'is_published'     => $isPublished,
-            'meta_title'       => $validated['meta_title'] ?? null,
-            'meta_description' => $validated['meta_description'] ?? null,
-            'meta_keywords'    => $validated['meta_keywords'] ?? null,
-            'og_image'         => array_key_exists('og_image', $validated) ? $validated['og_image'] : $page->og_image,
+            'title'              => $validated['title'],
+            'slug'               => $validated['slug'],
+            'in_navbar'          => $inNavbar,
+            'show_in_projects'   => $showInProjects,
+            'show_in_commercial' => $showInCommercial,
+            'navbar_order'       => $validated['navbar_order'] ?? 0,
+            'status'             => $status,
+            'is_published'       => $isPublished,
+            'meta_title'         => $validated['meta_title'] ?? null,
+            'meta_description'   => $validated['meta_description'] ?? null,
+            'meta_keywords'      => $validated['meta_keywords'] ?? null,
+            'og_image'           => array_key_exists('og_image', $validated) ? $validated['og_image'] : $page->og_image,
         ]);
 
         // Sync linked project card if exists
         $linkedProject = \App\Models\Project::where('page_id', $page->id)->orWhere('slug', $page->slug)->first();
         if ($linkedProject) {
             $projectUpdates = [
-                'title'     => $validated['title'],
-                'slug'      => $validated['slug'],
-                'status'    => $status,
-                'is_active' => $isPublished,
+                'title'              => $validated['title'],
+                'slug'               => $validated['slug'],
+                'status'             => $status,
+                'is_active'          => $isPublished,
+                'show_in_projects'   => $showInProjects,
+                'show_in_commercial' => $showInCommercial,
             ];
 
             if ($request->has('location')) {
@@ -663,7 +673,7 @@ class PageController extends Controller
                 $currentContent = $section->content ?? [];
 
                 // If repeater items are present or explicitly enabled for this section
-                if (isset($contentData['_has_items'])) {
+                if (isset($contentData['_has_items']) || in_array($secKey, ['amenities', 'highlights', 'floor_plans', 'payment_methods'])) {
                     $rawItems = $contentData['items'] ?? [];
                     if (is_array($rawItems)) {
                         foreach ($rawItems as $rIdx => &$rItem) {
@@ -870,6 +880,14 @@ class PageController extends Controller
 
                 if ($secKey === 'content' || $secKey === 'overview') {
                     $bodyVal = $currentContent['html'] ?? ($currentContent['body'] ?? null);
+                    if ($bodyVal !== null) {
+                        $cText = trim(str_replace(['&nbsp;', "\xc2\xa0"], ' ', strip_tags($bodyVal)));
+                        if ($cText === '' && !preg_match('/<(img|iframe|video|svg)\b/i', $bodyVal)) {
+                            $bodyVal = '';
+                            $currentContent['html'] = '';
+                            $currentContent['body'] = '';
+                        }
+                    }
                     if ($bodyVal !== null && \Illuminate\Support\Facades\Schema::hasColumn('pages', 'body')) {
                         $page->update(['body' => $bodyVal]);
                     }
@@ -970,6 +988,16 @@ class PageController extends Controller
             }
         }
 
+        // Auto-sync hero section bg_image to linked property card image
+        if ($linkedProject) {
+            $heroSec = $page->sections()->where('section_key', 'hero')->first();
+            if ($heroSec && isset($heroSec->content['bg_image'])) {
+                $linkedProject->update([
+                    'image' => $heroSec->content['bg_image'] ?: null,
+                ]);
+            }
+        }
+
         // Catch top-level selected/unselected project IDs if submitted outside sections array
         if ($request->has('selected_project_ids') || $request->has('unselected_project_ids') || $request->has('dual_boxes_submitted')) {
             $commSection = $page->sections()->whereIn('section_key', ['communities', 'projects'])->first();
@@ -996,6 +1024,15 @@ class PageController extends Controller
         }
 
         $activeTab = $request->input('active_tab', 'general');
+
+        if ($request->filled('from_project') || $request->input('context') === 'project' || request()->routeIs('admin.projects.*')) {
+            $projectId = $request->input('project_id') ?: ($linkedProject?->id ?? \App\Models\Project::where('page_id', $page->id)->value('id'));
+            if ($projectId) {
+                return redirect()
+                    ->route('admin.projects.edit', ['project' => $projectId, 'tab' => $activeTab])
+                    ->with('success', "Project '{$page->title}' updated successfully. Changes are live!");
+            }
+        }
 
         return redirect()
             ->route('admin.pages.edit', ['page' => $page->id, 'tab' => $activeTab])

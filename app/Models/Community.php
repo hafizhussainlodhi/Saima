@@ -52,7 +52,8 @@ class Community extends Model
      */
     public function getUrlAttribute(): string
     {
-        $slug = ltrim($this->slug, '/');
-        return url($slug === '' ? '/' : '/' . $slug);
+        $slug = ltrim($this->slug ?? '', '/');
+        $cleanSlug = ltrim(preg_replace('#^area/#', '', $slug), '/');
+        return url('/area/' . $cleanSlug);
     }
 }

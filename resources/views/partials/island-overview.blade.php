@@ -37,6 +37,18 @@
 .blogContainer ul ul ul {
     list-style-type: square !important;
 }
+.overviewSection h1,
+.overviewSection h2,
+.overviewSection h3,
+.overviewSection h4,
+.blogContainer h1,
+.blogContainer h2,
+.blogContainer h3,
+.blogContainer h4,
+.overviewMainTitle,
+.overviewSubHeading {
+    color: #1a4731 !important;
+}
 </style>
 <section class="overviewSection" aria-label="Hudayriyat Island Projects: The Residential Communities">
     <div class="container">

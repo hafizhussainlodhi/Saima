@@ -214,3 +214,105 @@ if (! function_exists('site_setting')) {
     }
 }
 
+if (! function_exists('get_navbar_items')) {
+    /**
+     * Retrieve active items for a navbar dropdown ('projects' or 'commercial'),
+     * strictly excluding the currently viewed property/page.
+     */
+    function get_navbar_items(string $type = 'projects', ?string $currentSlug = null, $currentPageId = null): \Illuminate\Support\Collection
+    {
+        $items = collect();
+
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('projects')) {
+                $column = ($type === 'commercial') ? 'show_in_commercial' : 'show_in_projects';
+
+                $query = \App\Models\Project::with('page')
+                    ->where('is_active', true)
+                    ->where(function ($q) {
+                        $q->whereNull('status')->orWhere('status', '!=', 'draft');
+                    })
+                    ->whereDoesntHave('page', function ($q) {
+                        $q->where('status', 'draft')->orWhere('is_published', false);
+                    });
+
+                if (\Illuminate\Support\Facades\Schema::hasColumn('projects', $column)) {
+                    if ($type === 'commercial') {
+                        $query->where($column, true);
+                    } else {
+                        $query->where(function ($q) use ($column) {
+                            $q->where($column, true)->orWhereNull($column);
+                        });
+                    }
+                } elseif ($type === 'commercial') {
+                    return collect();
+                }
+
+                $dbProjects = $query->orderBy('order', 'asc')->get();
+
+                foreach ($dbProjects as $dp) {
+                    $pSlug = trim($dp->slug ?: ($dp->page->slug ?? ''), '/');
+                    $cleanSlug = ltrim(preg_replace('#^project/#', '', $pSlug), '/');
+                    if (empty($cleanSlug)) continue;
+                    $url = '/project/' . $cleanSlug;
+                    $items->push((object)[
+                        'id' => $dp->id,
+                        'page_id' => $dp->page_id,
+                        'title' => $dp->title,
+                        'slug' => $cleanSlug,
+                        'url' => $url,
+                        'type' => $type,
+                    ]);
+                }
+            }
+        } catch (\Throwable $e) {
+            // ignore table errors
+        }
+
+        // Determine current slugs to exclude
+        $reqSlug = trim(request()->path(), '/');
+        $cleanReqSlug = ltrim(preg_replace('#^project/#', '', $reqSlug), '/');
+        $cleanParamSlug = ltrim(preg_replace('#^project/#', '', trim((string)$currentSlug, '/')), '/');
+        $rawExclude = [
+            trim((string)$currentSlug, '/'),
+            $cleanParamSlug,
+            $reqSlug,
+            $cleanReqSlug,
+        ];
+        $excludeSlugs = array_values(array_unique(array_filter($rawExclude, fn($s) => $s !== '' && $s !== '/')));
+
+        return $items->filter(function ($item) use ($excludeSlugs, $currentPageId) {
+            if (!empty($currentPageId) && !empty($item->page_id) && $item->page_id == $currentPageId) {
+                return false;
+            }
+            if (in_array(trim($item->slug, '/'), $excludeSlugs, true)) {
+                return false;
+            }
+            return true;
+        })->values();
+    }
+}
+
+if (! function_exists('get_navbar_projects')) {
+    /**
+     * Retrieve active projects for the Projects navbar dropdown,
+     * strictly excluding the currently viewed property/page.
+     */
+    function get_navbar_projects(?string $currentSlug = null, $currentPageId = null): \Illuminate\Support\Collection
+    {
+        return get_navbar_items('projects', $currentSlug, $currentPageId);
+    }
+}
+
+if (! function_exists('get_navbar_commercial')) {
+    /**
+     * Retrieve active commercial properties for the Commercial navbar dropdown,
+     * strictly excluding the currently viewed property/page.
+     */
+    function get_navbar_commercial(?string $currentSlug = null, $currentPageId = null): \Illuminate\Support\Collection
+    {
+        return get_navbar_items('commercial', $currentSlug, $currentPageId);
+    }
+}
+
+

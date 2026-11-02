@@ -49,7 +49,8 @@ class CommunityController extends Controller
         $cityName = $cityId ? City::find($cityId)?->name : null;
 
         $rawSlug = trim($request->input('slug') ?: $name);
-        $slug = Str::slug($rawSlug);
+        $cleanRawSlug = ltrim(preg_replace('#^area/#', '', ltrim($rawSlug, '/')), '/');
+        $slug = Str::slug($cleanRawSlug ?: $name);
 
         $status = $request->input('status', 'publish');
         if (!in_array($status, ['publish', 'draft', 'sold_out'])) {
@@ -305,7 +306,8 @@ class CommunityController extends Controller
         $cityName = $cityId ? City::find($cityId)?->name : null;
 
         $rawSlug = trim($request->input('slug') ?: $name);
-        $slug = Str::slug($rawSlug);
+        $cleanRawSlug = ltrim(preg_replace('#^area/#', '', ltrim($rawSlug, '/')), '/');
+        $slug = Str::slug($cleanRawSlug ?: $name);
 
         $status = $request->input('status', 'publish');
         if (!in_array($status, ['publish', 'draft', 'sold_out'])) {
@@ -471,7 +473,9 @@ class CommunityController extends Controller
             }
         }
 
-        return redirect()->route('admin.communities.index')->with('success', "Neighbourhood/Community '{$name}' updated successfully!");
+        $activeTab = $request->input('active_tab', $request->query('tab', 'general'));
+        return redirect()->route('admin.communities.edit', ['community' => $community->id, 'tab' => $activeTab])
+            ->with('success', "Neighbourhood/Community '{$name}' updated successfully! Changes are saved.");
     }
 
     /**

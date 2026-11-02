@@ -311,7 +311,7 @@
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b;">Page URL:</span>
                     <span style="font-size: 14px; font-family: Consolas, Monaco, monospace; color: #0284c7; font-weight: 600;" id="add_live_url_preview">
-                        {{ url('/') }}/<span id="add_slug_preview">new-city</span>
+                        {{ url('/city') }}/<span id="add_slug_preview">new-city</span>
                     </span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px;">
@@ -403,7 +403,7 @@
                             <div class="adm-field">
                                 <label class="adm-label" for="add_city_slug">Route / Slug <span style="color: #ef4444;">*</span></label>
                                 <div style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px; overflow: hidden;">
-                                    <span style="padding: 0 12px; color: #64748b; font-family: monospace; font-size: 14px; user-select: none;">/</span>
+                                    <span style="padding: 0 12px; color: #64748b; font-family: monospace; font-size: 14px; user-select: none;">/city/</span>
                                     <input type="text" id="add_city_slug" name="slug" placeholder="islamabad" class="adm-input" style="border: none !important; background: transparent !important;" oninput="updateSlugPreview(this.value)">
                                 </div>
                                 <div class="adm-help">Live URL route for this city's dedicated landing page.</div>
@@ -822,7 +822,7 @@
                                     <span style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; text-transform: uppercase;">City</span>
                                 </div>
                                 <span style="font-size: 12px; color: #94a3b8; display: block; margin-top: 3px; font-family: Consolas, Monaco, monospace;">
-                                    /{{ ltrim($city->slug, '/') }}
+                                    /city/{{ ltrim(preg_replace('#^city/#', '', ltrim($city->slug, '/')), '/') }}
                                 </span>
                             </td>
 
@@ -846,7 +846,7 @@
                             <td style="padding: 16px 12px; text-align: right; vertical-align: middle;">
                                 <div style="display: inline-flex; align-items: center; gap: 4px;">
                                     <!-- View Page -->
-                                    <a href="{{ url('/' . ltrim($city->slug, '/')) }}" target="_blank" class="cms-action-btn" title="View Public Page">
+                                    <a href="{{ $city->url }}" target="_blank" class="cms-action-btn" title="View Public Page">
                                         @include('admin.partials.icon', ['name' => 'external'])
                                     </a>
                                     <!-- Edit City -->

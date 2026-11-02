@@ -87,6 +87,33 @@
     }
 
     /* 2. Hero Section & Callbacks */
+    .heroBookBtn,
+    .heroBtnRow .heroBookBtn,
+    #hero .heroBookBtn,
+    section[id="hero"] .heroBookBtn,
+    [class*="heroSection"] [class*="brochureBtn"],
+    [class*="Hero"] [class*="brochureBtn"],
+    [class*="__btnRow"] [class*="brochureBtn"],
+    [class*="btnRow"] button {
+        background-color: #d9232d !important;
+        background: #d9232d !important;
+        color: #ffffff !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(217, 35, 45, 0.35) !important;
+    }
+    .heroBookBtn:hover,
+    .heroBtnRow .heroBookBtn:hover,
+    #hero .heroBookBtn:hover,
+    section[id="hero"] .heroBookBtn:hover,
+    [class*="heroSection"] [class*="brochureBtn"]:hover,
+    [class*="Hero"] [class*="brochureBtn"]:hover,
+    [class*="__btnRow"] [class*="brochureBtn"]:hover,
+    [class*="btnRow"] button:hover {
+        background-color: #b71a23 !important;
+        background: #b71a23 !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 18px rgba(217, 35, 45, 0.5) !important;
+    }
     .heroCard .submitBtn,
     .submitBtn,
     .saimaSubmitBtn {
@@ -110,8 +137,66 @@
     }
 
     /* 3. Highlights & Metrics Section */
-    .accentCircle {
+    .iconWrapper,
+    [class*="__iconWrapper"] {
+        position: relative !important;
+        width: 44px !important;
+        height: 44px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+    }
+    .accentCircle,
+    [class*="__accentCircle"] {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 50% !important;
         background: #1a4731 !important;
+        opacity: 1 !important;
+        z-index: 1 !important;
+    }
+    .svgIcon,
+    [class*="__svgIcon"] {
+        position: relative !important;
+        z-index: 2 !important;
+        color: #ffffff !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        height: 100% !important;
+    }
+    .svgIcon img,
+    [class*="__svgIcon"] img,
+    .highlightCard img,
+    [class*="__highlightCard"] img {
+        width: 20px !important;
+        height: 20px !important;
+        max-width: 20px !important;
+        max-height: 20px !important;
+        object-fit: contain !important;
+        filter: brightness(0) invert(1) !important;
+        -webkit-filter: brightness(0) invert(1) !important;
+        display: block !important;
+        margin: auto !important;
+    }
+    .svgIcon svg,
+    [class*="__svgIcon"] svg,
+    .highlightCard svg,
+    [class*="__highlightCard"] svg {
+        width: 20px !important;
+        height: 20px !important;
+        max-width: 20px !important;
+        max-height: 20px !important;
+        stroke: #ffffff !important;
+        color: #ffffff !important;
+        display: block !important;
+        margin: auto !important;
     }
 
     /* 4. Featured Communities / Projects */
@@ -296,46 +381,7 @@
         </svg>
     </button>
 
-    <!-- Fixed Floating WhatsApp Widget (Image 1 Exact Style) -->
-    <div id="floatingWhatsappWidget" class="floating-whatsapp-widget" style="position: fixed; bottom: 25px; left: 25px; z-index: 99999; display: flex; align-items: center; gap: 10px; font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, sans-serif;">
-        <a href="https://wa.me/971500000000?text=Hello%2C%20I%20would%20like%20more%20information%20about%20Hudayriyat%20Island" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px; text-decoration: none; user-select: none;" title="Chat with us on WhatsApp" aria-label="Chat on WhatsApp">
-            <!-- Green Circular Icon with Red Badge -->
-            <div class="whatsapp-circle" style="position: relative; width: 56px; height: 56px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 18px rgba(37, 211, 102, 0.45); transition: transform 0.25s ease, box-shadow 0.25s ease; flex-shrink: 0;">
-                <!-- Red Badge 1 -->
-                <span style="position: absolute; top: -2px; right: -2px; background: #ef4444; color: #ffffff; font-size: 11px; font-weight: 700; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">1</span>
-                
-                <!-- WhatsApp SVG -->
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16 3C8.82 3 3 8.82 3 16c0 2.47.69 4.86 2 6.96L3 29l6.23-1.94A12.93 12.93 0 0016 29c7.18 0 13-5.82 13-13S23.18 3 16 3zm6.98 16.65c-.29.82-1.44 1.5-2.33 1.69-.6.13-1.4.23-4.06-.87-3.41-1.41-5.6-4.86-5.77-5.09-.17-.23-1.38-1.84-1.38-3.52 0-1.67.87-2.5 1.19-2.84.31-.34.68-.43.91-.43.23 0 .45 0 .65.01.21.01.5-.08.77.59.29.7 1 2.42 1.08 2.59.09.17.14.38.03.6-.11.23-.17.37-.34.57-.17.2-.36.44-.51.59-.17.17-.35.35-.15.7.2.34.88 1.46 1.9 2.36 1.3 1.16 2.4 1.52 2.74 1.69.34.17.54.14.74-.09.2-.23.85-.99 1.08-1.33.23-.34.45-.28.77-.17.31.11 1.98.94 2.32 1.11.34.17.57.26.65.4.09.14.09.82-.2 1.64z" fill="#ffffff"/>
-                </svg>
-            </div>
 
-            <!-- "Contact us for details" White Pill -->
-            <div class="whatsapp-pill" style="background: #ffffff; color: #1e293b; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,0.12); border: 1px solid #e2e8f0; white-space: nowrap; transition: background 0.2s ease, transform 0.2s ease;">
-                Contact us for details
-            </div>
-        </a>
-    </div>
-
-    <style>
-    .floating-whatsapp-widget .whatsapp-circle:hover {
-        transform: scale(1.08);
-        box-shadow: 0 6px 22px rgba(37, 211, 102, 0.6) !important;
-    }
-    .floating-whatsapp-widget:hover .whatsapp-pill {
-        background: #f8fafc !important;
-        transform: translateX(2px);
-    }
-    @media (max-width: 640px) {
-        .floating-whatsapp-widget {
-            bottom: 18px !important;
-            left: 15px !important;
-        }
-        .floating-whatsapp-widget .whatsapp-pill {
-            display: none !important;
-        }
-    }
-    </style>
 
     <!-- List Your Property Modal -->
     <div id="listPropertyModal" class="modalOverlay" style="display: none;">
@@ -420,156 +466,9 @@
         </div>
     </div>
 
-    <!-- Universal International Phone Dropdown Setup -->
-    <script>
-    window.phoneCountries = window.phoneCountries || [
-        { code: 'ae', dial: '+971', name: 'United Arab Emirates', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="5.33" fill="#00732f"/><rect y="5.33" width="24" height="5.33" fill="#ffffff"/><rect y="10.66" width="24" height="5.34" fill="#000000"/><rect width="6" height="16" fill="#fe0000"/></svg>' },
-        { code: 'pk', dial: '+92', name: 'Pakistan', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="16" fill="#01411c"/><rect width="6" height="16" fill="#ffffff"/><circle cx="15" cy="8" r="4.2" fill="#ffffff"/><circle cx="16.2" cy="7.5" r="3.9" fill="#01411c"/><polygon points="16,5 16.5,6.5 18,6.5 16.8,7.3 17.2,8.8 16,7.8 14.8,8.8 15.2,7.3 14,6.5 15.5,6.5" fill="#ffffff"/></svg>' },
-        { code: 'sa', dial: '+966', name: 'Saudi Arabia', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="16" fill="#006c35"/><rect x="6" y="11" width="12" height="1.5" fill="#ffffff"/><circle cx="12" cy="7" r="2.5" fill="#ffffff"/></svg>' },
-        { code: 'in', dial: '+91', name: 'India', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="5.33" fill="#ff9933"/><rect y="5.33" width="24" height="5.33" fill="#ffffff"/><rect y="10.66" width="24" height="5.34" fill="#138808"/><circle cx="12" cy="8" r="2.2" fill="none" stroke="#000080" stroke-width="0.7"/></svg>' },
-        { code: 'qa', dial: '+974', name: 'Qatar', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="16" fill="#8d1b3d"/><rect width="7" height="16" fill="#ffffff"/><polygon points="7,0 9,2 7,4 9,6 7,8 9,10 7,12 9,14 7,16" fill="#ffffff"/></svg>' },
-        { code: 'kw', dial: '+965', name: 'Kuwait', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="5.33" fill="#007a3d"/><rect y="5.33" width="24" height="5.33" fill="#ffffff"/><rect y="10.66" width="24" height="5.34" fill="#ce1126"/><polygon points="0,0 6,5.33 6,10.66 0,16" fill="#000000"/></svg>' },
-        { code: 'om', dial: '+968', name: 'Oman', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="5.33" fill="#ffffff"/><rect y="5.33" width="24" height="5.33" fill="#db161e"/><rect y="10.66" width="24" height="5.34" fill="#008000"/><rect width="6" height="16" fill="#db161e"/></svg>' },
-        { code: 'bh', dial: '+973', name: 'Bahrain', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="16" fill="#ce1126"/><rect width="6" height="16" fill="#ffffff"/><polygon points="6,0 8.5,2 6,4 8.5,6 6,8 8.5,10 6,12 8.5,14 6,16" fill="#ffffff"/></svg>' },
-        { code: 'gb', dial: '+44', name: 'United Kingdom', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="16" fill="#012169"/><path d="M0,0 L24,16 M24,0 L0,16" stroke="#ffffff" stroke-width="2.5"/><path d="M0,0 L24,16 M24,0 L0,16" stroke="#c8102e" stroke-width="1.2"/><path d="M12,0 L12,16 M0,8 L24,8" stroke="#ffffff" stroke-width="4.5"/><path d="M12,0 L12,16 M0,8 L24,8" stroke="#c8102e" stroke-width="2.5"/></svg>' },
-        { code: 'us', dial: '+1', name: 'United States', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="16" fill="#bf0a30"/><rect y="1.23" width="24" height="1.23" fill="#ffffff"/><rect y="3.69" width="24" height="1.23" fill="#ffffff"/><rect y="6.15" width="24" height="1.23" fill="#ffffff"/><rect y="8.61" width="24" height="1.23" fill="#ffffff"/><rect y="11.07" width="24" height="1.23" fill="#ffffff"/><rect y="13.53" width="24" height="1.23" fill="#ffffff"/><rect width="10" height="8.6" fill="#002868"/></svg>' },
-        { code: 'ca', dial: '+1', name: 'Canada', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="6" height="16" fill="#ff0000"/><rect x="6" width="12" height="16" fill="#ffffff"/><rect x="18" width="6" height="16" fill="#ff0000"/><polygon points="12,4 13,7 15,6 14,8 16,9 13.5,10 14,12 12,11 10,12 10.5,10 8,9 10,8 9,6 11,7" fill="#ff0000"/></svg>' },
-        { code: 'de', dial: '+49', name: 'Germany', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="5.33" fill="#000000"/><rect y="5.33" width="24" height="5.33" fill="#dd0000"/><rect y="10.66" width="24" height="5.34" fill="#ffce00"/></svg>' },
-        { code: 'fr', dial: '+33', name: 'France', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="8" height="16" fill="#002395"/><rect x="8" width="8" height="16" fill="#ffffff"/><rect x="16" width="8" height="16" fill="#ed2939"/></svg>' },
-        { code: 'tr', dial: '+90', name: 'Turkey', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="16" fill="#e30a17"/><circle cx="10" cy="8" r="4.2" fill="#ffffff"/><circle cx="11.2" cy="8" r="3.4" fill="#e30a17"/><polygon points="14.5,8 16,6.8 15.4,8.5 16.8,9.5 15,9.5" fill="#ffffff"/></svg>' },
-        { code: 'eg', dial: '+20', name: 'Egypt', svg: '<svg width="22" height="15" viewBox="0 0 24 16" class="flagSvg"><rect width="24" height="5.33" fill="#ce1126"/><rect y="5.33" width="24" height="5.33" fill="#ffffff"/><rect y="10.66" width="24" height="5.34" fill="#000000"/><circle cx="12" cy="8" r="1.5" fill="#c09300"/></svg>' }
-    ];
+    <!-- Universal International Phone Selector (218 Countries Worldwide & Dynamic Validation) -->
+    <script src="{{ asset('js/universal-phone-selector.js') }}?v={{ time() }}"></script>
 
-    window._registeredPhoneSelectors = window._registeredPhoneSelectors || [];
-    window._detectedUserCountry = window._detectedUserCountry || null;
-
-    function detectUserCountry(onFound) {
-        if (window._detectedUserCountry) {
-            onFound(window._detectedUserCountry);
-            return;
-        }
-
-        let detected = 'ae';
-        try {
-            const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '').toLowerCase();
-            if (tz.includes('karachi') || tz.includes('pakistan')) detected = 'pk';
-            else if (tz.includes('dubai') || tz.includes('abu_dhabi')) detected = 'ae';
-            else if (tz.includes('riyadh')) detected = 'sa';
-            else if (tz.includes('kolkata') || tz.includes('calcutta') || tz.includes('delhi')) detected = 'in';
-            else if (tz.includes('london')) detected = 'gb';
-            else if (tz.includes('new_york') || tz.includes('chicago') || tz.includes('los_angeles') || tz.includes('america')) detected = 'us';
-            else if (tz.includes('qatar') || tz.includes('doha')) detected = 'qa';
-            else if (tz.includes('kuwait')) detected = 'kw';
-            else if (tz.includes('muscat')) detected = 'om';
-            else if (tz.includes('bahrain')) detected = 'bh';
-            else if (tz.includes('toronto') || tz.includes('vancouver')) detected = 'ca';
-            else if (tz.includes('berlin') || tz.includes('frankfurt')) detected = 'de';
-            else if (tz.includes('paris')) detected = 'fr';
-            else if (tz.includes('istanbul')) detected = 'tr';
-            else if (tz.includes('cairo')) detected = 'eg';
-        } catch(e) {}
-
-        window._detectedUserCountry = detected;
-        onFound(detected);
-
-        fetch('https://api.country.is')
-            .then(res => res.json())
-            .then(data => {
-                if (data && data.country) {
-                    const ipCode = data.country.toLowerCase();
-                    window._detectedUserCountry = ipCode;
-                    onFound(ipCode);
-                }
-            })
-            .catch(() => {});
-    }
-
-    function applyCountryToField(item, country) {
-        const flagSlot = document.getElementById(item.flagSlotId);
-        const input = document.getElementById(item.inputId);
-        if (flagSlot) {
-            flagSlot.innerHTML = country.svg;
-        }
-        if (input) {
-            const val = input.value.trim();
-            if (!val || /^\+\d+\s*$/.test(val) || val === '+971') {
-                input.value = country.dial + ' ';
-            }
-        }
-    }
-
-    window.setUniversalCountry = function(code) {
-        const country = window.phoneCountries.find(c => c.code === code.toLowerCase()) || window.phoneCountries[0];
-        window._activeCountry = country;
-        window._registeredPhoneSelectors.forEach(item => {
-            applyCountryToField(item, country);
-        });
-    };
-
-    detectUserCountry(function(code) {
-        window.setUniversalCountry(code);
-    });
-
-    window.setupPhoneSelector = function(btnId, dropdownId, flagSlotId, inputId) {
-        const btn = document.getElementById(btnId);
-        const dropdown = document.getElementById(dropdownId);
-        const flagSlot = document.getElementById(flagSlotId);
-        const input = document.getElementById(inputId);
-
-        if (!btn || !dropdown || !flagSlot || !input) return;
-
-        const entry = { btnId, dropdownId, flagSlotId, inputId };
-        if (!window._registeredPhoneSelectors.some(x => x.btnId === btnId)) {
-            window._registeredPhoneSelectors.push(entry);
-        }
-
-        if (window._activeCountry) {
-            applyCountryToField(entry, window._activeCountry);
-        } else if (window._detectedUserCountry) {
-            const c = window.phoneCountries.find(x => x.code === window._detectedUserCountry) || window.phoneCountries[0];
-            applyCountryToField(entry, c);
-        }
-
-        dropdown.innerHTML = window.phoneCountries.map(c => `
-            <li class="countryDropdownItem" data-dial="${c.dial}" data-code="${c.code}">
-                <div style="display:flex;align-items:center;gap:10px;width:100%;">
-                    ${c.svg}
-                    <span style="flex:1;font-size:13.5px;color:#222;font-weight:500;">${c.name}</span>
-                    <span style="font-size:13px;color:#777;font-weight:600;">${c.dial}</span>
-                </div>
-            </li>
-        `).join('');
-
-        btn.onclick = function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const isOpen = dropdown.style.display === 'block';
-            dropdown.style.display = isOpen ? 'none' : 'block';
-        };
-
-        dropdown.onclick = function(e) {
-            e.stopPropagation();
-            const item = e.target.closest('.countryDropdownItem');
-            if (item) {
-                const dial = item.getAttribute('data-dial');
-                const code = item.getAttribute('data-code');
-                const selected = window.phoneCountries.find(c => c.code === code);
-                if (selected) {
-                    flagSlot.innerHTML = selected.svg;
-                    const currentVal = input.value.trim();
-                    const restOfNumber = currentVal.replace(/^\+\d+\s*/, '');
-                    input.value = `${dial} ${restOfNumber}`.trim() + ' ';
-                    input.focus();
-                }
-                dropdown.style.display = 'none';
-            }
-        };
-
-        document.addEventListener('click', () => {
-            dropdown.style.display = 'none';
-        });
-    };
-    </script>
 
     <!-- Global App Scripts -->
     <script>
@@ -649,6 +548,16 @@
         modalLeadForm?.addEventListener("submit", async function(e) {
             e.preventDefault();
             const formData = new FormData(modalLeadForm);
+            formData.append('source', 'Website');
+            formData.append('sub_source', 'saima project');
+            formData.append('campaign_url', 'https://saimaprojects.com/');
+            formData.append('utm_campaign', new URLSearchParams(window.location.search).get('utm_campaign') || '');
+            formData.append('project', 'Hudayriyat Island');
+            formData.append('developer', 'Modon Properties');
+            formData.append('community', 'Hudayriyat Island');
+            formData.append('key_requirement', 'Property Listing Submission: ' + (formData.get('property_type') || ''));
+            formData.append('activity_description', 'List Your Property Modal Submission');
+
             const submitBtn = modalLeadForm.querySelector("button[type='submit']");
             submitBtn.disabled = true;
             submitBtn.textContent = "SUBMITTING...";

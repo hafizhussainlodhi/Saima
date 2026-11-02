@@ -40,7 +40,7 @@ class PageSeeder extends Seeder
 Island',
           'subtitle' => 'Abu Dhabi’s Most Exclusive Coastal
 Lifestyle Destinatio',
-          'badge' => 'Freehold for All Nationalities',
+          'badge' => '',
           'bg_image' => '/images/hero/slide-1.jpg',
           'form_small' => 'REQUES',
           'form_large' => 'A CALL BAC',
@@ -866,7 +866,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/wadeem-gardens/hero-1.png',
-          'badge' => 'Freehold for All Nationalities',
+          'badge' => '',
           'title' => 'Wadeem Gardens at Hudayriyat Island',
           'subtitle' => 'Gated villa clusters with spacious layouts and waterfront living.',
           'form_small' => 'REQUEST',
@@ -1525,7 +1525,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/golf-estates/hero-1.jpg',
-          'badge' => 'Freehold for All Nationalities',
+          'badge' => '',
           'title' => 'Hudayriyat Golf Estates',
           'subtitle' => 'Hudayriyat Golf Estates is a premium residential community on Hudayriyat Island, Abu Dhabi by Modon Properties.',
           'form_small' => 'REQUEST',
@@ -2241,7 +2241,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/bashayer-residences/hero-slider-1.jpg',
-          'badge' => 'Freehold for All Nationalities',
+          'badge' => '',
           'title' => 'Bashayer Residences at Hudayriyat Island',
           'subtitle' => 'Waterfront residential development bringing together modern apartments and townhomes in a coastal setting.',
           'form_small' => 'REQUEST',
@@ -3002,7 +3002,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/bashayer-villas/hero-slider-1.jpg',
-          'badge' => 'Freehold for All Nationalities',
+          'badge' => '',
           'title' => 'Bashayer Villas',
           'subtitle' => 'Discover Elevated Waterfront Luxury Living on Hudayriyat Island.',
           'form_small' => 'REQUEST',
@@ -3686,7 +3686,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/al-naseem-villas/hero-slider-1.jpg',
-          'badge' => 'Freehold for All Nationalities',
+          'badge' => '',
           'title' => 'Al Naseem Villas',
           'subtitle' => 'Spacious Luxury 4 to 6 BR Villas for Modern Living on Hudayriyat Island.',
           'form_small' => 'REQUEST',
@@ -4413,7 +4413,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/nawayef-east-hills/hero-slider-1.jpg',
-          'badge' => 'Freehold for All Nationalities',
+          'badge' => '',
           'title' => 'Nawayef East Hills at Hudayriyat Island',
           'subtitle' => 'Discover an exclusive collection of 4 to 8-bedroom luxury villas and mansions for sale on Hudayriyat Island.',
           'form_small' => 'REQUEST',
@@ -5140,7 +5140,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/masyaf-plots/asset_2.jpg',
-          'badge' => 'Freehold For All Nationalities',
+          'badge' => '',
           'title' => 'Masyaf by Hudayriyat Developments',
           'subtitle' => 'Modern Infrastructure and Scenic Views at Al Hidayriyyat.',
           'form_small' => 'REQUEST',
@@ -5808,7 +5808,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/nawayef-village/asset_4.jpg',
-          'badge' => 'Freehold For All Nationalities',
+          'badge' => '',
           'title' => 'Nawayef Village by Modon',
           'subtitle' => 'Modern 3 to 5 Bedroom Homes in the Heart of Hudayriyat.',
           'form_small' => 'REQUEST',
@@ -7185,7 +7185,7 @@ With its waterfront setting, recreational facilities, and convenient location, H
         'content' => 
         array (
           'bg_image' => '/images/nawayef-park-views/asset_2.jpg',
-          'badge' => 'Freehold For All Nationalities',
+          'badge' => '',
           'title' => 'Nawayef Park Views',
           'subtitle' => 'Parkside Serenity Meets Mediterranean Elegance on Hudayriyat Island.',
           'form_small' => 'REQUEST',
@@ -8306,7 +8306,7 @@ You may provide information when you submit an enquiry, request property informa
         array (
           'title' => 'Hussain',
           'subtitle' => 'Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island',
-          'badge' => 'Freehold for All Nationalities',
+          'badge' => '',
           'bg_image' => '/images/hero/slide-1.jpg',
           'form_small' => 'REQUEST',
           'form_large' => 'A CALL BACK',

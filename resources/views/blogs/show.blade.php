@@ -679,7 +679,16 @@
                             <h3 class="saimaApptTitle">BOOK AN APPOINTMENT</h3>
                             <form id="saimaAppointmentForm" class="saimaApptForm">
                                 <input type="text" name="name" class="saimaInput" placeholder="Name" required>
-                                <input type="tel" name="phone" class="saimaInput" placeholder="Phone" required>
+                                <div class="phoneUnifiedContainer" style="margin-bottom: 12px; height: 42px !important; background: #fff !important; border: 1px solid #dcdcdc !important;">
+                                    <div class="countryTriggerWrapper">
+                                        <button type="button" class="countryTriggerBtn" id="blogCountryBtn" aria-label="Country selector" style="height: 100%;">
+                                            <span class="flagSlot" id="blogFlagSlot"></span>
+                                            <span class="caretDown"></span>
+                                        </button>
+                                        <ul class="countryDropdownMenu" id="blogCountryDropdown" style="display: none;"></ul>
+                                    </div>
+                                    <input type="tel" name="phone" id="blogPhoneInput" class="phoneInputField" value="+971 " required>
+                                </div>
                                 <input type="email" name="email" class="saimaInput" placeholder="Email" required>
                                 <textarea name="comment" class="saimaTextarea" placeholder="Leave a comment here"></textarea>
                                 <button type="submit" class="saimaSubmitBtn">SUBMIT</button>
@@ -693,35 +702,35 @@
                         <div class="saimaProjectsWidget">
                             <h4 class="saimaProjectsHeader">Latest Projects</h4>
                             <div class="saimaProjectList">
-                                <a href="/wadeem-gardens" class="saimaProjectItem">
+                                <a href="/project/wadeem-gardens" class="saimaProjectItem">
                                     <img src="{{ asset('LP1.png') }}" alt="Lorévia Collection by DECA at Al Zorah, Ajman" class="saimaProjectThumb">
                                     <div class="saimaProjectMeta">
                                         <span class="saimaProjectItemTitle">Lorévia Collection by DECA at Al Zorah, Ajman</span>
                                         <span class="saimaProjectItemDesc">Lorévia Collection Apartments by DECA in Al Zorah, Ajman. From AED 1.2M...</span>
                                     </div>
                                 </a>
-                                <a href="/hudayriyat-golf-estates" class="saimaProjectItem">
+                                <a href="/project/hudayriyat-golf-estates" class="saimaProjectItem">
                                     <img src="{{ asset('LP2.png') }}" alt="Samana South Haven 2 by Samana at Dubai Industrial City" class="saimaProjectThumb">
                                     <div class="saimaProjectMeta">
                                         <span class="saimaProjectItemTitle">Samana South Haven 2 by Samana at Dubai Industrial City</span>
                                         <span class="saimaProjectItemDesc">Samana South Haven 2 by Samana launches luxury homes in Dubai...</span>
                                     </div>
                                 </a>
-                                <a href="/bashayer-villas" class="saimaProjectItem">
+                                <a href="/project/bashayer-villas" class="saimaProjectItem">
                                     <img src="{{ asset('LP3.png') }}" alt="Lily Tower by Tiger Group in Al Jerf, Ajman" class="saimaProjectThumb">
                                     <div class="saimaProjectMeta">
                                         <span class="saimaProjectItemTitle">Lily Tower by Tiger Group in Al Jerf, Ajman</span>
                                         <span class="saimaProjectItemDesc">Lily Tower Ajman Apartments by Tiger Group is a new residential...</span>
                                     </div>
                                 </a>
-                                <a href="/al-naseem-villas" class="saimaProjectItem">
+                                <a href="/project/al-naseem-villas" class="saimaProjectItem">
                                     <img src="{{ asset('LP4.png') }}" alt="Avana Residences by DECA Properties at JVC District 10" class="saimaProjectThumb">
                                     <div class="saimaProjectMeta">
                                         <span class="saimaProjectItemTitle">Avana Residences by DECA Properties at JVC District 10</span>
                                         <span class="saimaProjectItemDesc">Avana Residences Dubai Apartments by DECA Properties i...</span>
                                     </div>
                                 </a>
-                                <a href="/nawayef-east-hills" class="saimaProjectItem">
+                                <a href="/project/nawayef-east-hills" class="saimaProjectItem">
                                     <img src="{{ asset('LP5.png') }}" alt="Elan Tower by Alfulaiti" class="saimaProjectThumb">
                                     <div class="saimaProjectMeta">
                                         <span class="saimaProjectItemTitle">Elan Tower by Alfulaiti</span>
@@ -756,9 +765,13 @@
                 </section>
             @endif
 
+            <!-- Contact Section Below FAQ -->
+            @include('partials.contact')
+
         </div>
     </main>
 </div>
+
 
 <script>
 // Toggle FAQs
@@ -866,11 +879,20 @@ document.addEventListener('DOMContentLoaded', function() {
             btn.disabled = true;
 
             const formData = {
-                name: apptForm.querySelector('input[name="name"]').value,
-                phone: apptForm.querySelector('input[name="phone"]').value,
-                email: apptForm.querySelector('input[name="email"]').value,
-                comment: apptForm.querySelector('textarea[name="comment"]').value,
-                source: window.location.pathname
+                name: apptForm.querySelector('input[name="name"]')?.value || '',
+                phone: apptForm.querySelector('input[name="phone"]')?.value || '',
+                email: apptForm.querySelector('input[name="email"]')?.value || '',
+                key_requirement: apptForm.querySelector('textarea[name="comment"]')?.value || '',
+                comment: apptForm.querySelector('textarea[name="comment"]')?.value || '',
+                source: 'Website',
+                sub_source: 'saima project',
+                utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+                campaign_url: 'https://saimaprojects.com/',
+                project: '{{ isset($blog) ? addslashes($blog->title) : "Hudayriyat Island" }}',
+                developer: 'Modon Properties',
+                community: 'Hudayriyat Island',
+                property_type: 'Blog Inquiry',
+                activity_description: 'Blog Appointment Sidebar Request'
             };
 
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '{{ csrf_token() }}';

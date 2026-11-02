@@ -848,24 +848,27 @@
 }
 
 .ParkViewsHighlights-module__Uixnaq__accentCircle {
-  opacity: .85;
-  z-index: 1;
-  background: #1a4731;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: 3px;
-  right: 3px;
+  opacity: 1 !important;
+  z-index: 1 !important;
+  background: #1a4731 !important;
+  border-radius: 50% !important;
+  width: 38px !important;
+  height: 38px !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
 }
 
 .ParkViewsHighlights-module__Uixnaq__svgIcon {
-  z-index: 2;
-  color: #26292e;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  position: relative;
+  z-index: 2 !important;
+  color: #ffffff !important;
+  justify-content: center !important;
+  align-items: center !important;
+  display: flex !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .ParkViewsHighlights-module__Uixnaq__highlightInfo {

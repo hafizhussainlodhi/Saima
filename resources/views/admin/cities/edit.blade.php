@@ -157,7 +157,7 @@
             <a href="{{ route('admin.cities.index') }}" class="adm-btn" style="background: #ffffff; border: 1px solid #cbd5e1; color: #475569; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: 600;">
                 &larr; Back to Cities
             </a>
-            <a href="{{ url('/' . ltrim($city->slug, '/')) }}" target="_blank" class="adm-btn adm-btn-primary" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 8px 16px; border-radius: 8px; text-decoration: none;">
+            <a href="{{ $city->url }}" target="_blank" class="adm-btn adm-btn-primary" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 8px 16px; border-radius: 8px; text-decoration: none;">
                 @include('admin.partials.icon', ['name' => 'external']) View City Page
             </a>
         </div>
@@ -172,6 +172,15 @@
     <form method="POST" action="{{ route('admin.cities.update', $city->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
+        @php
+            $currentTab = request('tab', 'general');
+            $validTabs = ['general', 'hero', 'content', 'projects', 'about', 'faq', 'contact', 'seo'];
+            if (!in_array($currentTab, $validTabs, true)) {
+                $currentTab = 'general';
+            }
+        @endphp
+        <input type="hidden" name="active_tab" id="active_tab_input" value="{{ $currentTab }}">
 
         @php
             $page = $page ?? ($city->page ?? null);
@@ -201,7 +210,7 @@
             <div style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 12px; font-weight: 700; text-transform: uppercase; color: #64748b;">Page URL:</span>
                 <span style="font-size: 14px; font-family: monospace; color: #0284c7; font-weight: 600;">
-                    {{ url('/' . ltrim($city->slug, '/')) }}
+                    {{ $city->url }}
                 </span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
@@ -240,35 +249,35 @@
         <div class="adm-edit-layout">
             <!-- Left Tabs -->
             <div class="adm-tabs">
-                <button type="button" class="adm-tab is-active" onclick="switchEditTab('general')" data-tab="general">
+                <button type="button" class="adm-tab {{ $currentTab === 'general' ? 'is-active' : '' }}" onclick="switchEditTab('general')" data-tab="general">
                     @include('admin.partials.icon', ['name' => 'grid'])
                     <span>General Settings</span>
                 </button>
-                <button type="button" class="adm-tab" onclick="switchEditTab('hero')" data-tab="hero">
+                <button type="button" class="adm-tab {{ $currentTab === 'hero' ? 'is-active' : '' }}" onclick="switchEditTab('hero')" data-tab="hero">
                     @include('admin.partials.icon', ['name' => 'spark'])
                     <span>Hero</span>
                 </button>
-                <button type="button" class="adm-tab" onclick="switchEditTab('content')" data-tab="content">
+                <button type="button" class="adm-tab {{ $currentTab === 'content' ? 'is-active' : '' }}" onclick="switchEditTab('content')" data-tab="content">
                     @include('admin.partials.icon', ['name' => 'edit'])
                     <span>Content</span>
                 </button>
-                <button type="button" class="adm-tab" onclick="switchEditTab('projects')" data-tab="projects">
+                <button type="button" class="adm-tab {{ $currentTab === 'projects' ? 'is-active' : '' }}" onclick="switchEditTab('projects')" data-tab="projects">
                     @include('admin.partials.icon', ['name' => 'building'])
                     <span>Project Card</span>
                 </button>
-                <button type="button" class="adm-tab" onclick="switchEditTab('about')" data-tab="about">
+                <button type="button" class="adm-tab {{ $currentTab === 'about' ? 'is-active' : '' }}" onclick="switchEditTab('about')" data-tab="about">
                     @include('admin.partials.icon', ['name' => 'book'])
                     <span>About Community</span>
                 </button>
-                <button type="button" class="adm-tab" onclick="switchEditTab('faq')" data-tab="faq">
+                <button type="button" class="adm-tab {{ $currentTab === 'faq' ? 'is-active' : '' }}" onclick="switchEditTab('faq')" data-tab="faq">
                     @include('admin.partials.icon', ['name' => 'list'])
                     <span>FAQ</span>
                 </button>
-                <button type="button" class="adm-tab" onclick="switchEditTab('contact')" data-tab="contact">
+                <button type="button" class="adm-tab {{ $currentTab === 'contact' ? 'is-active' : '' }}" onclick="switchEditTab('contact')" data-tab="contact">
                     @include('admin.partials.icon', ['name' => 'mail'])
                     <span>Contact Section</span>
                 </button>
-                <button type="button" class="adm-tab" onclick="switchEditTab('seo')" data-tab="seo">
+                <button type="button" class="adm-tab {{ $currentTab === 'seo' ? 'is-active' : '' }}" onclick="switchEditTab('seo')" data-tab="seo">
                     @include('admin.partials.icon', ['name' => 'search'])
                     <span>SEO &amp; Meta</span>
                 </button>
@@ -277,7 +286,7 @@
             <!-- Right Form Area -->
             <div class="adm-edit-form-area">
                 <!-- 1. GENERAL -->
-                <div id="edit_tab_general" class="tab-pane active">
+                <div id="edit_tab_general" class="tab-pane {{ $currentTab === 'general' ? 'active' : '' }}">
                     <div class="adm-card-head">
                         <div>
                             <h2>General Settings</h2>
@@ -291,7 +300,10 @@
                         </div>
                         <div class="adm-field">
                             <label class="adm-label">Route / Slug <span style="color: #ef4444;">*</span></label>
-                            <input type="text" name="slug" value="{{ $city->slug }}" required class="adm-input">
+                            <div style="display: flex; align-items: center; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden;">
+                                <span style="padding: 0 12px; color: #64748b; font-family: monospace; font-size: 14px; user-select: none;">/city/</span>
+                                <input type="text" name="slug" value="{{ ltrim(preg_replace('#^city/#', '', ltrim($city->slug, '/')), '/') }}" required class="adm-input" style="border: none !important; background: transparent !important;">
+                            </div>
                         </div>
                     </div>
                     <div class="adm-field">
@@ -303,7 +315,7 @@
                 </div>
 
                 <!-- 2. HERO -->
-                <div id="edit_tab_hero" class="tab-pane">
+                <div id="edit_tab_hero" class="tab-pane {{ $currentTab === 'hero' ? 'active' : '' }}">
                     <div class="adm-card-head">
                         <div>
                             <h2>Hero Banner</h2>
@@ -330,7 +342,7 @@
                 </div>
 
                 <!-- 3. CONTENT TAB (WYSIWYG) -->
-                <div id="edit_tab_content" class="tab-pane">
+                <div id="edit_tab_content" class="tab-pane {{ $currentTab === 'content' ? 'active' : '' }}">
                     <div class="adm-card-head">
                         <div>
                             <h2>Content Editor</h2>
@@ -346,7 +358,7 @@
                 </div>
 
                 <!-- 4. PROJECTS -->
-                <div id="edit_tab_projects" class="tab-pane">
+                <div id="edit_tab_projects" class="tab-pane {{ $currentTab === 'projects' ? 'active' : '' }}">
                     <div class="adm-card-head">
                         <div>
                             <h2>Project Card (Featured Properties)</h2>
@@ -451,7 +463,7 @@
                 </div>
 
                 <!-- 5. ABOUT -->
-                <div id="edit_tab_about" class="tab-pane">
+                <div id="edit_tab_about" class="tab-pane {{ $currentTab === 'about' ? 'active' : '' }}">
                     <div class="adm-card-head">
                         <div>
                             <h2>About Community</h2>
@@ -485,7 +497,7 @@
                 </div>
 
                 <!-- 6. FAQ -->
-                <div id="edit_tab_faq" class="tab-pane">
+                <div id="edit_tab_faq" class="tab-pane {{ $currentTab === 'faq' ? 'active' : '' }}">
                     <div class="adm-card-head">
                         <div>
                             <h2>Frequently Asked Questions</h2>
@@ -537,7 +549,7 @@
                 </div>
 
                 <!-- 7. CONTACT -->
-                <div id="edit_tab_contact" class="tab-pane">
+                <div id="edit_tab_contact" class="tab-pane {{ $currentTab === 'contact' ? 'active' : '' }}">
                     <div class="adm-card-head">
                         <div>
                             <h2>Contact Section</h2>
@@ -569,7 +581,7 @@
                 </div>
 
                 <!-- 8. SEO -->
-                <div id="edit_tab_seo" class="tab-pane">
+                <div id="edit_tab_seo" class="tab-pane {{ $currentTab === 'seo' ? 'active' : '' }}">
                     <div class="adm-card-head">
                         <div>
                             <h2>SEO &amp; Meta Settings</h2>
@@ -607,6 +619,15 @@
 
 <script>
     function switchEditTab(tabId) {
+        const input = document.getElementById('active_tab_input');
+        if (input) input.value = tabId;
+
+        try {
+            const url = new URL(window.location.href);
+            url.searchParams.set('tab', tabId);
+            window.history.replaceState({}, '', url.toString());
+        } catch (e) {}
+
         document.querySelectorAll('.adm-tabs .adm-tab').forEach(btn => {
             btn.classList.toggle('is-active', btn.getAttribute('data-tab') === tabId);
         });
@@ -914,6 +935,11 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabFromUrl = urlParams.get('tab') || '{{ $currentTab }}';
+        if (tabFromUrl && tabFromUrl !== 'general') {
+            switchEditTab(tabFromUrl);
+        }
         updateDualBoxState();
         document.querySelectorAll('#editFaqItemsContainer .faq-repeater-row').forEach(bindFaqDragEvents);
     });

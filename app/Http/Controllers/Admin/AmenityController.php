@@ -91,6 +91,8 @@ class AmenityController extends Controller
             'icon' => ['nullable', 'file'],
         ]);
 
+        $oldName = $amenity->name;
+        $oldIcon = $amenity->icon;
         $amenity->name = trim($request->input('name'));
         $amenity->slug = Str::slug($amenity->name);
 
@@ -122,6 +124,35 @@ class AmenityController extends Controller
         }
 
         $amenity->save();
+
+        // Cascading sync to all page sections (highlights & amenities)
+        $newName = $amenity->name;
+        $newIcon = $amenity->icon;
+        if ($oldName && ($oldName !== $newName || $oldIcon !== $newIcon)) {
+            $sections = \App\Models\PageSection::whereIn('section_key', ['highlights', 'amenities'])->get();
+            foreach ($sections as $sec) {
+                $content = $sec->content;
+                if (!is_array($content) || empty($content['items']) || !is_array($content['items'])) {
+                    continue;
+                }
+                $changed = false;
+                foreach ($content['items'] as &$it) {
+                    if (!is_array($it)) continue;
+                    $itName = $it['name'] ?? ($it['label'] ?? '');
+                    $itIcon = $it['icon'] ?? '';
+                    if (strcasecmp(trim($itName), trim($oldName)) === 0 || ($oldIcon && $itIcon === $oldIcon)) {
+                        if (isset($it['name'])) $it['name'] = $newName;
+                        if (isset($it['label'])) $it['label'] = $newName;
+                        if ($newIcon) $it['icon'] = $newIcon;
+                        $changed = true;
+                    }
+                }
+                unset($it);
+                if ($changed) {
+                    $sec->update(['content' => $content]);
+                }
+            }
+        }
 
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([

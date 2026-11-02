@@ -1,6 +1,11 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Manage ' . $page->title)
+@php
+    $isProjectEdit = request()->routeIs('admin.projects.*') || !empty($isProjectContext) || request('from') === 'project';
+    $projectObj = $linkedProject ?? ($project ?? null);
+@endphp
+
+@section('title', 'Manage ' . ($isProjectEdit && $projectObj ? $projectObj->title : $page->title))
 
 @push('styles')
 <style>
@@ -239,18 +244,35 @@
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:14px;">
     <div>
         <h1 style="font-size:20px; font-weight:700; color:#1e293b; margin:0 0 4px 0; font-family:var(--font-display, 'Outfit', sans-serif); letter-spacing:-0.01em;">
-            Manage {{ $page->title }}
+            Manage {{ $isProjectEdit && $projectObj ? $projectObj->title : $page->title }}
         </h1>
         <div style="font-size:13px; color:#8c9ba5; font-weight:400;">
-            Home &ndash; Pages &ndash; Manage {{ $page->title }}
+            @if($isProjectEdit)
+                Home &ndash; Projects &ndash; Manage {{ $projectObj ? $projectObj->title : $page->title }}
+            @else
+                Home &ndash; Pages &ndash; Manage {{ $page->title }}
+            @endif
         </div>
     </div>
     <div style="display:flex; gap:10px; align-items:center;">
-        <a href="{{ route('admin.pages.index') }}" class="adm-btn" style="background:#ffffff; border:1px solid #e2e8f0; color:#475569; font-size:13px; font-weight:600; padding:8px 16px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-            Back to Pages
-        </a>
-        <a href="{{ url($page->slug === '/' ? '' : $page->slug) }}" target="_blank" rel="noopener" class="adm-btn" style="background:#ffffff; border:1px solid #e2e8f0; color:#475569; font-size:13px; font-weight:600; padding:8px 16px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
+        @if($isProjectEdit)
+            <a href="{{ route('admin.projects.index') }}" class="adm-btn" style="background:#ffffff; border:1px solid #e2e8f0; color:#475569; font-size:13px; font-weight:600; padding:8px 16px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                Back to Projects
+            </a>
+        @else
+            <a href="{{ route('admin.pages.index') }}" class="adm-btn" style="background:#ffffff; border:1px solid #e2e8f0; color:#475569; font-size:13px; font-weight:600; padding:8px 16px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                Back to Pages
+            </a>
+        @endif
+        @php
+            $rawPageSlug = trim($page->slug ?? '', '/');
+            $cleanProjSlug = ltrim(preg_replace('#^project/#', '', $rawPageSlug), '/');
+            $isProjPage = ($isProjectEdit ?? false) || in_array($cleanProjSlug, \App\Models\Page::projectSlugs(), true) || \App\Models\Project::where('page_id', $page->id)->exists();
+            $liveUrl = $isProjPage ? url('/project/' . $cleanProjSlug) : url($page->slug === '/' ? '' : $page->slug);
+        @endphp
+        <a href="{{ $liveUrl }}" target="_blank" rel="noopener" class="adm-btn" style="background:#ffffff; border:1px solid #e2e8f0; color:#475569; font-size:13px; font-weight:600; padding:8px 16px; border-radius:8px; display:inline-flex; align-items:center; gap:6px; text-decoration:none;">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             View Live Page
         </a>
@@ -264,8 +286,8 @@
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
     </svg>
     <span style="font-weight:600; color:#475569;">Page URL:</span>
-    <a href="{{ url($page->slug === '/' ? '' : $page->slug) }}" target="_blank" rel="noopener" style="color:#0284c7; text-decoration:none; font-weight:500; word-break:break-all;">
-        {{ url($page->slug === '/' ? '' : $page->slug) }}
+    <a href="{{ $liveUrl }}" target="_blank" rel="noopener" style="color:#0284c7; text-decoration:none; font-weight:500; word-break:break-all;">
+        {{ $liveUrl }}
     </a>
 </div>
 
@@ -340,9 +362,13 @@
 </div>
 
 <!-- Main Edit Form -->
-<form method="POST" action="{{ route('admin.pages.update', $page) }}" id="pageEditForm" enctype="multipart/form-data" novalidate>
+<form method="POST" action="{{ $isProjectEdit && $projectObj ? route('admin.projects.update', $projectObj) : route('admin.pages.update', $page) }}" id="pageEditForm" enctype="multipart/form-data" novalidate>
     @csrf
     @method('PUT')
+    @if($isProjectEdit && $projectObj)
+        <input type="hidden" name="from_project" value="1">
+        <input type="hidden" name="project_id" value="{{ $projectObj->id }}">
+    @endif
     <input type="hidden" name="active_tab" id="activeTabInput" value="{{ $currentTab }}">
     <div id="sectionOrderInputs">
         @foreach($allSections as $sec)
@@ -413,11 +439,18 @@
                         <div class="adm-help">Sorting sequence when displayed in menus (lower numbers first).</div>
                     </div>
 
-                    <div class="adm-field" style="display:flex; flex-direction:column; justify-content:center; gap:12px; margin-top:10px;">
-                        <label class="adm-check">
-                            <input type="checkbox" name="in_navbar" value="1" {{ old('in_navbar', $page->in_navbar) ? 'checked' : '' }}>
-                            <strong>Show in Navigation Menu</strong>
-                        </label>
+                    <div class="adm-field" style="display:flex; flex-direction:column; justify-content:center; gap:8px; margin-top:10px;">
+                        <span style="font-size:12px; font-weight:700; color:#475569; text-transform:uppercase;">Navbar Dropdown Placement</span>
+                        <div style="display:flex; gap:16px; flex-wrap:wrap;">
+                            <label class="adm-check">
+                                <input type="checkbox" name="show_in_projects" value="1" {{ old('show_in_projects', $page->show_in_projects ?? true) ? 'checked' : '' }}>
+                                <strong>Show in Projects</strong>
+                            </label>
+                            <label class="adm-check">
+                                <input type="checkbox" name="show_in_commercial" value="1" {{ old('show_in_commercial', $page->show_in_commercial ?? false) ? 'checked' : '' }}>
+                                <strong>Show in Commercial</strong>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
@@ -461,20 +494,6 @@
                                 <div class="adm-help">Jo community sidebar se add ki hai wo yahan dropdown me ayegi (Community, City format me card par show hogi).</div>
                             </div>
 
-                            <!-- Card Image -->
-                            <div class="adm-field">
-                                <label class="adm-label">Property Card Image</label>
-                                <div style="display: flex; gap: 12px; align-items: center;">
-                                    <div style="width: 80px; height: 55px; border-radius: 6px; overflow: hidden; background: #f1f5f9; border: 1px solid #cbd5e1; flex-shrink: 0;">
-                                        <img id="card_preview_img" src="{{ $linkedProject->image ?? '/images/communities/wadeem-gardens.png' }}" alt="Card" style="width: 100%; height: 100%; object-fit: cover;">
-                                    </div>
-                                    <div style="flex: 1;">
-                                        <input type="file" name="card_image_file" accept="image/*" class="adm-input" style="width: 100%; font-size: 12px; margin-bottom: 4px;" onchange="previewCardImg(this)">
-                                        <input type="text" id="card_image_url" name="card_image" value="{{ old('card_image', $linkedProject->image ?? '') }}" placeholder="/images/projects/... or URL" class="adm-input" style="width: 100%; font-size: 12px;" oninput="document.getElementById('card_preview_img').src = this.value">
-                                    </div>
-                                </div>
-                                <div class="adm-help">Applies to the property card and syncs to hero background.</div>
-                            </div>
                         </div>
 
                         <!-- Card Badges / Attributes Drag & Drop (City ke neeche do input field) -->
@@ -549,19 +568,19 @@
                     <div class="adm-field">
                         <label class="adm-label">Hero Background Image (Change Photo / Upload)</label>
                         @php
-                            $heroBgImg = $hContent['bg_image'] ?? '/images/hero/slide-1.jpg';
+                            $heroBgImg = $hContent['bg_image'] ?? '';
                             if ($heroBgImg && !str_starts_with($heroBgImg, 'http') && !str_starts_with($heroBgImg, '/')) {
                                 $heroBgImg = asset($heroBgImg);
                             }
                         @endphp
                         <div class="adm-img-box">
-                            <img src="{{ $heroBgImg }}" class="adm-img-thumb-lg" alt="{{ $hContent['bg_image_alt'] ?? ($hContent['image_alt'] ?? 'Hero Background Preview') }}">
+                            <img src="{{ $heroBgImg ?: '/images/placeholder.svg' }}" class="adm-img-thumb-lg" alt="{{ $hContent['bg_image_alt'] ?? ($hContent['image_alt'] ?? 'Hero Background Preview') }}">
                             <div class="adm-img-controls">
                                 <div class="adm-file-row">
                                     <input type="file" name="section_files[hero][bg_image]" accept="image/*" class="adm-file-input" onchange="previewItemImage(this)">
                                 </div>
-                                <input type="text" name="sections[hero][bg_image]" value="{{ $hContent['bg_image'] ?? '/images/hero/slide-1.jpg' }}" class="adm-input" placeholder="Or enter image path / URL (e.g. /images/hero/slide-1.jpg)">
-                                <div class="adm-help">Upload a new hero background photo from your computer or specify a file path / URL.</div>
+                                <input type="text" name="sections[hero][bg_image]" value="{{ $hContent['bg_image'] ?? '' }}" class="adm-input" placeholder="Or enter image path / URL (e.g. /images/hero/slide-1.jpg)">
+                                <div class="adm-help" style="color: #1a4731; font-weight: 600;">✓ Jo image yahan Hero Banner pr upload/set hogi, wahi image Property Card pr bhi automatically lag jayegi.</div>
                             </div>
                         </div>
                     </div>
@@ -580,7 +599,8 @@
                                 $badgeVal = 'HUDAYRIYAT ISLAND • ABU DHABI';
                             }
                         @endphp
-                        <input type="text" id="heroBadge" name="sections[hero][badge]" value="{{ $badgeVal }}" class="adm-input" placeholder="e.g. HUDAYRIYAT ISLAND • ABU DHABI">
+                        <input type="text" id="heroBadge" name="sections[hero][badge]" value="{{ $badgeVal }}" class="adm-input" placeholder="e.g. Freehold for All Nationalities (leave blank to hide)">
+                        <div class="adm-help">Optional hero badge text (e.g. "Freehold for All Nationalities"). Leave empty to hide the badge completely on the page.</div>
                     </div>
 
                     <div class="adm-form-row">
@@ -688,56 +708,43 @@
                                         <div class="adm-repeater-body">
                                             <input type="hidden" name="sections[highlights][items][{{ $idx }}][key]" value="{{ $hl['key'] ?? ('highlight_' . $idx) }}">
                                             <input type="hidden" class="adm-hl-icon-input" name="sections[highlights][items][{{ $idx }}][icon]" value="{{ $hl['icon'] ?? '' }}">
-                                            <div class="adm-grid-2-col">
+                                            @php
+                                                $curLabel = $hl['label'] ?? '';
+                                                $curIcon = $hl['icon'] ?? '';
+                                                $matchedSvg = $metricPresets[0]['svg'];
+                                                $lowLabel = strtolower(trim($curLabel));
+                                                foreach ($metricPresets as $p) {
+                                                    $pLow = strtolower($p['label']);
+                                                    if ($lowLabel !== '' && (str_contains($lowLabel, $pLow) || str_contains($pLow, $lowLabel))) {
+                                                        $matchedSvg = $p['svg'];
+                                                        break;
+                                                    }
+                                                }
+                                            @endphp
+                                            <div class="adm-grid-2-col" style="align-items: flex-end;">
                                                 <div class="adm-field">
-                                                    <label class="adm-label">Highlight Label / Metric Name</label>
-                                                    @php
-                                                        $curLabel = $hl['label'] ?? '';
-                                                        $matchedSvg = $metricPresets[0]['svg'];
-                                                        $lowLabel = strtolower(trim($curLabel));
-                                                        foreach ($metricPresets as $p) {
-                                                            $pLow = strtolower($p['label']);
-                                                            if ($lowLabel !== '' && (str_contains($lowLabel, $pLow) || str_contains($pLow, $lowLabel))) {
-                                                                $matchedSvg = $p['svg'];
-                                                                break;
-                                                            }
-                                                        }
-                                                    @endphp
-                                                    <div class="adm-metric-input-wrap">
-                                                        <div class="adm-metric-input-group">
-                                                            <span class="adm-metric-prefix-icon" title="Metric Icon">
+                                                    <label class="adm-label" style="font-size: 11px; margin-bottom: 4px; color: #0284c7; font-weight: 700;">Choose Amenity</label>
+                                                    <div style="display: flex; gap: 8px; align-items: center;">
+                                                        <div class="adm-hl-icon-preview" style="width: 38px; height: 38px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                            @if(!empty($curIcon) && file_exists(public_path(ltrim($curIcon, '/'))))
+                                                                <img src="{{ asset(ltrim($curIcon, '/')) }}" style="width: 22px; height: 22px; object-fit: contain;">
+                                                            @else
                                                                 {!! $matchedSvg !!}
-                                                            </span>
-                                                            <input type="text" name="sections[highlights][items][{{ $idx }}][label]" value="{{ $curLabel }}" class="adm-input adm-metric-input" oninput="onMetricInputChange(this)" placeholder="e.g. Developer, Price, Handover...">
-                                                            <button type="button" class="adm-metric-dropdown-btn" onclick="toggleMetricDropdown(this)" title="Choose Metric Name">
-                                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-                                                        <div class="adm-metric-menu">
-                                                            <div class="adm-metric-menu-header">Select Predefined Metric</div>
-                                                            @foreach($metricPresets as $preset)
-                                                                <div class="adm-metric-menu-item" onclick="selectMetricOption(this, '{{ $preset['label'] }}', '{{ $preset['key'] }}', '{{ $preset['icon'] }}')">
-                                                                    <span class="adm-metric-menu-item-icon">{!! $preset['svg'] !!}</span>
-                                                                    <span class="adm-metric-menu-item-label">{{ $preset['label'] }}</span>
-                                                                </div>
-                                                            @endforeach
-                                                            @if(isset($allAmenities) && $allAmenities->isNotEmpty())
-                                                                <div class="adm-metric-menu-header" style="border-top: 1px solid #e2e8f0; margin-top: 6px; padding-top: 8px; color: #0284c7;">Uploaded Amenities &amp; Icons</div>
-                                                                @foreach($allAmenities as $am)
-                                                                    <div class="adm-metric-menu-item" onclick="selectAmenityMetricOption(this, '{{ addslashes($am->name) }}', '{{ $am->icon }}')">
-                                                                        <span class="adm-metric-menu-item-icon">{!! $am->rendered_svg !!}</span>
-                                                                        <span class="adm-metric-menu-item-label">{{ $am->name }}</span>
-                                                                    </div>
-                                                                @endforeach
                                                             @endif
                                                         </div>
+                                                        <select class="adm-select hl-choice-select" name="sections[highlights][items][{{ $idx }}][label]" onchange="applyHighlightPreset(this)" style="font-size: 12px; background: #f0f9ff; border-color: #bae6fd; padding: 6px 10px; border-radius: 6px; width: 100%;">
+                                                            <option value="">-- Choose Amenity --</option>
+                                                            @if(isset($allAmenities) && $allAmenities->isNotEmpty())
+                                                                @foreach($allAmenities as $am)
+                                                                    <option value="{{ $am->name }}" data-icon="{{ $am->icon }}" {{ strtolower(trim($curLabel)) === strtolower(trim($am->name)) ? 'selected' : '' }}>{{ $am->name }}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="adm-field">
                                                     <label class="adm-label">Highlight Value / Content</label>
-                                                    <input type="text" name="sections[highlights][items][{{ $idx }}][value]" value="{{ $hl['value'] ?? '' }}" class="adm-input" placeholder="e.g. Modon Properties" >
+                                                    <input type="text" name="sections[highlights][items][{{ $idx }}][value]" value="{{ $hl['value'] ?? '' }}" class="adm-input" placeholder="e.g. Included / 500 sqm / AED 2,500,000">
                                                 </div>
                                             </div>
                                         </div>
@@ -1000,7 +1007,7 @@
                             <div class="adm-field">
                                 <label class="adm-label">Investment Featured Image</label>
                                 @php
-                                    $invImg = $sContent['image'] ?? '/images/3_3.jpg';
+                                    $invImg = $sContent['image'] ?? '';
                                     if ($invImg && !str_starts_with($invImg, 'http') && !str_starts_with($invImg, '/')) {
                                         $invImg = asset($invImg);
                                     }
@@ -1011,8 +1018,8 @@
                                         <div class="adm-file-row">
                                             <input type="file" name="section_files[investment][image]" accept="image/*" class="adm-file-input" onchange="previewItemImage(this)">
                                         </div>
-                                        <input type="text" name="sections[investment][image]" value="{{ $sContent['image'] ?? '/images/3_3.jpg' }}" class="adm-input" placeholder="Or enter image path">
-                                        <input type="text" name="sections[investment][image_alt]" value="{{ $sContent['image_alt'] ?? 'Hudayriyat Island Investment Potential' }}" class="adm-input" placeholder="Image Alt Text">
+                                        <input type="text" name="sections[investment][image]" value="{{ $sContent['image'] ?? '' }}" class="adm-input" placeholder="Or enter image path">
+                                        <input type="text" name="sections[investment][image_alt]" value="{{ $sContent['image_alt'] ?? '' }}" class="adm-input" placeholder="Image Alt Text">
                                     </div>
                                 </div>
                             </div>
@@ -1047,7 +1054,7 @@
                         <div class="adm-field">
                             <label class="adm-label">Featured Location Photo (Change Image / Upload)</label>
                             @php
-                                $locImg = $sContent['image'] ?? '/images/hudayriyat-overview.jpg';
+                                $locImg = $sContent['image'] ?? '';
                                 if ($locImg && !str_starts_with($locImg, 'http') && !str_starts_with($locImg, '/')) {
                                     $locImg = asset($locImg);
                                 }
@@ -1058,8 +1065,8 @@
                                     <div class="adm-file-row">
                                         <input type="file" name="section_files[overview_location][image]" accept="image/*" class="adm-file-input" onchange="previewItemImage(this)">
                                     </div>
-                                    <input type="text" name="sections[overview_location][image]" value="{{ $sContent['image'] ?? '/images/hudayriyat-overview.jpg' }}" class="adm-input" placeholder="Or enter image path">
-                                    <input type="text" name="sections[overview_location][image_alt]" value="{{ $sContent['image_alt'] ?? 'Hudayriyat Island Overview and Luxury Villas' }}" class="adm-input" placeholder="Image Alt Text">
+                                    <input type="text" name="sections[overview_location][image]" value="{{ $sContent['image'] ?? '' }}" class="adm-input" placeholder="Or enter image path">
+                                    <input type="text" name="sections[overview_location][image_alt]" value="{{ $sContent['image_alt'] ?? '' }}" class="adm-input" placeholder="Image Alt Text">
                                 </div>
                             </div>
                         </div>
@@ -1269,7 +1276,7 @@
                         <div class="adm-field">
                             <label class="adm-label">Section Background Image (Upload / Change)</label>
                             @php
-                                $cBg = $sContent['bg_image'] ?? '/images/form image.jpg';
+                                $cBg = $sContent['bg_image'] ?? '';
                                 if ($cBg && !str_starts_with($cBg, 'http') && !str_starts_with($cBg, '/')) {
                                     $cBg = asset($cBg);
                                 }
@@ -1280,7 +1287,7 @@
                                     <div class="adm-file-row">
                                         <input type="file" name="section_files[contact][bg_image]" accept="image/*" class="adm-file-input" onchange="previewItemImage(this)">
                                     </div>
-                                    <input type="text" name="sections[contact][bg_image]" value="{{ $sContent['bg_image'] ?? '/images/form image.jpg' }}" class="adm-input" placeholder="Or enter image path">
+                                    <input type="text" name="sections[contact][bg_image]" value="{{ $sContent['bg_image'] ?? '' }}" class="adm-input" placeholder="Or enter image path">
                                     <div class="adm-help">Upload a photo from your computer or enter an image path / URL.</div>
                                 </div>
                             </div>
@@ -1314,7 +1321,7 @@
                         <div class="adm-field">
                             <label class="adm-label">Featured Image (Upload / Change)</label>
                             @php
-                                $introImgVal = $sContent['image'] ?? '/images/form image.jpg';
+                                $introImgVal = $sContent['image'] ?? '';
                                 if ($introImgVal && !str_starts_with($introImgVal, 'http') && !str_starts_with($introImgVal, '/')) {
                                     $introImgVal = asset($introImgVal);
                                 }
@@ -1325,7 +1332,7 @@
                                     <div class="adm-file-row">
                                         <input type="file" name="section_files[intro][image]" accept="image/*" class="adm-file-input" onchange="previewItemImage(this)">
                                     </div>
-                                    <input type="text" name="sections[intro][image]" value="{{ $sContent['image'] ?? '/images/form image.jpg' }}" class="adm-input" placeholder="Or enter image path">
+                                    <input type="text" name="sections[intro][image]" value="{{ $sContent['image'] ?? '' }}" class="adm-input" placeholder="Or enter image path">
                                     <div class="adm-help">Upload a photo from your computer or enter an image path / URL.</div>
                                 </div>
                             </div>
@@ -1999,7 +2006,7 @@
                     <div class="adm-card-body">
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[location][title]" value="{{ old('sections.location.title', $sContent['title'] ?? ($page->title . ' Location & Attractions')) }}" class="adm-input" placeholder="e.g. Wadeem Gardens Location & Attractions">
+                            <input type="text" name="sections[location][title]" value="{{ old('sections.location.title', $sContent['title'] ?? '') }}" class="adm-input" placeholder="e.g. {{ $page->title }} Location & Attractions">
                         </div>
 
                         <div class="adm-field">
@@ -2012,11 +2019,11 @@
                             <label class="adm-label">Location Graphic / Signboard Photo</label>
                             <div style="display: flex; gap: 20px; align-items: flex-start; background: #faf8f5; border: 1px solid #e8e1d7; border-radius: 8px; padding: 16px;">
                                 <div style="width: 140px; height: 95px; border-radius: 6px; overflow: hidden; background: #1a1a1a; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid #d4c7b5;">
-                                    <img id="preview_location_img" src="{{ $sContent['image'] ?? '/images/20231014_191447.webp' }}" alt="Location Preview" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img id="preview_location_img" src="{{ $sContent['image'] ?? '' }}" alt="Location Preview" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
                                 <div style="flex: 1;">
                                     <label class="adm-label" style="font-size: 12px; margin-bottom: 4px;">Image URL / Path</label>
-                                    <input type="text" name="sections[location][image]" id="input_location_img" value="{{ $sContent['image'] ?? '/images/20231014_191447.webp' }}" class="adm-input" placeholder="/images/20231014_191447.webp" oninput="document.getElementById('preview_location_img').src = this.value">
+                                    <input type="text" name="sections[location][image]" id="input_location_img" value="{{ $sContent['image'] ?? '' }}" class="adm-input" placeholder="/images/20231014_191447.webp" oninput="document.getElementById('preview_location_img').src = this.value">
                                     <div style="margin-top: 10px;">
                                         <label class="adm-label" style="font-size: 12px; margin-bottom: 4px;">Or Upload New Image</label>
                                         <input type="file" name="section_files[location][image]" class="adm-input" accept="image/*" onchange="previewUploadedImage(this, 'preview_location_img', 'input_location_img')">
@@ -2099,32 +2106,12 @@
                     <div class="adm-card-body">
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[payment_plan][title]" value="{{ old('sections.payment_plan.title', $sContent['title'] ?? ($page->title . ' Payment Plan')) }}" class="adm-input" placeholder="e.g. Wadeem Gardens Payment Plan">
+                            <input type="text" name="sections[payment_plan][title]" value="{{ old('sections.payment_plan.title', $sContent['title'] ?? '') }}" class="adm-input" placeholder="e.g. {{ $page->title }} Payment Plan">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Description / Subtitle</label>
                             <textarea name="sections[payment_plan][description]" class="adm-textarea adm-summernote" rows="2" placeholder="Flexible milestone payment terms tailored for island living...">{{ old('sections.payment_plan.description', $sContent['description'] ?? '') }}</textarea>
-                        </div>
-
-                        <div class="adm-grid-2-col">
-                            <div class="adm-field">
-                                <label class="adm-label">Plan Tabs (Comma separated)</label>
-                                <input type="text" name="sections[payment_plan][plan_tabs]" value="{{ is_array($sContent['plan_tabs'] ?? null) ? implode(', ', array_filter($sContent['plan_tabs'], fn($t) => !str_contains(strtolower($t), 'without finance') && !str_contains(strtolower($t), 'with finance'))) : '' }}" class="adm-input" placeholder="e.g. Standard Plan (optional)">
-                                <div class="adm-help">Displays tab filters above the table (optional, leave empty if not needed)</div>
-                            </div>
-                            <div class="adm-field">
-                                <label class="adm-label">Download Button Text</label>
-                                <input type="text" name="sections[payment_plan][download_text]" value="{{ $sContent['download_text'] ?? 'DOWNLOAD PAYMENT PLAN' }}" class="adm-input" placeholder="DOWNLOAD PAYMENT PLAN">
-                            </div>
-                        </div>
-
-                        <div class="adm-field">
-                            <label class="adm-label">Download Brochure / PDF URL</label>
-                            <div style="display: flex; gap: 12px;">
-                                <input type="text" name="sections[payment_plan][download_url]" value="{{ $sContent['download_url'] ?? '#' }}" class="adm-input" placeholder="https://example.com/payment-plan.pdf or #" style="flex:1;">
-                                <input type="file" name="section_files[payment_plan][download_file]" class="adm-input" accept=".pdf,.png,.jpg,.jpeg" style="max-width: 280px;">
-                            </div>
                         </div>
 
                         <!-- Installment Table Rows Repeater -->
@@ -2196,11 +2183,11 @@
                         <div class="adm-form-row">
                             <div class="adm-field">
                                 <label class="adm-label">Section Title</label>
-                                <input type="text" name="sections[floor_plans][title]" value="{{ old('sections.floor_plans.title', html_entity_decode($sContent['title'] ?? ($page->title . ' Floor Plan'), ENT_QUOTES | ENT_HTML5, 'UTF-8')) }}" class="adm-input" placeholder="e.g. {{ $page->title }} Floor Plan">
+                                <input type="text" name="sections[floor_plans][title]" value="{{ old('sections.floor_plans.title', html_entity_decode($sContent['title'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8')) }}" class="adm-input" placeholder="e.g. {{ $page->title }} Floor Plan">
                             </div>
                             <div class="adm-field">
                                 <label class="adm-label">Download Button Text</label>
-                                <input type="text" name="sections[floor_plans][download_text]" value="{{ $sContent['download_text'] ?? 'Download Floor Plan' }}" class="adm-input" placeholder="Download Floor Plan">
+                                <input type="text" name="sections[floor_plans][download_text]" value="{{ $sContent['download_text'] ?? '' }}" class="adm-input" placeholder="Download Floor Plan">
                             </div>
                         </div>
 
@@ -2212,7 +2199,7 @@
                         <div class="adm-field">
                             <label class="adm-label">Brochure Download URL / File Upload</label>
                             <div style="display: flex; gap: 12px;">
-                                <input type="text" name="sections[floor_plans][download_url]" id="input_floor_download_url" value="{{ $sContent['download_url'] ?? '#' }}" class="adm-input" placeholder="https://... or /downloads/floor-plans.pdf" style="flex:1;">
+                                <input type="text" name="sections[floor_plans][download_url]" id="input_floor_download_url" value="{{ $sContent['download_url'] ?? '' }}" class="adm-input" placeholder="https://... or /downloads/floor-plans.pdf" style="flex:1;">
                                 <input type="file" name="section_files[floor_plans][download_file]" class="adm-input" accept=".pdf,.png,.jpg,.jpeg" style="max-width: 280px;" onchange="if(this.files[0]) document.getElementById('input_floor_download_url').value = '/uploads/pages/' + this.files[0].name">
                             </div>
                         </div>
@@ -2305,7 +2292,7 @@
                     <div class="adm-card-body">
                         <div class="adm-field">
                             <label class="adm-label">Gallery Heading</label>
-                            <input type="text" name="sections[gallery][title]" value="{{ old('sections.gallery.title', $sContent['title'] ?? ($page->title . ' Gallery')) }}" class="adm-input" placeholder="e.g. Wadeem Gardens Gallery">
+                            <input type="text" name="sections[gallery][title]" value="{{ old('sections.gallery.title', $sContent['title'] ?? '') }}" class="adm-input" placeholder="e.g. {{ $page->title }} Gallery">
                         </div>
 
                         @php
@@ -2353,7 +2340,7 @@
                                         </div>
                                         <input type="hidden" class="adm-gal-src" name="sections[gallery][images][{{ $gIdx }}][src]" value="{{ $gImg['src'] ?? '' }}">
                                         <input type="hidden" class="adm-gal-alt" name="sections[gallery][images][{{ $gIdx }}][alt]" value="{{ $gImg['alt'] ?? 'Project Photo' }}">
-                                        <input type="hidden" class="adm-gal-cat" name="sections[gallery][images][{{ $gIdx }}][category]" value="{{ $gImg['category'] ?? 'Exterior' }}">
+                                        <input type="hidden" class="adm-gal-cat" name="sections[gallery][images][{{ $gIdx }}][category]" value="{{ $gImg['category'] ?? '' }}">
                                         <button type="button" class="adm-gal-del" onclick="deleteGalleryRow(this)" title="Delete Image" style="background: #fbf7f4; border: 1px solid #eddcd0; color: #b43b3b; width: 34px; height: 34px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; font-weight: bold; transition: all 0.2s;">
                                             ✕
                                         </button>
@@ -2379,25 +2366,25 @@
                     <div class="adm-card-body">
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[master_plan][title]" value="{{ old('sections.master_plan.title', $sContent['title'] ?? ($page->title . ' Master Plan')) }}" class="adm-input" placeholder="e.g. Wadeem Gardens Master Plan">
+                            <input type="text" name="sections[master_plan][title]" value="{{ old('sections.master_plan.title', $sContent['title'] ?? '') }}" class="adm-input" placeholder="e.g. {{ $page->title }} Master Plan">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Zoom Button Text</label>
-                            <input type="text" name="sections[master_plan][badge]" value="{{ $sContent['badge'] ?? 'Click to Enlarge' }}" class="adm-input" placeholder="Click to Enlarge">
+                            <input type="text" name="sections[master_plan][badge]" value="{{ $sContent['badge'] ?? '' }}" class="adm-input" placeholder="Click to Enlarge">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Master Plan Blueprint Image</label>
                             <div style="background: #faf8f5; border: 1px solid #e8e1d7; border-radius: 8px; padding: 18px;">
                                 <div style="width: 100%; max-height: 280px; background: #1a1a1a; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 14px;">
-                                    <img id="preview_master_img" src="{{ $sContent['image'] ?? ('/images/' . $page->slug . '/master-plan.png') }}" alt="Master Plan Preview" style="max-width: 100%; max-height: 280px; object-fit: contain;">
+                                    <img id="preview_master_img" src="{{ $sContent['image'] ?? '' }}" alt="Master Plan Preview" style="max-width: 100%; max-height: 280px; object-fit: contain;">
                                 </div>
                                 <div class="adm-help" style="margin-bottom: 12px; font-size: 12px; color: #6b7280;">Recommended ratio: 16:9 (e.g. 1600x900px). Any image size uploaded will be automatically managed inside the standard 16:9 container on the live page.</div>
                                 <div class="adm-grid-2-col">
                                     <div>
                                         <label class="adm-label" style="font-size: 12px;">Image Path / URL</label>
-                                        <input type="text" name="sections[master_plan][image]" id="input_master_img" value="{{ $sContent['image'] ?? ('/images/' . $page->slug . '/master-plan.png') }}" class="adm-input" oninput="document.getElementById('preview_master_img').src = this.value">
+                                        <input type="text" name="sections[master_plan][image]" id="input_master_img" value="{{ $sContent['image'] ?? '' }}" class="adm-input" placeholder="/images/{{ $page->slug }}/master-plan.png" oninput="document.getElementById('preview_master_img').src = this.value">
                                     </div>
                                     <div>
                                         <label class="adm-label" style="font-size: 12px;">Upload New Master Plan File</label>
@@ -2424,7 +2411,7 @@
                     <div class="adm-card-body">
                         <div class="adm-field">
                             <label class="adm-label">Headline / Title</label>
-                            <input type="text" name="sections[about][title]" value="{{ old('sections.about.title', $sContent['title'] ?? ($page->title . ' by Modon')) }}" class="adm-input" placeholder="e.g. Wadeem Gardens by Modon">
+                            <input type="text" name="sections[about][title]" value="{{ old('sections.about.title', $sContent['title'] ?? '') }}" class="adm-input" placeholder="e.g. {{ $page->title }} by Modon">
                         </div>
 
                         <div class="adm-field">
@@ -2434,19 +2421,14 @@
                         </div>
 
                         <div class="adm-field">
-                            <label class="adm-label">Featured Video Stream URL (.mp4 or link)</label>
-                            <input type="text" name="sections[about][video_url]" value="{{ $sContent['video_url'] ?? '' }}" class="adm-input" placeholder="https://www.hudayriyat-island.com/storage/...mp4">
-                        </div>
-
-                        <div class="adm-field">
                             <label class="adm-label">Video Poster / Cover Image</label>
                             <div style="display: flex; gap: 16px; align-items: flex-start; background: #faf8f5; border: 1px solid #e8e1d7; border-radius: 8px; padding: 14px;">
                                 <div style="width: 130px; height: 85px; border-radius: 6px; overflow: hidden; background: #1a1a1a; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                    <img id="preview_about_poster" src="{{ $sContent['video_poster'] ?? ('/images/' . $page->slug . '/video-poster.png') }}" alt="Poster" style="width: 100%; height: 100%; object-fit: cover;">
+                                    <img id="preview_about_poster" src="{{ $sContent['video_poster'] ?? '' }}" alt="Poster" style="width: 100%; height: 100%; object-fit: cover;">
                                 </div>
                                 <div style="flex: 1;">
                                     <label class="adm-label" style="font-size: 11px;">Poster Image URL</label>
-                                    <input type="text" name="sections[about][video_poster]" id="input_about_poster" value="{{ $sContent['video_poster'] ?? ('/images/' . $page->slug . '/video-poster.png') }}" class="adm-input" oninput="document.getElementById('preview_about_poster').src = this.value">
+                                    <input type="text" name="sections[about][video_poster]" id="input_about_poster" value="{{ $sContent['video_poster'] ?? '' }}" class="adm-input" placeholder="/images/{{ $page->slug }}/video-poster.png" oninput="document.getElementById('preview_about_poster').src = this.value">
                                     <div style="margin-top: 8px;">
                                         <label class="adm-label" style="font-size: 11px;">Upload New Poster</label>
                                         <input type="file" name="section_files[about][video_poster]" class="adm-input" accept="image/*" onchange="previewUploadedImage(this, 'preview_about_poster', 'input_about_poster')">
@@ -2470,9 +2452,10 @@
                         <span class="adm-chip">amenities</span>
                     </div>
                     <div class="adm-card-body">
+                        <input type="hidden" name="sections[amenities][_has_items]" value="1">
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[amenities][title]" value="{{ old('sections.amenities.title', $sContent['title'] ?? ($page->title . ' Amenities')) }}" class="adm-input" placeholder="e.g. Wadeem Gardens Amenities">
+                            <input type="text" name="sections[amenities][title]" value="{{ old('sections.amenities.title', $sContent['title'] ?? '') }}" class="adm-input" placeholder="e.g. {{ $page->title }} Amenities">
                         </div>
 
                         <div class="adm-field">
@@ -2496,30 +2479,24 @@
 
                             <div id="amenities_cards_container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;">
                                 @foreach($amenitiesItems as $aIdx => $aItem)
-                                    <div class="adm-card" id="amenity_card_{{ $aIdx }}" style="border: 1px solid #dcd3c6; background: #fff; margin-bottom: 0; padding: 14px;">
-                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                            <div style="width: 44px; height: 44px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: flex; align-items: center; justify-content: center;">
-                                                <img id="preview_amenity_{{ $aIdx }}" src="{{ $aItem['icon'] ?? '/images/wadeem-gardens/amenity-club.png' }}" alt="Icon" style="width: 28px; height: 28px; object-fit: contain;">
+                                    <div class="adm-card" id="amenity_card_{{ $aIdx }}" style="border: 1px solid #dcd3c6; background: #fff; margin-bottom: 0; padding: 10px 14px; border-radius: 8px;">
+                                        <div style="display: flex; gap: 10px; align-items: center;">
+                                            <div style="width: 40px; height: 40px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <img id="preview_amenity_{{ $aIdx }}" src="{{ $aItem['icon'] ?? '/images/placeholder.svg' }}" alt="Icon" style="width: 24px; height: 24px; object-fit: contain;">
                                             </div>
-                                            <button type="button" class="adm-btn-item-delete" onclick="document.getElementById('amenity_card_{{ $aIdx }}').remove()" style="padding: 4px 8px; font-size: 11px;">
-                                                ✕ Delete
+                                            <select class="adm-select" name="sections[amenities][items][{{ $aIdx }}][name]" onchange="applyPredefinedAmenity(this, '{{ $aIdx }}')" style="flex: 1; min-width: 120px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; cursor: pointer;">
+                                                <option value="">-- Choose Amenity --</option>
+                                                @if(isset($allAmenities))
+                                                    @foreach($allAmenities as $am)
+                                                        <option value="{{ $am->name }}" data-icon="{{ $am->icon }}" {{ strtolower(trim($aItem['name'] ?? '')) === strtolower(trim($am->name)) ? 'selected' : '' }}>{{ $am->name }}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                            <input type="hidden" name="sections[amenities][items][{{ $aIdx }}][icon]" id="input_amenity_{{ $aIdx }}" value="{{ $aItem['icon'] ?? '' }}">
+                                            <button type="button" class="adm-btn-item-delete" onclick="removeAmenityCard(this)" style="padding: 4px 8px; font-size: 11px; flex-shrink: 0;" title="Delete Amenity">
+                                                ✕
                                             </button>
                                         </div>
-                                        <label class="adm-label" style="font-size: 11px; margin-bottom: 2px; color: #0284c7; font-weight: 700;">Select from Amenities (Auto-fills Icon)</label>
-                                        <select class="adm-select" onchange="applyPredefinedAmenity(this, '{{ $aIdx }}')" style="font-size: 11.5px; margin-bottom: 8px; background: #f0f9ff; border-color: #bae6fd; padding: 5px 8px; border-radius: 6px; cursor: pointer; width: 100%;">
-                                            <option value="">-- Choose Predefined Amenity --</option>
-                                            @if(isset($allAmenities))
-                                                @foreach($allAmenities as $am)
-                                                    <option value="{{ $am->name }}" data-icon="{{ $am->icon }}" {{ ($aItem['name'] ?? '') === $am->name ? 'selected' : '' }}>{{ $am->name }}</option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                        <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Amenity Name</label>
-                                        <input type="text" name="sections[amenities][items][{{ $aIdx }}][name]" id="name_amenity_{{ $aIdx }}" value="{{ $aItem['name'] ?? '' }}" class="adm-input" placeholder="e.g. Clubhouses" style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">
-                                        <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Icon URL (SVG / Image)</label>
-                                        <input type="text" name="sections[amenities][items][{{ $aIdx }}][icon]" id="input_amenity_{{ $aIdx }}" value="{{ $aItem['icon'] ?? '' }}" class="adm-input" placeholder="/uploads/amenities/...svg" style="font-size: 11px;" oninput="document.getElementById('preview_amenity_{{ $aIdx }}').src = this.value">
-                                        <label class="adm-label" style="font-size: 11px; margin-top: 6px; margin-bottom: 2px;">Or Upload Custom Icon</label>
-                                        <input type="file" name="section_files[amenities][items][{{ $aIdx }}][icon]" class="adm-input" accept="image/*,.svg" style="font-size: 10px; padding: 3px;" onchange="previewUploadedImage(this, 'preview_amenity_{{ $aIdx }}', 'input_amenity_{{ $aIdx }}')">
                                     </div>
                                 @endforeach
                             </div>
@@ -2542,11 +2519,11 @@
                     <div class="adm-card-body">
                         <div class="adm-field">
                             <label class="adm-label">Section Title</label>
-                            <input type="text" name="sections[payment_methods][title]" value="{{ old('sections.payment_methods.title', $sContent['title'] ?? ($page->title . ' Payment Methods')) }}" class="adm-input" placeholder="e.g. Wadeem Gardens Payment Methods">
+                            <input type="text" name="sections[payment_methods][title]" value="{{ old('sections.payment_methods.title', $sContent['title'] ?? '') }}" class="adm-input" placeholder="e.g. {{ $page->title }} Payment Methods">
                         </div>
                         <div class="adm-field">
                             <label class="adm-label">Subtitle</label>
-                            <input type="text" name="sections[payment_methods][subtitle]" value="{{ old('sections.payment_methods.subtitle', $sContent['subtitle'] ?? 'We accept all the following payment methods.') }}" class="adm-input">
+                            <input type="text" name="sections[payment_methods][subtitle]" value="{{ old('sections.payment_methods.subtitle', $sContent['subtitle'] ?? '') }}" class="adm-input" placeholder="We accept all the following payment methods.">
                         </div>
                         @php
                             $payMethods = $sContent['items'] ?? [
@@ -2725,7 +2702,7 @@
 
     <!-- Sticky Save Bar -->
     <div class="adm-sticky-save">
-        <span>Saving changes for <strong>{{ $page->title }}</strong></span>
+        <span>Saving changes for <strong>{{ $isProjectEdit && $projectObj ? $projectObj->title : $page->title }}</strong></span>
         <button type="button" class="adm-btn adm-btn-primary" id="savePageBtn" onclick="submitEditForm(event)" style="background: #1a4731 !important; color: #ffffff !important;">
             @include('admin.partials.icon', ['name' => 'check']) <span id="saveBtnText" style="color: #ffffff !important;">Save Changes</span>
         </button>
@@ -3744,6 +3721,69 @@
         }
     }
 
+    window.ALL_AMENITIES = @json($allAmenities ?? []);
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function syncAmenitiesFromApi() {
+        fetch('/admin/api/amenities')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data) && data.length) {
+                    window.ALL_AMENITIES = data;
+                }
+            })
+            .catch(() => {});
+    }
+    syncAmenitiesFromApi();
+
+    function applyHighlightPreset(selectEl) {
+        const card = selectEl.closest('.adm-repeater-item');
+        if (!card) return;
+        const opt = selectEl.options[selectEl.selectedIndex];
+        if (!opt || !opt.value) return;
+
+        const labelInput = card.querySelector('.adm-hl-label-input') || card.querySelector('input[name*="[label]"]');
+        if (labelInput) {
+            labelInput.value = opt.value;
+            const headingText = card.querySelector('.adm-repeater-heading-text');
+            if (headingText) headingText.textContent = opt.value;
+        }
+
+        const iconInput = card.querySelector('.adm-hl-icon-input') || card.querySelector('input[name*="[icon]"]');
+        const iconVal = opt.getAttribute('data-icon') || '';
+        if (iconInput) iconInput.value = iconVal;
+
+        const preview = card.querySelector('.adm-hl-icon-preview');
+        if (preview) {
+            if (iconVal && (iconVal.startsWith('/') || iconVal.startsWith('http'))) {
+                preview.innerHTML = `<img src="${iconVal}" style="width:22px;height:22px;object-fit:contain;" alt="">`;
+            } else {
+                const preset = (window.METRIC_PRESETS || []).find(p => p.icon === iconVal || p.label === opt.value);
+                if (preset && preset.svg) {
+                    preview.innerHTML = preset.svg;
+                } else {
+                    preview.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>`;
+                }
+            }
+        }
+    }
+
+    function updateHighlightHeading(input) {
+        const card = input.closest('.adm-repeater-item');
+        if (!card) return;
+        const heading = card.querySelector('.adm-repeater-heading-text');
+        if (heading) heading.textContent = input.value.trim() || 'Highlight';
+    }
+
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.adm-metric-input-wrap')) {
             document.querySelectorAll('.adm-metric-menu.show').forEach(m => m.classList.remove('show'));
@@ -3757,18 +3797,22 @@
         const newId = 'new_' + Date.now();
         const currentCount = list.querySelectorAll('.adm-repeater-item').length + 1;
 
+        let amenitiesOptHtml = '';
+        if (window.ALL_AMENITIES && window.ALL_AMENITIES.length) {
+            amenitiesOptHtml = window.ALL_AMENITIES.map(am => `<option value="${escapeHtml(am.name)}" data-icon="${am.icon || ''}">${escapeHtml(am.name)}</option>`).join('');
+        } else {
+            @if(isset($allAmenities))
+                @foreach($allAmenities as $am)
+                    amenitiesOptHtml += `<option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>`;
+                @endforeach
+            @endif
+        }
+
         const card = document.createElement('div');
         card.className = 'adm-repeater-item';
         card.id = `hl_item_${newId}`;
         card.style.opacity = '0';
         card.style.transform = 'translateY(-10px)';
-
-        const menuItemsHtml = METRIC_PRESETS.map(p => `
-            <div class="adm-metric-menu-item" onclick="selectMetricOption(this, '${p.label}', '${p.key}', '${p.icon}')">
-                <span class="adm-metric-menu-item-icon">${p.svg}</span>
-                <span class="adm-metric-menu-item-label">${p.label}</span>
-            </div>
-        `).join('');
 
         card.innerHTML = `
             <div class="adm-repeater-head">
@@ -3780,7 +3824,7 @@
                         </svg>
                     </div>
                     <span class="adm-repeater-badge">#${currentCount}</span>
-                    <strong class="adm-repeater-heading-text">Developer</strong>
+                    <strong class="adm-repeater-heading-text">New Highlight</strong>
                 </div>
                 <div class="adm-repeater-actions-head">
                     <button type="button" class="adm-btn-collapse" onclick="toggleCardCollapse(this)" title="Toggle Collapse">
@@ -3794,31 +3838,24 @@
             </div>
             <div class="adm-repeater-body">
                 <input type="hidden" name="sections[highlights][items][${newId}][key]" value="highlight_${newId}">
-                <input type="hidden" class="adm-hl-icon-input" name="sections[highlights][items][${newId}][icon]" value="building">
-                <div class="adm-grid-2-col">
+                <input type="hidden" class="adm-hl-icon-input" name="sections[highlights][items][${newId}][icon]" value="">
+                
+                <div class="adm-grid-2-col" style="align-items: flex-end;">
                     <div class="adm-field">
-                        <label class="adm-label">Highlight Label / Metric Name</label>
-                        <div class="adm-metric-input-wrap">
-                            <div class="adm-metric-input-group">
-                                <span class="adm-metric-prefix-icon" title="Metric Icon">
-                                    ${METRIC_PRESETS[0].svg}
-                                </span>
-                                <input type="text" name="sections[highlights][items][${newId}][label]" value="Developer" class="adm-input adm-metric-input" oninput="onMetricInputChange(this)" placeholder="e.g. Developer, Price, Handover...">
-                                <button type="button" class="adm-metric-dropdown-btn" onclick="toggleMetricDropdown(this)" title="Choose Metric Name">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="6 9 12 15 18 9"></polyline>
-                                    </svg>
-                                </button>
+                        <label class="adm-label" style="font-size: 11px; margin-bottom: 4px; color: #0284c7; font-weight: 700;">Choose Amenity</label>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <div class="adm-hl-icon-preview" style="width: 38px; height: 38px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
                             </div>
-                            <div class="adm-metric-menu">
-                                <div class="adm-metric-menu-header">Select Predefined Metric</div>
-                                ${menuItemsHtml}
-                            </div>
+                            <select class="adm-select hl-choice-select" name="sections[highlights][items][${newId}][label]" onchange="applyHighlightPreset(this)" style="font-size: 12px; background: #f0f9ff; border-color: #bae6fd; padding: 6px 10px; border-radius: 6px; width: 100%;">
+                                <option value="">-- Choose Amenity --</option>
+                                ${amenitiesOptHtml}
+                            </select>
                         </div>
                     </div>
                     <div class="adm-field">
                         <label class="adm-label">Highlight Value / Content</label>
-                        <input type="text" name="sections[highlights][items][${newId}][value]" value="" class="adm-input" placeholder="e.g. Modon Properties" >
+                        <input type="text" name="sections[highlights][items][${newId}][value]" value="" class="adm-input" placeholder="e.g. Included / 500 sqm / AED 2,500,000">
                     </div>
                 </div>
             </div>
@@ -3830,8 +3867,8 @@
         setTimeout(() => {
             card.style.opacity = '1';
             card.style.transform = 'none';
-            const input = card.querySelector('input[type="text"]');
-            if (input) input.focus();
+            const sel = card.querySelector('select');
+            if (sel) sel.focus();
             card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 50);
 
@@ -4701,7 +4738,7 @@
                     </div>
                     <input type="hidden" class="adm-gal-src" name="sections[gallery][images][${newIdx}][src]" value="">
                     <input type="hidden" class="adm-gal-alt" name="sections[gallery][images][${newIdx}][alt]" value="Project Photo">
-                    <input type="hidden" class="adm-gal-cat" name="sections[gallery][images][${newIdx}][category]" value="Exterior">
+                    <input type="hidden" class="adm-gal-cat" name="sections[gallery][images][${newIdx}][category]" value="">
                     <input type="file" class="adm-gal-file" name="section_files[gallery][images][${newIdx}][file]" style="display: none;">
                     <button type="button" class="adm-gal-del" onclick="deleteGalleryRow(this)" title="Delete Image" style="background: #fbf7f4; border: 1px solid #eddcd0; color: #b43b3b; width: 34px; height: 34px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; font-weight: bold; transition: all 0.2s;">
                         ✕
@@ -4738,18 +4775,22 @@
     }
 
     function applyPredefinedAmenity(selectEl, idx) {
+        const card = selectEl.closest('.adm-card');
         const opt = selectEl.options[selectEl.selectedIndex];
         if (!opt || !opt.value) return;
         const name = opt.value;
         const icon = opt.getAttribute('data-icon') || '';
 
-        const nameInput = document.getElementById('name_amenity_' + idx);
+        let nameInput = idx !== undefined ? document.getElementById('name_amenity_' + idx) : null;
+        if (!nameInput && card) nameInput = card.querySelector('input[name*="[name]"]');
         if (nameInput) nameInput.value = name;
 
-        const iconInput = document.getElementById('input_amenity_' + idx);
+        let iconInput = idx !== undefined ? document.getElementById('input_amenity_' + idx) : null;
+        if (!iconInput && card) iconInput = card.querySelector('input[name*="[icon]"]');
         if (iconInput) iconInput.value = icon;
 
-        const previewImg = document.getElementById('preview_amenity_' + idx);
+        let previewImg = idx !== undefined ? document.getElementById('preview_amenity_' + idx) : null;
+        if (!previewImg && card) previewImg = card.querySelector('img');
         if (previewImg && icon) previewImg.src = icon;
     }
 
@@ -4785,43 +4826,51 @@
         if (menu) menu.classList.remove('show');
     }
 
+    function removeAmenityCard(btn) {
+        const card = btn.closest('.adm-card');
+        if (card) {
+            card.remove();
+            const grid = document.getElementById('amenities_cards_container');
+            const countSpan = document.getElementById('amenitiesCount');
+            if (grid && countSpan) {
+                countSpan.textContent = grid.children.length;
+            }
+        }
+    }
+
     function addAmenityCard() {
         const grid = document.getElementById('amenities_cards_container');
         if (!grid) return;
-        const newIdx = grid.children.length;
+        const newIdx = 'am_' + Date.now();
         const card = document.createElement('div');
         card.className = 'adm-card';
         card.id = `amenity_card_${newIdx}`;
-        card.style.cssText = 'border: 1px solid #dcd3c6; background: #fff; margin-bottom: 0; padding: 14px;';
+        card.style.cssText = 'border: 1px solid #dcd3c6; background: #fff; margin-bottom: 0; padding: 10px 14px; border-radius: 8px;';
 
-        const amenitiesOptions = `
-            <option value="">-- Choose Predefined Amenity --</option>
+        let amenitiesOptions = '<option value="">-- Choose Amenity --</option>';
+        if (window.ALL_AMENITIES && window.ALL_AMENITIES.length) {
+            amenitiesOptions += window.ALL_AMENITIES.map(am => `<option value="${escapeHtml(am.name)}" data-icon="${am.icon || ''}">${escapeHtml(am.name)}</option>`).join('');
+        } else {
             @if(isset($allAmenities))
                 @foreach($allAmenities as $am)
-                    <option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>
+                    amenitiesOptions += `<option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>`;
                 @endforeach
             @endif
-        `;
+        }
 
         card.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <div style="width: 44px; height: 44px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: flex; align-items: center; justify-content: center;">
-                    <img id="preview_amenity_${newIdx}" src="/images/wadeem-gardens/amenity-club.png" alt="Icon" style="width: 28px; height: 28px; object-fit: contain;">
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <div style="width: 40px; height: 40px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <img id="preview_amenity_${newIdx}" src="/images/placeholder.svg" alt="Icon" style="width: 24px; height: 24px; object-fit: contain;">
                 </div>
-                <button type="button" class="adm-btn-item-delete" onclick="document.getElementById('amenity_card_${newIdx}').remove()" style="padding: 4px 8px; font-size: 11px;">
-                    ✕ Delete
+                <select class="adm-select" name="sections[amenities][items][${newIdx}][name]" onchange="applyPredefinedAmenity(this, '${newIdx}')" style="flex: 1; min-width: 120px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; cursor: pointer;">
+                    ${amenitiesOptions}
+                </select>
+                <input type="hidden" name="sections[amenities][items][${newIdx}][icon]" id="input_amenity_${newIdx}" value="">
+                <button type="button" class="adm-btn-item-delete" onclick="removeAmenityCard(this)" style="padding: 4px 8px; font-size: 11px; flex-shrink: 0;" title="Delete Amenity">
+                    ✕
                 </button>
             </div>
-            <label class="adm-label" style="font-size: 11px; margin-bottom: 2px; color: #0284c7; font-weight: 700;">Select from Amenities (Auto-fills Icon)</label>
-            <select class="adm-select" onchange="applyPredefinedAmenity(this, '${newIdx}')" style="font-size: 11.5px; margin-bottom: 8px; background: #f0f9ff; border-color: #bae6fd; padding: 5px 8px; border-radius: 6px; cursor: pointer; width: 100%;">
-                ${amenitiesOptions}
-            </select>
-            <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Amenity Name</label>
-            <input type="text" name="sections[amenities][items][${newIdx}][name]" id="name_amenity_${newIdx}" value="New Amenity" class="adm-input" style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">
-            <label class="adm-label" style="font-size: 11px; margin-bottom: 2px;">Icon URL (SVG / Image)</label>
-            <input type="text" name="sections[amenities][items][${newIdx}][icon]" id="input_amenity_${newIdx}" value="/images/wadeem-gardens/amenity-club.png" class="adm-input" style="font-size: 11px;" oninput="document.getElementById('preview_amenity_${newIdx}').src = this.value">
-            <label class="adm-label" style="font-size: 11px; margin-top: 6px; margin-bottom: 2px;">Or Upload Custom Icon</label>
-            <input type="file" name="section_files[amenities][items][${newIdx}][icon]" class="adm-input" accept="image/*,.svg" style="font-size: 10px; padding: 3px;" onchange="previewUploadedImage(this, 'preview_amenity_${newIdx}', 'input_amenity_${newIdx}')">
         `;
         grid.appendChild(card);
         const countSpan = document.getElementById('amenitiesCount');

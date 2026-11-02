@@ -349,10 +349,17 @@
                 },
                 body: JSON.stringify({
                     name: formData.get('name'),
-                    email: formData.get('email'),
+                    email: formData.get('email') || '',
                     phone: formData.get('phone'),
+                    source: 'Website',
+                    sub_source: 'saima project',
+                    utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
+                    campaign_url: 'https://saimaprojects.com/',
                     project: 'Hudayriyat Island',
                     developer: 'Modon Properties',
+                    community: 'Hudayriyat Island',
+                    property_type: 'General Inquiry',
+                    key_requirement: formData.get('comment') || formData.get('message') || '',
                     activity_description: 'About Us Page Form Request'
                 })
             });

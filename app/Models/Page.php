@@ -22,12 +22,16 @@ class Page extends Model
         'meta_keywords',
         'og_image',
         'status',
+        'show_in_projects',
+        'show_in_commercial',
     ];
 
     protected $casts = [
-        'in_navbar'    => 'boolean',
-        'is_published' => 'boolean',
-        'navbar_order' => 'integer',
+        'in_navbar'          => 'boolean',
+        'show_in_projects'   => 'boolean',
+        'show_in_commercial' => 'boolean',
+        'is_published'       => 'boolean',
+        'navbar_order'       => 'integer',
     ];
 
     /**

@@ -23,13 +23,17 @@ class Project extends Model
         'order',
         'is_active',
         'status',
+        'show_in_projects',
+        'show_in_commercial',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
-        'order'     => 'integer',
-        'page_id'   => 'integer',
-        'badges'    => 'array',
+        'is_active'          => 'boolean',
+        'show_in_projects'   => 'boolean',
+        'show_in_commercial' => 'boolean',
+        'order'              => 'integer',
+        'page_id'            => 'integer',
+        'badges'             => 'array',
     ];
 
     protected $appends = [
@@ -51,9 +55,10 @@ class Project extends Model
      */
     public function getUrlAttribute(): string
     {
-        if ($this->page) {
-            $slug = ltrim($this->page->slug, '/');
-            return url($slug === '' ? '/' : '/' . $slug);
+        $rawSlug = $this->slug ?: ($this->page?->slug ?? '');
+        $cleanSlug = ltrim(preg_replace('#^project/#', '', ltrim($rawSlug, '/')), '/');
+        if ($cleanSlug !== '') {
+            return url('/project/' . $cleanSlug);
         }
 
         return '#';

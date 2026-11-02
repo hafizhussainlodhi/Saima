@@ -309,7 +309,9 @@ img {
 /* ==========================================================================
    Universal Community Navbar Dropdown - 100% Port 3000 Parity
    ========================================================================== */
-[class*="dropdownMenu"], [class*="DropdownMenu"], .dropdownMenu {
+[class*="dropdownMenu"]:not(.countryDropdownMenu):not(.universalCountryDropdown), 
+[class*="DropdownMenu"]:not(.countryDropdownMenu):not(.universalCountryDropdown), 
+.dropdownMenu:not(.countryDropdownMenu):not(.universalCountryDropdown) {
   position: absolute !important;
   top: 100% !important;
   left: 0 !important;
@@ -337,7 +339,13 @@ img {
 .dropdownOpen,
 [class*="dropdown"]:hover > [class*="dropdownMenu"],
 [class*="dropdown"]:hover > [class*="DropdownMenu"],
-li[class*="dropdown"]:hover > ul[class*="dropdownMenu"] {
+li[class*="dropdown"]:hover > ul[class*="dropdownMenu"],
+li[class*="navItem"]:hover > [class*="dropdownMenu"],
+li[class*="navItem"]:hover > [class*="DropdownMenu"],
+li[class*="navItem"]:hover > .dropdownMenu,
+.navItem:hover > .dropdownMenu,
+li:hover > [class*="dropdownMenu"],
+li:hover > [class*="DropdownMenu"] {
   display: block !important;
   flex-direction: column !important;
   opacity: 1 !important;
@@ -572,3 +580,355 @@ header [class*="logoImg"] {
   max-height: 54px !important;
   object-fit: contain !important;
 }
+
+/* ==========================================================================
+   UNIVERSAL HIGHLIGHT ICONS (WHITE & CENTERED IN GREEN CIRCLE)
+   ========================================================================== */
+.iconWrapper,
+[class*="__iconWrapper"] {
+  position: relative !important;
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.accentCircle,
+[class*="__accentCircle"] {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  background: #1a4731 !important;
+  opacity: 1 !important;
+  z-index: 1 !important;
+}
+
+.svgIcon,
+[class*="__svgIcon"] {
+  position: relative !important;
+  z-index: 2 !important;
+  color: #ffffff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.svgIcon img,
+[class*="__svgIcon"] img,
+.highlightCard img,
+[class*="__highlightCard"] img {
+  width: 20px !important;
+  height: 20px !important;
+  object-fit: contain !important;
+  filter: brightness(0) invert(1) !important;
+  display: block !important;
+  margin: auto !important;
+}
+
+.svgIcon svg,
+[class*="__svgIcon"] svg,
+.highlightCard svg,
+[class*="__highlightCard"] svg {
+  width: 20px !important;
+  height: 20px !important;
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+  display: block !important;
+  margin: auto !important;
+}
+
+/* ==========================================================================
+   UNIVERSAL HERO TYPOGRAPHY (100% Home Page Hero Parity for all Properties)
+   ========================================================================== */
+.GolfHero-module__9JtUKq__title,
+[class*="Hero-module__"][class*="__title"],
+.heroTitle {
+  font-size: clamp(32px, 3.8vw, 46px) !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  line-height: 1.22 !important;
+  margin-bottom: 18px !important;
+  letter-spacing: -0.015em !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45) !important;
+}
+
+.GolfHero-module__9JtUKq__subtitle,
+[class*="Hero-module__"][class*="__subtitle"],
+.heroSubtitle {
+  font-size: clamp(15px, 1.35vw, 18px) !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  line-height: 1.55 !important;
+  margin-bottom: 16px !important;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45) !important;
+}
+
+@media (max-width: 991px) {
+  .GolfHero-module__9JtUKq__title,
+  [class*="Hero-module__"][class*="__title"],
+  .heroTitle {
+    font-size: 36px !important;
+    line-height: 1.15 !important;
+    margin-bottom: 12px !important;
+  }
+  .GolfHero-module__9JtUKq__subtitle,
+  [class*="Hero-module__"][class*="__subtitle"],
+  .heroSubtitle {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    margin-bottom: 10px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .GolfHero-module__9JtUKq__title,
+  [class*="Hero-module__"][class*="__title"],
+  .heroTitle {
+    font-size: 30px !important;
+    margin-bottom: 8px !important;
+  }
+  .GolfHero-module__9JtUKq__subtitle,
+  [class*="Hero-module__"][class*="__subtitle"],
+  .heroSubtitle {
+    font-size: 14px !important;
+    margin-bottom: 8px !important;
+  }
+}
+
+/* ==========================================================================
+   UNIVERSAL PHONE SELECTOR & DROPDOWN (100% Home & Global Parity)
+   ========================================================================== */
+.phoneUnifiedContainer {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  height: 48px;
+  border-radius: 4px;
+  border: 1px solid #dcdcdc;
+  background-color: #f8fafc;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.phoneUnifiedContainer:focus-within {
+  border-color: #1a4731;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(26, 71, 49, 0.15);
+}
+
+.countryTriggerWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.countryTriggerBtn {
+  height: 100%;
+  background: transparent;
+  border: none;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  border-right: 1px solid #dcdcdc;
+  border-radius: 4px 0 0 4px;
+}
+
+.countryTriggerBtn:hover {
+  background-color: #f1f5f9;
+}
+
+.flagSlot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.caretDown {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid #666;
+  pointer-events: none !important;
+}
+
+.countryTriggerBtn * {
+  pointer-events: none !important;
+}
+
+.countryDropdownMenu,
+.universalCountryDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: #ffffff !important;
+  border: 1px solid #dcdcdc !important;
+  border-radius: 8px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+  width: 320px !important;
+  max-width: 90vw !important;
+  z-index: 999999 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  list-style: none !important;
+  overflow: hidden !important;
+  display: none;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.countryDropdownMenu.dropdownOpen,
+.countryDropdownMenu.isOpen,
+.universalCountryDropdown.dropdownOpen,
+.universalCountryDropdown.isOpen {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+.countrySearchWrapper {
+  position: sticky;
+  top: 0;
+  background: #ffffff;
+  padding: 10px 12px;
+  border-bottom: 1px solid #eef2f6;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.countrySearchInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  outline: none;
+  background: #f8fafc;
+  color: #1f2937;
+  font-family: inherit;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.countrySearchInput:focus {
+  border-color: #1a4731;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(26, 71, 49, 0.12);
+}
+
+.countryListItems {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  max-height: 240px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.countryListItems::-webkit-scrollbar {
+  width: 6px;
+}
+
+.countryListItems::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.countryDropdownItem {
+  padding: 8px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.15s ease;
+  user-select: none;
+}
+
+.countryDropdownItem:hover {
+  background: #f1f5f9;
+}
+
+.countryItemFlag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  flex-shrink: 0;
+}
+
+.countryItemName {
+  flex: 1;
+  font-size: 13.5px;
+  color: #1f2937;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.countryItemDial {
+  font-size: 12.5px;
+  color: #64748b;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.phoneInputField {
+  flex: 1;
+  width: 100%;
+  font-family: inherit;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #333333;
+  padding: 0 12px;
+}
+
+/* Global Hero Section: BOOK NOW Red Background */
+.heroBookBtn,
+.heroBtnRow .heroBookBtn,
+#hero .heroBookBtn,
+section[id="hero"] .heroBookBtn,
+[class*="heroSection"] [class*="brochureBtn"],
+[class*="Hero"] [class*="brochureBtn"],
+[class*="__btnRow"] [class*="brochureBtn"],
+[class*="btnRow"] button {
+  background-color: #d9232d !important;
+  background: #d9232d !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 12px rgba(217, 35, 45, 0.35) !important;
+}
+
+.heroBookBtn:hover,
+.heroBtnRow .heroBookBtn:hover,
+#hero .heroBookBtn:hover,
+section[id="hero"] .heroBookBtn:hover,
+[class*="heroSection"] [class*="brochureBtn"]:hover,
+[class*="Hero"] [class*="brochureBtn"]:hover,
+[class*="__btnRow"] [class*="brochureBtn"]:hover,
+[class*="btnRow"] button:hover {
+  background-color: #b71a23 !important;
+  background: #b71a23 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(217, 35, 45, 0.5) !important;
+}
+
+
+
