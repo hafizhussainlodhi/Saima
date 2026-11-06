@@ -442,7 +442,7 @@
                         @forelse($allBlogs as $b)
                             <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s ease;" onmouseover="this.style.background='#fafbfd'" onmouseout="this.style.background='transparent'">
                                 <td style="padding: 12px 14px;">
-                                    <img src="{{ $b->cover_image ? asset($b->cover_image) : asset('/images/Hudayriyat-Island---Marsana-East-Beach---Sign---Sunset-2.jpg') }}" alt="Cover" style="width: 58px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
+                                    <img src="{{ $b->cover_image ? asset($b->cover_image) : asset('/images/Saima-Island---Marsana-East-Beach---Sign---Sunset-2.jpg') }}" alt="Cover" style="width: 58px; height: 42px; object-fit: cover; border-radius: 6px; border: 1px solid #e2e8f0;">
                                 </td>
                                 <td style="padding: 12px 14px; font-weight: 600; color: #1e293b;">
                                     <a href="{{ route('admin.blogs.index', ['id' => $b->id]) }}" style="color: #1e293b; text-decoration: none;">
@@ -702,7 +702,7 @@
                             <div>
                                 <div class="cover-upload-card" onclick="document.getElementById('coverFileInput').click()">
                                     @php
-                                        $coverSrc = $blog && $blog->cover_image ? asset($blog->cover_image) : asset('/images/Hudayriyat-Island---Marsana-East-Beach---Sign---Sunset-2.jpg');
+                                        $coverSrc = $blog && $blog->cover_image ? asset($blog->cover_image) : asset('/images/Saima-Island---Marsana-East-Beach---Sign---Sunset-2.jpg');
                                     @endphp
                                     <img id="coverImageElement" src="{{ $coverSrc }}" alt="Cover">
                                     <button type="button" class="cover-edit-btn" title="Change Cover Image">

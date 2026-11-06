@@ -52,15 +52,16 @@ class LeadController extends Controller
     public function export(Request $request)
     {
         $leads = $this->filteredQuery($request)->latest()->get();
-        $filename = 'hudayriyat-leads-' . now()->format('Y-m-d-His') . '.csv';
+        $filename = 'saima-leads-' . now()->format('Y-m-d-His') . '.csv';
 
         return response()->streamDownload(function () use ($leads) {
             $out = fopen('php://output', 'w');
             fwrite($out, "\xEF\xBB\xBF"); // UTF-8 BOM for Excel
-            fputcsv($out, ['ID', 'Name', 'Phone', 'Email', 'Project', 'Comment', 'Country', 'Status', 'IP Address', 'Submitted At']);
+            fputcsv($out, ['ID', 'Name', 'Phone', 'Email', 'Project', 'Page URL', 'Comment', 'Country', 'Status', 'IP Address', 'Submitted At']);
             foreach ($leads as $lead) {
                 fputcsv($out, [
                     $lead->id, $lead->name, $lead->phone, $lead->email, $lead->project,
+                    $lead->page_url,
                     $lead->comment, $lead->country, $lead->status, $lead->ip_address,
                     $lead->created_at?->format('Y-m-d H:i:s'),
                 ]);

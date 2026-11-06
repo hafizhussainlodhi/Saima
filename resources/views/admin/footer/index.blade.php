@@ -150,7 +150,7 @@
                         <!-- Column Header Input -->
                         <div class="adm-field" style="margin-bottom: 16px;">
                             <label class="adm-label" style="font-weight: 600;">Column {{ $cIdx + 1 }} Header <span style="color:#ef4444">*</span></label>
-                            <input type="text" name="columns[{{ $cIdx }}][header]" value="{{ $column['header'] ?? '' }}" class="adm-input col-header-input" oninput="updateColHeaderPreview(this)" required placeholder="e.g. About Hudayriyat">
+                            <input type="text" name="columns[{{ $cIdx }}][header]" value="{{ $column['header'] ?? '' }}" class="adm-input col-header-input" oninput="updateColHeaderPreview(this)" required placeholder="e.g. About Saima">
                         </div>
 
                         <!-- Column Links Container with Drag & Drop -->
@@ -212,7 +212,7 @@
 
                 <div class="adm-field" style="margin-top: 16px;">
                     <label class="adm-label" for="copyrightText">Copyright Text</label>
-                    <input type="text" name="copyright_text" id="copyrightText" value="{{ old('copyright_text', $footer->copyright_text) }}" class="adm-input" placeholder="© 2026 hudayriyat-island.ae All Rights Reserved.">
+                    <input type="text" name="copyright_text" id="copyrightText" value="{{ old('copyright_text', $footer->copyright_text) }}" class="adm-input" placeholder="© 2026 Saima-island.ae All Rights Reserved.">
                 </div>
             </div>
         </div>

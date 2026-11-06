@@ -46,25 +46,25 @@ $communitiesData = [
     [
         'name' => 'Wadeem Gardens',
         'image' => asset('images/communities/wadeem-gardens.png'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => 'Flexible Payment Plan',
         'href' => '/project/wadeem-gardens',
     ],
     [
-        'name' => 'Hudayriyat Golf Estates',
+        'name' => 'Saima Golf Estates',
         'image' => asset('images/communities/golf-estates.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['New'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '5/35/60 Payment Plan',
-        'href' => '/project/hudayriyat-golf-estates',
+        'href' => '/project/Saima-golf-estates',
     ],
     [
         'name' => 'Bashayer Residences',
         'image' => asset('images/communities/bashayer-residences.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
@@ -73,7 +73,7 @@ $communitiesData = [
     [
         'name' => 'Nawayef East Hills',
         'image' => asset('images/communities/nawayef-east.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['Offer'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/30/60 Payment Plan',
@@ -82,7 +82,7 @@ $communitiesData = [
     [
         'name' => 'Bashayer Villas',
         'image' => asset('images/communities/bashayer-villas.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '20/30/50 Payment Plan',
@@ -91,7 +91,7 @@ $communitiesData = [
     [
         'name' => 'Al Naseem Villas',
         'image' => asset('images/communities/al-naseem.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['Ready'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/30/60 Payment Plan',
@@ -100,7 +100,7 @@ $communitiesData = [
     [
         'name' => 'Masyaf Plots',
         'image' => asset('images/communities/masyaf-plots.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['New'],
         'developer' => 'Modon Properties',
         'paymentPlan' => 'Payment Plan: Launch Soon',
@@ -109,7 +109,7 @@ $communitiesData = [
     [
         'name' => 'Nawayef Village',
         'image' => asset('images/communities/nawayef-village.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
@@ -118,7 +118,7 @@ $communitiesData = [
     [
         'name' => 'Wadeem Plots',
         'image' => asset('images/communities/wadeem-plots.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
@@ -127,7 +127,7 @@ $communitiesData = [
     [
         'name' => 'Nawayef Park Views',
         'image' => asset('images/communities/nawayef-park-views.jpg'),
-        'location' => 'Hudayriyat Island, Abu Dhabi',
+        'location' => 'Saima, Abu Dhabi',
         'badges' => ['Off plan'],
         'developer' => 'Modon Properties',
         'paymentPlan' => '10/40/50 Payment Plan',
@@ -176,7 +176,7 @@ $communitiesData = [
                             <h3 class="cardTitle">{{ $item->title }}</h3>
 
                             <!-- Location -->
-                            <p class="cardLocation">{{ $item->location ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
+                            <p class="cardLocation">{{ $item->location ?? 'Saima, Abu Dhabi' }}</p>
 
                             <!-- Big Green Rounded BOOK NOW Button -->
                             <div class="cardBookBtn">BOOK NOW</div>

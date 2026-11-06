@@ -74,6 +74,7 @@
                         <th>Client Details</th>
                         <th>Phone</th>
                         <th>Project / Community</th>
+                        <th>Source Page URL</th>
                         <th>Country</th>
                         <th>Status</th>
                         <th>Date</th>
@@ -93,7 +94,16 @@
                                     @include('admin.partials.icon', ['name' => 'phone']) {{ $lead->phone }}
                                 </a>
                             </td>
-                            <td><div class="adm-truncate">{{ $lead->project ?? 'Hudayriyat Island' }}</div></td>
+                            <td><div class="adm-truncate">{{ $lead->project ?? 'Saima' }}</div></td>
+                            <td>
+                                @if($lead->page_url)
+                                    <a href="{{ $lead->page_url }}" target="_blank" rel="noopener noreferrer" style="color: #1a4731; font-weight: 600; font-size: 12px; text-decoration: underline; max-width: 200px; display: inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ $lead->page_url }}">
+                                        {{ $lead->page_url }} ↗
+                                    </a>
+                                @else
+                                    <span class="adm-cell-sub">—</span>
+                                @endif
+                            </td>
                             <td>
                                 @if($lead->country)
                                     <span class="adm-chip">{{ $lead->country }}</span>

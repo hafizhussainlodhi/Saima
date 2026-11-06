@@ -4,7 +4,7 @@
         $articleSlug = '/';
     }
     $originalCommunities = [
-        'wadeem-gardens', 'hudayriyat-golf-estates', 'bashayer-villas', 'bashayer-residences',
+        'wadeem-gardens', 'Saima-golf-estates', 'bashayer-villas', 'bashayer-residences',
         'al-naseem-villas', 'nawayef-east-hills', 'masyaf-plots', 'nawayef-village',
         'wadeem-plots', 'nawayef-park-views'
     ];
@@ -48,6 +48,18 @@
 
     $shortTextOnly = trim(str_replace(['&nbsp;', "\xc2\xa0"], ' ', strip_tags((string)$shortContentHtml)));
     $hasShortContent = ($shortTextOnly !== '' || preg_match('/<(img|iframe|video|svg|embed|object)\b/i', (string)$shortContentHtml));
+
+    $pageHasCommunitiesSec = isset($page) && $page->sections()->where('section_key', 'communities')->where('is_active', true)->exists();
+
+    $rawCommSelectedIds = (array)(page_section('communities', 'selected_ids', [], $articleSlug) ?: page_section('communities', 'project_ids', [], $articleSlug));
+    $commSelectedIds = array_values(array_filter($rawCommSelectedIds));
+
+    $rawCommCustomItems = (array)page_section('communities', 'items', [], $articleSlug);
+    $commCustomItems = array_values(array_filter($rawCommCustomItems, function($it) {
+        return is_array($it) && (!empty(trim($it['name'] ?? '')) || !empty(trim($it['title'] ?? '')));
+    }));
+
+    $hasProjectCards = $pageHasCommunitiesSec && (!empty($commSelectedIds) || !empty($commCustomItems));
 
     $hasContentSection = $hasLongContent || $hasShortContent;
 @endphp
@@ -218,11 +230,14 @@
 
 .saimaH2,
 .saimaContentCol h2,
-.saimaDynamicArticleContent h2 {
+.saimaDynamicContent h2,
+.saimaDynamicArticleContent h2,
+.saimaLongContentBody h2,
+.saimaShortContent h2 {
     color: #1a4731 !important;
     font-size: 26px !important;
     font-weight: 700 !important;
-    margin-top: 32px !important;
+    margin-top: 24px !important;
     margin-bottom: 12px !important;
     line-height: 1.35 !important;
     scroll-margin-top: 100px;
@@ -231,11 +246,14 @@
 
 .saimaH3,
 .saimaContentCol h3,
-.saimaDynamicArticleContent h3 {
+.saimaDynamicContent h3,
+.saimaDynamicArticleContent h3,
+.saimaLongContentBody h3,
+.saimaShortContent h3 {
     color: #1a4731 !important;
     font-size: 20px !important;
     font-weight: 700 !important;
-    margin-top: 24px !important;
+    margin-top: 20px !important;
     margin-bottom: 10px !important;
     line-height: 1.4 !important;
     scroll-margin-top: 100px;
@@ -243,14 +261,42 @@
 
 .saimaH4,
 .saimaContentCol h4,
-.saimaDynamicArticleContent h4 {
+.saimaDynamicContent h4,
+.saimaDynamicArticleContent h4,
+.saimaLongContentBody h4,
+.saimaShortContent h4 {
     color: #1a4731 !important;
     font-size: 17px !important;
     font-weight: 700 !important;
-    margin-top: 20px !important;
+    margin-top: 18px !important;
     margin-bottom: 8px !important;
     line-height: 1.4 !important;
     scroll-margin-top: 100px;
+}
+
+.saimaContentCol h1,
+.saimaContentCol h5,
+.saimaContentCol h6,
+.saimaDynamicContent h1,
+.saimaDynamicContent h5,
+.saimaDynamicContent h6,
+.saimaDynamicArticleContent h1,
+.saimaDynamicArticleContent h5,
+.saimaDynamicArticleContent h6,
+.saimaLongContentBody h1,
+.saimaLongContentBody h5,
+.saimaLongContentBody h6 {
+    color: #1a4731 !important;
+    font-weight: 700 !important;
+}
+
+/* Ensure ALL inner elements of headings (spans, b, strong, a, etc.) remain green */
+.saimaContentCol h1 *, .saimaContentCol h2 *, .saimaContentCol h3 *, .saimaContentCol h4 *, .saimaContentCol h5 *, .saimaContentCol h6 *,
+.saimaDynamicContent h1 *, .saimaDynamicContent h2 *, .saimaDynamicContent h3 *, .saimaDynamicContent h4 *, .saimaDynamicContent h5 *, .saimaDynamicContent h6 *,
+.saimaDynamicArticleContent h1 *, .saimaDynamicArticleContent h2 *, .saimaDynamicArticleContent h3 *, .saimaDynamicArticleContent h4 *, .saimaDynamicArticleContent h5 *, .saimaDynamicArticleContent h6 *,
+.saimaLongContentBody h1 *, .saimaLongContentBody h2 *, .saimaLongContentBody h3 *, .saimaLongContentBody h4 *, .saimaLongContentBody h5 *, .saimaLongContentBody h6 *,
+.saimaShortContent h1 *, .saimaShortContent h2 *, .saimaShortContent h3 *, .saimaShortContent h4 *, .saimaShortContent h5 *, .saimaShortContent h6 * {
+    color: #1a4731 !important;
 }
 
 .saimaP,
@@ -261,13 +307,148 @@
     line-height: 1.55;
 }
 
-.saimaContentCol img {
-    max-width: 100%;
-    height: auto;
+/* Prevent text from awkwardly wrapping beside images in articles/content (Clean block display) */
+.saimaContentCol > img,
+.saimaContentCol p img,
+.saimaDynamicContent img,
+.saimaLongContentBody img,
+.saimaShortContent img,
+.saimaDynamicArticleContent img {
+    float: none !important;
+    display: block !important;
+    clear: both !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 22px auto !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
     border-radius: 8px;
-    display: block;
-    margin: 18px 0 24px 0;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+/* Bulletproof Project Card Styling (Ensures Card Images Always Display 100% Full-bleed Correctly) */
+.communitiesGrid .cardCustom,
+.cardCustom {
+    position: relative !important;
+    height: 440px !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+    cursor: pointer !important;
+    transition: transform 0.35s ease, box-shadow 0.35s ease !important;
+    background: #111111 !important;
+    display: block !important;
+    text-decoration: none !important;
+}
+
+.communitiesGrid .cardCustom:hover,
+.cardCustom:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.22) !important;
+}
+
+.communitiesGrid .cardCustom img.mainImage,
+.cardCustom img.mainImage,
+.cardCustom img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    float: none !important;
+    clear: none !important;
+    transition: transform 0.6s ease !important;
+}
+
+.communitiesGrid .cardCustom:hover img.mainImage,
+.cardCustom:hover img.mainImage,
+.cardCustom:hover img {
+    transform: scale(1.06) !important;
+}
+
+.communitiesGrid .cardCustom .bottomContent,
+.cardCustom .bottomContent {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 38px 18px 20px !important;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.72) 50%, rgba(0, 0, 0, 0.2) 80%, transparent 100%) !important;
+    z-index: 2 !important;
+}
+
+.communitiesGrid .cardCustom .cardTitle,
+.cardCustom .cardTitle,
+.cardCustom h3.cardTitle {
+    color: #ffffff !important;
+    font-size: 19px !important;
+    font-weight: 700 !important;
+    margin: 0 0 5px 0 !important;
+    line-height: 1.3 !important;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.85) !important;
+}
+
+.communitiesGrid .cardCustom .cardLocation,
+.cardCustom .cardLocation {
+    color: rgba(255, 255, 255, 0.88) !important;
+    font-size: 13px !important;
+    margin: 0 0 14px 0 !important;
+    line-height: 1.4 !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.85) !important;
+}
+
+.communitiesGrid .cardCustom .cardBookBtn,
+.cardCustom .cardBookBtn {
+    background: #1a4731 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    padding: 10px 18px !important;
+    border-radius: 999px !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.35) !important;
+    transition: background 0.2s ease, transform 0.2s ease !important;
+    display: block !important;
+}
+
+.communitiesGrid .cardCustom:hover .cardBookBtn,
+.cardCustom:hover .cardBookBtn {
+    background: #123322 !important;
+    transform: translateY(-2px) !important;
+}
+
+.saimaContentCol p,
+.saimaDynamicContent p,
+.saimaLongContentBody p,
+.saimaShortContent p,
+.saimaDynamicArticleContent p {
+    clear: both;
+    width: 100%;
+}
+
+.saimaContentCol figure,
+.saimaDynamicContent figure,
+.saimaLongContentBody figure {
+    float: none !important;
+    clear: both !important;
+    display: block !important;
+    margin: 22px auto !important;
+    max-width: 100% !important;
+}
+
+.saimaContentCol table,
+.saimaDynamicContent table,
+.saimaLongContentBody table {
+    clear: both !important;
+    margin: 20px auto !important;
 }
 
 .saimaP a,
@@ -351,8 +532,8 @@
 .saimaDynamicArticleContent strong,
 .saimaDynamicArticleContent i,
 .saimaDynamicArticleContent em,
-.saimaDynamicArticleContent span,
-.saimaDynamicArticleContent div {
+.saimaDynamicArticleContent span:not(h1 *):not(h2 *):not(h3 *):not(h4 *):not(h5 *):not(h6 *),
+.saimaDynamicArticleContent div:not(h1 *):not(h2 *):not(h3 *):not(h4 *):not(h5 *):not(h6 *) {
     color: #111111 !important;
 }
 
@@ -369,7 +550,10 @@
 
 .saimaH2,
 .saimaContentCol h2,
-.saimaDynamicArticleContent h2 {
+.saimaDynamicContent h2,
+.saimaDynamicArticleContent h2,
+.saimaLongContentBody h2,
+.saimaShortContent h2 {
     color: #1a4731 !important;
 }
 
@@ -651,32 +835,165 @@
             <!-- Left Column: Article Content -->
             <article class="saimaContentCol">
                 @if($isNewPage)
-                    @if($hasShortContent)
-                        <div class="saimaShortContent" style="font-size: 16.5px; line-height: 1.8; color: #2b2b2b;">
-                            {!! $shortContentHtml !!}
-                            <div class="saimaReadMoreWrap">
-                                <a href="#pageLongContent" class="saimaReadMoreBtn" onclick="scrollToLongContent(event)">
-                                    <span>Read more</span>
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M12 6v12"/></svg>
-                                </a>
+                    @if($hasProjectCards)
+                        {{-- SPLIT LAYOUT: Short Content + Blue Read More Link beside Appointment Form --}}
+                        @php
+                            $readMoreLink = '<a href="#pageLongContent" class="saimaReadMoreInline" onclick="scrollToLongContent(event)" style="color: #2563eb; font-weight: 600; text-decoration: underline; cursor: pointer; margin-left: 6px; white-space: nowrap; font-size: inherit; display: inline;">Read more</a>';
+                            $shortWithReadMore = $shortContentHtml;
+                            if (!empty(trim((string)$shortWithReadMore))) {
+                                if (preg_match('/(\s*(?:<\/(?:p|div|h[1-6]|span|li|b|strong|em|i)>\s*)+)$/i', trim($shortWithReadMore))) {
+                                    $shortWithReadMore = preg_replace('/(\s*(?:<\/(?:p|div|h[1-6]|span|li|b|strong|em|i)>\s*)+)$/i', ' ' . $readMoreLink . '$1', trim($shortWithReadMore));
+                                } else {
+                                    $shortWithReadMore = trim($shortWithReadMore) . ' ' . $readMoreLink;
+                                }
+                            }
+                        @endphp
+                        @if($hasShortContent)
+                            <div class="saimaShortContent" style="font-size: 16.5px; line-height: 1.8; color: #2b2b2b;">
+                                {!! $shortWithReadMore !!}
                             </div>
-                        </div>
-                    @elseif($isSaimaMangrove)
-                        <!-- Default Intro Paragraphs for Saima Mangrove -->
-                        <p class="saimaIntroP">
-                            Saima Mangrove Residences is a new benchmark for living in the city’s waterfront. The project is a blend of contemporary design and a tranquil coastal setting. Residents enjoy fresh sea breezes and access to major urban destinations.
-                        </p>
-                        <p class="saimaIntroP">
-                            Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road and faces protected mangrove areas. The development offers a lifestyle for professionals, investors, and families inspired by a resort. Furthermore, the area has a peaceful atmosphere, which is away from the noise and hustle of the city center.
-                        </p>
-                        <p class="saimaIntroP">
-                            The project is a blend of luxury, convenience, and investment value. Hence, buyers can purchase a high-value waterfront property in one of the upcoming coastal areas of Karachi.
-                        </p>
-                        <div class="saimaReadMoreWrap">
-                            <a href="#pageLongContent" class="saimaReadMoreBtn" onclick="scrollToLongContent(event)">
-                                <span>Read more</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M12 6v12"/></svg>
-                            </a>
+                        @elseif($isSaimaMangrove)
+                            <p class="saimaIntroP">
+                                Saima Mangrove Residences is a new benchmark for living in the city’s waterfront. The project is a blend of contemporary design and a tranquil coastal setting. Residents enjoy fresh sea breezes and access to major urban destinations.
+                            </p>
+                            <p class="saimaIntroP">
+                                Saima Mangrove Residences Karachi is located on the banks of Korangi Creek Road and faces protected mangrove areas. The development offers a lifestyle for professionals, investors, and families inspired by a resort. Furthermore, the area has a peaceful atmosphere, which is away from the noise and hustle of the city center.
+                            </p>
+                            <p class="saimaIntroP">
+                                The project is a blend of luxury, convenience, and investment value. Hence, buyers can purchase a high-value waterfront property in one of the upcoming coastal areas of Karachi. {!! $readMoreLink !!}
+                            </p>
+                        @elseif($hasLongContent)
+                            <div class="saimaDynamicContent" style="font-size: 16.5px; line-height: 1.8; color: #2b2b2b;">
+                                {!! $longContentHtml !!}
+                            </div>
+                        @endif
+
+                        {{-- Project Cards directly below Short Content with minimal gap --}}
+                        @php
+                            $pcSelectedIds = array_values(array_filter(
+                                (array)(page_section('communities', 'selected_ids', null, $page->slug)
+                                    ?: page_section('communities', 'project_ids', null, $page->slug))
+                            ));
+                            $pcDbProjects = collect();
+                            if (!empty($pcSelectedIds)) {
+                                $pcDbProjects = \App\Models\Project::whereIn('id', $pcSelectedIds)
+                                    ->where('is_active', true)
+                                    ->where(function($q) { $q->whereNull('status')->orWhere('status', '!=', 'draft'); })
+                                    ->whereDoesntHave('page', function($q) { $q->where('status', 'draft')->orWhere('is_published', false); })
+                                    ->with('page')
+                                    ->get()
+                                    ->sortBy(fn($m) => array_search($m->id, $pcSelectedIds));
+                            }
+                            $pcCustomItems = array_values(array_filter(
+                                (array)page_section('communities', 'items', null, $page->slug),
+                                fn($it) => is_array($it) && (!empty(trim($it['name'] ?? '')) || !empty(trim($it['title'] ?? '')))
+                            ));
+                            $pcHasCards = $pcDbProjects->isNotEmpty() || !empty($pcCustomItems);
+                            $pcHeading  = page_section('communities', 'heading', 'Projects', $page->slug);
+                            $pcSubtitle = page_section('communities', 'subtitle', '', $page->slug);
+                        @endphp
+
+                        @if($pcHasCards)
+                            <div class="saimaInlineProjectsArea" id="saimaInlineProjectsArea" style="margin-top: 18px; margin-bottom: 10px;">
+                                @if(!empty($pcHeading))
+                                    <h2 style="font-size: 26px; font-weight: 700; color: #111827; margin: 0 0 10px 0; text-align: left;">{{ $pcHeading }}</h2>
+                                    @if(!empty($pcSubtitle))
+                                        <p style="font-size: 14.5px; color: #6b7280; margin: 0 0 14px 0; line-height: 1.5;">{{ $pcSubtitle }}</p>
+                                    @endif
+                                @endif
+
+                                <div class="communitiesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;">
+                                    @if($pcDbProjects->isNotEmpty())
+                                        @foreach($pcDbProjects as $pcItem)
+                                            @php
+                                                $pcImgSrc  = $pcItem->image_url;
+                                                $pcHref    = $pcItem->url;
+                                                $pcSoldOut = ($pcItem->status === 'sold_out') || ($pcItem->page?->status === 'sold_out');
+                                            @endphp
+                                            <a href="{{ $pcHref }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $pcItem->title }}">
+                                                <div class="topTags">
+                                                    @if(!empty($pcItem->badges) && is_array($pcItem->badges))
+                                                        @foreach($pcItem->badges as $badge)<span class="badgeTag">{{ $badge }}</span>@endforeach
+                                                    @endif
+                                                </div>
+                                                @if($pcSoldOut)<span class="soldOutBadge">Sold out</span>@endif
+                                                <img src="{{ $pcImgSrc }}" alt="{{ $pcItem->title }} luxury property" class="mainImage" loading="lazy">
+                                                <div class="bottomContent">
+                                                    <h3 class="cardTitle">{{ $pcItem->title }}</h3>
+                                                    <p class="cardLocation">{{ $pcItem->location ?? 'Saima, Pakistan' }}</p>
+                                                    <div class="cardBookBtn">BOOK NOW</div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @elseif(!empty($pcCustomItems))
+                                        @foreach($pcCustomItems as $pcItem)
+                                            @php
+                                                $pcImgSrc  = $pcItem['image'] ?? '/images/communities/wadeem-gardens.png';
+                                                $pcHref    = $pcItem['href'] ?? ($pcItem['link'] ?? '#');
+                                                $pcSoldOut = !empty($pcItem['sold_out']);
+                                                $pcTitle   = $pcItem['name'] ?? ($pcItem['title'] ?? '');
+                                                $pcLoc     = $pcItem['location'] ?? ($pcItem['subtitle'] ?? 'Saima, Pakistan');
+                                            @endphp
+                                            <a href="{{ $pcHref }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $pcTitle }}">
+                                                <div class="topTags">
+                                                    @if(!empty($pcItem['badges']) && is_array($pcItem['badges']))
+                                                        @foreach($pcItem['badges'] as $badge)<span class="badgeTag">{{ $badge }}</span>@endforeach
+                                                    @endif
+                                                </div>
+                                                @if($pcSoldOut)<span class="soldOutBadge">Sold out</span>@endif
+                                                <img src="{{ $pcImgSrc }}" alt="{{ $pcTitle }} luxury property" class="mainImage" loading="lazy">
+                                                <div class="bottomContent">
+                                                    <h3 class="cardTitle">{{ $pcTitle }}</h3>
+                                                    <p class="cardLocation">{{ $pcLoc }}</p>
+                                                    <div class="cardBookBtn">BOOK NOW</div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @endif
+                                </div>
+                            </div>
+                            @php $communitiesRendered = true; $GLOBALS['communitiesRenderedGlobal'] = true; @endphp
+                        @endif
+                    @else
+                        {{-- UNIFIED / CONTINUOUS LAYOUT: When NO Project Cards selected in CMS, Long Content continues directly from Short Content without next line break --}}
+                        @php
+                            // Clean leading empty tags from long content (e.g. <p><br></p>, <p>&nbsp;</p>, etc.)
+                            $cleanedLong = preg_replace('/^(?:\s*<p[^>]*>(?:\s*<br\s*\/?>|\s*&nbsp;|\s*)*<\/p>)+/i', '', trim((string)$longContentHtml));
+                            $cleanedLong = preg_replace('/^(?:\s*<br\s*\/?>|\s*&nbsp;)+/i', '', trim($cleanedLong));
+
+                            $mergedContent = '';
+                            if (!empty(trim((string)$shortContentHtml)) && !empty(trim($cleanedLong))) {
+                                if (preg_match('/^\s*<p[^>]*>(.*?)<\/p>/is', $cleanedLong, $firstPMatches)) {
+                                    $firstPText = trim($firstPMatches[1]);
+                                    $remainingLong = substr($cleanedLong, strlen($firstPMatches[0]));
+                                    if (preg_match('/(\s*(?:<\/(?:p|div|h[1-6]|span|li|b|strong|em|i)>\s*)+)$/i', trim($shortContentHtml))) {
+                                        $mergedContent = preg_replace(
+                                            '/(\s*(?:<\/(?:p|div|h[1-6]|span|li|b|strong|em|i)>\s*)+)$/i',
+                                            ' ' . $firstPText . '$1',
+                                            trim($shortContentHtml)
+                                        ) . $remainingLong;
+                                    } else {
+                                        $mergedContent = trim($shortContentHtml) . ' ' . $cleanedLong;
+                                    }
+                                } elseif (!preg_match('/^\s*<(?:h[1-6]|div|ul|ol|table|blockquote|section|article|figure|img)\b/i', $cleanedLong)) {
+                                    if (preg_match('/(\s*(?:<\/(?:p|div|h[1-6]|span|li|b|strong|em|i)>\s*)+)$/i', trim($shortContentHtml))) {
+                                        $mergedContent = preg_replace(
+                                            '/(\s*(?:<\/(?:p|div|h[1-6]|span|li|b|strong|em|i)>\s*)+)$/i',
+                                            ' ' . $cleanedLong . '$1',
+                                            trim($shortContentHtml)
+                                        );
+                                    } else {
+                                        $mergedContent = trim($shortContentHtml) . ' ' . $cleanedLong;
+                                    }
+                                } else {
+                                    $mergedContent = trim($shortContentHtml) . $cleanedLong;
+                                }
+                            } else {
+                                $mergedContent = !empty(trim((string)$shortContentHtml)) ? trim($shortContentHtml) : $cleanedLong;
+                            }
+                        @endphp
+                        <div class="saimaDynamicContent" style="font-size: 16.5px; line-height: 1.8; color: #2b2b2b;">
+                            {!! $mergedContent !!}
                         </div>
                     @endif
                 @else
@@ -974,16 +1291,12 @@
     </div>
 </section>
 
-@if($isNewPage)
-    <!-- 2. Project Cards Section (Communities Grid) - Only for New Created Pages -->
-    @include('partials.page-communities')
-    @php $communitiesRendered = true; $GLOBALS['communitiesRenderedGlobal'] = true; @endphp
-
-    <!-- 3. Long Content Section - Only for New Created Pages -->
+@if($isNewPage && $hasProjectCards)
+    <!-- Long Content Section - Displayed below project cards when split layout is active -->
     @if(!empty(trim($longContentHtml ?? '')))
-        <section class="saimaLongContentSection" id="pageLongContent" style="padding: 45px 0 70px 0; background: #ffffff; border-top: 1px solid #ebdccb; scroll-margin-top: 85px;">
+        <section class="saimaLongContentSection" id="pageLongContent" style="padding: 40px 0 70px 0; background: #ffffff; border-top: 1px solid #ebdccb; scroll-margin-top: 85px;">
             <div class="saimaContainer">
-                <div class="saimaLongContentBody" style="max-width: 960px; margin: 0 auto; font-size: 16.5px; line-height: 1.85; color: #2b2b2b;">
+                <div class="saimaLongContentBody" style="width: 100%; max-width: 100%; margin: 0 auto; font-size: 16.5px; line-height: 1.85; color: #2b2b2b;">
                     {!! $longContentHtml !!}
                 </div>
             </div>
@@ -1199,11 +1512,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 comment: apptForm.querySelector('textarea[name="comment"]')?.value || '',
                 source: 'Website',
                 sub_source: 'saima project',
+                page_url: window.location.href,
+                campaign_url: window.location.href,
                 utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-                campaign_url: 'https://saimaprojects.com/',
-                project: '{{ isset($project) && isset($project->name) ? addslashes($project->name) : (isset($page) ? addslashes($page->title) : "Hudayriyat Island") }}',
+                project: '{{ isset($project) && isset($project->name) ? addslashes($project->name) : (isset($page) ? addslashes($page->title) : "Saima") }}',
                 developer: '{{ isset($project) && isset($project->developer) ? addslashes($project->developer) : "Modon Properties" }}',
-                community: 'Hudayriyat Island',
+                community: 'Saima',
                 property_type: 'Residential',
                 activity_description: 'Book an Appointment Sidebar Request'
             };

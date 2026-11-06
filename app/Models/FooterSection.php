@@ -36,7 +36,7 @@ class FooterSection extends Model
                 if (!$record) {
                     $record = static::create([
                         'brand_title' => 'Saima',
-                        'brand_description' => 'Hudayriyat Island trusted property advisory serving local and international buyers. We specialize in residential and investment properties, offering clear guidance, market insight, and long term value.',
+                        'brand_description' => 'Saima Group trusted property advisory serving local and international buyers. We specialize in residential and investment properties, offering clear guidance, market insight, and long term value.',
                         'newsletter_title' => 'Subscribe to Our Newsletter',
                         'newsletter_subtitle' => 'Get the latest updates and property offers delivered to your inbox.',
                         'newsletter_enabled' => false,
@@ -48,7 +48,7 @@ class FooterSection extends Model
                         ],
                         'columns' => static::defaultColumns(),
                         'disclaimer_text' => 'Disclaimer: Its not official website. We inform that all property information provided on this website is for general guidance only and does not constitute a formal offer. Prices, availability, and property details may change at any time without prior notice. Images are for illustrative purposes and may not reflect actual properties. For the most accurate and up-to-date information, please contact us directly through the details provided on the website.',
-                        'copyright_text' => '© 2026 hudayriyat-island.ae All Rights Reserved.',
+                        'copyright_text' => '© 2026 saimaprojects.com All Rights Reserved.',
                     ]);
                 }
                 return $record;
@@ -56,14 +56,14 @@ class FooterSection extends Model
         } catch (\Throwable $e) {
             $fallback = new static([
                 'brand_title' => 'Saima',
-                'brand_description' => 'Hudayriyat Island trusted property advisory serving local and international buyers. We specialize in residential and investment properties, offering clear guidance, market insight, and long term value.',
+                'brand_description' => 'Saima Group trusted property advisory serving local and international buyers. We specialize in residential and investment properties, offering clear guidance, market insight, and long term value.',
                 'newsletter_title' => 'Subscribe to Our Newsletter',
                 'newsletter_subtitle' => 'Get the latest updates and property offers delivered to your inbox.',
                 'newsletter_enabled' => false,
                 'social_links' => [],
                 'columns' => static::defaultColumns(),
                 'disclaimer_text' => 'Disclaimer: Its not official website. We inform that all property information provided on this website is for general guidance only and does not constitute a formal offer.',
-                'copyright_text' => '© 2026 hudayriyat-island.ae All Rights Reserved.',
+                'copyright_text' => '© 2026 saimaprojects.com All Rights Reserved.',
             ]);
             return $fallback;
         }
@@ -73,7 +73,7 @@ class FooterSection extends Model
     {
         return [
             [
-                'header' => 'About Hudayriyat',
+                'header' => 'About Saima',
                 'links' => [
                     ['label' => 'Home', 'url' => '/'],
                     ['label' => 'Projects', 'url' => '/#communities'],
@@ -85,18 +85,11 @@ class FooterSection extends Model
                 ]
             ],
             [
-                'header' => 'Properties',
+                'header' => 'Quick Links',
                 'links' => [
-                    ['label' => 'Wadeem Gardens', 'url' => '/project/wadeem-gardens'],
-                    ['label' => 'Hudayriyat Golf Estates', 'url' => '/project/hudayriyat-golf-estates'],
-                    ['label' => 'Bashayer Villas', 'url' => '/project/bashayer-villas'],
-                    ['label' => 'Bashayer Residences', 'url' => '/project/bashayer-residences'],
-                    ['label' => 'Al Naseem Villas', 'url' => '/project/al-naseem-villas'],
-                    ['label' => 'Nawayef East Hills', 'url' => '/project/nawayef-east-hills'],
-                    ['label' => 'Masyaf Plots', 'url' => '/project/masyaf-plots'],
-                    ['label' => 'Nawayef Village', 'url' => '/project/nawayef-village'],
-                    ['label' => 'Wadeem Plots', 'url' => '/project/wadeem-plots'],
-                    ['label' => 'Nawayef Park Views', 'url' => '/project/nawayef-park-views'],
+                    ['label' => 'Home', 'url' => '/'],
+                    ['label' => 'Projects', 'url' => '/#communities'],
+                    ['label' => 'Contact Us', 'url' => '/contact-us'],
                 ]
             ],
             [

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Wadeem Plots | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -242,7 +245,7 @@
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"Restaurants","acceptedAnswer":{"@@type":"Answer","text":"Salar Restaurant - Approximately 10 mins The Phuket Kitchen - Approximately 16 mins Sama AlMoheet Seafood & Grill Restaurant - Approximately 11 mins Sunset Life Restaurant and Cafe - Approximately 19 mins Aroy Dee Thai Restaurant - Approximately 9 mins Steak Chef Restaurant - Approximately 18 mins Al Shader Restaurant and Grill - Approximately 14 mins"}},{"@@type":"Question","name":"Shopping Destinations","acceptedAnswer":{"@@type":"Answer","text":"Mushrif Mall - Approximately 10 mins Abu Dhabi Mall - Approximately 21 mins The Galleria Mall - Approximately 21 mins Reem Mall - Approximately 23 mins"}},{"@@type":"Question","name":"Hotels & Resorts","acceptedAnswer":{"@@type":"Answer","text":"Radisson Blu Hotel & Resort - Approximately 21 mins Four Seasons Hotel - Approximately 23 mins Rosewood hotel - Approximately 21 mins The St. Regis Abu Dhabi - Approximately 18 mins Emirates Palace Mandarin Oriental - Approximately 16 mins Beach Rotana - Approximately 23 mins"}}]}</script>@php
+</section>@php
     $defaultFaqs = [
         [
             'q' => 'What are nearby dining options around Wadeem Plots?',

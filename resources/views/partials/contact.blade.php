@@ -7,7 +7,7 @@
     @endphp
     <!-- Full Background Image -->
     <div class="contactBgImageWrapper">
-        <img src="{{ $contactBg }}" alt="Hudayriyat Island Waterfront Destination" class="contactBgImage">
+        <img src="{{ $contactBg }}" alt="Saima Waterfront Destination" class="contactBgImage">
         <div class="contactOverlay"></div>
     </div>
 
@@ -18,7 +18,7 @@
                 <span class="contactPreTitle">{{ page_section('contact', 'pretitle', "LET'S CONNECT") }}</span>
                 <h2 class="contactMainTitle">{{ page_section('contact', 'heading', 'Invest in Your Future') }}</h2>
                 <p class="contactMainSubtitle">
-                    {{ page_section('contact', 'subtitle', 'Discover exceptional residential villas, waterfront mansions, and prime plots across Hudayriyat Island. Connect with our dedicated property advisory team for personalized guidance and private viewings.') }}
+                    {{ page_section('contact', 'subtitle', 'Discover exceptional residential villas, waterfront mansions, and prime plots across Saima. Connect with our dedicated property advisory team for personalized guidance and private viewings.') }}
                 </p>
             </div>
 
@@ -118,11 +118,12 @@
                     phone: formData.get('phone'),
                     source: 'Website',
                     sub_source: 'saima project',
+                    page_url: window.location.href,
+                    campaign_url: window.location.href,
                     utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-                    campaign_url: 'https://saimaprojects.com/',
-                    project: '{{ isset($page) ? addslashes($page->title) : 'Hudayriyat Island' }}',
+                    project: '{{ isset($page) ? addslashes($page->title) : 'Saima' }}',
                     developer: '{{ (isset($page) && isset($page->project) && !empty($page->project->developer)) ? addslashes($page->project->developer) : 'Modon Properties' }}',
-                    community: '{{ isset($page) ? addslashes($page->title) : 'Hudayriyat Island' }}',
+                    community: '{{ isset($page) ? addslashes($page->title) : 'Saima' }}',
                     property_type: '{{ (isset($page) && isset($page->project) && !empty($page->project->property_type)) ? addslashes($page->project->property_type) : 'Residential' }}',
                     key_requirement: formData.get('comment') || formData.get('message') || '',
                     activity_description: 'General Contact Section Call Back Request'

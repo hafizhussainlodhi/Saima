@@ -29,21 +29,21 @@ return [
         // ---------------- SEO ----------------
         'seo_title' => [
             'group' => 'seo', 'label' => 'Page Title (<title>)', 'type' => 'text',
-            'value' => 'Hudayriyat Island – Luxury Villas & Waterfront Living in Abu Dhabi',
+            'value' => 'Saima Group Builders | Latest Real Estate Projects in Pakistan',
         ],
         'seo_description' => [
             'group' => 'seo', 'label' => 'Meta Description', 'type' => 'textarea',
-            'value' => 'Discover Hudayriyat Island, a premier luxury waterfront community in Abu Dhabi offering exclusive villas, mansions, and world-class amenities. Enjoy serene beaches, cultural heritage, and modern living in a secure and vibrant environment. Invest in your dream home today.',
+            'value' => 'Discover Saima Group projects, premier luxury residential communities and commercial properties across Karachi and Pakistan offering modern apartments, villas, and world-class amenities.',
         ],
 
         // ---------------- HERO ----------------
         'hero_title' => [
             'group' => 'hero', 'label' => 'Hero Title (H1 – new line = line break)', 'type' => 'textarea',
-            'value' => "Hudayriyat\nIsland",
+            'value' => "Saima\nProjects",
         ],
         'hero_subtitle' => [
             'group' => 'hero', 'label' => 'Hero Subtitle (new line = line break)', 'type' => 'textarea',
-            'value' => "Abu Dhabi’s Most Exclusive Coastal\nLifestyle Destination",
+            'value' => "Pakistan’s Most Trusted Real Estate\n& Lifestyle Destination",
         ],
         'hero_freehold_badge' => [
             'group' => 'hero', 'label' => 'Freehold Badge Text', 'type' => 'text',
@@ -64,26 +64,26 @@ return [
 
         // ---------------- HIGHLIGHTS ----------------
         'highlight_1_label' => ['group' => 'highlights', 'label' => 'Badge 1 – Label', 'type' => 'text', 'value' => 'Developer'],
-        'highlight_1_value' => ['group' => 'highlights', 'label' => 'Badge 1 – Value', 'type' => 'text', 'value' => 'Modon Properties'],
+        'highlight_1_value' => ['group' => 'highlights', 'label' => 'Badge 1 – Value', 'type' => 'text', 'value' => 'Saima Group'],
         'highlight_2_label' => ['group' => 'highlights', 'label' => 'Badge 2 – Label', 'type' => 'text', 'value' => 'Launch Price'],
-        'highlight_2_value' => ['group' => 'highlights', 'label' => 'Badge 2 – Value', 'type' => 'text', 'value' => 'AED 4,300,000*'],
+        'highlight_2_value' => ['group' => 'highlights', 'label' => 'Badge 2 – Value', 'type' => 'text', 'value' => 'PKR 15,000,000*'],
         'highlight_3_label' => ['group' => 'highlights', 'label' => 'Badge 3 – Label', 'type' => 'text', 'value' => 'Handover Date'],
-        'highlight_3_value' => ['group' => 'highlights', 'label' => 'Badge 3 – Value', 'type' => 'text', 'value' => 'Q3 2030'],
+        'highlight_3_value' => ['group' => 'highlights', 'label' => 'Badge 3 – Value', 'type' => 'text', 'value' => 'Q4 2028'],
         'highlight_4_label' => ['group' => 'highlights', 'label' => 'Badge 4 – Label', 'type' => 'text', 'value' => 'Property Type'],
         'highlight_4_value' => ['group' => 'highlights', 'label' => 'Badge 4 – Value', 'type' => 'text', 'value' => 'Villas & Apartments'],
         'highlight_5_label' => ['group' => 'highlights', 'label' => 'Badge 5 – Label', 'type' => 'text', 'value' => 'Ownership'],
         'highlight_5_value' => ['group' => 'highlights', 'label' => 'Badge 5 – Value', 'type' => 'text', 'value' => 'Freehold'],
         'highlight_6_label' => ['group' => 'highlights', 'label' => 'Badge 6 – Label', 'type' => 'text', 'value' => 'Payment Plan'],
-        'highlight_6_value' => ['group' => 'highlights', 'label' => 'Badge 6 – Value', 'type' => 'text', 'value' => '5% / 35% / 60%'],
+        'highlight_6_value' => ['group' => 'highlights', 'label' => 'Badge 6 – Value', 'type' => 'text', 'value' => 'Flexible Installments'],
 
         // ---------------- OVERVIEW ----------------
         'overview_heading' => [
             'group' => 'overview', 'label' => 'Section Heading (H2)', 'type' => 'text',
-            'value' => 'Hudayriyat Island Projects: The Residential Communities',
+            'value' => 'Saima Group Projects: Premier Residential Communities',
         ],
         'overview_intro' => [
             'group' => 'overview', 'label' => 'Intro Paragraph', 'type' => 'textarea',
-            'value' => "This is probably the section you've been waiting for. Modon has rolled out its Hudayriyat Island projects in phases, each with its own character, price point, and target buyer. Here's a rundown of the main communities, based on details published on the island's official project pages.",
+            'value' => "Explore our latest residential and commercial developments across Karachi and Pakistan, designed with modern architecture, premium amenities, and world-class living standards.",
         ],
 
         // ---------------- INVESTMENT ----------------
@@ -93,11 +93,11 @@ return [
         ],
         'investment_location_badge' => [
             'group' => 'investment', 'label' => 'Location Badge', 'type' => 'text',
-            'value' => 'Hudayriyat Island, Abu Dhabi',
+            'value' => 'Karachi, Pakistan',
         ],
         'investment_description' => [
             'group' => 'investment', 'label' => 'Investment Description', 'type' => 'textarea',
-            'value' => 'Hudayriyat Island offers attractive real estate investment opportunities through its premium villa communities, waterfront lifestyle, and developments by Modon Properties. With growing interest in luxury coastal living in Abu Dhabi, the island presents opportunities for investors seeking long-term capital appreciation and potential rental income.',
+            'value' => 'Saima Group offers attractive real estate investment opportunities through its premium residential projects, modern urban lifestyle, and trusted construction quality. With strong demand for quality living in Karachi and beyond, our developments present high-yield opportunities for homebuyers and investors.',
         ],
         'investment_highlights_heading' => [
             'group' => 'investment', 'label' => 'Highlights Heading', 'type' => 'text',
@@ -106,13 +106,13 @@ return [
         'investment_highlights' => [
             'group' => 'investment', 'label' => 'Investment Highlights (one per line)', 'type' => 'list',
             'value' => implode("\n", [
-                'Premium villa communities with exclusive residential options',
-                'Developed by Modon Properties',
+                'Premium residential communities with modern living options',
+                'Developed by Saima Group',
                 'Strong appeal among luxury homebuyers and property investors',
-                'Coastal location with access to beaches and recreational facilities',
-                'Potential for long-term capital appreciation',
-                'Attractive lifestyle destination for families and investors',
-                'Growing residential and leisure destination in Abu Dhabi',
+                'Prime urban locations with seamless road connectivity',
+                'High potential for long-term capital appreciation and rental yield',
+                'Secure, family-friendly environment with contemporary amenities',
+                'Trusted legacy of real estate excellence across Pakistan',
             ]),
         ],
         'investment_cta' => [
@@ -125,7 +125,7 @@ return [
         ],
         'investment_image_alt' => [
             'group' => 'investment', 'label' => 'Investment Image Alt Text', 'type' => 'text',
-            'value' => 'Hudayriyat Island Investment Potential',
+            'value' => 'Saima Group Investment Potential',
         ],
 
         // ---------------- CONTACT ----------------
@@ -139,7 +139,7 @@ return [
         ],
         'contact_subtitle' => [
             'group' => 'contact', 'label' => 'Subtitle Paragraph', 'type' => 'textarea',
-            'value' => 'Discover exceptional residential villas, waterfront mansions, and prime plots across Hudayriyat Island. Connect with our dedicated property advisory team for personalized guidance and private viewings.',
+            'value' => 'Discover exceptional residential apartments, modern villas, and prime properties across Saima Group developments. Connect with our dedicated sales and advisory team for personalized guidance and project details.',
         ],
         'contact_form_title_small' => [
             'group' => 'contact', 'label' => 'Form Title – Small', 'type' => 'text',

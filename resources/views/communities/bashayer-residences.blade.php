@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Bashayer Residences | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -200,7 +203,7 @@
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"What is Bashayer Residences?","acceptedAnswer":{"@@type":"Answer","text":"Bashayer Residences is a waterfront residential community by Modon Properties on Hudayriyat Island, Abu Dhabi. It includes apartments, townhomes, and penthouses with access to waterfront and lifestyle facilities."}},{"@@type":"Question","name":"Who is the developer of Bashayer Residences?","acceptedAnswer":{"@@type":"Answer","text":"Bashayer Residences is developed by Modon Properties."}},{"@@type":"Question","name":"What types of properties are available at Bashayer Residences?","acceptedAnswer":{"@@type":"Answer","text":"The latest release includes 1, 2, and 3-bedroom apartments, 2 and 4-bedroom townhomes, and penthouses."}},{"@@type":"Question","name":"What is the starting price of Bashayer Residences?","acceptedAnswer":{"@@type":"Answer","text":"The latest release starts from approximately AED 2.5 million, subject to availability and current pricing."}},{"@@type":"Question","name":"What is the payment plan for Bashayer Residences?","acceptedAnswer":{"@@type":"Answer","text":"The latest Residences 5 & 6 release follows a 50/50 payment plan, with 5% payable on reservation and the remaining 50% due on handover."}},{"@@type":"Question","name":"When is the handover of Bashayer Residences?","acceptedAnswer":{"@@type":"Answer","text":"The latest Residences 5 & 6 release is scheduled for handover on 30 April 2030."}},{"@@type":"Question","name":"Where is Bashayer Residences located?","acceptedAnswer":{"@@type":"Answer","text":"Bashayer Residences is located on Hudayriyat Island in Abu Dhabi, close to waterfront attractions, beaches, sports facilities, restaurants, and leisure destinations."}},{"@@type":"Question","name":"Is Bashayer Residences freehold?","acceptedAnswer":{"@@type":"Answer","text":"Yes. Bashayer Residences offers freehold ownership for all nationalities."}},{"@@type":"Question","name":"What amenities are available at Bashayer Residences?","acceptedAnswer":{"@@type":"Answer","text":"The community includes a waterfront promenade, marina, clubhouse, rooftop infinity pool, sports courts, gym, wellness facilities, parks, children's play areas, cycling trails, dining, and retail facilities."}}]}</script>@php
+</section>@php
     $defaultFaqs = [
         [
             'q' => 'What is Bashayer Residences?',

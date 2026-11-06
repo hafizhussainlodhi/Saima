@@ -16,18 +16,18 @@
 
     $defaultServices = [
         ['icon' => 'compass', 'title' => 'Property Advisory', 'description' => 'Practical guidance to help you explore residential and investment opportunities based on your requirements.'],
-        ['icon' => 'building', 'title' => 'Property Listings', 'description' => 'A selection of residential properties and new developments across Hudayriyat Island and surrounding areas of Abu Dhabi.'],
+        ['icon' => 'building', 'title' => 'Property Listings', 'description' => 'A selection of residential properties and new developments across Saima and surrounding areas of Abu Dhabi.'],
         ['icon' => 'trending-up', 'title' => 'Market Insights', 'description' => 'Clear information about new projects, locations, developments, and market trends to help you make informed property decisions.']
     ];
 
     $defaultPillars = [
-        ['icon' => 'target', 'title' => 'Our Mission', 'description' => 'To provide reliable property information, honest guidance, and helpful support to buyers and investors exploring opportunities on Hudayriyat Island and across Abu Dhabi.'],
+        ['icon' => 'target', 'title' => 'Our Mission', 'description' => 'To provide reliable property information, honest guidance, and helpful support to buyers and investors exploring opportunities on Saima and across Abu Dhabi.'],
         ['icon' => 'eye', 'title' => 'Our Vision', 'description' => 'To become a trusted source for property buyers and investors by providing accurate information, clear guidance, and consistent support throughout their property journey.'],
         ['icon' => 'shield', 'title' => 'Our Values', 'description' => 'Accuracy, transparency, and responsible advice guide everything we do. We focus on providing clear property information and helping clients understand their options before making important decisions.']
     ];
 
     $defaultWhyUs = [
-        ['icon' => 'map-pin', 'title' => 'Local Market Knowledge', 'description' => 'Useful information about Hudayriyat Island, Abu Dhabi communities, new developments, and property opportunities.'],
+        ['icon' => 'map-pin', 'title' => 'Local Market Knowledge', 'description' => 'Useful information about Saima, Abu Dhabi communities, new developments, and property opportunities.'],
         ['icon' => 'heart', 'title' => 'Client-First Approach', 'description' => 'Clear communication and straightforward guidance without unnecessary pressure.'],
         ['icon' => 'search', 'title' => 'Simple Property Search', 'description' => 'An easier way to explore available properties, compare opportunities, and understand important project details.']
     ];
@@ -51,14 +51,14 @@
                     <div class="container">
                         <div class="aboutHeroContent">
                             @php
-                                $heroBadge = trim(strip_tags((string)page_section('hero', 'badge', 'HUDAYRIYAT ISLAND • ABU DHABI', 'about-us')));
+                                $heroBadge = trim(strip_tags((string)page_section('hero', 'badge', 'Saima • ABU DHABI', 'about-us')));
                             @endphp
                             @if(!empty($heroBadge))
                                 <span class="aboutBadge">{{ $heroBadge }}</span>
                             @endif
                             <h1 class="aboutHeroTitle">{{ strip_tags((string)page_section('hero', 'title', 'About Us', 'about-us')) }}</h1>
                             <p class="aboutHeroSubtitle">
-                                {{ strip_tags((string)page_section('hero', 'subtitle', 'Welcome to your trusted source for exploring property opportunities on Hudayriyat Island, Abu Dhabi.', 'about-us')) }}
+                                {{ strip_tags((string)page_section('hero', 'subtitle', 'Welcome to your trusted source for exploring property opportunities on Saima, Abu Dhabi.', 'about-us')) }}
                             </p>
                         </div>
                     </div>
@@ -74,7 +74,7 @@
                                 {{ strip_tags((string)page_section('intro', 'lead', 'We make property discovery simple by providing clear information, useful market insights, and guidance throughout the buying process.', 'about-us')) }}
                             </p>
                             <p class="aboutBodyText">
-                                {{ strip_tags((string)page_section('intro', 'body', 'Whether you are looking for a new home or an investment opportunity, we help you explore suitable properties on Hudayriyat Island and understand the key details before making a decision.', 'about-us')) }}
+                                {{ strip_tags((string)page_section('intro', 'body', 'Whether you are looking for a new home or an investment opportunity, we help you explore suitable properties on Saima and understand the key details before making a decision.', 'about-us')) }}
                             </p>
                         </div>
 
@@ -84,7 +84,7 @@
                             if ($introImg && !str_starts_with($introImg, 'http') && !str_starts_with($introImg, '/')) {
                                 $introImg = asset($introImg);
                             }
-                            $introAlt = page_section('intro', 'image_alt', 'Hudayriyat Island Waterfront Luxury Architecture', 'about-us');
+                            $introAlt = page_section('intro', 'image_alt', 'Saima Waterfront Luxury Architecture', 'about-us');
                         @endphp
                         <div class="aboutImageContainer">
                             <img src="{{ $introImg }}" alt="{{ $introAlt }}" class="aboutFeaturedImage">
@@ -245,7 +245,7 @@
                                 <span class="aboutSectionTag">{{ strip_tags((string)page_section('cta', 'tag', 'START YOUR JOURNEY', 'about-us')) }}</span>
                                 <h2 class="aboutCtaHeading">{{ strip_tags((string)page_section('cta', 'heading', 'Looking for Your Dream Property?', 'about-us')) }}</h2>
                                 <p class="aboutCtaBody">
-                                    {{ strip_tags((string)page_section('cta', 'body', 'Explore property opportunities on Hudayriyat Island with clear information and professional guidance. Whether you are looking to buy a home or explore an investment, we are here to assist you throughout the process.', 'about-us')) }}
+                                    {{ strip_tags((string)page_section('cta', 'body', 'Explore property opportunities on Saima with clear information and professional guidance. Whether you are looking to buy a home or explore an investment, we are here to assist you throughout the process.', 'about-us')) }}
                                 </p>
                                 <div class="aboutBenefitsList">
                                     @foreach($benefitsList as $ben)
@@ -353,11 +353,12 @@
                     phone: formData.get('phone'),
                     source: 'Website',
                     sub_source: 'saima project',
+                    page_url: window.location.href,
+                    campaign_url: window.location.href,
                     utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-                    campaign_url: 'https://saimaprojects.com/',
-                    project: 'Hudayriyat Island',
+                    project: 'Saima',
                     developer: 'Modon Properties',
-                    community: 'Hudayriyat Island',
+                    community: 'Saima',
                     property_type: 'General Inquiry',
                     key_requirement: formData.get('comment') || formData.get('message') || '',
                     activity_description: 'About Us Page Form Request'

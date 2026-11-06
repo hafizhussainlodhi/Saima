@@ -31,14 +31,14 @@
         ],
         [
             'title' => 'Email Inquiries',
-            'info' => 'info@hudayriyat-island.ae',
+            'info' => 'info@Saima-island.ae',
             'action' => 'Send an Email →',
-            'url' => 'mailto:info@hudayriyat-island.ae',
+            'url' => 'mailto:info@Saima-island.ae',
             'icon' => 'email',
         ],
         [
             'title' => 'Location',
-            'info' => 'Hudayriyat Island, Abu Dhabi, UAE',
+            'info' => 'Saima, Abu Dhabi, UAE',
             'action' => 'Prime Island Location',
             'url' => '',
             'icon' => 'location',
@@ -75,10 +75,10 @@
                 <section class="contactHeroSection">
                     <div class="container">
                         <div class="contactHeroContent">
-                            <span class="contactBadge">{{ page_section('hero', 'badge', 'HUDAYRIYAT ISLAND • ABU DHABI', 'contact-us') }}</span>
+                            <span class="contactBadge">{{ page_section('hero', 'badge', 'Saima • ABU DHABI', 'contact-us') }}</span>
                             <h1 class="contactHeroTitle">{{ page_section('hero', 'title', 'Contact Us', 'contact-us') }}</h1>
                             <p class="contactHeroSubtitle">
-                                {{ page_section('hero', 'subtitle', 'Invest in Your Future. Discover your ideal property on Hudayriyat Island.', 'contact-us') }}
+                                {{ page_section('hero', 'subtitle', 'Invest in Your Future. Discover your ideal property on Saima.', 'contact-us') }}
                             </p>
                         </div>
                     </div>
@@ -198,18 +198,18 @@
                             <div class="contactInfoCol">
                                 <span class="contactSectionTag">{{ page_section('info', 'tag', 'PREMIER OPPORTUNITY', 'contact-us') }}</span>
                                 <h2 class="contactInfoHeading">
-                                    {{ page_section('info', 'heading', 'Discover Emerging Properties on Hudayriyat Island', 'contact-us') }}
+                                    {{ page_section('info', 'heading', 'Discover Emerging Properties on Saima', 'contact-us') }}
                                 </h2>
 
                                 <div class="contactInfoTextWrapper">
                                     <p class="contactLeadPara">
-                                        {{ page_section('info', 'lead', 'Hudayriyat Island is emerging as a major destination in Abu Dhabi, offering a growing range of residential and investment opportunities. Explore carefully selected properties and discover the latest projects and developments across the island.', 'contact-us') }}
+                                        {{ page_section('info', 'lead', 'Saima is emerging as a major destination in Abu Dhabi, offering a growing range of residential and investment opportunities. Explore carefully selected properties and discover the latest projects and developments across the island.', 'contact-us') }}
                                     </p>
                                     <p class="contactBodyPara">
                                         {{ page_section('info', 'body', 'Whether you are looking for a new home or an investment opportunity, you can explore available projects, locations, property types, and key details to find an option that suits your requirements.', 'contact-us') }}
                                     </p>
                                     <p class="contactHighlightPara">
-                                        {{ page_section('info', 'highlight', 'Contact us today to learn more about properties and investment opportunities on Hudayriyat Island.', 'contact-us') }}
+                                        {{ page_section('info', 'highlight', 'Contact us today to learn more about properties and investment opportunities on Saima.', 'contact-us') }}
                                     </p>
                                 </div>
 
@@ -249,7 +249,7 @@
                                 <div class="contactFormCard">
                                     <h3 class="contactFormTitle">{{ page_section('info', 'form_title', 'Get in Touch', 'contact-us') }}</h3>
                                     <p class="contactFormSubtitle">
-                                        {{ page_section('info', 'form_subtitle', 'Enter your details and our team will contact you shortly to help you explore property opportunities on Hudayriyat Island.', 'contact-us') }}
+                                        {{ page_section('info', 'form_subtitle', 'Enter your details and our team will contact you shortly to help you explore property opportunities on Saima.', 'contact-us') }}
                                     </p>
 
                                     <form id="contactPageForm" class="contactForm">
@@ -344,11 +344,12 @@
                     phone: formData.get('phone'),
                     source: 'Website',
                     sub_source: 'saima project',
+                    page_url: window.location.href,
+                    campaign_url: window.location.href,
                     utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-                    campaign_url: 'https://saimaprojects.com/',
-                    project: 'Hudayriyat Island',
+                    project: 'Saima',
                     developer: 'Modon Properties',
-                    community: 'Hudayriyat Island',
+                    community: 'Saima',
                     property_type: 'Inquiry',
                     key_requirement: formData.get('message') || '',
                     activity_description: 'Contact Us Page Form Request'

@@ -153,7 +153,7 @@
         <div class="homeBlogsGrid">
             @foreach($homeBlogs as $b)
                 @php
-                    $coverSrc = $b->cover_image ? asset($b->cover_image) : asset('/images/Hudayriyat-Island---Marsana-East-Beach---Sign---Sunset-2.jpg');
+                    $coverSrc = $b->cover_image ? asset($b->cover_image) : asset('/images/Saima-Island---Marsana-East-Beach---Sign---Sunset-2.jpg');
                 @endphp
                 <a href="{{ url('/blog/' . $b->slug) }}" class="homeBlogCard" style="background-image: url('{{ $coverSrc }}');">
                     <!-- Category Badge (Top Left) -->

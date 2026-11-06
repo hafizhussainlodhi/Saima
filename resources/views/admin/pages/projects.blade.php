@@ -876,7 +876,7 @@
                                                             <img src="{{ $proj->image_url }}" alt="" style="width: 48px; height: 34px; object-fit: cover; border-radius: 5px; border: 1px solid #cbd5e1; flex-shrink: 0; background: #f1f5f9;">
                                                             <div style="flex: 1; min-width: 0;">
                                                                 <strong class="dual-card-title" style="display: block; font-size: 13px; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $proj->title }}</strong>
-                                                                <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Hudayriyat Island') }}</span>
+                                                                <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Saima') }}</span>
                                                             </div>
                                                             <button type="button" onclick="moveCardToSelected({{ $proj->id }})" title="Add to page" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
                                                                 + Add
@@ -1596,7 +1596,7 @@
                     heroTitleInput.value = this.value;
                 }
                 if (!manuallyEditedAboutTitle && aboutTitleInput) {
-                    aboutTitleInput.value = this.value.trim() ? this.value.trim() + ' by Modon' : 'Hudayriyat Island Waterfront Sanctuary by Modon';
+                    aboutTitleInput.value = this.value.trim() ? this.value.trim() + ' by Modon' : 'Saima Waterfront Sanctuary by Modon';
                 }
             });
         }

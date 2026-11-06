@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Admin Login · Hudayriyat Island</title>
-    <meta name="description" content="Secure sign-in to the Hudayriyat Island content management system.">
+    <title>Admin Login · Saima</title>
+    <meta name="description" content="Secure sign-in to the Saima content management system.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
         <img src="{{ asset('images/hero/slide-1.jpg') }}" alt="">
         <div class="adm-login-copy">
             <div class="adm-eyebrow" style="margin-bottom:14px">Content Management System</div>
-            <h2>Manage <span>Hudayriyat Island</span><br>with elegance.</h2>
+            <h2>Manage <span>Saima</span><br>with elegance.</h2>
             <p>Edit website copy, curate the table of contents and follow up on every callback request — all from one place.</p>
             <div class="adm-login-features">
                 <div>@include('admin.partials.icon', ['name' => 'edit']) Live text editing</div>
@@ -58,7 +58,7 @@
                     <label class="adm-label" for="loginEmail">Email address</label>
                     <div class="adm-input-icon">
                         @include('admin.partials.icon', ['name' => 'mail'])
-                        <input type="email" name="email" id="loginEmail" class="adm-input" value="{{ old('email') }}" placeholder="admin@hudayriyat.com" autocomplete="username" required autofocus>
+                        <input type="email" name="email" id="loginEmail" class="adm-input" value="{{ old('email') }}" placeholder="admin@Saima.com" autocomplete="username" required autofocus>
                     </div>
                 </div>
                 <div class="adm-field">

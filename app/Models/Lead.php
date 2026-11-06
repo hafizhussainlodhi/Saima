@@ -15,6 +15,7 @@ class Lead extends Model
         'email',
         'comment',
         'project',
+        'page_url',
         'ip_address',
         'country',
         'status',

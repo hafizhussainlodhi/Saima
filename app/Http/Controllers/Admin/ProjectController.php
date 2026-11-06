@@ -159,7 +159,18 @@ class ProjectController extends Controller
                 $hlContent = $hlSec->content ?? [];
                 if (isset($submittedSections['highlights']['_has_items']) || isset($submittedSections['highlights']['items'])) {
                     $rawHl = (array)($submittedSections['highlights']['items'] ?? []);
-                    $hlContent['items'] = array_values(array_filter($rawHl, fn($item) => is_array($item) && !empty(trim($item['label'] ?? ''))));
+                    $cleanHl = [];
+                    foreach ($rawHl as $hlItem) {
+                        if (!is_array($hlItem)) continue;
+                        $lbl = trim((string)($hlItem['label'] ?? ''));
+                        $val = trim((string)($hlItem['value'] ?? ''));
+                        if ($lbl === '' && $val === '') continue;
+                        if ($lbl === '') {
+                            $hlItem['icon'] = '';
+                        }
+                        $cleanHl[] = $hlItem;
+                    }
+                    $hlContent['items'] = $cleanHl;
                 }
                 $hlSec->update(['content' => $hlContent]);
             }
@@ -213,10 +224,50 @@ class ProjectController extends Controller
             $galSec = $page->sections()->where('section_key', 'gallery')->first();
             if ($galSec) {
                 $gContent = $galSec->content ?? [];
-                if (!empty($submittedSections['gallery']['title'])) $gContent['title'] = $submittedSections['gallery']['title'];
-                if (!empty($submittedSections['gallery']['images']) && is_array($submittedSections['gallery']['images'])) {
-                    $gContent['images'] = array_values(array_filter($submittedSections['gallery']['images'], fn($item) => !empty(trim($item['src'] ?? ''))));
+                if (isset($submittedSections['gallery']['title'])) {
+                    $gContent['title'] = $submittedSections['gallery']['title'];
                 }
+
+                $galleryImages = [];
+                $rawGalleryImages = (array) ($submittedSections['gallery']['images'] ?? []);
+                $uploadedGalleryFiles = $request->file('section_files.gallery.images', []);
+
+                $uploadDir = public_path('uploads/pages');
+                if (!file_exists($uploadDir)) {
+                    @mkdir($uploadDir, 0777, true);
+                }
+
+                $allKeys = array_unique(array_merge(array_keys($rawGalleryImages), array_keys((array) $uploadedGalleryFiles)));
+                foreach ($allKeys as $gIdx) {
+                    if (count($galleryImages) >= 10) {
+                        break;
+                    }
+                    $imgItem = is_array($rawGalleryImages[$gIdx] ?? null) ? $rawGalleryImages[$gIdx] : [];
+                    $src = trim((string) ($imgItem['src'] ?? ''));
+                    $alt = trim((string) ($imgItem['alt'] ?? 'Project Photo')) ?: 'Project Photo';
+                    $category = trim((string) ($imgItem['category'] ?? 'Exterior')) ?: 'Exterior';
+
+                    $fileEntry = $uploadedGalleryFiles[$gIdx] ?? null;
+                    $actualFile = is_array($fileEntry) ? ($fileEntry['file'] ?? null) : $fileEntry;
+                    if ($actualFile instanceof \Illuminate\Http\UploadedFile && $actualFile->isValid()) {
+                        $ext = strtolower($actualFile->getClientOriginalExtension());
+                        if (in_array($ext, ['jpg', 'jpeg', 'webp', 'png', 'avif'], true) && $actualFile->getSize() <= 2097152) {
+                            $fileName = time() . '_' . uniqid() . '.' . $ext;
+                            $actualFile->move($uploadDir, $fileName);
+                            $src = '/uploads/pages/' . $fileName;
+                        }
+                    }
+
+                    if (!empty($src)) {
+                        $galleryImages[] = [
+                            'src' => $src,
+                            'alt' => $alt,
+                            'category' => $category,
+                        ];
+                    }
+                }
+
+                $gContent['images'] = array_slice($galleryImages, 0, 10);
                 $galSec->update(['content' => $gContent]);
             }
 

@@ -17,7 +17,13 @@ class SeoController extends Controller
             'default_description' => SiteSetting::get('seo_default_description', 'Discover Hudayriyat Island, a premier luxury waterfront community in Abu Dhabi offering exclusive villas, mansions, and world-class amenities.'),
             'default_keywords' => SiteSetting::get('seo_default_keywords', 'hudayriyat island, abu dhabi villas, luxury waterfront, modon properties, saima group'),
             'og_image' => SiteSetting::get('seo_og_image', '/images/hero/slide-1.jpg'),
-            'canonical_url' => SiteSetting::get('seo_canonical_url', url('/')),
+            'canonical_url' => (function () {
+                $canonical = SiteSetting::get('seo_canonical_url');
+                if (!empty($canonical) && (str_contains($canonical, 'localhost') || str_contains($canonical, '127.0.0.1')) && !str_contains(request()->getHost(), 'localhost')) {
+                    return rtrim(url('/'), '/');
+                }
+                return $canonical ?: rtrim(url('/'), '/');
+            })(),
             'header_scripts' => SiteSetting::get('seo_header_scripts', ''),
             'sitemap_url' => url('/sitemap.xml'),
         ];

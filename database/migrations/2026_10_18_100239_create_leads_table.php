@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email')->nullable();
             $table->text('comment')->nullable();
-            $table->string('project')->default('Hudayriyat Island');
+            $table->string('project')->default('Saima Projects');
             $table->string('ip_address')->nullable();
             $table->string('country')->nullable();
             $table->string('status')->default('new');

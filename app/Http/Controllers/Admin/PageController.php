@@ -128,9 +128,9 @@ class PageController extends Controller
             'navbar_order'     => ((int) Page::max('navbar_order')) + 1,
             'status'           => $status,
             'is_published'     => $request->boolean('is_published', $isPublished),
-            'meta_title'       => $validated['title'] . ' | Hudayriyat Island Abu Dhabi',
-            'meta_description' => 'Explore ' . $validated['title'] . ' on Hudayriyat Island, Abu Dhabi. Discover freehold residences, pricing, master plan, and world-class amenities.',
-            'meta_keywords'    => $validated['title'] . ', Hudayriyat Island, Abu Dhabi villas',
+            'meta_title'       => $validated['title'] . ' | Saima Island Abu Dhabi',
+            'meta_description' => 'Explore ' . $validated['title'] . ' on Saima Island, Abu Dhabi. Discover freehold residences, pricing, master plan, and world-class amenities.',
+            'meta_keywords'    => $validated['title'] . ', Saima Island, Abu Dhabi villas',
             'og_image'         => $heroBgImage,
         ]);
 
@@ -704,11 +704,23 @@ class PageController extends Controller
                                     $rItem['icon'] = '/uploads/pages/' . $safeName;
                                 }
                             }
+                            if ($secKey === 'highlights' && empty(trim((string)($rItem['label'] ?? '')))) {
+                                $rItem['icon'] = '';
+                            }
+                            if ($secKey === 'amenities' && empty(trim((string)($rItem['name'] ?? '')))) {
+                                $rItem['icon'] = '';
+                            }
                         }
                         unset($rItem);
                     }
-                    $currentContent['items'] = array_values(array_filter($rawItems, function ($item) {
+                    $currentContent['items'] = array_values(array_filter($rawItems, function ($item) use ($secKey) {
                         if (!is_array($item)) return false;
+                        if ($secKey === 'amenities') {
+                            return !empty(trim((string)($item['name'] ?? '')));
+                        }
+                        if ($secKey === 'highlights') {
+                            return !empty(trim((string)($item['label'] ?? ''))) || !empty(trim((string)($item['value'] ?? '')));
+                        }
                         foreach ($item as $subVal) {
                             if (!empty(trim((string)$subVal))) return true;
                         }
@@ -821,19 +833,21 @@ class PageController extends Controller
                     unset($contentData['plan_tabs']);
                 }
 
-                if (isset($contentData['images']) && is_array($contentData['images'])) {
+                if (isset($contentData['_has_images']) || (isset($contentData['images']) && is_array($contentData['images']))) {
                     $cleanImages = [];
-                    foreach ($contentData['images'] as $slotIdx => $img) {
-                        if (is_array($img)) {
-                            $cleanImages[$slotIdx] = [
-                                'src' => trim($img['src'] ?? ''),
-                                'category' => html_entity_decode(trim($img['category'] ?? 'Exterior'), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-                                'alt' => html_entity_decode(trim($img['alt'] ?? 'Project Photo'), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
-                            ];
+                    if (isset($contentData['images']) && is_array($contentData['images'])) {
+                        foreach ($contentData['images'] as $slotIdx => $img) {
+                            if (is_array($img)) {
+                                $cleanImages[$slotIdx] = [
+                                    'src' => trim($img['src'] ?? ''),
+                                    'category' => html_entity_decode(trim($img['category'] ?? 'Exterior'), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                                    'alt' => html_entity_decode(trim($img['alt'] ?? 'Project Photo'), ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                                ];
+                            }
                         }
                     }
                     $currentContent['images'] = $cleanImages;
-                    unset($contentData['images']);
+                    unset($contentData['images'], $contentData['_has_images']);
                 }
 
                 foreach ($contentData as $k => $v) {
@@ -980,6 +994,20 @@ class PageController extends Controller
                         $currentContent['selected_ids'] = $cleanSelected;
                         $currentContent['project_ids'] = $cleanSelected;
                         $currentContent['unselected_ids'] = $cleanUnselected;
+                    } else {
+                        // Dual picker was NOT submitted — preserve existing selected/unselected IDs from DB
+                        // so that saving other sections (e.g. content) does NOT auto-reset project card selection.
+                        $existingSection = $section->exists ? $section : null;
+                        if ($existingSection && !empty($existingSection->content)) {
+                            $existingContent = $existingSection->content;
+                            if (isset($existingContent['selected_ids'])) {
+                                $currentContent['selected_ids'] = $existingContent['selected_ids'];
+                                $currentContent['project_ids']  = $existingContent['selected_ids'];
+                            }
+                            if (isset($existingContent['unselected_ids'])) {
+                                $currentContent['unselected_ids'] = $existingContent['unselected_ids'];
+                            }
+                        }
                     }
                 }
 

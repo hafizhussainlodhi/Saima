@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Masyaf Plots | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -195,7 +198,7 @@
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"Can foreigners and expatriates purchase residential plots in Masyaf?","acceptedAnswer":{"@@type":"Answer","text":"Yes, Masyaf Plots on Hudayriyat Island offer 100% freehold ownership for all nationalities."}},{"@@type":"Question","name":"What type of properties can be built in Masyaf?","acceptedAnswer":{"@@type":"Answer","text":"Masyaf offers 199 exclusive residential villa plots allowing owners creative freedom to design and construct bespoke luxury villas according to Modon development master guidelines."}},{"@@type":"Question","name":"Where is Masyaf located on Hudayriyat Island?","acceptedAnswer":{"@@type":"Answer","text":"Masyaf is situated in the prestigious Al Hidayriyyat district of Hudayriyat Island, Abu Dhabi, minutes away from world-class beaches, sports parks, and Downtown Abu Dhabi."}},{"@@type":"Question","name":"Are Masyaf residential plots eligible for the UAE Golden Visa?","acceptedAnswer":{"@@type":"Answer","text":"Yes, qualifying plot purchases meeting the UAE real estate investment criteria (AED 2M+) are eligible for the 10-year UAE Golden Visa residency."}}]}</script>@php
+</section>@php
     $defaultFaqs = [
         [
             'q' => 'Can foreigners and expatriates purchase residential plots in Masyaf?',

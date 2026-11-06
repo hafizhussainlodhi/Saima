@@ -618,7 +618,7 @@
 </style>
 
 @php
-    $coverImageSrc = $blog->cover_image ? asset($blog->cover_image) : asset('/images/Hudayriyat-Island---Marsana-East-Beach---Sign---Sunset-2.jpg');
+    $coverImageSrc = $blog->cover_image ? asset($blog->cover_image) : asset('/images/Saima-Island---Marsana-East-Beach---Sign---Sunset-2.jpg');
 @endphp
 
 <div class="blogDetailWrapper">
@@ -709,7 +709,7 @@
                                         <span class="saimaProjectItemDesc">Lorévia Collection Apartments by DECA in Al Zorah, Ajman. From AED 1.2M...</span>
                                     </div>
                                 </a>
-                                <a href="/project/hudayriyat-golf-estates" class="saimaProjectItem">
+                                <a href="/project/Saima-golf-estates" class="saimaProjectItem">
                                     <img src="{{ asset('LP2.png') }}" alt="Samana South Haven 2 by Samana at Dubai Industrial City" class="saimaProjectThumb">
                                     <div class="saimaProjectMeta">
                                         <span class="saimaProjectItemTitle">Samana South Haven 2 by Samana at Dubai Industrial City</span>
@@ -765,11 +765,11 @@
                 </section>
             @endif
 
-            <!-- Contact Section Below FAQ -->
-            @include('partials.contact')
-
         </div>
     </main>
+
+    <!-- Contact Section Below FAQ (Full Width outside restricted container) -->
+    @include('partials.contact')
 </div>
 
 
@@ -886,11 +886,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 comment: apptForm.querySelector('textarea[name="comment"]')?.value || '',
                 source: 'Website',
                 sub_source: 'saima project',
+                page_url: window.location.href,
+                campaign_url: window.location.href,
                 utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-                campaign_url: 'https://saimaprojects.com/',
-                project: '{{ isset($blog) ? addslashes($blog->title) : "Hudayriyat Island" }}',
+                project: '{{ isset($blog) ? addslashes($blog->title) : "Saima" }}',
                 developer: 'Modon Properties',
-                community: 'Hudayriyat Island',
+                community: 'Saima',
                 property_type: 'Blog Inquiry',
                 activity_description: 'Blog Appointment Sidebar Request'
             };

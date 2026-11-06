@@ -1,44 +1,44 @@
 @php
 $faqs = [
     [
-        'q' => "What is Hudayriyat Island?",
-        'a' => "It's a large-scale waterfront island development off Abu Dhabi's coast, run by Modon Properties, combining residential communities with sports, leisure, and entertainment destinations.",
+        'q' => "What is Saima?",
+        'a' => "It's a premier residential and commercial real estate development portfolio by Saima Group, combining luxury living communities with modern amenities, prime locations, and high-yield investment destinations.",
     ],
     [
-        'q' => "Where is Hudayriyat Island located?",
-        'a' => "It sits just off Al Bateen, connected to the mainland by a dedicated bridge from Sheikh Shakhbout bin Sultan Street, roughly 10–20 minutes from central Abu Dhabi landmarks.",
+        'q' => "Where are Saima projects located?",
+        'a' => "Saima projects are located across prime urban and coastal destinations in Pakistan, offering direct connectivity to major business districts, highways, and landmarks.",
     ],
     [
-        'q' => "Who is developing Hudayriyat Island?",
-        'a' => "Modon Properties, one of Abu Dhabi's major community developers, is behind the island's masterplan and its residential launches, including Al Naseem, Nawayef, and Bashayer.",
+        'q' => "Who is developing Saima projects?",
+        'a' => "Saima Group, one of Pakistan's most trusted and experienced real estate developers with decades of excellence in delivering quality residential and commercial projects.",
     ],
     [
-        'q' => "Is Hudayriyat Island freehold?",
-        'a' => "Most of the residential communities on the island, including Al Naseem, Nawayef, and Wadeem, are freehold and open to buyers of all nationalities.",
+        'q' => "Are Saima properties freehold / clear title?",
+        'a' => "Yes, all Saima developments come with clear documentation, approved NOCs, and secure ownership for buyers and investors.",
     ],
     [
-        'q' => "What residential projects are available on Hudayriyat Island?",
-        'a' => "Current and recent launches include Al Naseem, Nawayef (Mansions, Homes, Heights, East Hills, Village, Park Views), Bashayer, Wadeem Plots, Masyaf Plots, Sunset Cliff, Hudayriyat Quays, Hudayriyat Sahl, and Hudayriyat Hills.",
+        'q' => "What residential projects are available by Saima?",
+        'a' => "Current and recent launches include luxury apartments, modern townhouses, waterfront residences, and bespoke housing schemes with flexible payment plans.",
     ],
     [
-        'q' => "What amenities does Hudayriyat Island offer?",
-        'a' => "The island includes beaches, a velodrome, a surf park, an urban park with a mangrove walk, over 200 kilometres of cycling tracks, adventure parks, dining outlets, and community-level clubs and courts.",
+        'q' => "What amenities does Saima offer?",
+        'a' => "Saima communities feature 24/7 security, gated entrances, modern fitness centres, swimming pools, landscaped parks, high-speed elevators, and dedicated parking facilities.",
     ],
     [
-        'q' => "How far is Hudayriyat Island from Abu Dhabi city centre?",
-        'a' => "Roughly 10 minutes to the Corniche and World Trade Centre, 12 minutes to Al Bateen, and 15 minutes to Yas Island.",
+        'q' => "Is investing in Saima a good investment?",
+        'a' => "Yes. With Saima Group's decades-long proven track record, prime locations, and high rental yield potential, Saima properties represent an exceptional investment opportunity.",
     ],
     [
-        'q' => "Is Hudayriyat Island a good investment?",
-        'a' => "Strong demand signals (such as the rapid Bashayer sellout), government-backed infrastructure, and limited waterfront land supply make it an appealing option, though buyers should still review individual payment plans and handover timelines.",
+        'q' => "What property sizes are available in Saima projects?",
+        'a' => "Sizes range from 2, 3, 4, and 5-room luxury apartments to executive penthouses and spacious independent residential plots and villas.",
     ],
     [
-        'q' => "What villa sizes are available on Hudayriyat Island?",
-        'a' => "Sizes vary widely by community, from roughly 724 sqm villas in Al Naseem to sprawling 29,000+ sq ft mansions in Nawayef Mansions.",
+        'q' => "What are the payment plans for Saima projects?",
+        'a' => "Saima offers flexible, easy, construction-linked installment plans spanning 36 to 48 months with reasonable booking and monthly payment options.",
     ],
     [
-        'q' => "When will Hudayriyat Island projects be completed?",
-        'a' => "Handover dates vary by community. Some, like Al Naseem, are targeting late 2026, while others, such as Nawayef Village, are scheduled for early 2029.",
+        'q' => "When will Saima projects be completed?",
+        'a' => "Completion and handover timelines vary by project, with phased construction milestones and timely deliveries as per developer schedule.",
     ],
 ];
 
@@ -60,7 +60,7 @@ if (is_array($rawFaqs)) {
 @endphp
 
 @if(!empty($dbFaqs))
-<section id="faq" aria-label="Frequently Asked Questions about Hudayriyat Island" class="faqSection">
+<section id="faq" aria-label="Frequently Asked Questions about Saima" class="faqSection">
     <div class="container">
         <div class="section-header">
             <h2>{{ page_section('faq', 'heading', page_section('faq', 'title', 'Frequently Asked Questions', $pageSlug), $pageSlug) }}</h2>

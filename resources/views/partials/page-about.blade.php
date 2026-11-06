@@ -1,5 +1,5 @@
 @php
-    $aboutTitle = page_section('about', 'title', $page->title . ', Hudayriyat Island', $page->slug);
+    $aboutTitle = page_section('about', 'title', $page->title . ', Saima', $page->slug);
     $aboutDesc = page_section('about', 'description', '', $page->slug);
     $aboutPoster = page_section('about', 'video_poster', '', $page->slug);
     $aboutVideo = page_section('about', 'video_src', '', $page->slug);

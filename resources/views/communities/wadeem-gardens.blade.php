@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Wadeem Gardens | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -200,7 +203,7 @@
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"What is Wadeem Gardens?","acceptedAnswer":{"@@type":"Answer","text":"Wadeem Gardens is an upcoming villa community by Modon on Hudayriyat Island, Abu Dhabi, featuring three gated villa clusters."}},{"@@type":"Question","name":"What types of villas are available at Wadeem Gardens?","acceptedAnswer":{"@@type":"Answer","text":"Wadeem Gardens offers 4-, 5- and 6-bedroom villas with Contemporary Arabic and Modernist façades."}},{"@@type":"Question","name":"What is the starting price of Wadeem Gardens?","acceptedAnswer":{"@@type":"Answer","text":"Wadeem Gardens starts from AED 8,700,000 for a 4-bedroom villa."}},{"@@type":"Question","name":"What are the villa sizes and plot sizes at Wadeem Gardens?","acceptedAnswer":{"@@type":"Answer","text":"Villa sizes range from 4,628 to 6,358 sq. ft., while plot sizes range from 5,727 to 7,750 sq. ft."}},{"@@type":"Question","name":"What payment plans are available at Wadeem Gardens?","acceptedAnswer":{"@@type":"Answer","text":"Wadeem Gardens offers two payment options: a 45/55 plan without finance and a 25/75 plan with finance."}},{"@@type":"Question","name":"What is the difference between the two Wadeem Gardens payment plans?","acceptedAnswer":{"@@type":"Answer","text":"The 45/55 plan is listed without finance, while the 25/75 plan is listed with finance and is subject to off-plan mortgage approval."}},{"@@type":"Question","name":"When is the handover of Wadeem Gardens?","acceptedAnswer":{"@@type":"Answer","text":"Wadeem Gardens is scheduled for handover in Q2 2031 under the 25/75 payment plan."}},{"@@type":"Question","name":"Where is Wadeem Gardens located and what is nearby?","acceptedAnswer":{"@@type":"Answer","text":"Wadeem Gardens is located on Hudayriyat Island, with Zayed International Airport approximately 15 minutes away, ADGM 20 minutes, Louvre Museum 23 minutes, and Disneyland 25 minutes."}}]}</script>@php
+</section>@php
     $wadeemFaqs = [
         [
             'q' => 'What is Wadeem Gardens?',

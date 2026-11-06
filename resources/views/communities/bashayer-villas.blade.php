@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Bashayer Villas | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -200,7 +203,7 @@
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"Is Bashayer Villas a freehold development in Abu Dhabi?","acceptedAnswer":{"@@type":"Answer","text":"Yes, Bashayer Villas is a 100% freehold community, offering full property ownership opportunities to all nationalities in Abu Dhabi."}},{"@@type":"Question","name":"What types of villas are available at Bashayer Villas?","acceptedAnswer":{"@@type":"Answer","text":"Bashayer Villas offers 4-bedroom Select Villas and 5-bedroom Shore Villas, each designed for luxury family living with expansive indoor and outdoor spaces."}},{"@@type":"Question","name":"What is the starting price of Bashayer Villas in Abu Dhabi?","acceptedAnswer":{"@@type":"Answer","text":"Prices at Bashayer Villas start from AED 7,200,000, offering competitive value for prime waterfront villas in Abu Dhabi."}},{"@@type":"Question","name":"What is the handover date for Bashayer Villas?","acceptedAnswer":{"@@type":"Answer","text":"Handover for Bashayer Villas is scheduled for March 2029."}},{"@@type":"Question","name":"What amenities are available at Bashayer Villas?","acceptedAnswer":{"@@type":"Answer","text":"Residents enjoy a private clubhouse with a rooftop infinity pool, fully equipped gymnasium, landscaped parks, multi-sports courts, boutique retail, and waterfront dining destinations."}},{"@@type":"Question","name":"How is the location and connectivity of Bashayer Villas?","acceptedAnswer":{"@@type":"Answer","text":"Bashayer Villas offers exceptional connectivity to landmarks including Sheikh Zayed Grand Mosque, Saadiyat Island, Yas Island, ADGM, and Zayed International Airport."}},{"@@type":"Question","name":"Is Bashayer Villas suitable for families in Abu Dhabi?","acceptedAnswer":{"@@type":"Answer","text":"Yes, Bashayer Villas is a family-oriented gated community featuring spacious layouts, dual kitchens, private gardens, and dedicated children’s play areas."}},{"@@type":"Question","name":"What payment plan is offered for Bashayer Villas?","acceptedAnswer":{"@@type":"Answer","text":"Bashayer Villas offers a flexible 50/50 payment plan, with 10% on booking, staged construction installments, and 50% due at handover (March 2029)."}}]}</script>@php
+</section>@php
     $defaultFaqs = [
         [
             'q' => 'Is Bashayer Villas a freehold development in Abu Dhabi?',

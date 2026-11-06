@@ -36,7 +36,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard')
-                ->with('success', 'Welcome back to Hudayriyat Admin Dashboard.');
+                ->with('success', 'Welcome back to Saima Admin Dashboard.');
         }
 
         throw ValidationException::withMessages([

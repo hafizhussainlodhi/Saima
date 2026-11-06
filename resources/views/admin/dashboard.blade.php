@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 @section('eyebrow', now()->format('l, d F Y'))
 @section('heading', 'Welcome, ' . explode(' ', auth()->user()->name)[0])
-@section('subheading', 'Here is what is happening across the Hudayriyat Island website today.')
+@section('subheading', 'Here is what is happening across the Saima website today.')
 
 @section('actions')
     <a href="{{ route('admin.leads.export') }}" class="adm-btn adm-btn-ghost" id="dashExportBtn">

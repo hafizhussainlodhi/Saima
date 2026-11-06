@@ -7,15 +7,16 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @php
     $activePage = page_data();
-    $pageMetaTitle = $activePage?->meta_title ?: 'Hudayriyat Island – Luxury Villas & Waterfront Living in Abu Dhabi';
-    $pageMetaDesc = $activePage?->meta_description ?: 'Discover Hudayriyat Island, a premier luxury waterfront community in Abu Dhabi offering exclusive villas, mansions, and world-class amenities. Enjoy serene beaches, cultural heritage, and modern living in a secure and vibrant environment. Invest in your dream home today.';
-    $pageMetaKeywords = $activePage?->meta_keywords ?: 'Hudayriyat Island, Luxury villas Abu Dhabi, Waterfront living Abu Dhabi, Villas for sale Abu Dhabi, Hudayriyat Island villas, Modon Properties, Modon Abu Dhabi, Wadeem Gardens, Hudayriyat Golf Estates, Bashayer Residences, Nawayef East Hills, Bashayer Villas, Al Naseem Villas, Masyaf Plots, Nawayef Village, Wadeem Plots, Nawayef Park Views, Abu Dhabi real estate investment, Freehold villas Abu Dhabi';
+    $pageMetaTitle = $activePage?->meta_title ?: 'Saima – Luxury Villas & Waterfront Living';
+    $pageMetaDesc = $activePage?->meta_description ?: 'Discover Saima, a premier luxury waterfront community offering exclusive villas, apartments, mansions, and world-class amenities. Invest in your dream home today.';
+    $pageMetaKeywords = $activePage?->meta_keywords ?: 'Saima, Saima Projects, Saima Group, Luxury villas, Waterfront living, Villas for sale, Saima apartments, Real estate investment';
     $pageOgImage = $activePage?->og_image ? (str_starts_with($activePage->og_image, 'http') ? $activePage->og_image : asset($activePage->og_image)) : asset('images/hero/slide-1.jpg');
 @endphp
     <title>{{ $pageMetaTitle }}</title>
+    <link rel="canonical" href="{{ url()->current() }}">
     <meta name="description" content="{{ $pageMetaDesc }}">
     <meta name="keywords" content="{{ $pageMetaKeywords }}">
-    <meta name="author" content="Modon Properties">
+    <meta name="author" content="Saima Group">
     @if(is_indexing_enabled())
     <meta name="robots" content="index, follow, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
     <meta name="googlebot" content="index, follow">
@@ -23,10 +24,13 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
     @endif
-    <meta name="geo.region" content="AE-AZ">
-    <meta name="geo.placename" content="Abu Dhabi, UAE">
+    <meta name="geo.region" content="PK">
+    <meta name="geo.placename" content="Pakistan">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($activePage ?? null, $blog ?? null) !!}
 
     @if($headerScripts = site_setting('header_scripts'))
     {!! $headerScripts !!}
@@ -37,13 +41,13 @@
     <meta property="og:description" content="{{ $pageMetaDesc }}">
     <meta property="og:image" content="{{ $pageOgImage }}">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Hudayriyat Island">
+    <meta property="og:site_name" content="Saima">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Hudayriyat Island – Luxury Villas & Waterfront Living in Abu Dhabi">
-    <meta name="twitter:description" content="Exclusive waterfront community in Abu Dhabi by Modon Properties with luxury villas, mansions, and world-class leisure amenities.">
-    <meta name="twitter:image" content="{{ asset('images/hero/slide-1.jpg') }}">
+    <meta name="twitter:title" content="{{ $pageMetaTitle }}">
+    <meta name="twitter:description" content="{{ $pageMetaDesc }}">
+    <meta name="twitter:image" content="{{ $pageOgImage }}">
 
     <!-- Google Fonts: Playfair Display & Ubuntu -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,12 +55,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="{{ asset('hudayriyat logo-01.svg') }}">
-    <link rel="shortcut icon" href="{{ asset('hudayriyat logo-01.svg') }}">
-    <link rel="apple-touch-icon" href="{{ asset('hudayriyat logo-01.svg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v={{ file_exists(public_path('favicon.png')) ? filemtime(public_path('favicon.png')) : time() }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v={{ file_exists(public_path('favicon.png')) ? filemtime(public_path('favicon.png')) : time() }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v={{ file_exists(public_path('favicon.png')) ? filemtime(public_path('favicon.png')) : time() }}">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="{{ asset('css/hudayriyat.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/saima.css') }}?v={{ time() }}">
 
     <!-- Sitewide Green Theme (All current and new pages) -->
     <style id="sitewide-green-theme">
@@ -323,42 +327,6 @@
     }
     </style>
 
-    <!-- JSON-LD Schema -->
-    <script type="application/ld+json">
-    {!! json_encode([
-      '@context' => 'https://schema.org',
-      '@graph' => [
-        [
-          '@type' => 'WebSite',
-          '@id' => 'https://hudayriyat-island.ae/#website',
-          'url' => 'https://hudayriyat-island.ae/',
-          'name' => 'Hudayriyat Island',
-          'description' => 'Luxury Villas & Waterfront Living in Abu Dhabi by Modon Properties',
-          'inLanguage' => 'en-US'
-        ],
-        [
-          '@type' => 'RealEstateAgent',
-          '@id' => 'https://hudayriyat-island.ae/#organization',
-          'name' => 'Hudayriyat Island - Modon Properties',
-          'url' => 'https://hudayriyat-island.ae/',
-          'logo' => asset('hudayriyat logo-01.svg'),
-          'image' => asset('images/hero/slide-1.jpg'),
-          'description' => 'Hudayriyat Island offers a range of sophisticated residential communities in Abu Dhabi, each designed to provide an exclusive and high-end lifestyle.',
-          'address' => [
-            '@type' => 'PostalAddress',
-            'addressLocality' => 'Abu Dhabi',
-            'addressRegion' => 'Abu Dhabi',
-            'addressCountry' => 'AE'
-          ],
-          'geo' => [
-            '@type' => 'GeoCoordinates',
-            'latitude' => 24.4539,
-            'longitude' => 54.3773
-          ]
-        ]
-      ]
-    ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
-    </script>
 </head>
 <body>
 
@@ -550,11 +518,12 @@
             const formData = new FormData(modalLeadForm);
             formData.append('source', 'Website');
             formData.append('sub_source', 'saima project');
-            formData.append('campaign_url', 'https://saimaprojects.com/');
+            formData.append('page_url', window.location.href);
+            formData.append('campaign_url', window.location.href);
             formData.append('utm_campaign', new URLSearchParams(window.location.search).get('utm_campaign') || '');
-            formData.append('project', 'Hudayriyat Island');
-            formData.append('developer', 'Modon Properties');
-            formData.append('community', 'Hudayriyat Island');
+            formData.append('project', 'Saima Project');
+            formData.append('developer', 'Saima Group');
+            formData.append('community', 'Saima Project');
             formData.append('key_requirement', 'Property Listing Submission: ' + (formData.get('property_type') || ''));
             formData.append('activity_description', 'List Your Property Modal Submission');
 

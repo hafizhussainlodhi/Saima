@@ -20,17 +20,33 @@ class LeadController extends Controller
             'comment' => 'nullable|string|max:2000',
             'project' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:10',
+            'page_url' => 'nullable|string|max:1000',
+            'campaign_url' => 'nullable|string|max:1000',
         ]);
 
         $ip = $request->ip();
+
+        // Determine exact page URL from payload or request headers
+        $rawPageUrl = $validated['page_url']
+            ?? $request->input('page_url')
+            ?? ($request->filled('campaign_url') && !in_array(rtrim($request->input('campaign_url'), '/'), ['https://saimaprojects.com', 'http://saimaprojects.com'], true) ? $request->input('campaign_url') : null)
+            ?? $request->header('referer')
+            ?? $validated['campaign_url']
+            ?? $request->input('campaign_url')
+            ?? $request->input('url')
+            ?? $request->header('origin')
+            ?? url()->previous();
+
+        $pageUrl = !empty($rawPageUrl) ? (string) $rawPageUrl : url('/');
 
         $lead = Lead::create([
             'name' => $validated['name'],
             'phone' => $validated['phone'],
             'email' => $validated['email'] ?? null,
             'comment' => $validated['comment'] ?? ($request->input('key_requirement') ?? null),
-            'project' => $validated['project'] ?? 'Hudayriyat Island',
+            'project' => $validated['project'] ?? 'Saima Projects',
             'country' => $validated['country'] ?? null,
+            'page_url' => $pageUrl,
             'ip_address' => $ip,
             'status' => 'new',
         ]);
@@ -43,10 +59,13 @@ class LeadController extends Controller
             'source' => (string) ($request->input('source') ?: 'Website'),
             'sub_source' => 'saima project',
             'utm_campaign' => (string) ($request->input('utm_campaign') ?: ($request->query('utm_campaign') ?: '')),
-            'campaign_url' => 'https://saimaprojects.com/',
-            'project' => (string) ($request->input('project') ?: ($lead->project ?: 'Hudayriyat Island')),
-            'developer' => (string) ($request->input('developer') ?: 'Modon Properties'),
-            'community' => (string) ($request->input('community') ?: ($request->input('project') ?: 'Hudayriyat Island')),
+            'campaign_url' => (string) $pageUrl,
+            'page_url' => (string) $pageUrl,
+            'url' => (string) $pageUrl,
+            'source_page_url' => (string) $pageUrl,
+            'project' => (string) ($request->input('project') ?: ($lead->project ?: 'Saima Projects')),
+            'developer' => (string) ($request->input('developer') ?: 'Saima Group'),
+            'community' => (string) ($request->input('community') ?: ($request->input('project') ?: 'Saima Projects')),
             'property_type' => (string) ($request->input('property_type') ?: 'Residential'),
             'key_requirement' => (string) ($request->input('key_requirement') ?: ($request->input('comment') ?: '')),
             'activity_description' => (string) ($request->input('activity_description') ?: 'General Website Lead Submission'),

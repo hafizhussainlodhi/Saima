@@ -587,7 +587,7 @@
 
                     <div class="adm-field">
                         <label class="adm-label" for="heroBgImageAlt">Hero Image Alt Text (SEO)</label>
-                        <input type="text" id="heroBgImageAlt" name="sections[hero][bg_image_alt]" value="{{ $hContent['bg_image_alt'] ?? ($hContent['image_alt'] ?? '') }}" class="adm-input" placeholder="e.g. Hudayriyat Island Waterfront Sanctuary">
+                        <input type="text" id="heroBgImageAlt" name="sections[hero][bg_image_alt]" value="{{ $hContent['bg_image_alt'] ?? ($hContent['image_alt'] ?? '') }}" class="adm-input" placeholder="e.g. Saima Waterfront Sanctuary">
                         <div class="adm-help">Descriptive alternative text rendered inside the hero &lt;img alt="..."&gt; tag for search engine optimization (SEO) and accessibility.</div>
                     </div>
 
@@ -596,7 +596,7 @@
                         @php
                             $badgeVal = $hContent['badge'] ?? '';
                             if (($badgeVal === '' || $badgeVal === null) && in_array($page->slug, ['about-us', 'about_us'], true)) {
-                                $badgeVal = 'HUDAYRIYAT ISLAND • ABU DHABI';
+                                $badgeVal = 'Saima • ABU DHABI';
                             }
                         @endphp
                         <input type="text" id="heroBadge" name="sections[hero][badge]" value="{{ $badgeVal }}" class="adm-input" placeholder="e.g. Freehold for All Nationalities (leave blank to hide)">
@@ -606,7 +606,7 @@
                     <div class="adm-form-row">
                         <div class="adm-field">
                             <label class="adm-label" for="heroTitle">Main Heading (H1)</label>
-                            <textarea id="heroTitle" name="sections[hero][title]" class="adm-textarea" rows="2" placeholder="Hudayriyat&#10;Island" oninput="syncHeroTitleToAlt(this.value)">{{ $hContent['title'] ?? '' }}</textarea>
+                            <textarea id="heroTitle" name="sections[hero][title]" class="adm-textarea" rows="2" placeholder="Saima&#10;Island" oninput="syncHeroTitleToAlt(this.value)">{{ $hContent['title'] ?? '' }}</textarea>
                             <div class="adm-help">Line breaks render as visual breaks on the frontend.</div>
                         </div>
 
@@ -706,37 +706,30 @@
                                             </div>
                                         </div>
                                         <div class="adm-repeater-body">
-                                            <input type="hidden" name="sections[highlights][items][{{ $idx }}][key]" value="{{ $hl['key'] ?? ('highlight_' . $idx) }}">
-                                            <input type="hidden" class="adm-hl-icon-input" name="sections[highlights][items][{{ $idx }}][icon]" value="{{ $hl['icon'] ?? '' }}">
                                             @php
                                                 $curLabel = $hl['label'] ?? '';
-                                                $curIcon = $hl['icon'] ?? '';
-                                                $matchedSvg = $metricPresets[0]['svg'];
-                                                $lowLabel = strtolower(trim($curLabel));
-                                                foreach ($metricPresets as $p) {
-                                                    $pLow = strtolower($p['label']);
-                                                    if ($lowLabel !== '' && (str_contains($lowLabel, $pLow) || str_contains($pLow, $lowLabel))) {
-                                                        $matchedSvg = $p['svg'];
-                                                        break;
-                                                    }
+                                                $matchedHlAmenity = null;
+                                                if (isset($allAmenities) && $allAmenities->isNotEmpty() && !empty($curLabel)) {
+                                                    $matchedHlAmenity = $allAmenities->first(fn($am) => strtolower(trim($am->name)) === strtolower(trim($curLabel)));
                                                 }
+                                                $curIcon = $matchedHlAmenity ? trim((string)($matchedHlAmenity->icon ?? '')) : '';
                                             @endphp
+                                            <input type="hidden" name="sections[highlights][items][{{ $idx }}][key]" value="{{ $hl['key'] ?? ('highlight_' . $idx) }}">
+                                            <input type="hidden" class="adm-hl-icon-input" name="sections[highlights][items][{{ $idx }}][icon]" value="{{ $curIcon }}">
                                             <div class="adm-grid-2-col" style="align-items: flex-end;">
                                                 <div class="adm-field">
                                                     <label class="adm-label" style="font-size: 11px; margin-bottom: 4px; color: #0284c7; font-weight: 700;">Choose Amenity</label>
                                                     <div style="display: flex; gap: 8px; align-items: center;">
-                                                        <div class="adm-hl-icon-preview" style="width: 38px; height: 38px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                                            @if(!empty($curIcon) && file_exists(public_path(ltrim($curIcon, '/'))))
-                                                                <img src="{{ asset(ltrim($curIcon, '/')) }}" style="width: 22px; height: 22px; object-fit: contain;">
-                                                            @else
-                                                                {!! $matchedSvg !!}
+                                                        <div class="adm-hl-icon-preview" style="width: 38px; height: 38px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: {{ !empty($curIcon) ? 'flex' : 'none' }}; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                            @if(!empty($curIcon))
+                                                                <img src="{{ str_starts_with($curIcon, 'http') ? $curIcon : asset(ltrim($curIcon, '/')) }}" style="width: 22px; height: 22px; object-fit: contain;">
                                                             @endif
                                                         </div>
                                                         <select class="adm-select hl-choice-select" name="sections[highlights][items][{{ $idx }}][label]" onchange="applyHighlightPreset(this)" style="font-size: 12px; background: #f0f9ff; border-color: #bae6fd; padding: 6px 10px; border-radius: 6px; width: 100%;">
                                                             <option value="">-- Choose Amenity --</option>
                                                             @if(isset($allAmenities) && $allAmenities->isNotEmpty())
                                                                 @foreach($allAmenities as $am)
-                                                                    <option value="{{ $am->name }}" data-icon="{{ $am->icon }}" {{ strtolower(trim($curLabel)) === strtolower(trim($am->name)) ? 'selected' : '' }}>{{ $am->name }}</option>
+                                                                    <option value="{{ $am->name }}" data-icon="{{ $am->icon }}" {{ $matchedHlAmenity && $matchedHlAmenity->id === $am->id ? 'selected' : '' }}>{{ $am->name }}</option>
                                                                 @endforeach
                                                             @endif
                                                         </select>
@@ -815,7 +808,7 @@
                                                 <img src="{{ $proj->image_url }}" alt="" style="width: 48px; height: 34px; object-fit: cover; border-radius: 5px; border: 1px solid #cbd5e1; flex-shrink: 0; background: #f1f5f9;">
                                                 <div style="flex: 1; min-width: 0;">
                                                     <strong class="dual-card-title" style="display: block; font-size: 13px; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $proj->title }}</strong>
-                                                    <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Hudayriyat Island') }}</span>
+                                                    <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Saima') }}</span>
                                                 </div>
                                                 <button type="button" onclick="moveCardToSelected({{ $proj->id }})" title="Add to page" style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
                                                     + Add
@@ -857,7 +850,7 @@
                                                 <img src="{{ $proj->image_url }}" alt="" style="width: 48px; height: 34px; object-fit: cover; border-radius: 5px; border: 1px solid #cbd5e1; flex-shrink: 0; background: #f1f5f9;">
                                                 <div style="flex: 1; min-width: 0;">
                                                     <strong class="dual-card-title" style="display: block; font-size: 13px; color: #1e293b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $proj->title }}</strong>
-                                                    <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Hudayriyat Island') }}</span>
+                                                    <span style="font-size: 11px; color: #64748b;">{{ $proj->price ?: ($proj->location ?: 'Saima') }}</span>
                                                 </div>
                                                 <button type="button" onclick="moveCardToAvailable({{ $proj->id }})" title="Remove from page" style="background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; border-radius: 6px; padding: 5px 11px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; flex-shrink: 0;">
                                                     ✕ Remove
@@ -878,25 +871,64 @@
 
 
         @elseif($sec->section_key === 'content' || $sec->section_key === 'overview')
-            <!-- CONTENT TAB (SINGLE UNIFIED SUMMERNOTE WYSIWYG) -->
+            @php
+                $isProjectOrCommunity = ($isProjectEdit ?? false) 
+                                     || !empty($linkedProject) 
+                                     || in_array($page->slug, $projectSlugs ?? [], true)
+                                     || \App\Models\Project::where('page_id', $page->id)->exists()
+                                     || \App\Models\City::where('page_id', $page->id)->exists()
+                                     || \App\Models\Community::where('page_id', $page->id)->exists();
+            @endphp
+            <!-- CONTENT TAB -->
             <div id="tab-{{ $sec->section_key }}" class="tab-pane {{ (in_array($currentTab, ['content', 'overview']) && ($currentTab === $sec->section_key || $currentTab === 'content' || $currentTab === 'overview')) ? 'active' : '' }}">
                 <div class="adm-card">
                     <div class="adm-card-head">
                         <div>
                             <h2>{{ $sec->section_name ?: 'Content' }} Editor</h2>
-                            <p>Single visual WYSIWYG editor containing complete page article, H1/H2/H3 headings, paragraphs, and embedded photos.</p>
+                            @if($isProjectOrCommunity)
+                                <p>WYSIWYG editor for page content, headings, and descriptions.</p>
+                            @else
+                                <p>Visual WYSIWYG editors for Short Content (beside appointment form) and Long Content (detailed body).</p>
+                            @endif
                         </div>
                         <span class="adm-chip">content section</span>
                     </div>
                     <div class="adm-card-body">
+                        @if(!$isProjectOrCommunity)
+                            <!-- 1. Short Content (Summernote) - Only for Dynamic Custom Pages -->
+                            <div class="adm-field" style="margin-bottom: 24px;">
+                                <label class="adm-label" for="content_intro_{{ $sec->id }}" style="font-weight: 700; font-size: 13px; color: #111827; margin-bottom: 6px; display: block;">
+                                    Short Content
+                                </label>
+                                <textarea id="content_intro_{{ $sec->id }}"
+                                          name="sections[{{ $sec->section_key }}][intro]"
+                                          class="adm-textarea adm-summernote"
+                                          data-height="200"
+                                          rows="8"
+                                          placeholder="Enter short content...">{{ old('sections.' . $sec->section_key . '.intro', $sContent['intro'] ?? '') }}</textarea>
+                                <div class="adm-help">Introductory short content displayed beside the appointment form.</div>
+                            </div>
+                        @endif
+
+                        <!-- Main / Long Content (Summernote) -->
                         <div class="adm-field">
-                            <label class="adm-label" for="content_wysiwyg_{{ $sec->id }}">Page Content (Headings, Paragraphs, Images)</label>
+                            @if(!$isProjectOrCommunity)
+                                <label class="adm-label" for="content_wysiwyg_{{ $sec->id }}" style="font-weight: 700; font-size: 13px; color: #111827; margin-bottom: 6px; display: block;">
+                                    Long Content
+                                </label>
+                            @else
+                                <label class="adm-label" for="content_wysiwyg_{{ $sec->id }}">
+                                    <span>{{ $sec->section_name ?: 'Content' }} (Summernote Editor)</span>
+                                    <span class="adm-chip">html / wysiwyg</span>
+                                </label>
+                            @endif
                             <textarea id="content_wysiwyg_{{ $sec->id }}"
                                       name="sections[{{ $sec->section_key }}][html]"
                                       class="adm-textarea adm-summernote"
-                                      data-height="650"
-                                      rows="30">{{ old('sections.' . $sec->section_key . '.html', $sContent['html'] ?? '') }}</textarea>
-                            <div class="adm-help">All headings (H1, H2, H3), descriptive paragraphs, image diagrams, and lists for this page are editable here in this single editor. Headings can be selected and modified from the style dropdown above. Changes save directly to the live website.</div>
+                                      data-height="450"
+                                      rows="20"
+                                      placeholder="Enter page content...">{{ old('sections.' . $sec->section_key . '.html', $sContent['html'] ?? ($sContent['body'] ?? $page->body)) }}</textarea>
+                            <div class="adm-help">All headings (H1, H2, H3), descriptive paragraphs, image diagrams, and lists for this page are editable here. Changes save directly to the live website.</div>
                         </div>
                     </div>
                 </div>
@@ -1042,7 +1074,7 @@
                     <div class="adm-card-body">
                         <div class="adm-field">
                             <label class="adm-label" for="sec_loc_heading">Main Heading</label>
-                            <input type="text" id="sec_loc_heading" name="sections[overview_location][heading]" value="{{ $sContent['heading'] ?? 'Hudayriyat Island Overview and Location' }}" class="adm-input">
+                            <input type="text" id="sec_loc_heading" name="sections[overview_location][heading]" value="{{ $sContent['heading'] ?? 'Saima Overview and Location' }}" class="adm-input">
                         </div>
 
                         <div class="adm-field">
@@ -1089,7 +1121,7 @@
                         <input type="hidden" name="sections[payment_methods][_has_items]" value="1">
                         <div class="adm-field">
                             <label class="adm-label" for="sec_pay_heading">Heading</label>
-                            <input type="text" id="sec_pay_heading" name="sections[payment_methods][heading]" value="{{ $sContent['heading'] ?? 'Hudayriyat Island Payment Methods' }}" class="adm-input">
+                            <input type="text" id="sec_pay_heading" name="sections[payment_methods][heading]" value="{{ $sContent['heading'] ?? 'Saima Payment Methods' }}" class="adm-input">
                         </div>
 
                         <div class="adm-field">
@@ -1340,7 +1372,7 @@
 
                         <div class="adm-field">
                             <label class="adm-label" for="introAlt">Image Alt Text (SEO)</label>
-                            <input type="text" id="introAlt" name="sections[intro][image_alt]" value="{{ $sContent['image_alt'] ?? '' }}" class="adm-input" placeholder="Hudayriyat Island Waterfront Luxury Architecture">
+                            <input type="text" id="introAlt" name="sections[intro][image_alt]" value="{{ $sContent['image_alt'] ?? '' }}" class="adm-input" placeholder="Saima Waterfront Luxury Architecture">
                         </div>
                     </div>
                 </div>
@@ -1886,7 +1918,7 @@
                             </div>
                             <div class="adm-field">
                                 <label class="adm-label" for="infoHeading">Section Heading</label>
-                                <input type="text" id="infoHeading" name="sections[info][heading]" value="{{ $sContent['heading'] ?? 'Discover Emerging Properties on Hudayriyat Island' }}" class="adm-input">
+                                <input type="text" id="infoHeading" name="sections[info][heading]" value="{{ $sContent['heading'] ?? 'Discover Emerging Properties on Saima' }}" class="adm-input">
                             </div>
                         </div>
 
@@ -2293,6 +2325,7 @@
                         <div class="adm-field">
                             <label class="adm-label">Gallery Heading</label>
                             <input type="text" name="sections[gallery][title]" value="{{ old('sections.gallery.title', $sContent['title'] ?? '') }}" class="adm-input" placeholder="e.g. {{ $page->title }} Gallery">
+                            <input type="hidden" name="sections[gallery][_has_images]" value="1">
                         </div>
 
                         @php
@@ -2307,13 +2340,13 @@
                                         Gallery Photos (<span id="galleryCount">{{ count($galImages) }}</span>/10)
                                     </h3>
                                     <p style="margin: 3px 0 0; font-size: 12.5px; color: #736b5e;">
-                                        Drag &amp; drop images to reorder. Supported: JPG, WEBP (Max 2MB, up to 10 photos).
+                                        Drag &amp; drop images to reorder. Supported: JPG, PNG, WEBP (Max 2MB, up to 10 photos).
                                     </p>
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 8px;">
-                                    <input type="file" id="galleryFileInput" accept=".jpg,.jpeg,.webp,image/jpeg,image/webp" multiple style="display: none;" onchange="handleGalleryFilesSelected(this)">
+                                    <input type="file" id="galleryFileInput" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" multiple style="display: none;" onchange="handleGalleryFilesSelected(this)">
                                     <button type="button" class="adm-btn adm-btn-primary adm-btn-sm" id="addGalleryBtn" onclick="triggerGalleryUpload()" style="display: inline-flex; align-items: center; gap: 6px;">
-                                        @include('admin.partials.icon', ['name' => 'plus']) Add Images
+                                        @include('admin.partials.icon', ['name' => 'plus']) Add Gallery Photo
                                     </button>
                                 </div>
                             </div>
@@ -2331,12 +2364,10 @@
                                             <img class="adm-gal-thumb" src="{{ $gImg['src'] ?? '' }}" alt="Photo {{ $gIdx + 1 }}" style="width: 100%; height: 100%; object-fit: cover;">
                                         </div>
                                         <div style="flex: 1; min-width: 0;">
-                                            <div class="adm-gal-name" style="font-size: 13px; font-weight: 600; color: #2d261e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                            <div class="adm-gal-name" style="font-size: 13px; font-weight: 600; color: #2d261e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px;">
                                                 {{ basename($gImg['src'] ?? ('Photo ' . ($gIdx + 1))) }}
                                             </div>
-                                            <div style="font-size: 11px; color: #9c9182; margin-top: 2px;">
-                                                JPG / WEBP Image
-                                            </div>
+                                            <input type="file" class="adm-input adm-gal-file" name="section_files[gallery][images][{{ $gIdx }}][file]" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" onchange="handleRowGalleryFileChange(this)" style="font-size: 11px; padding: 5px 8px; max-width: 260px;">
                                         </div>
                                         <input type="hidden" class="adm-gal-src" name="sections[gallery][images][{{ $gIdx }}][src]" value="{{ $gImg['src'] ?? '' }}">
                                         <input type="hidden" class="adm-gal-alt" name="sections[gallery][images][{{ $gIdx }}][alt]" value="{{ $gImg['alt'] ?? 'Project Photo' }}">
@@ -2479,10 +2510,22 @@
 
                             <div id="amenities_cards_container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;">
                                 @foreach($amenitiesItems as $aIdx => $aItem)
+                                    @php
+                                        $matchedAm = null;
+                                        if (isset($allAmenities) && !empty(trim($aItem['name'] ?? ''))) {
+                                            foreach ($allAmenities as $am) {
+                                                if (strtolower(trim($aItem['name'] ?? '')) === strtolower(trim($am->name))) {
+                                                    $matchedAm = $am;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        $curAmIcon = $matchedAm ? ($matchedAm->icon ?: ($aItem['icon'] ?? '')) : '';
+                                    @endphp
                                     <div class="adm-card" id="amenity_card_{{ $aIdx }}" style="border: 1px solid #dcd3c6; background: #fff; margin-bottom: 0; padding: 10px 14px; border-radius: 8px;">
                                         <div style="display: flex; gap: 10px; align-items: center;">
-                                            <div style="width: 40px; height: 40px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                                <img id="preview_amenity_{{ $aIdx }}" src="{{ $aItem['icon'] ?? '/images/placeholder.svg' }}" alt="Icon" style="width: 24px; height: 24px; object-fit: contain;">
+                                            <div class="adm-am-icon-wrap" style="width: 40px; height: 40px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: {{ !empty($curAmIcon) ? 'flex' : 'none' }}; align-items: center; justify-content: center; flex-shrink: 0;">
+                                                <img id="preview_amenity_{{ $aIdx }}" src="{{ !empty($curAmIcon) ? $curAmIcon : '' }}" alt="Icon" style="width: 24px; height: 24px; object-fit: contain;">
                                             </div>
                                             <select class="adm-select" name="sections[amenities][items][{{ $aIdx }}][name]" onchange="applyPredefinedAmenity(this, '{{ $aIdx }}')" style="flex: 1; min-width: 120px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; cursor: pointer;">
                                                 <option value="">-- Choose Amenity --</option>
@@ -2492,7 +2535,7 @@
                                                     @endforeach
                                                 @endif
                                             </select>
-                                            <input type="hidden" name="sections[amenities][items][{{ $aIdx }}][icon]" id="input_amenity_{{ $aIdx }}" value="{{ $aItem['icon'] ?? '' }}">
+                                            <input type="hidden" name="sections[amenities][items][{{ $aIdx }}][icon]" id="input_amenity_{{ $aIdx }}" value="{{ !empty($curAmIcon) ? $curAmIcon : '' }}">
                                             <button type="button" class="adm-btn-item-delete" onclick="removeAmenityCard(this)" style="padding: 4px 8px; font-size: 11px; flex-shrink: 0;" title="Delete Amenity">
                                                 ✕
                                             </button>
@@ -2680,7 +2723,7 @@
             <div class="adm-card-body">
                 <div class="adm-field">
                     <label class="adm-label" for="metaTitle">Meta Title (&lt;title&gt;)</label>
-                    <input type="text" id="metaTitle" name="meta_title" value="{{ old('meta_title', $page->meta_title) }}" class="adm-input" placeholder="e.g. Hudayriyat Island – Luxury Villas in Abu Dhabi">
+                    <input type="text" id="metaTitle" name="meta_title" value="{{ old('meta_title', $page->meta_title) }}" class="adm-input" placeholder="e.g. Saima – Luxury Villas in Abu Dhabi">
                     <div class="adm-help">Optimal length: 50–60 characters.</div>
                 </div>
 
@@ -2691,7 +2734,7 @@
 
                 <div class="adm-field">
                     <label class="adm-label" for="metaKeywords">Meta Keywords</label>
-                    <input type="text" id="metaKeywords" name="meta_keywords" value="{{ old('meta_keywords', $page->meta_keywords) }}" class="adm-input" placeholder="Hudayriyat Island, Luxury Villas, Modon Properties">
+                    <input type="text" id="metaKeywords" name="meta_keywords" value="{{ old('meta_keywords', $page->meta_keywords) }}" class="adm-input" placeholder="Saima, Luxury Villas, Modon Properties">
                     <div class="adm-help">Comma-separated keyword list.</div>
                 </div>
 
@@ -3749,30 +3792,44 @@
         const card = selectEl.closest('.adm-repeater-item');
         if (!card) return;
         const opt = selectEl.options[selectEl.selectedIndex];
-        if (!opt || !opt.value) return;
-
         const labelInput = card.querySelector('.adm-hl-label-input') || card.querySelector('input[name*="[label]"]');
-        if (labelInput) {
-            labelInput.value = opt.value;
-            const headingText = card.querySelector('.adm-repeater-heading-text');
-            if (headingText) headingText.textContent = opt.value;
+        const headingText = card.querySelector('.adm-repeater-heading-text');
+        const iconInput = card.querySelector('.adm-hl-icon-input') || card.querySelector('input[name*="[icon]"]');
+        const preview = card.querySelector('.adm-hl-icon-preview');
+
+        if (!opt || !opt.value) {
+            if (labelInput) labelInput.value = '';
+            if (headingText) headingText.textContent = 'Highlight';
+            if (iconInput) iconInput.value = '';
+            if (preview) {
+                preview.style.display = 'none';
+                preview.innerHTML = '';
+            }
+            return;
         }
 
-        const iconInput = card.querySelector('.adm-hl-icon-input') || card.querySelector('input[name*="[icon]"]');
+        if (labelInput) labelInput.value = opt.value;
+        if (headingText) headingText.textContent = opt.value;
+
         const iconVal = opt.getAttribute('data-icon') || '';
         if (iconInput) iconInput.value = iconVal;
 
-        const preview = card.querySelector('.adm-hl-icon-preview');
         if (preview) {
             if (iconVal && (iconVal.startsWith('/') || iconVal.startsWith('http'))) {
+                preview.style.display = 'flex';
                 preview.innerHTML = `<img src="${iconVal}" style="width:22px;height:22px;object-fit:contain;" alt="">`;
-            } else {
+            } else if (iconVal) {
                 const preset = (window.METRIC_PRESETS || []).find(p => p.icon === iconVal || p.label === opt.value);
                 if (preset && preset.svg) {
+                    preview.style.display = 'flex';
                     preview.innerHTML = preset.svg;
                 } else {
-                    preview.innerHTML = `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>`;
+                    preview.style.display = 'none';
+                    preview.innerHTML = '';
                 }
+            } else {
+                preview.style.display = 'none';
+                preview.innerHTML = '';
             }
         }
     }
@@ -3844,9 +3901,7 @@
                     <div class="adm-field">
                         <label class="adm-label" style="font-size: 11px; margin-bottom: 4px; color: #0284c7; font-weight: 700;">Choose Amenity</label>
                         <div style="display: flex; gap: 8px; align-items: center;">
-                            <div class="adm-hl-icon-preview" style="width: 38px; height: 38px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
-                            </div>
+                            <div class="adm-hl-icon-preview" style="width: 38px; height: 38px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: none; align-items: center; justify-content: center; flex-shrink: 0;"></div>
                             <select class="adm-select hl-choice-select" name="sections[highlights][items][${newId}][label]" onchange="applyHighlightPreset(this)" style="font-size: 12px; background: #f0f9ff; border-color: #bae6fd; padding: 6px 10px; border-radius: 6px; width: 100%;">
                                 <option value="">-- Choose Amenity --</option>
                                 ${amenitiesOptHtml}
@@ -4673,6 +4728,27 @@
         }
     }
 
+    function handleRowGalleryFileChange(input) {
+        if (!input.files || !input.files[0]) return;
+        const file = input.files[0];
+        const MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
+        if (file.size > MAX_SIZE_BYTES) {
+            alert(`"${file.name}" is too large (${(file.size / (1024 * 1024)).toFixed(2)} MB). Maximum allowed size is 2MB.`);
+            input.value = '';
+            return;
+        }
+        const row = input.closest('.adm-gal-row');
+        if (!row) return;
+        const thumb = row.querySelector('.adm-gal-thumb');
+        const nameEl = row.querySelector('.adm-gal-name');
+        if (nameEl) nameEl.textContent = file.name;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            if (thumb) thumb.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
     function handleGalleryFilesSelected(input) {
         if (!input.files || input.files.length === 0) return;
         const container = document.getElementById('gallery_images_container');
@@ -4680,8 +4756,8 @@
 
         const MAX_IMAGES = 10;
         const MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
-        const allowedExtensions = ['jpg', 'jpeg', 'webp'];
-        const allowedMimeTypes = ['image/jpeg', 'image/webp'];
+        const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
         Array.from(input.files).forEach(file => {
             let currentCount = container.querySelectorAll('.adm-gal-row').length;
@@ -4696,11 +4772,11 @@
                 return;
             }
 
-            // Validate file format (jpg, webp)
+            // Validate file format (jpg, png, webp)
             const ext = file.name.split('.').pop().toLowerCase();
             const isValidType = allowedExtensions.includes(ext) || allowedMimeTypes.includes(file.type);
             if (!isValidType) {
-                alert(`"${file.name}" has an unsupported format. Only JPG and WEBP images are allowed.`);
+                alert(`"${file.name}" has an unsupported format. Only JPG, PNG, and WEBP images are allowed.`);
                 return;
             }
 
@@ -4729,23 +4805,20 @@
                         <img class="adm-gal-thumb" src="${dataUrl}" alt="New Photo" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                     <div style="flex: 1; min-width: 0;">
-                        <div class="adm-gal-name" style="font-size: 13px; font-weight: 600; color: #2d261e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            ${file.name}
+                        <div class="adm-gal-name" style="font-size: 13px; font-weight: 600; color: #2d261e; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 6px;">
+                            ${file.name} (${(file.size / 1024).toFixed(0)} KB)
                         </div>
-                        <div style="font-size: 11px; color: #9c9182; margin-top: 2px;">
-                            New Upload (${(file.size / 1024).toFixed(0)} KB) • JPG/WEBP
-                        </div>
+                        <input type="file" class="adm-input adm-gal-file" name="section_files[gallery][images][${newIdx}][file]" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" onchange="handleRowGalleryFileChange(this)" style="font-size: 11px; padding: 5px 8px; max-width: 260px;">
                     </div>
                     <input type="hidden" class="adm-gal-src" name="sections[gallery][images][${newIdx}][src]" value="">
                     <input type="hidden" class="adm-gal-alt" name="sections[gallery][images][${newIdx}][alt]" value="Project Photo">
                     <input type="hidden" class="adm-gal-cat" name="sections[gallery][images][${newIdx}][category]" value="">
-                    <input type="file" class="adm-gal-file" name="section_files[gallery][images][${newIdx}][file]" style="display: none;">
                     <button type="button" class="adm-gal-del" onclick="deleteGalleryRow(this)" title="Delete Image" style="background: #fbf7f4; border: 1px solid #eddcd0; color: #b43b3b; width: 34px; height: 34px; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 15px; font-weight: bold; transition: all 0.2s;">
                         ✕
                     </button>
                 `;
 
-                // Attach file to row's hidden file input using DataTransfer
+                // Attach file to row's file input using DataTransfer
                 try {
                     const dt = new DataTransfer();
                     dt.items.add(file);
@@ -4777,21 +4850,38 @@
     function applyPredefinedAmenity(selectEl, idx) {
         const card = selectEl.closest('.adm-card');
         const opt = selectEl.options[selectEl.selectedIndex];
-        if (!opt || !opt.value) return;
-        const name = opt.value;
-        const icon = opt.getAttribute('data-icon') || '';
 
         let nameInput = idx !== undefined ? document.getElementById('name_amenity_' + idx) : null;
         if (!nameInput && card) nameInput = card.querySelector('input[name*="[name]"]');
-        if (nameInput) nameInput.value = name;
 
         let iconInput = idx !== undefined ? document.getElementById('input_amenity_' + idx) : null;
         if (!iconInput && card) iconInput = card.querySelector('input[name*="[icon]"]');
-        if (iconInput) iconInput.value = icon;
 
         let previewImg = idx !== undefined ? document.getElementById('preview_amenity_' + idx) : null;
         if (!previewImg && card) previewImg = card.querySelector('img');
-        if (previewImg && icon) previewImg.src = icon;
+        const iconWrap = previewImg ? (previewImg.closest('.adm-am-icon-wrap') || previewImg.parentElement) : null;
+
+        if (!opt || !opt.value) {
+            if (nameInput) nameInput.value = '';
+            if (iconInput) iconInput.value = '';
+            if (previewImg) previewImg.src = '';
+            if (iconWrap) iconWrap.style.display = 'none';
+            return;
+        }
+
+        const name = opt.value;
+        const icon = opt.getAttribute('data-icon') || '';
+
+        if (nameInput) nameInput.value = name;
+        if (iconInput) iconInput.value = icon;
+
+        if (icon) {
+            if (previewImg) previewImg.src = icon;
+            if (iconWrap) iconWrap.style.display = 'flex';
+        } else {
+            if (previewImg) previewImg.src = '';
+            if (iconWrap) iconWrap.style.display = 'none';
+        }
     }
 
     function selectAmenityMetricOption(itemEl, name, iconUrl) {
@@ -4860,8 +4950,8 @@
 
         card.innerHTML = `
             <div style="display: flex; gap: 10px; align-items: center;">
-                <div style="width: 40px; height: 40px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <img id="preview_amenity_${newIdx}" src="/images/placeholder.svg" alt="Icon" style="width: 24px; height: 24px; object-fit: contain;">
+                <div class="adm-am-icon-wrap" style="width: 40px; height: 40px; border-radius: 6px; background: #faf8f5; border: 1px solid #e0d7cb; display: none; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <img id="preview_amenity_${newIdx}" src="" alt="Icon" style="width: 24px; height: 24px; object-fit: contain;">
                 </div>
                 <select class="adm-select" name="sections[amenities][items][${newIdx}][name]" onchange="applyPredefinedAmenity(this, '${newIdx}')" style="flex: 1; min-width: 120px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; cursor: pointer;">
                     ${amenitiesOptions}

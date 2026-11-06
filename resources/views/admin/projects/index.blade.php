@@ -578,7 +578,7 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Hero Image Alt Text (SEO)</label>
-                            <input type="text" name="sections[hero][bg_image_alt]" id="add_hero_alt" placeholder="e.g. Wadeem Gardens at Hudayriyat Island" class="adm-input">
+                            <input type="text" name="sections[hero][bg_image_alt]" id="add_hero_alt" placeholder="e.g. Wadeem Gardens at Saima" class="adm-input">
                             <div class="adm-help">Descriptive alternative text rendered inside the hero &lt;img alt="..."&gt; tag for search engine optimization (SEO) and accessibility.</div>
                         </div>
 
@@ -590,13 +590,13 @@
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                             <div class="adm-field">
                                 <label class="adm-label">Main Heading (H1)</label>
-                                <textarea name="sections[hero][title]" id="add_hero_title" class="adm-textarea" rows="2" placeholder="e.g. Wadeem Gardens&#10;at Hudayriyat Island"></textarea>
+                                <textarea name="sections[hero][title]" id="add_hero_title" class="adm-textarea" rows="2" placeholder="e.g. Wadeem Gardens&#10;at Saima"></textarea>
                                 <div class="adm-help">Line breaks render as visual breaks on the frontend.</div>
                             </div>
 
                             <div class="adm-field">
                                 <label class="adm-label">Subtitle / Tagline</label>
-                                <textarea name="sections[hero][subtitle]" id="add_hero_subtitle" class="adm-textarea" rows="2" placeholder="e.g. Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island"></textarea>
+                                <textarea name="sections[hero][subtitle]" id="add_hero_subtitle" class="adm-textarea" rows="2" placeholder="e.g. Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Saima"></textarea>
                             </div>
                         </div>
                     </div>
@@ -615,8 +615,8 @@
                         <div id="add_highlights_list" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
                             <div class="adm-highlight-card" style="display: flex; gap: 10px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;">
                                 <div style="display: flex; gap: 8px; align-items: center; width: 100%; max-width: 250px;">
-                                    <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                        <img src="/images/placeholder.svg" style="width: 20px; height: 20px; object-fit: contain;">
+                                    <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: none; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <img src="" style="width: 20px; height: 20px; object-fit: contain;">
                                     </span>
                                     <select class="adm-select add-hl-select" name="sections[highlights][items][0][label]" onchange="applyAddHighlightChoice(this)" style="font-size: 11.5px; padding: 5px 8px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
                                         <option value="">-- Choose Amenity --</option>
@@ -633,8 +633,8 @@
                             </div>
                             <div class="adm-highlight-card" style="display: flex; gap: 10px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;">
                                 <div style="display: flex; gap: 8px; align-items: center; width: 100%; max-width: 250px;">
-                                    <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                        <img src="/images/placeholder.svg" style="width: 20px; height: 20px; object-fit: contain;">
+                                    <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: none; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <img src="" style="width: 20px; height: 20px; object-fit: contain;">
                                     </span>
                                     <select class="adm-select add-hl-select" name="sections[highlights][items][1][label]" onchange="applyAddHighlightChoice(this)" style="font-size: 11.5px; padding: 5px 8px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
                                         <option value="">-- Choose Amenity --</option>
@@ -714,8 +714,8 @@
                         <div id="add_amenities_container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 14px;">
                             <div class="adm-card" style="border: 1px solid #e2e8f0; background: #fff; padding: 10px 12px; border-radius: 8px;">
                                 <div style="display: flex; gap: 10px; align-items: center;">
-                                    <div style="width: 36px; height: 36px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                        <img src="/images/placeholder.svg" style="width: 22px; height: 22px; object-fit: contain;">
+                                    <div class="adm-am-icon-wrap" style="width: 36px; height: 36px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: none; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <img src="" style="width: 22px; height: 22px; object-fit: contain;">
                                     </div>
                                     <select class="adm-select add-amenity-select" name="sections[amenities][items][0][name]" onchange="applyProjectAmenity(this)" style="flex: 1; min-width: 120px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd;">
                                         <option value="">-- Choose Amenity --</option>
@@ -751,16 +751,25 @@
                             <input type="text" name="sections[gallery][title]" value="" placeholder="e.g. Project Gallery" class="adm-input">
                         </div>
 
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <div style="font-size: 13px; font-weight: 700; color: #1e293b;">
+                                Gallery Photos (<span id="addGalleryCount">1</span>/10)
+                            </div>
+                            <div style="font-size: 11.5px; color: #64748b;">
+                                Supported: JPG, PNG, WEBP (Max 2MB per image, up to 10 images)
+                            </div>
+                        </div>
+
                         <div id="add_gallery_container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px;">
                             <div class="adm-gal-box" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; position: relative;">
-                                <button type="button" onclick="this.closest('.adm-gal-box').remove()" style="position: absolute; right: 8px; top: 8px; background: #fff; border: 1px solid #fecaca; color: #ef4444; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer;">✕</button>
+                                <button type="button" onclick="removeAddGalleryItem(this)" style="position: absolute; right: 8px; top: 8px; background: #fff; border: 1px solid #fecaca; color: #ef4444; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer;">✕</button>
                                 <img id="preview_add_gal_0" src="/images/placeholder.svg" style="width: 100%; height: 95px; object-fit: contain; border-radius: 6px; margin-bottom: 8px; background: #f1f5f9;">
-                                <input type="text" name="sections[gallery][images][0][src]" value="" class="adm-input" placeholder="Image URL / path (e.g. /images/hero/photo.jpg)" style="font-size: 11px;" oninput="document.getElementById('preview_add_gal_0').src = this.value || '/images/placeholder.svg'">
+                                <input type="file" name="section_files[gallery][images][0][file]" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="adm-input adm-gal-file-input" style="font-size: 11px; padding: 6px;" onchange="handleAddGalleryFileChange(this, 'preview_add_gal_0')">
                                 <input type="hidden" name="sections[gallery][images][0][alt]" value="Project Photo">
                             </div>
                         </div>
 
-                        <button type="button" class="adm-btn adm-btn-secondary" onclick="addAddGalleryItem()" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
+                        <button type="button" id="addGalleryPhotoBtn" class="adm-btn adm-btn-secondary" onclick="addAddGalleryItem()" style="margin-top: 14px; display: inline-flex; align-items: center; gap: 6px; font-size: 13px;">
                             + Add Gallery Photo
                         </button>
                     </div>
@@ -882,7 +891,7 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Description</label>
-                            <textarea name="sections[location][description]" class="adm-textarea" rows="2" placeholder="e.g. Conveniently located on Hudayriyat Island with direct access via modern bridges..."></textarea>
+                            <textarea name="sections[location][description]" class="adm-textarea" rows="2" placeholder="e.g. Conveniently located on Saima with direct access via modern bridges..."></textarea>
                         </div>
 
                         <div id="add_locations_container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
@@ -965,7 +974,7 @@
                             </div>
                             <div>
                                 <label class="adm-label">Email</label>
-                                <input type="text" name="sections[contact][email]" value="" placeholder="e.g. info@hudayriyat-island.com" class="adm-input">
+                                <input type="text" name="sections[contact][email]" value="" placeholder="e.g. info@Saima-island.com" class="adm-input">
                             </div>
                         </div>
                     </div>
@@ -982,17 +991,17 @@
 
                         <div class="adm-field">
                             <label class="adm-label">Meta Title (Page Title Tag)</label>
-                            <input type="text" name="meta_title" id="add_meta_title" placeholder="e.g. Wadeem Gardens | Luxury Freehold Villas at Hudayriyat Island Abu Dhabi" class="adm-input">
+                            <input type="text" name="meta_title" id="add_meta_title" placeholder="e.g. Wadeem Gardens | Luxury Freehold Villas at Saima Abu Dhabi" class="adm-input">
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Meta Description</label>
-                            <textarea name="meta_description" id="add_meta_desc" class="adm-textarea" rows="3" placeholder="e.g. Explore Wadeem Gardens on Hudayriyat Island, Abu Dhabi. Discover freehold residences, pricing, master plan, and world-class amenities."></textarea>
+                            <textarea name="meta_description" id="add_meta_desc" class="adm-textarea" rows="3" placeholder="e.g. Explore Wadeem Gardens on Saima, Abu Dhabi. Discover freehold residences, pricing, master plan, and world-class amenities."></textarea>
                         </div>
 
                         <div class="adm-field">
                             <label class="adm-label">Meta Keywords</label>
-                            <input type="text" name="meta_keywords" id="add_meta_keywords" placeholder="e.g. Wadeem Gardens, Hudayriyat Island, Abu Dhabi villas, Modon Properties" class="adm-input">
+                            <input type="text" name="meta_keywords" id="add_meta_keywords" placeholder="e.g. Wadeem Gardens, Saima, Abu Dhabi villas, Modon Properties" class="adm-input">
                         </div>
                     </div>
 
@@ -1354,29 +1363,38 @@
         const card = selectEl.closest('.adm-highlight-card');
         if (!card) return;
         const opt = selectEl.options[selectEl.selectedIndex];
-        if (!opt || !opt.value) return;
 
         const labelInput = card.querySelector('.add-hl-label') || card.querySelector('input[name*="[label]"]');
+        const iconInput = card.querySelector('input[name*="[icon]"]');
+        const previewWrap = card.querySelector('.adm-hl-icon-preview');
+        const img = previewWrap ? previewWrap.querySelector('img') : null;
+
+        if (!opt || !opt.value) {
+            if (labelInput) labelInput.value = '';
+            if (iconInput) iconInput.value = '';
+            if (img) img.src = '';
+            if (previewWrap) previewWrap.style.display = 'none';
+            return;
+        }
+
         if (labelInput) labelInput.value = opt.value;
 
-        const iconInput = card.querySelector('input[name*="[icon]"]');
         const iconVal = opt.getAttribute('data-icon') || '';
         if (iconInput) iconInput.value = iconVal;
 
-        const img = card.querySelector('.adm-hl-icon-preview img');
-        if (img) {
-            if (iconVal && (iconVal.startsWith('/') || iconVal.startsWith('http'))) {
-                img.src = iconVal;
-            } else {
-                img.src = '/images/placeholder.svg';
-            }
+        if (iconVal && (iconVal.startsWith('/') || iconVal.startsWith('http'))) {
+            if (img) img.src = iconVal;
+            if (previewWrap) previewWrap.style.display = 'inline-flex';
+        } else {
+            if (img) img.src = '';
+            if (previewWrap) previewWrap.style.display = 'none';
         }
     }
 
     function addAddHighlightItem() {
         const list = document.getElementById('add_highlights_list');
         if (!list) return;
-        const newId = Date.now();
+        const newId = Date.now() + Math.floor(Math.random() * 1000);
         let amenitiesOptHtml = '';
         if (window.ALL_AMENITIES && window.ALL_AMENITIES.length) {
             amenitiesOptHtml = window.ALL_AMENITIES.map(am => `<option value="${escapeHtml(am.name)}" data-icon="${am.icon || ''}">${escapeHtml(am.name)}</option>`).join('');
@@ -1393,8 +1411,8 @@
         card.style.cssText = 'display: flex; gap: 10px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;';
         card.innerHTML = `
             <div style="display: flex; gap: 8px; align-items: center; width: 100%; max-width: 250px;">
-                <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <img src="/images/placeholder.svg" style="width: 20px; height: 20px; object-fit: contain;">
+                <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: none; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <img src="" style="width: 20px; height: 20px; object-fit: contain;">
                 </span>
                 <select class="adm-select add-hl-select" name="sections[highlights][items][${newId}][label]" onchange="applyAddHighlightChoice(this)" style="font-size: 11.5px; padding: 5px 8px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
                     <option value="">-- Choose Amenity --</option>
@@ -1412,23 +1430,38 @@
         const card = selectEl.closest('.adm-card');
         if (!card) return;
         const opt = selectEl.options[selectEl.selectedIndex];
-        if (!opt || !opt.value) return;
 
         const nameInput = card.querySelector('input[name*="[name]"]');
+        const iconInput = card.querySelector('input[name*="[icon]"]');
+        const img = card.querySelector('img');
+        const iconWrap = img ? (img.closest('.adm-am-icon-wrap') || img.parentElement) : null;
+
+        if (!opt || !opt.value) {
+            if (nameInput) nameInput.value = '';
+            if (iconInput) iconInput.value = '';
+            if (img) img.src = '';
+            if (iconWrap) iconWrap.style.display = 'none';
+            return;
+        }
+
         if (nameInput) nameInput.value = opt.value;
 
-        const iconInput = card.querySelector('input[name*="[icon]"]');
         const iconUrl = opt.getAttribute('data-icon') || '';
         if (iconInput) iconInput.value = iconUrl;
 
-        const img = card.querySelector('img');
-        if (img && iconUrl) img.src = iconUrl;
+        if (iconUrl) {
+            if (img) img.src = iconUrl;
+            if (iconWrap) iconWrap.style.display = 'flex';
+        } else {
+            if (img) img.src = '';
+            if (iconWrap) iconWrap.style.display = 'none';
+        }
     }
 
     function addAddAmenityCard() {
         const container = document.getElementById('add_amenities_container');
         if (!container) return;
-        const idx = Date.now();
+        const idx = Date.now() + Math.floor(Math.random() * 1000);
         const card = document.createElement('div');
         card.className = 'adm-card';
         card.style.cssText = 'border: 1px solid #e2e8f0; background: #fff; padding: 10px 12px; border-radius: 8px;';
@@ -1446,8 +1479,8 @@
 
         card.innerHTML = `
             <div style="display: flex; gap: 10px; align-items: center;">
-                <div style="width: 36px; height: 36px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <img src="/images/placeholder.svg" style="width: 22px; height: 22px; object-fit: contain;">
+                <div class="adm-am-icon-wrap" style="width: 36px; height: 36px; border-radius: 6px; background: #faf8f5; border: 1px solid #cbd5e1; display: none; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <img src="" style="width: 22px; height: 22px; object-fit: contain;">
                 </div>
                 <select class="adm-select add-amenity-select" name="sections[amenities][items][${idx}][name]" onchange="applyProjectAmenity(this)" style="flex: 1; min-width: 120px; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd;">
                     ${amenitiesOptions}
@@ -1526,58 +1559,77 @@
         }
     }
 
-    let addHighlightIdx = 10;
-    function addAddHighlightItem() {
-        const container = document.getElementById('add_highlights_list');
+    function updateAddGalleryState() {
+        const container = document.getElementById('add_gallery_container');
         if (!container) return;
-        const idx = addHighlightIdx++;
+        const boxes = container.querySelectorAll('.adm-gal-box');
+        const count = boxes.length;
+        const countSpan = document.getElementById('addGalleryCount');
+        if (countSpan) countSpan.textContent = count;
 
-        let amenitiesOptions = '';
-        if (window.ALL_AMENITIES && window.ALL_AMENITIES.length) {
-            amenitiesOptions = window.ALL_AMENITIES.map(am => `<option value="${escapeHtml(am.name)}" data-icon="${am.icon || ''}">${escapeHtml(am.name)}</option>`).join('');
-        } else {
-            @if(isset($allAmenities))
-                @foreach($allAmenities as $am)
-                    amenitiesOptions += `<option value="{{ addslashes($am->name) }}" data-icon="{{ $am->icon }}">{{ $am->name }}</option>`;
-                @endforeach
-            @endif
+        const addBtn = document.getElementById('addGalleryPhotoBtn');
+        if (addBtn) {
+            if (count >= 10) {
+                addBtn.disabled = true;
+                addBtn.style.opacity = '0.5';
+                addBtn.style.cursor = 'not-allowed';
+                addBtn.title = 'Maximum 10 images limit reached';
+            } else {
+                addBtn.disabled = false;
+                addBtn.style.opacity = '1';
+                addBtn.style.cursor = 'pointer';
+                addBtn.title = '';
+            }
         }
+    }
 
-        const row = document.createElement('div');
-        row.className = 'adm-highlight-card';
-        row.style.cssText = 'display: flex; gap: 10px; align-items: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; flex-wrap: wrap;';
-        row.innerHTML = `
-            <div style="display: flex; gap: 8px; align-items: center; width: 100%; max-width: 250px;">
-                <span class="adm-hl-icon-preview" style="width: 32px; height: 32px; border-radius: 6px; background: #fff; border: 1px solid #cbd5e1; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                    <img src="/images/placeholder.svg" style="width: 20px; height: 20px; object-fit: contain;">
-                </span>
-                <select class="adm-select add-hl-select" onchange="applyAddHighlightChoice(this)" style="font-size: 11.5px; padding: 5px 8px; border-radius: 6px; background: #f0f9ff; border-color: #bae6fd; width: 100%;">
-                    <option value="">-- Choose Amenity --</option>
-                    ${amenitiesOptions}
-                </select>
-            </div>
-            <input type="hidden" name="sections[highlights][items][${idx}][icon]" value="">
-            <input type="hidden" name="sections[highlights][items][${idx}][label]" value="" class="add-hl-label">
-            <input type="text" name="sections[highlights][items][${idx}][value]" value="" class="adm-input" style="flex: 1; min-width: 160px;" placeholder="Value (e.g. AED 2,500,000 / Included)">
-            <button type="button" onclick="this.closest('.adm-highlight-card').remove()" style="background: none; border: none; color: #ef4444; font-size: 14px; cursor: pointer; padding: 4px;" title="Remove Item">✕</button>
-        `;
-        container.appendChild(row);
+    function removeAddGalleryItem(btn) {
+        const box = btn.closest('.adm-gal-box');
+        if (box) box.remove();
+        updateAddGalleryState();
+    }
+
+    function handleAddGalleryFileChange(input, previewId) {
+        const previewImg = document.getElementById(previewId);
+        if (!input.files || !input.files[0]) {
+            if (previewImg) previewImg.src = '/images/placeholder.svg';
+            return;
+        }
+        const file = input.files[0];
+        const MAX_SIZE_BYTES = 2 * 1024 * 1024; // 2MB
+        if (file.size > MAX_SIZE_BYTES) {
+            alert(`"${file.name}" is too large (${(file.size / (1024 * 1024)).toFixed(2)} MB). Maximum allowed size is 2MB.`);
+            input.value = '';
+            if (previewImg) previewImg.src = '/images/placeholder.svg';
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            if (previewImg) previewImg.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
     }
 
     function addAddGalleryItem() {
         const container = document.getElementById('add_gallery_container');
         if (!container) return;
-        const idx = Date.now();
+        const currentCount = container.querySelectorAll('.adm-gal-box').length;
+        if (currentCount >= 10) {
+            alert('Maximum 10 images allowed.');
+            return;
+        }
+        const idx = Date.now() + Math.floor(Math.random() * 1000);
         const box = document.createElement('div');
         box.className = 'adm-gal-box';
         box.style.cssText = 'background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; position: relative;';
         box.innerHTML = `
-            <button type="button" onclick="this.closest('.adm-gal-box').remove()" style="position: absolute; right: 8px; top: 8px; background: #fff; border: 1px solid #fecaca; color: #ef4444; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer;">✕</button>
+            <button type="button" onclick="removeAddGalleryItem(this)" style="position: absolute; right: 8px; top: 8px; background: #fff; border: 1px solid #fecaca; color: #ef4444; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer;">✕</button>
             <img id="preview_add_gal_${idx}" src="/images/placeholder.svg" style="width: 100%; height: 95px; object-fit: contain; border-radius: 6px; margin-bottom: 8px; background: #f1f5f9;">
-            <input type="text" name="sections[gallery][images][${idx}][src]" value="" class="adm-input" placeholder="Image URL / path (e.g. /images/hero/photo.jpg)" style="font-size: 11px;" oninput="document.getElementById('preview_add_gal_${idx}').src = this.value || '/images/placeholder.svg'">
+            <input type="file" name="section_files[gallery][images][${idx}][file]" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" class="adm-input adm-gal-file-input" style="font-size: 11px; padding: 6px;" onchange="handleAddGalleryFileChange(this, 'preview_add_gal_${idx}')">
             <input type="hidden" name="sections[gallery][images][${idx}][alt]" value="Project Photo">
         `;
         container.appendChild(box);
+        updateAddGalleryState();
     }
 
     function addAddMilestoneItem() {

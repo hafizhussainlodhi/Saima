@@ -13,15 +13,57 @@ use Illuminate\Http\Response;
 class SitemapController extends Controller
 {
     /**
-     * Helper to determine base URL (defaults to https://saimaprojects.com)
+     * Helper to determine base URL dynamically from current request or app configuration.
+     * Automatically picks up the live domain (url('/') or config('app.url')) and avoids localhost on live server.
      */
     protected function getBaseUrl(): string
     {
+        // 1. If running under an active HTTP request, automatically pick up the live domain
+        if (app()->bound('request') && request()->getHost()) {
+            $root = rtrim(request()->root() ?: url('/'), '/');
+
+            // Force HTTPS if request is secure, or behind an HTTPS proxy (Cloudflare, Nginx, AWS ALB) or if app.url is HTTPS
+            $isHttps = request()->isSecure()
+                || strtolower((string) request()->header('x-forwarded-proto')) === 'https'
+                || strtolower((string) request()->server('HTTP_X_FORWARDED_PROTO')) === 'https'
+                || strtolower((string) request()->header('x-forwarded-ssl')) === 'on'
+                || str_starts_with((string) config('app.url'), 'https://');
+
+            if ($isHttps && str_starts_with($root, 'http://')) {
+                $root = 'https://' . substr($root, 7);
+            }
+
+            // If the live request domain is active and NOT localhost/127.0.0.1, use it directly
+            if (!empty($root) && !str_contains($root, 'localhost') && !str_contains($root, '127.0.0.1')) {
+                return $root;
+            }
+        }
+
+        // 2. Check config('app.url') if configured with a valid domain (and not localhost)
+        $configUrl = config('app.url');
+        if (!empty($configUrl) && filter_var($configUrl, FILTER_VALIDATE_URL)) {
+            $cleanConfigUrl = rtrim($configUrl, '/');
+            if (!str_contains($cleanConfigUrl, 'localhost') && !str_contains($cleanConfigUrl, '127.0.0.1')) {
+                return $cleanConfigUrl;
+            }
+        }
+
+        // 3. Fallback to canonical SEO setting ONLY if it is a valid non-localhost URL
         $canonicalSetting = SiteSetting::get('seo_canonical_url');
         if (!empty($canonicalSetting) && filter_var($canonicalSetting, FILTER_VALIDATE_URL)) {
-            return rtrim($canonicalSetting, '/');
+            $cleanCanonical = rtrim($canonicalSetting, '/');
+            if (!str_contains($cleanCanonical, 'localhost') && !str_contains($cleanCanonical, '127.0.0.1')) {
+                return $cleanCanonical;
+            }
         }
-        return 'https://saimaprojects.com';
+
+        // 4. Default fallback: use url('/') or config('app.url') (supports local dev on localhost)
+        $fallback = rtrim(url('/'), '/');
+        if (!empty($fallback)) {
+            return $fallback;
+        }
+
+        return rtrim((string) (config('app.url') ?: 'https://saimaprojects.com'), '/');
     }
 
     /**

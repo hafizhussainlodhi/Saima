@@ -1,10 +1,10 @@
-<section id="hero" class="hero" aria-label="Hudayriyat Island Hero and Callback Request">
+<section id="hero" class="hero" aria-label="Saima Hero and Callback Request">
     @php
         $heroBg = page_section('hero', 'bg_image', '/images/hero/slide-1.jpg');
         if ($heroBg && !str_starts_with($heroBg, 'http') && !str_starts_with($heroBg, '/')) {
             $heroBg = asset($heroBg);
         }
-        $heroTitleRaw = page_section('hero', 'title', "Hudayriyat\nIsland");
+        $heroTitleRaw = page_section('hero', 'title', "Saima\nProjects");
         $heroTitleClean = trim(preg_replace('/\s+/', ' ', strip_tags((string)$heroTitleRaw)));
         $heroImageAlt = page_section('hero', 'bg_image_alt', page_section('hero', 'image_alt', $heroTitleClean));
         if (empty(trim((string)$heroImageAlt))) {
@@ -28,10 +28,10 @@
                 <!-- Left Column -->
                 <div class="leftCol">
                     <h1 class="heroTitle">
-                        {!! nl2br(e(page_section('hero', 'title', "Hudayriyat\nIsland"))) !!}
+                        {!! nl2br(e(page_section('hero', 'title', "Saima\nProjects"))) !!}
                     </h1>
                     <p class="heroSubtitle">
-                        {!! nl2br(e(page_section('hero', 'subtitle', "Abu Dhabi’s Most Exclusive Coastal\nLifestyle Destination"))) !!}
+                        {!! nl2br(e(page_section('hero', 'subtitle', "Pakistan’s Most Exclusive Luxury\nLifestyle Destination"))) !!}
                     </p>
                     <div class="heroBtnRow">
                         <button type="button" class="heroBookBtn" onclick="const f = document.querySelector('.rightCol .requestCard, #heroLeadForm, #contact'); if(f) { f.scrollIntoView({behavior: 'smooth'}); f.querySelector('input')?.focus(); }">BOOK NOW</button>
@@ -126,12 +126,13 @@
                         phone: formData.get('phone'),
                         source: 'Website',
                         sub_source: 'saima project',
+                        page_url: window.location.href,
+                        campaign_url: window.location.href,
                         utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-                        campaign_url: 'https://saimaprojects.com/',
-                        project: 'Hudayriyat Island',
-                        developer: 'Modon Properties',
-                        community: 'Hudayriyat Island',
-                        property_type: 'Villas, Mansions, Plots',
+                        project: 'Saima',
+                        developer: 'Saima Group',
+                        community: 'Saima',
+                        property_type: 'Villas, Apartments, Plots',
                         key_requirement: 'Homepage Hero Call Back Request',
                         activity_description: 'Hero Callback Form Submission'
                     })

@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="robots" content="noindex, nofollow">
-    <title>@yield('title', 'Dashboard') · Hudayriyat Admin</title>
-    <meta name="description" content="Hudayriyat Island admin panel for managing website content, table of contents and leads.">
+    <title>@yield('title', 'Dashboard') · Saima Admin</title>
+    <meta name="description" content="Saima admin panel for managing website content, table of contents and leads.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
     <!-- Summernote Lite WYSIWYG Editor Styles -->
     <link rel="stylesheet" href="{{ asset('vendor/summernote/summernote-lite.min.css') }}">
     <style>
-        /* Summernote Clean Theme Overrides for Hudayriyat Admin */
+        /* Summernote Clean Theme Overrides for Saima Admin */
         .note-editor.note-frame {
             border: 1px solid #d1d5db !important;
             border-radius: 8px !important;
@@ -215,7 +215,7 @@
                 <button type="button" class="adm-btn adm-btn-ghost adm-btn-sm adm-mobile-toggle" id="admNavToggle" aria-label="Open navigation" style="margin-bottom:12px">
                     @include('admin.partials.icon', ['name' => 'menu']) Menu
                 </button>
-                <div class="adm-eyebrow">@yield('eyebrow', 'Hudayriyat Island')</div>
+                <div class="adm-eyebrow">@yield('eyebrow', 'Saima')</div>
                 <h1 class="adm-title">@yield('heading')</h1>
                 @hasSection('subheading')
                     <p class="adm-subtitle">@yield('subheading')</p>

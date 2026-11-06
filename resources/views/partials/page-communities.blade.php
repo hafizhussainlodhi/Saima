@@ -1,9 +1,11 @@
 @php
     $secHeading = page_section('communities', 'heading', 'Projects', $page->slug ?? null);
-    $secSubtitle = page_section('communities', 'subtitle', 'Explore the premier waterfront residential communities on Hudayriyat Island', $page->slug ?? null);
+    $secSubtitle = page_section('communities', 'subtitle', '', $page->slug ?? null);
     
-    $selectedProjectIds = page_section('communities', 'selected_ids', null, $page->slug ?? null)
+    $rawSelectedProjectIds = page_section('communities', 'selected_ids', null, $page->slug ?? null)
         ?: page_section('communities', 'project_ids', null, $page->slug ?? null);
+
+    $selectedProjectIds = is_array($rawSelectedProjectIds) ? array_values(array_filter($rawSelectedProjectIds)) : [];
 
     $isCityPage = isset($page) && (
         \App\Models\City::where('page_id', $page->id)->exists()
@@ -12,7 +14,10 @@
         || \App\Models\Community::where('slug', $page->slug)->exists()
     );
 
-    if (!empty($selectedProjectIds) && is_array($selectedProjectIds)) {
+    $hasDbProjects = false;
+    $dbProjects = collect();
+
+    if (!empty($selectedProjectIds)) {
         $dbProjects = \App\Models\Project::whereIn('id', $selectedProjectIds)
             ->where('is_active', true)
             ->where(function($q) {
@@ -27,54 +32,17 @@
                 return array_search($model->id, $selectedProjectIds);
             });
         $hasDbProjects = $dbProjects->isNotEmpty();
-    } elseif ($isCityPage) {
-        $dbProjects = collect();
-        $hasDbProjects = false;
-    } else {
-        $dbProjects = \App\Models\Project::where('is_active', true)
-            ->where(function($q) {
-                $q->whereNull('status')->orWhere('status', '!=', 'draft');
-            })
-            ->whereDoesntHave('page', function($q) {
-                $q->where('status', 'draft')->orWhere('is_published', false);
-            })
-            ->with('page')
-            ->orderBy('order', 'asc')
-            ->get();
-        $hasDbProjects = $dbProjects->isNotEmpty();
     }
 
-    $secCommunities = page_section('communities', 'items', null, $page->slug ?? null);
-    if (!is_array($secCommunities) || empty($secCommunities)) {
-        $secCommunities = [
-            [
-                'name' => 'Wadeem Gardens',
-                'location' => 'Hudayriyat Island, Abu Dhabi',
-                'badges' => ['Off plan'],
-                'developer' => 'MÖDON',
-                'paymentPlan' => 'Flexible Payment Plan',
-                'href' => '/project/wadeem-gardens',
-                'image' => '/images/communities/wadeem-gardens.png',
-            ],
-            [
-                'name' => 'Hudayriyat Golf Estates',
-                'location' => 'Hudayriyat Island, Abu Dhabi',
-                'badges' => ['New'],
-                'developer' => 'MÖDON',
-                'paymentPlan' => 'Flexible Payment Plan',
-                'href' => '/project/hudayriyat-golf-estates',
-                'image' => '/images/communities/golf-estates.jpg',
-            ],
-            [
-                'name' => 'Al Naseem Villas',
-                'location' => 'Hudayriyat Island, Abu Dhabi',
-                'badges' => ['Ready'],
-                'developer' => 'MÖDON',
-                'paymentPlan' => 'Flexible Payment Plan',
-                'href' => '/project/al-naseem-villas',
-                'image' => '/images/communities/al-naseem.jpg',
-            ],
-        ];
+    $rawSecCommunities = page_section('communities', 'items', null, $page->slug ?? null);
+    $secCommunities = is_array($rawSecCommunities) ? array_values(array_filter($rawSecCommunities, function($it) {
+        return is_array($it) && (!empty(trim($it['name'] ?? '')) || !empty(trim($it['title'] ?? '')));
+    })) : [];
+
+    $hasCardsToRender = $hasDbProjects || !empty($secCommunities);
+
+    if (!$hasCardsToRender) {
+        return;
     }
 @endphp
 
@@ -118,9 +86,34 @@
                         <!-- Bottom Content Area -->
                         <div class="bottomContent">
                             <h3 class="cardTitle">{{ $item->title }}</h3>
-                            <p class="cardLocation">{{ $item->location ?? 'Hudayriyat Island, Abu Dhabi' }}</p>
+                            <p class="cardLocation">{{ $item->location ?? 'Saima, Pakistan' }}</p>
 
                             <!-- Big Green Rounded BOOK NOW Button -->
+                            <div class="cardBookBtn">BOOK NOW</div>
+                        </div>
+                    </a>
+                @endforeach
+            @elseif(!empty($secCommunities))
+                @foreach($secCommunities as $index => $item)
+                    @php
+                        $imgSrc = $item['image'] ?? '/images/communities/wadeem-gardens.png';
+                        $cardHref = $item['href'] ?? ($item['link'] ?? '#');
+                        $isSoldOut = !empty($item['status']) && $item['status'] === 'sold_out';
+                        $badges = (array)($item['badges'] ?? []);
+                    @endphp
+                    <a href="{{ $cardHref }}" class="cardCustom" style="text-decoration: none; cursor: pointer;" aria-label="{{ $item['name'] ?? ($item['title'] ?? '') }}">
+                        <div class="topTags">
+                            @foreach($badges as $badge)
+                                <span class="badgeTag">{{ $badge }}</span>
+                            @endforeach
+                        </div>
+                        @if($isSoldOut)
+                            <span class="soldOutBadge">Sold out</span>
+                        @endif
+                        <img src="{{ $imgSrc }}" alt="{{ $item['name'] ?? ($item['title'] ?? '') }}" class="mainImage" loading="lazy">
+                        <div class="bottomContent">
+                            <h3 class="cardTitle">{{ $item['name'] ?? ($item['title'] ?? '') }}</h3>
+                            <p class="cardLocation">{{ $item['location'] ?? 'Saima, Pakistan' }}</p>
                             <div class="cardBookBtn">BOOK NOW</div>
                         </div>
                     </a>

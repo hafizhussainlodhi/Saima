@@ -4,7 +4,7 @@
 @php
     $heroBadge = page_section('hero', 'badge', 'LEGAL & TRANSPARENCY', 'privacy-policy');
     $heroTitle = page_section('hero', 'title', 'Privacy Policy', 'privacy-policy');
-    $heroSubtitle = page_section('hero', 'subtitle', 'Understand how we collect, use, and protect your personal information when you explore Hudayriyat Island properties.', 'privacy-policy');
+    $heroSubtitle = page_section('hero', 'subtitle', 'Understand how we collect, use, and protect your personal information when you explore Saima properties.', 'privacy-policy');
     $policyContent = page_section('content', 'html', null, 'privacy-policy') ?: page_section('content', 'body', null, 'privacy-policy');
 @endphp
 <style>

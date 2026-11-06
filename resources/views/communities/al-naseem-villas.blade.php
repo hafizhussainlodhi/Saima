@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Al Naseem Villas | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -200,7 +203,7 @@
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"Can anyone buy a villa at Al Naseem community?","acceptedAnswer":{"@@type":"Answer","text":"Yes. Al Naseem community offers freehold ownership, available to all nationalities, making it fully accessible to UAE residents and international foreign investors."}},{"@@type":"Question","name":"What bedroom options are available?","acceptedAnswer":{"@@type":"Answer","text":"Villas in Al Naseem Community come in 4, 5, and 6 bedroom configurations, thoughtfully designed for families of varying sizes."}},{"@@type":"Question","name":"What is the villa area range?","acceptedAnswer":{"@@type":"Answer","text":"Units vary between approximately 7,783 to 11,008 sq ft, offering spacious layouts tailored for every lifestyle and aesthetic preference."}},{"@@type":"Question","name":"Where is Al Naseem community located?","acceptedAnswer":{"@@type":"Answer","text":"Situated on Hudayriyat Island, the community offers a peaceful waterfront sanctuary just minutes from the heart of Downtown Abu Dhabi and Al Bateen."}},{"@@type":"Question","name":"Is Al Naseem community a completed project?","acceptedAnswer":{"@@type":"Answer","text":"No. This is an off-plan residential development by master developer Modon Properties, with handover scheduled for Q4 2026."}},{"@@type":"Question","name":"Can foreigners own property in Abu Dhabi?","acceptedAnswer":{"@@type":"Answer","text":"Yes. Foreigners and non-UAE nationals can purchase 100% Freehold Property in designated investment zones like Hudayriyat Island, Al Reem Island, Saadiyat Island, Yas Island, and Al Maryah Island."}}]}</script>@php
+</section>@php
     $defaultFaqs = [
         [
             'q' => 'Can anyone buy a villa at Al Naseem community?',

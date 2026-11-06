@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Nawayef Village | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -246,7 +249,7 @@ by Modon', 'nawayef-village'))) !!}</h1><p class="ProjectHero-module__aC6oka__su
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"Where is Nawayef Village located?","acceptedAnswer":{"@@type":"Answer","text":"It’s situated on Hudayriyat Island, Abu Dhabi, nestled between the Nawayef West and East Hills, with elevated terrain and panoramic views."}},{"@@type":"Question","name":"When is handover scheduled?","acceptedAnswer":{"@@type":"Answer","text":"Residents can expect handover in Q1 2029."}},{"@@type":"Question","name":"What is the payment plan structure of Nawayef Village?","acceptedAnswer":{"@@type":"Answer","text":"The flexible payment plan follows a 10/40/50 model, 10% on booking, 40% during construction, and the remaining 50% upon handover in January 2029."}},{"@@type":"Question","name":"Who is the developer behind this community?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef Village is developed by Modon Properties, an Abu Dhabi-based firm known for premium large‑scale residential projects."}},{"@@type":"Question","name":"What types of homes are available in Nawayef Village?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef Village offers 3 to 5 bedroom townhouses and twin villas, with sizes ranging from approximately 2,669 sq ft to 3,670 sq ft."}},{"@@type":"Question","name":"What amenities are provided at Nawayef Village?","acceptedAnswer":{"@@type":"Answer","text":"Residents enjoy gated community security, parks, green spaces, walking and cycling paths, community centres, pools, boutique retail, fine dining, cinema, fitness facilities, schools, medical services, and direct beach access."}},{"@@type":"Question","name":"How close is Nawayef Village to key landmarks?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef Village is just 15 minutes to the Sheikh Zayed Grand Mosque and 25 minutes to Zayed International Airport. Saadiyat Island and ADGM are also within easy reach."}}]}</script>@php
+</section>@php
     $defaultFaqs = [
         [
             'q' => 'Where is Nawayef Village located?',

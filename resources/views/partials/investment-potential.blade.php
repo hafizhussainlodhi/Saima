@@ -18,7 +18,7 @@ $invImage = page_section('investment', 'image', '/images/3_3.jpg');
 if ($invImage && !str_starts_with($invImage, 'http') && !str_starts_with($invImage, '/')) {
     $invImage = asset($invImage);
 }
-$invImageAlt = page_section('investment', 'image_alt', 'Hudayriyat Island Investment Potential');
+$invImageAlt = page_section('investment', 'image_alt', 'Saima Investment Potential');
 @endphp
 
 <section id="investment" aria-label="Investment Potential" class="investmentSection">
@@ -28,7 +28,7 @@ $invImageAlt = page_section('investment', 'image_alt', 'Hudayriyat Island Invest
             <div class="investmentLeftCol">
                 @php
                     $invHeading = page_section('investment', 'heading', 'Investment Potential');
-                    $invDesc = page_section('investment', 'description', 'Hudayriyat Island offers attractive real estate investment opportunities through its premium villa communities, waterfront lifestyle, and developments by Modon Properties. With growing interest in luxury coastal living in Abu Dhabi, the island presents opportunities for investors seeking long-term capital appreciation and potential rental income.');
+                    $invDesc = page_section('investment', 'description', 'Saima offers attractive real estate investment opportunities through its premium residential and commercial communities, modern lifestyle, and developments by Saima Group. With growing interest in high-end living in Pakistan, Saima presents exceptional opportunities for investors seeking long-term capital appreciation and solid rental yields.');
                 @endphp
 
                 @if(!empty(trim((string)$invHeading)))

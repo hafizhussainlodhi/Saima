@@ -76,10 +76,12 @@
         }
     @endphp
     <div class="GolfHighlights-module__mmSHGq__highlightCard">
+        @if(!empty($hIcon))
         <div class="GolfHighlights-module__mmSHGq__iconWrapper">
             <span class="GolfHighlights-module__mmSHGq__accentCircle"></span>
             <span class="GolfHighlights-module__mmSHGq__svgIcon">@include('partials.highlight-icon', ['label' => $hLabel, 'icon' => $hIcon, 'index' => $loop->index])</span>
         </div>
+        @endif
         <div class="GolfHighlights-module__mmSHGq__highlightInfo">
             <span class="GolfHighlights-module__mmSHGq__highlightLabel">{{ $hLabel }}</span>
             <span class="GolfHighlights-module__mmSHGq__highlightValue">{{ $hItem['value'] ?? '' }}</span>

@@ -651,7 +651,8 @@
           property_type: 'Residential',
           source: 'Website',
           sub_source: 'saima project',
-          campaign_url: 'https://saimaprojects.com/',
+          page_url: window.location.href,
+          campaign_url: window.location.href,
           utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
           key_requirement: formData.get('comment') || formData.get('message') || '',
           activity_description: 'Community Page Lead Submission'

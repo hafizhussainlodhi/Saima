@@ -91,7 +91,7 @@
 
             <div class="adm-field" style="margin-top: 14px;">
                 <label class="adm-label" for="canonicalUrl">Canonical Base URL</label>
-                <input type="url" id="canonicalUrl" name="canonical_url" value="{{ old('canonical_url', $settings['canonical_url']) }}" class="adm-input" placeholder="https://hudayriyat-island.ae">
+                <input type="url" id="canonicalUrl" name="canonical_url" value="{{ old('canonical_url', $settings['canonical_url']) }}" class="adm-input" placeholder="https://Saima-island.ae">
             </div>
         </div>
 

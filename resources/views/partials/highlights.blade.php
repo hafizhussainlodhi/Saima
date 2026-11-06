@@ -90,12 +90,14 @@ if (is_array($rawItems)) {
                     }
                 @endphp
                 <div class="highlightCard">
+                    @if(!empty($hIcon))
                     <div class="iconWrapper">
                         <div class="accentCircle"></div>
                         <div class="svgIcon">
                             @include('partials.highlight-icon', ['label' => $hLabel, 'icon' => $hIcon, 'index' => $loop->index, 'key' => $hKey])
                         </div>
                     </div>
+                    @endif
                     <div class="highlightInfo">
                         <span class="highlightLabel">{{ $hLabel }}</span>
                         <span class="highlightValue">{{ $hValue }}</span>

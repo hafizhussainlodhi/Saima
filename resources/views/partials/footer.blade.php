@@ -11,7 +11,7 @@
                     <span class="footerBrandText" style="font-size: 38px; font-weight: 800; color: #ffffff; letter-spacing: 0.5px; line-height: 1.1; display: inline-block; font-family: 'Playfair Display', Georgia, serif;">{{ $fData->brand_title ?: 'Saima' }}</span>
                 </a>
                 <p class="brandDescription Footer-module__S6Hkya__brandDescription">
-                    {{ $fData->brand_description ?: 'Hudayriyat Island trusted property advisory serving local and international buyers. We specialize in residential and investment properties, offering clear guidance, market insight, and long term value.' }}
+                    {{ $fData->brand_description ?: 'Saima trusted property advisory serving local and international buyers. We specialize in residential and investment properties, offering clear guidance, market insight, and long term value.' }}
                 </p>
 
                 @if($fData->newsletter_enabled)
@@ -56,7 +56,7 @@
                 {{ $fData->disclaimer_text ?: 'Disclaimer: Its not official website. We inform that all property information provided on this website is for general guidance only and does not constitute a formal offer. Prices, availability, and property details may change at any time without prior notice. Images are for illustrative purposes and may not reflect actual properties. For the most accurate and up-to-date information, please contact us directly through the details provided on the website.' }}
             </p>
             <p class="copyrightText Footer-module__S6Hkya__copyrightText">
-                {{ $fData->copyright_text ?: '© ' . date('Y') . ' hudayriyat-island.ae All Rights Reserved.' }}
+                {{ $fData->copyright_text ?: '© ' . date('Y') . ' Saima-island.ae All Rights Reserved.' }}
             </p>
         </div>
     </div>

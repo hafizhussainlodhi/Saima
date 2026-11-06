@@ -682,7 +682,7 @@
                                         </div>
                                         <div>
                                             <label class="adm-label" for="heroSubtitleInput" style="font-weight:600; font-size:12.5px;">Subtitle / Tagline</label>
-                                            <input type="text" id="heroSubtitleInput" name="hero_subtitle" class="adm-input" placeholder="e.g. Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Hudayriyat Island" value="" style="font-size:13px;">
+                                            <input type="text" id="heroSubtitleInput" name="hero_subtitle" class="adm-input" placeholder="e.g. Abu Dhabi’s Most Exclusive Coastal Lifestyle Destination on Saima" value="" style="font-size:13px;">
                                         </div>
                                     </div>
 
@@ -1775,7 +1775,7 @@
                     heroTitleInput.value = this.value;
                 }
                 if (!manuallyEditedAboutTitle && aboutTitleInput) {
-                    aboutTitleInput.value = this.value.trim() ? this.value.trim() + ' by Modon' : 'Hudayriyat Island Waterfront Sanctuary by Modon';
+                    aboutTitleInput.value = this.value.trim() ? this.value.trim() + ' by Modon' : 'Saima Waterfront Sanctuary by Modon';
                 }
             });
         }

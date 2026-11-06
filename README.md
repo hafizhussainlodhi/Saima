@@ -1,13 +1,17 @@
 
 ---
 
-## 🌐 GLOBAL PORT CONVENTIONS & RULES
+## 🌐 GLOBAL CONVENTIONS & RULES
 
-Always use the following assigned ports when referring to, running, or testing the projects:
-- **Laravel Backend Project**: Runs on **Port 8000** (`http://127.0.0.1:8000`).
-- **Next.js Frontend Project**: Runs on **Port 3000** (`http://localhost:3000`).
+1. **Port Conventions**:
+   - **Laravel Backend Project**: Runs on **Port 8000** (`http://127.0.0.1:8000`).
+   - **Next.js Frontend Project**: Runs on **Port 3000** (`http://localhost:3000`).
 
-Both projects feature 100% identical UI styling, typography (`Ubuntu`, standard clamp heading hierarchy, 16px body text), sticky frosted glass header, Ken Burns hero carousel, 6 quick metric badges, 10 featured communities, Island Overview residential rundown, Investment Potential with Flexible Financing card, Hudayriyat Island Overview and Location with 4 key location cards, Accepted Payment Methods, 10 interactive real estate FAQs, Contact callback section, and List Your Property modal.
+2. **Mandatory Global Rule – Automatic README Updates**:
+   - **Strict Requirement**: Whenever ANY update, feature, bugfix, or modification is made to the codebase, the documentation in `README.md` must be updated immediately to record what was changed, how it works, and how to use/verify it.
+
+3. **Lead Testing Protocol – Mandatory "TEST" Keyword**:
+   - Whenever any developer or agent submits or tests a lead submission, they **MUST use the word "test" or "TEST"** in the lead's name, email, or comment (e.g. `name: "TEST - Verification"`, `email: "test@example.com"`, `comment: "TEST: Checking lead delivery"`). This ensures the team and CRM administrators immediately know that the submission is an automated test.
 
 ---
 # Hudayriyat Island – Full-Stack Laravel Web Application
@@ -1006,3 +1010,501 @@ Seamlessly renders dynamic page content from MySQL with zero-downtime fallbacks:
   6. `https://saimaprojects.com/sitemap/dynamic-sitemap.xml`: All custom dynamic pages added via `+ Add Page` in CMS (Image 2) (Priority: 0.8).
 
 > **Dynamic CMS Sync Note**: `/sitemap/project-sitemap.xml` strictly outputs projects that have status `Publish` and `is_active = true` in the CMS (`/admin/projects`). Projects in `Draft` status (e.g. Hasan) and un-created templates are automatically excluded.
+
+---
+
+### 🎯 Dynamic Lead Source Page URL Tracking & CRM Delivery
+
+To guarantee that the sales team and CRM always know exactly which webpage generated each inquiry, a full-stack source URL tracking system is active across the application:
+
+1. **Frontend Transmission Across All Pages**:
+   - **Project Pages** (`/project/{slug}`, e.g. `/project/wadeem-gardens`, `/project/al-naseem-villas`): Both the sidebar appointment form (`partials/article.blade.php`, `partials/page-article.blade.php`) and custom community interactions script (`community-interactions.js`) dynamically send `page_url: window.location.href` and `campaign_url: window.location.href`.
+   - **Area / Community Pages** (`/area/{slug}`): Transmits the exact live URL of the area page via `window.location.href`.
+   - **City Pages** (`/city/{slug}`): Transmits the exact live city page URL.
+   - **Home Page** (`/`): The Hero callback form (`partials/hero.blade.php`) and footer contact section (`partials/contact.blade.php`) pass `window.location.href`.
+   - **Dynamic Blog Pages** (`/blog/{slug}`): The blog appointment form (`blogs/show.blade.php`) passes `window.location.href`.
+   - **About Us & Contact Us Pages** (`/about-us`, `/contact-us`): Dedicated forms pass `window.location.href`.
+   - **List Your Property Modal** (`layouts/app.blade.php`): Modal form openable across any page captures the current page's `window.location.href`.
+   - **Next.js Frontend Parity** (`hudayriayt/src/lib/sendLead.ts` & `hudayriayt_new/src/lib/sendLead.ts`): Form submissions attach `page_url: window.location.href` alongside `campaign_url`.
+
+2. **Backend Controller Ingestion (`LeadController@store`)**:
+   - Accepts and validates `page_url` and `campaign_url`.
+   - Resolves the exact page URL using a tiered fallback:
+     ```php
+     $rawPageUrl = $validated['page_url']
+         ?? $request->input('page_url')
+         ?? ($request->filled('campaign_url') && !in_array(rtrim($request->input('campaign_url'), '/'), ['https://saimaprojects.com', 'http://saimaprojects.com'], true) ? $request->input('campaign_url') : null)
+         ?? $request->header('referer')
+         ?? $validated['campaign_url']
+         ?? $request->input('campaign_url')
+         ?? $request->input('url')
+         ?? $request->header('origin')
+         ?? url()->previous();
+     ```
+   - Persists the URL into the MySQL `leads` table in the `page_url` column.
+   - Forwards the exact URL to the n8n CRM Webhook in multiple standard keys:
+     - `campaign_url`: `$pageUrl`
+     - `page_url`: `$pageUrl`
+     - `url`: `$pageUrl`
+     - `source_page_url`: `$pageUrl`
+
+3. **Admin Panel Visibility (`/admin/leads`)**:
+   - **Leads Table** (`/admin/leads`): Displays a dedicated **"Source Page URL"** column with a direct link and external icon (`↗`) that allows administrators to open and inspect the exact page where the inquiry was submitted.
+   - **Lead Detail View** (`/admin/leads/{id}`): Dedicated view showing client information, clickable phone (`tel:`) and email (`mailto:`), comments, technical metadata (Country, IP address, Timestamp), a prominent **Source Page URL** card with an **"Open Live Page ↗"** button, and an interactive status updater.
+   - **CSV Export** (`/admin/leads/export`): Automatically outputs `Page URL` as a column in the downloadable CSV file.
+
+4. **Testing Protocol Requirement**:
+   - Whenever automated or manual lead submissions are conducted for testing purposes, **always include the word `"test"` or `"TEST"`** in the name, email, or comment fields to prevent test data from being confused with genuine customer inquiries.
+
+---
+
+## 📦 Deployment & Update Log (Boss / Live Server Reference)
+
+### Update: Project Gallery Direct File Upload (`Choose File`, Max 2MB, Max 10 Images)
+
+#### 1. Database & Migration Changes
+* **New Migration File:** None (No new migration required).
+* **Database Table Update:** None (Uses existing `page_sections` table `content` JSON column where `section_key = 'gallery'`).
+
+#### 2. Backend & View Files (Created / Updated)
+* **Updated Files:**
+  * `resources/views/admin/projects/index.blade.php` — Replaced the gallery URL text input field (`Image URL / path`) in the Add Property modal (`#add_tab_gallery`) with a direct `Choose File` upload input (`section_files[gallery][images][*][file]`), live image preview, 2MB max file size validation, and 10-image counter/limit (`1/10`).
+  * `resources/views/admin/pages/edit.blade.php` — Updated the Project Gallery editor tab (`#tab-gallery`) across all Property/Page edit screens to include a direct `Choose File` input per gallery item alongside multi-file upload, enforcing the 2MB max file size and 10-image limit.
+  * `app/Http/Controllers/Admin/ProjectController.php` — Updated `store()` to process uploaded gallery image files (`section_files.gallery.images`), validate image format (`jpg, jpeg, png, webp, avif`) and size (`<= 2MB`), enforce the 10-image limit, and store files in `public/uploads/pages/`.
+  * `app/Http/Controllers/Admin/PageController.php` — Updated `update()` gallery image handling with `_has_images` state tracking, 2MB file size validation, and 10-image cap.
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend folder me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. Uploads folder ki permissions ensure karein
+mkdir -p public/uploads/pages
+chmod -R 775 public/uploads/pages
+
+# 4. Laravel cache clear aur optimize karein
+php artisan optimize:clear
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+```
+
+---
+
+### Update: Hide Amenity & Highlight Icons When Not Selected (`-- Choose Amenity --`)
+
+#### 1. Database & Migration Changes
+* **New Migration File:** None (Koi nayi migration nahi bani).
+* **Database Table Update:** None (Existing `page_sections` table ke JSON `content` column me items sanitize ho kar save hote hain).
+
+#### 2. Backend & View Files (Created / Updated)
+* **Updated Files:**
+  * `resources/views/admin/pages/edit.blade.php`:
+    * `#tab-highlights` & `#tab-amenities`: Dropdown me agar `-- Choose Amenity --` select ho ya koi icon na ho, to preview icon container hide (`display: none`) rehta hai aur icon hidden input empty (`""`) rehta hai.
+    * `applyHighlightPreset()`, `addHighlightItem()`, `applyPredefinedAmenity()`, `addAmenityCard()`: JavaScript functions me `-- Choose Amenity --` par switch karne se icon preview clear aur hide ho jata hai.
+  * `resources/views/admin/projects/index.blade.php`:
+    * `#add_tab_highlights` & `#add_tab_amenities`: Initial state me icon preview box hidden (`display: none;`) rehta hai jab tak koi valid amenity dropdown se select na ki jaye.
+    * `applyAddHighlightChoice()`, `addAddHighlightItem()`, `applyProjectAmenity()`, `addAddAmenityCard()`: JS handlers dropdown reset hone par preview image src aur container ko instantly hide aur clear karte hain.
+  * `app/Http/Controllers/Admin/PageController.php`:
+    * `update()` method me highlights aur amenities repeater sanitize logic update kiya gaya: agar `label` ya `name` empty ho to `icon` ko empty string (`""`) set kiya jata hai aur empty rows ko database me save hone se filter out kiya jata hai.
+  * `app/Http/Controllers/Admin/ProjectController.php`:
+    * `store()` method me highlights aur amenities items validation update ki gayi taaki empty labels par stale icons persist na hon.
+  * `resources/views/partials/highlight-icon.blade.php`:
+    * Fallback SVG icons jo empty `$icon` hone par bhi index (0-5) ke base par icon render kar rahe the, unko strictly clean kiya gaya. Ab icon sirf tab render hota hai jab `$icon` explicitly selected ho.
+  * `resources/views/partials/highlights.blade.php` & `resources/views/partials/page-highlights.blade.php`:
+    * Highlight card me `.iconWrapper` aur `.accentCircle` tabhi render hote hain jab highlight ke paas valid `$hIcon` ho. Empty icon par blank circle/icon box UI par nahi dikhega.
+  * `resources/views/dynamic-page.blade.php`:
+    * Amenities grid me default placeholder fallback (`/images/golf-estates/amenity-golf.png`) remove kiya gaya. Card tabhi icon container render karta hai jab amenity ka icon database me exist karta ho.
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend folder me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. Laravel views aur cache clear karein
+php artisan view:clear
+php artisan route:clear
+php artisan config:clear
+php artisan optimize:clear
+```
+
+---
+
+### Update: Fix Full-Width Alignment for Contact Form on Blog Detail Pages
+
+#### 1. Database & Migration Changes
+* **New Migration File:** None (Koi nayi migration nahi bani).
+* **Database Table Update:** None (Koi database table ya schema change nahi hua).
+
+#### 2. Backend & View Files (Created / Updated)
+* **Updated Files:**
+  * `resources/views/blogs/show.blade.php`:
+    * `@include('partials.contact')` ko restricted `.blogDetailContainer` (max-width: 1200px) aur `<main>` wrapper se bahar move kiya gaya. Ab FAQ section ke neeche Contact / Request a Callback section website ke baaki sabhi pages ki tarah 100% full-width viewport background ke saath perfectly align aur adjust hota hai.
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend folder me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. View cache clear karein
+php artisan view:clear
+```
+
+---
+
+### Update: Global Favicon Synchronization (`favicon.png` across all Pages, Projects & CMS)
+
+#### 1. Database & Migration Changes
+* **New Migration File:** None (Koi nayi migration nahi bani).
+* **Database Table Update:** None (Database table ya schema me koi badlao nahi hua).
+
+#### 2. Backend & View Files (Created / Updated)
+* **Updated Files:**
+  * `resources/views/dynamic-page.blade.php`:
+    * `<head>` section me explicitly `favicon.png` ke `<link rel="icon">`, `<link rel="shortcut icon">`, aur `<link rel="apple-touch-icon">` tags add kiye cache-busting timestamp version (`?v=...`) ke saath. Is se sabhi Dynamic Detail Pages, Project Pages, City, aur Area pages par wahi naya `favicon.png` load hota hai.
+  * `resources/views/layouts/app.blade.php`:
+    * Global layout me favicon tags ko cache-busting query parameter (`?v=...`) ke saath update kiya gaya taaki browser old cached icon use na kare.
+  * `public/favicon.ico`:
+    * Browser ke default root `/favicon.ico` request ke liye `public/favicon.ico` ko naye `public/favicon.png` se synchronize aur replace kiya gaya.
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend folder me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. Views aur cache clear karein
+php artisan view:clear
+php artisan config:clear
+php artisan optimize:clear
+```
+
+---
+
+### Update: Global Text & Asset Replacement (`hudayriyat` -> `saima`) in Views, CMS & Source Code
+
+#### 1. Database & Migration Changes
+* **New Migration File:** None (Database me koi tabdeeli nahi ki gayi - user instruction ke mutabiq zero database changes).
+* **Database Table Update:** None.
+
+#### 2. Backend & View Files (Created / Updated)
+* **Created Files:**
+  * `public/css/saima.css` — Created as the main luxury theme stylesheet (replacing `hudayriyat.css`).
+* **Updated Files:**
+  * `resources/views/layouts/app.blade.php`:
+    * Replaced stylesheet link `css/hudayriyat.css` with `css/saima.css`.
+    * Replaced Schema.org JSON-LD definitions (`Hudayriyat Island` -> `Saima`, `Modon Properties` -> `Saima Group`).
+    * Replaced modal lead form defaults (`project`, `developer`, `community`).
+  * `resources/views/dynamic-page.blade.php`:
+    * Updated stylesheet reference from `css/hudayriyat.css` to `css/saima.css`.
+  * `resources/views/admin/**/*.blade.php` (All Admin CMS Blade Templates):
+    * Replaced hardcoded references, fallback labels, email place-holders (`info@saimaprojects.com`), and panel titles across Dashboard, Login, Cities, Communities, Pages, Projects, Leads, and SEO modules.
+  * `resources/views/**/*.blade.php` (All Frontend Views & Partials):
+    * Replaced all occurrences of `Hudayriyat Island` / `Hudayriyat` with `Saima` / `Saima Group` across `about-us.blade.php`, `contact-us.blade.php`, `privacy-policy.blade.php`, `blogs/*.blade.php`, and all `partials/*.blade.php`.
+    * (Note: Existing CMS-deleted community files in `resources/views/communities/` were strictly preserved as requested).
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend folder me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. Laravel views, config aur route cache clear karein
+php artisan view:clear
+php artisan config:clear
+php artisan route:clear
+php artisan optimize:clear
+```
+
+---
+
+### Update: Dynamic Pages Content Synchronization (Short & Long Content) & CMS-Driven Project Cards Display Logic
+
+#### 1. Database & Migration Changes
+* **New Migration File:** None *(Strict compliance with user instruction: database table ya structure me koi tabdeeli nahi ki gayi)*.
+* **Database Table Update:** None.
+
+#### 2. Backend & View Files (Created / Updated)
+* **Updated Files:**
+  * `resources/views/admin/pages/edit.blade.php`:
+    * `#tab-content` (Content Editor tab) ko update kiya gaya taake **Add Page** (`admin/pages/index.blade.php`) ke exact structure ke mutabiq 2 alag visual Summernote WYSIWYG editors display hon:
+      1. **Short Content (`sections[content][intro]`)**: Appointment form ke barabar aane wala introductory text.
+      2. **Long Content (`sections[content][html]`)**: Page ka tafseeli article body (Headings, Paragraphs, Images).
+    * Page create karne ke baad jab edit kiya jaye ga to Short Content aur Long Content apne apne editor me load honge.
+  * `app/Http/Controllers/Admin/PageController.php`:
+    * `update()` method me ensure kiya gaya ke `sections.content.intro` aur `sections.content.html` dono sanitize aur decode hoker `page_sections` ke JSON content me aur `$page->body` me sync aur save hon.
+  * `resources/views/partials/page-communities.blade.php`:
+    * Fallback cards aur unconditional query (`Project::where('is_active', true)->get()`) ko khatam kiya gaya.
+    * Strict Rule: Agar CMS se page par specific project cards select nahi kiye gaye (i.e., `selected_ids` / `project_ids` empty hain aur custom items nahi hain) to ye partial **kuch bhi render nahi karega (`return;`)**.
+  * `resources/views/partials/article.blade.php`:
+    * **Dynamic Pages Layout Rules**:
+      * **Case A (Project Cards Selected in CMS)**:
+        * Left column me Short Content render hoga aur uske aakhri jumlay ke baad automatically blue color me clickable **`Read more`** link (`style="color: #2563eb; font-weight: 600; text-decoration: underline; cursor: pointer; margin-left: 6px;"`) add hoga jo smooth scroll karke neeche `#pageLongContent` par le jata hai. CMS me user ko "Read more" likhne ki zaroorat nahi hai.
+        * Right column me Book an Appointment form aayega.
+        * Short Content + Form ke theek baad **Project Cards (Communities Grid)** display honge.
+        * Project cards ke neeche **Long Content** display hoga.
+      * **Case B (Project Cards NOT Selected in CMS)**:
+        * Unwanted project cards bilkul hide rahenge (UI par 0 cards dikhenge).
+        * "Read more" ka text bilkul show nahi hoga.
+        * Short Content aur Long Content ek sath mix / merge hoker main article column me flow karenge, appointment form ke barabar jese regular pages par hota hai.
+  * `resources/views/dynamic-page.blade.php`:
+    * Sequence ordering verify ki gayi. Unselected communities section ke duplicate ya forced rendering ko prevent kiya gaya. Jo section CMS me add/active na ho wo UI par render nahi hoga.
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend directory me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. Views aur cache clear karein
+php artisan view:clear
+php artisan config:clear
+php artisan route:clear
+php artisan optimize:clear
+```
+
+---
+
+### Update: Dynamic Pages UI Header Fix, Brand Green Headings & Inline Content Continuation Logic
+
+#### 1. Database & Migration Changes
+* **Migration:** None *(Database table ya structure me koi tabdeeli nahi ki gayi)*.
+* **Database Table:** None.
+
+#### 2. Backend & View Files (Created / Updated)
+* **Created Files:**
+  * `public/css/communities/Saima-golf-estates.css` *(Ensuring backward compatibility and preventing 404 styling errors)*.
+* **Updated Files:**
+  * `resources/views/dynamic-page.blade.php`:
+    * Added missing `css/communities/hudayriyat-golf-estates.css` stylesheet link in `<head>` taake dynamic pages par navigation bar, logo alignment, mobile menu drawer, aur hero banner bilkul standard aur clean UI me render hon (un-styled black stacked list fix).
+    * `<style>` block me content headings (`h1` ta `h6`) ke liye sitewide brand green (`#1a4731 !important;`) styling add ki.
+  * `resources/views/partials/article.blade.php`:
+    * **Brand Green Headings**: Article content ke andar تمام headings (`h1` ta `h6`) aur unke child elements (spans, bold, strong) ko `#1a4731 !important;` color assign kiya gaya.
+    * **Inline "Read more" Text**: Jab project cards select hon, to "Read more" link ab next line par jane ke bajaye aakhri paragraph ke text ke theek baad usi line par render hota hai (`coastal areas of Karachi. Read more`).
+    * **Seamless Content Continuation Without Next Line (Zero Project Cards)**: Jab CMS me project cards select na hon, to long content short content ke theek baad baghair kisi gap ya next line break ke start hota hai. Leading empty `<p><br></p>` tags aur unnecessary container margins ko khatam karke dono contents ko seamlessly merge kiya gaya.
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend directory me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. Views aur cache clear karein
+php artisan view:clear
+php artisan config:clear
+php artisan route:clear
+php artisan optimize:clear
+```
+
+
+---
+
+### Update: JSON-LD Schemas (Organization, Dynamic FAQPage & RealEstateAgent) Implementation in Document Header (`<head>`)
+
+#### 1. Database & Migration Changes
+* **Migration:** None *(Database table ya structure me koi tabdeeli nahi ki gayi)*.
+* **Database Table:** None.
+
+#### 2. Backend & View Files (Created / Updated)
+* **Created Files:** None.
+* **Updated Files:**
+  * `app/helpers.php`:
+    * Enhanced `page_data(?string $slug = null)` helper taake URL prefix (`project/`, `city/`, `area/`, `blog/`) ko strip karke related City, Community aur Project models ke sath exact `Page` model aur uske sections resolve hon.
+    * Enhanced `get_page_faqs(?\App\Models\Page $page = null, ?\App\Models\Blog $blog = null)` taake current page ke sections me se dynamic FAQ items (`q` / `question`, `a` / `answer`) dynamically extract hon aur HTML tags sanitize hon, with sitewide fallback defaults for generic institutional pages.
+    * Added `render_header_schemas(?\App\Models\Page $page = null, ?\App\Models\Blog $blog = null)` helper jo header (`<head>`) me 3 exact JSON-LD schemas generate karta hai:
+      1. **Organization Schema**:
+         ```json
+         {
+           "@context": "https://schema.org",
+           "@type": "Organization",
+           "name": "Saima Projects",
+           "url": "https://saimaprojects.com/"
+         }
+         ```
+      2. **FAQPage Schema** (100% Dynamic for complete page):
+         ```json
+         {
+           "@context": "https://schema.org",
+           "@type": "FAQPage",
+           "mainEntity": [
+             {
+               "@type": "Question",
+               "name": "Where is the project located?",
+               "acceptedAnswer": {
+                 "@type": "Answer",
+                 "text": "The project is located in Karachi, Pakistan."
+               }
+             }
+           ]
+         }
+         ```
+      3. **RealEstateAgent Schema**:
+         ```json
+         {
+           "@context": "https://schema.org",
+           "@type": "RealEstateAgent",
+           "name": "Saima Projects",
+           "url": "https://saimaprojects.com/"
+         }
+         ```
+  * `resources/views/layouts/app.blade.php`:
+    * Header `<head>` me `{!! render_header_schemas($activePage ?? null, $blog ?? null) !!}` integrate kiya gaya.
+    * Redundant body `@graph` script block ko clean kiya gaya taake header schemas hi single source of truth rahein.
+  * `resources/views/dynamic-page.blade.php`:
+    * Header `<head>` me `{!! render_header_schemas($page ?? null, null) !!}` inject kiya gaya taake har dynamic page, project, city, aur area page par Organization, Dynamic FAQPage, aur RealEstateAgent schemas render hon.
+  * `resources/views/communities/*.blade.php` (All 10 community templates):
+    * Har template ke `<head>` me `{!! render_header_schemas($page ?? null, null) !!}` inject kiya gaya aur legacy duplicate hardcoded body schema ko clean kiya gaya.
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend directory me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. Views aur cache clear karein
+php artisan view:clear
+php artisan config:clear
+php artisan route:clear
+php artisan optimize:clear
+```
+
+---
+
+### Update: Dynamic Pages UI Header Fix, Brand Green Headings & Inline Content Continuation Logic
+
+#### 1. Database & Migration Changes
+* **Migration:** None *(Database table ya structure me koi tabdeeli nahi ki gayi)*.
+* **Database Table:** None.
+
+#### 2. Backend & View Files (Created / Updated)
+* **Created Files:**
+  * `public/css/communities/Saima-golf-estates.css` *(Ensuring backward compatibility and preventing 404 styling errors)*.
+* **Updated Files:**
+  * `resources/views/dynamic-page.blade.php`:
+    * Added missing `css/communities/hudayriyat-golf-estates.css` stylesheet link in `<head>` taake dynamic pages par navigation bar, logo alignment, mobile menu drawer, aur hero banner bilkul standard aur clean UI me render hon (un-styled black stacked list fix).
+    * `<style>` block me content headings (`h1` ta `h6`) ke liye sitewide brand green (`#1a4731 !important;`) styling add ki.
+  * `resources/views/partials/article.blade.php`:
+    * **Brand Green Headings**: Article content ke andar تمام headings (`h1` ta `h6`) aur unke child elements (spans, bold, strong) ko `#1a4731 !important;` color assign kiya gaya.
+    * **Inline "Read more" Text**: Jab project cards select hon, to "Read more" link ab next line par jane ke bajaye aakhri paragraph ke text ke theek baad usi line par render hota hai (`coastal areas of Karachi. Read more`).
+    * **Seamless Content Continuation Without Next Line (Zero Project Cards)**: Jab CMS me project cards select na hon, to long content short content ke theek baad baghair kisi gap ya next line break ke start hota hai. Leading empty `<p><br></p>` tags aur unnecessary container margins ko khatam karke dono contents ko seamlessly merge kiya gaya.
+
+#### 3. Live Server Par Deploy Karne Ki EXACT Commands
+```bash
+# 1. Backend directory me jayein
+cd /path/to/backend
+
+# 2. Latest code pull karein
+git pull origin master
+
+# 3. Views aur cache clear karein
+php artisan view:clear
+php artisan config:clear
+php artisan route:clear
+php artisan optimize:clear
+```
+
+
+
+
+
+
+---
+
+## Changelog — 2026-11-06
+
+### Dynamic Page Layout: Project Cards + Sticky Form
+
+**Files changed:**
+- `resources/views/partials/article.blade.php`
+
+**Changes:**
+1. **Project cards + sticky appointment form layout** — When a CMS page has project cards assigned (communities section), the cards now appear in a **two-column grid** directly below the "Read more" text:
+   - **Left column**: Project cards grid (full-width, all assigned cards)
+   - **Right column**: Sticky "Book an Appointment" form that remains fixed while scrolling through the cards, then un-sticks when the cards section ends
+2. **Sidebar "Latest Projects" widget** is now hidden when assigned project cards are displayed (to avoid duplication)
+3. The layout is **responsive** — on mobile (≤991px) the form stacks below the cards normally
+
+### Bug Fix: Project Cards Auto-Assignment on Content Save
+
+**File changed:**
+- `app/Http/Controllers/Admin/PageController.php`
+
+**Problem:** Saving the Content section in the admin would auto-assign ALL projects to the page's communities section (project cards picker), overwriting any manually configured selection.
+
+**Root cause:** When only content data was submitted (no dual-picker fields), the `communities` section was saved without preserving `selected_ids` / `unselected_ids`, causing them to be blank and later interpreted as "all selected".
+
+**Fix:** When the dual-picker fields (`selected_project_ids`, `unselected_project_ids`, `dual_boxes_submitted`) are absent from the POST, the existing `selected_ids` and `unselected_ids` values from the database are preserved during save.
+
+### PageController Meta Defaults: Saima Branding
+
+**File changed:**
+- `app/Http/Controllers/Admin/PageController.php` (lines 131–133)
+
+**Changes:** Default `meta_title`, `meta_description`, and `meta_keywords` for newly created pages now use "Saima Island" instead of "Hudayriyat Island".
+
+
+### Dynamic Page Layout & Image Display Refinement (Single Sidebar, No Duplicate Form)
+
+**Files changed:**
+- `resources/views/partials/article.blade.php`
+
+**Updates:**
+1. **Single Unified Sidebar & Zero Duplicate Forms**:
+   - The duplicate `saimaCardsWithForm` section and secondary form have been completely removed.
+   - Now only ONE single "Book an Appointment" form exists on the page inside `.saimaStickySidebar`.
+   - The "Latest Projects" widget under the appointment form is now always visible (`@if($sidebarProjects->isNotEmpty())`), regardless of whether project cards are selected.
+2. **Compact Gap Between Short Content & Project Cards**:
+   - Project cards now render directly inside `.saimaContentCol` with a compact `margin-top: 18px;` gap, eliminating the huge white space gap.
+3. **Clean Block Image & Text Layout in Long Content**:
+   - Added strict CSS overrides (`float: none !important; display: block !important; clear: both !important; margin: 22px auto !important; max-width: 100% !important;`) on images, figures, and paragraphs in dynamic content and long content.
+   - Text will no longer awkwardly squeeze beside images; images render as centered, full-width block elements with text cleanly flowing above and below.
+4. **Natural Sticky Form Behavior**:
+   - The appointment form stays sticky while scrolling through the short content and project cards. When the user scrolls past the project cards into the long content section, the sidebar naturally reaches the bottom of its container and un-sticks.
+
+
+### Project Cards Full-Bleed Fix & Long Content Width Optimization
+
+**Files changed:**
+- `resources/views/partials/article.blade.php`
+
+**Updates:**
+1. **Project Card Image & Typography Fix**:
+   - Fixed project cards displaying images in shrunk height with dark empty blocks.
+   - Enforced `position: absolute !important; width: 100% !important; height: 100% !important; object-fit: cover !important;` on `.cardCustom img.mainImage` so project card images always fill the card 100% full-bleed.
+   - Restored `.cardTitle` to bright white (`#ffffff !important;`) with text shadows so titles are clearly readable over the image overlay.
+   - Restored `.cardLocation` and `.cardBookBtn` hover effects for property cards.
+2. **Eliminated Left/Right Empty Margins in Long Content**:
+   - Updated `.saimaLongContentBody` from restricted `max-width: 960px` to `width: 100%; max-width: 100%;` inside the container. Long content now spans cleanly across the entire container width without large empty gutters on the sides.
+3. **Optimized Flow When No Project Cards Are Assigned**:
+   - When project cards are not assigned, short content and long content flow together seamlessly in the left column (`.saimaContentCol`) alongside the 370px sticky sidebar (appointment form + latest projects), utilizing the full left grid column comfortably.
+
+
+### CMS Content Tab: Standard Single Summernote vs Dynamic Short/Long Content
+
+**Files changed:**
+- `resources/views/admin/pages/edit.blade.php`
+
+**Updates:**
+1. **Preserved Original Single Summernote UI for Projects & Communities**:
+   - For all project pages (e.g. Wadeem Gardens, managed from Projects), communities, and city pages, the Content tab now displays only the original single Summernote editor ("Content (Summernote Editor)").
+2. **Dynamic Custom Pages Retain Short & Long Content**:
+   - The dual editor UI (Short Content + Long Content) is only active when creating dynamic pages via "Add Page" and editing custom dynamic pages. Standard projects retain their original clean single-editor CMS workflow.

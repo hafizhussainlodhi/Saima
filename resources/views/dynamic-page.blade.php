@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $page->meta_title ?: ($page->title . ' | Hudayriyat Island Abu Dhabi') }}</title>
+    <title>{{ $page->meta_title ?: ($page->title . ' | Saima') }}</title>
     
 @if($page->meta_description)
         <meta name="description" content="{{ $page->meta_description }}">
@@ -14,8 +14,7 @@
         <meta name="keywords" content="{{ $page->meta_keywords }}">
     
 @endif
-@if(is_indexing_enabled()
-)
+@if(is_indexing_enabled())
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow">
     @else
@@ -23,6 +22,16 @@
     <meta name="googlebot" content="noindex, nofollow">
     
 @endif
+    <meta name="geo.region" content="PK">
+    <meta name="geo.placename" content="Pakistan">
+
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v={{ file_exists(public_path('favicon.png')) ? filemtime(public_path('favicon.png')) : time() }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.png') }}?v={{ file_exists(public_path('favicon.png')) ? filemtime(public_path('favicon.png')) : time() }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}?v={{ file_exists(public_path('favicon.png')) ? filemtime(public_path('favicon.png')) : time() }}">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,14 +40,15 @@
     
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('css/communities/global.css') }}?v={{ time() }}">
-    <link rel="stylesheet" href="{{ asset('css/communities/hudayriyat-golf-estates.css') }}?v={{ time() }}">
+            {{-- Hudayriyat stylesheet removed --}}
+    <link rel="stylesheet" href="{{ asset('css/communities/Saima-golf-estates.css') }}?v={{ time() }}">
     
 @if(file_exists(public_path('css/communities/' . $page->slug . '.css')
-) && $page->slug !== 'hudayriyat-golf-estates')
+) && $page->slug !== 'Saima-golf-estates')
     <link rel="stylesheet" href="{{ asset('css/communities/' . $page->slug . '.css') }}?v={{ time() }}">
     
 @endif
-    <link rel="stylesheet" href="{{ asset('css/hudayriyat.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('css/saima.css') }}?v={{ time() }}">
     
     <style>
       body {
@@ -221,6 +231,18 @@
           margin-bottom: 8px !important;
         }
       }
+
+      /* Dynamic Content & Article Headings Brand Green (#1a4731) */
+      article h1, article h2, article h3, article h4, article h5, article h6,
+      article h1 *, article h2 *, article h3 *, article h4 *, article h5 *, article h6 *,
+      .saimaContentCol h1, .saimaContentCol h2, .saimaContentCol h3, .saimaContentCol h4, .saimaContentCol h5, .saimaContentCol h6,
+      .saimaContentCol h1 *, .saimaContentCol h2 *, .saimaContentCol h3 *, .saimaContentCol h4 *, .saimaContentCol h5 *, .saimaContentCol h6 *,
+      .saimaDynamicContent h1, .saimaDynamicContent h2, .saimaDynamicContent h3, .saimaDynamicContent h4, .saimaDynamicContent h5, .saimaDynamicContent h6,
+      .saimaDynamicContent h1 *, .saimaDynamicContent h2 *, .saimaDynamicContent h3 *, .saimaDynamicContent h4 *, .saimaDynamicContent h5 *, .saimaDynamicContent h6 *,
+      .saimaLongContentBody h1, .saimaLongContentBody h2, .saimaLongContentBody h3, .saimaLongContentBody h4, .saimaLongContentBody h5, .saimaLongContentBody h6,
+      .saimaLongContentBody h1 *, .saimaLongContentBody h2 *, .saimaLongContentBody h3 *, .saimaLongContentBody h4 *, .saimaLongContentBody h5 *, .saimaLongContentBody h6 * {
+        color: #1a4731 !important;
+      }
     </style>
 </head>
 <body>
@@ -253,7 +275,7 @@
             $amTitle = page_section('amenities', 'title', $page->title . ' Amenities', $page->slug);
             $amSub = page_section('amenities', 'subtitle', '', $page->slug);
             $rawAmItems = page_section('amenities', 'items', [], $page->slug);
-            $amItems = array_values(array_filter((array)$rawAmItems, fn($item) => is_array($item) && (!empty(trim($item['name'] ?? '')) || !empty(trim($item['icon'] ?? '')))));
+            $amItems = array_values(array_filter((array)$rawAmItems, fn($item) => is_array($item) && !empty(trim($item['name'] ?? ''))));
         @endphp
         @if(!empty($amItems))
         <section id="amenities" class="GolfAmenities-module__j5-r4q__amenitiesSection">
@@ -269,11 +291,11 @@
                         @php
                             $aName = $amItem['name'] ?? '';
                             $aIcon = $amItem['icon'] ?? '';
-                            if (!empty($aIcon) || !empty($aName)) {
+                            if (!empty($aName)) {
                                 $matchedAm = \App\Models\Amenity::where('is_active', true)
                                     ->where(function($q) use ($aIcon, $aName) {
                                         if (!empty($aIcon)) $q->where('icon', $aIcon);
-                                        if (!empty($aName)) $q->orWhereRaw('LOWER(name) = ?', [strtolower(trim($aName))]);
+                                        $q->orWhereRaw('LOWER(name) = ?', [strtolower(trim($aName))]);
                                     })->first();
                                 if ($matchedAm) {
                                     $aName = $matchedAm->name;
@@ -282,9 +304,11 @@
                             }
                         @endphp
                         <div class="GolfAmenities-module__j5-r4q__card">
+                            @if(!empty($aIcon))
                             <div class="GolfAmenities-module__j5-r4q__iconBox">
-                                <img alt="{{ $aName }}" width="30" height="30" class="GolfAmenities-module__j5-r4q__iconImg" style="color:transparent" src="{{ $aIcon ?: '/images/golf-estates/amenity-golf.png' }}"/>
+                                <img alt="{{ $aName }}" width="30" height="30" class="GolfAmenities-module__j5-r4q__iconImg" style="color:transparent" src="{{ $aIcon }}"/>
                             </div>
+                            @endif
                             <p class="GolfAmenities-module__j5-r4q__amenityName">{{ $aName }}</p>
                         </div>
                     @endforeach
@@ -479,18 +503,18 @@
     @elseif($sec->section_key === 'contact')
         @include('partials.contact')
     @elseif($sec->section_key === 'communities' && !$communitiesRendered && empty($GLOBALS['communitiesRenderedGlobal']))
-        @php $communitiesRendered = true; @endphp
-        @include('partials.page-communities')
+        @php
+            $rawSelCommIds = page_section('communities', 'selected_ids', [], $page->slug) ?: page_section('communities', 'project_ids', [], $page->slug);
+            $hasSelProjects = !empty(array_filter((array)$rawSelCommIds));
+            $rawCommItems = page_section('communities', 'items', [], $page->slug);
+            $hasCommItems = is_array($rawCommItems) && !empty(array_filter($rawCommItems, fn($it) => is_array($it) && (!empty(trim($it['name'] ?? '')) || !empty(trim($it['title'] ?? '')))));
+        @endphp
+        @if($hasSelProjects || $hasCommItems)
+            @php $communitiesRendered = true; @endphp
+            @include('partials.page-communities')
+        @endif
     @endif
 @endforeach
-
-@if(!$orderedSections->contains('section_key', 'content') && !$articleRendered && $page->hasSection('content'))
-    @include('partials.article', ['slug' => $page->slug, 'page' => $page])
-@endif
-
-@if(!$orderedSections->contains('section_key', 'contact'))
-    @include('partials.contact')
-@endif
 
 @include('partials.footer')<button type="button" class="ScrollToTop-module__bPaVnG__scrollTopBtn " aria-label="Scroll to top of page"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up" aria-hidden="true"><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg></button></main>
 

@@ -219,7 +219,7 @@
                 @foreach($blogs as $b)
                     <a href="{{ url('/blog/' . $b->slug) }}" class="blogCard">
                         <div class="blogCardImageWrap">
-                            <img src="{{ asset($b->cover_image ?: '/images/Hudayriyat-Island---Marsana-East-Beach---Sign---Sunset-2.jpg') }}" alt="{{ $b->title }}" class="blogCardImage">
+                            <img src="{{ asset($b->cover_image ?: '/images/Saima-Island---Marsana-East-Beach---Sign---Sunset-2.jpg') }}" alt="{{ $b->title }}" class="blogCardImage">
                             @if(!empty($b->category))
                                 <span class="blogCardCategory">{{ $b->category }}</span>
                             @endif

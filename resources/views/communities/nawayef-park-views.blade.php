@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Nawayef Park Views | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -201,7 +204,7 @@
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"Where is Nawayef Park Views located?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef Park Views is situated in the heart of Hudayriyat Island, Abu Dhabi, resting between the scenic Nawayef hills."}},{"@@type":"Question","name":"Who is the developer?","acceptedAnswer":{"@@type":"Answer","text":"Developed by Modon Properties, a renowned Abu Dhabi-based developer known for crafting premium, sustainable communities."}},{"@@type":"Question","name":"What types of residences are available?","acceptedAnswer":{"@@type":"Answer","text":"The community offers freehold apartments with 1 to 4 bedrooms, featuring private balconies or terraces. Larger units, ranging from 2 to 4 bedrooms, may include staff quarters and dedicated home office space."}},{"@@type":"Question","name":"What is the size range of the residences?","acceptedAnswer":{"@@type":"Answer","text":"Residential units span from approximately 1,044 sq ft up to 5,328 sq ft."}},{"@@type":"Question","name":"When is the expected completion/ handover?","acceptedAnswer":{"@@type":"Answer","text":"The project is scheduled for completion in Q1 2028."}},{"@@type":"Question","name":"What payment plan options are available?","acceptedAnswer":{"@@type":"Answer","text":"A flexible 60/40 payment plan, requiring a 10% booking fee, followed by structured installments during construction, with the final 40% due at handover."}},{"@@type":"Question","name":"What amenities are included onsite?","acceptedAnswer":{"@@type":"Answer","text":"Residents enjoy a wellness-focused lifestyle featuring a fully equipped gym, yoga zone, co-working space, barbecue and shaded green areas, clubhouse, children’s splash pool and play area, plus concierge, catering, and laundry services."}},{"@@type":"Question","name":"Who can buy and what are the investment benefits?","acceptedAnswer":{"@@type":"Answer","text":"Available as freehold for all nationalities, the apartments are ideal for both residents and investors."}}]}</script>@php
+</section>@php
     $defaultFaqs = [
         [
             'q' => 'Where is Nawayef Park Views located?',

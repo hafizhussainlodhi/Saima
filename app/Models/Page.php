@@ -41,7 +41,7 @@ class Page extends Model
     {
         $static = [
             'wadeem-gardens',
-            'hudayriyat-golf-estates',
+            'saima-golf-estates',
             'bashayer-residences',
             'bashayer-villas',
             'al-naseem-villas',

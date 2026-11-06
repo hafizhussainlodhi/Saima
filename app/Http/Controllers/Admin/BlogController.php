@@ -61,7 +61,7 @@ class BlogController extends Controller
         }
 
         // Handle Cover Image (700x500)
-        $coverImage = $validated['cover_image'] ?? '/images/Hudayriyat-Island---Marsana-East-Beach---Sign---Sunset-2.jpg';
+        $coverImage = $validated['cover_image'] ?? '/images/saima_blog_cover.jpg';
         if ($request->hasFile('cover_image_file')) {
             $file = $request->file('cover_image_file');
             $uploadDir = public_path('images/blogs');
@@ -89,7 +89,7 @@ class BlogController extends Controller
             'faqs'             => $faqs,
             'status'           => $status,
             'is_published'     => $isPublished,
-            'author'           => $request->input('author', 'Hudayriyat Editorial'),
+            'author'           => $request->input('author', 'Saima Editorial'),
             'meta_title'       => $request->input('meta_title'),
             'meta_description' => $request->input('meta_description'),
             'meta_keywords'    => $request->input('meta_keywords'),
@@ -171,7 +171,7 @@ class BlogController extends Controller
             'faqs'             => $faqs,
             'status'           => $status,
             'is_published'     => $isPublished,
-            'author'           => $request->input('author', $blog->author ?? 'Hudayriyat Editorial'),
+            'author'           => $request->input('author', $blog->author ?? 'Saima Editorial'),
             'meta_title'       => $request->input('meta_title'),
             'meta_description' => $request->input('meta_description'),
             'meta_keywords'    => $request->input('meta_keywords'),

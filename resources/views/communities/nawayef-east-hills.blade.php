@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Nawayef East Hills | Hudayriyat Island Abu Dhabi</title>
+    <!-- Header Schemas: Organization, Dynamic FAQPage & RealEstateAgent (JSON-LD) -->
+    {!! render_header_schemas($page ?? null, null) !!}
+
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -200,7 +203,7 @@
             </div>
         </div>
     </div>
-</section><script type="application/ld+json">{"@@context":"https://schema.org","@@type":"FAQPage","mainEntity":[{"@@type":"Question","name":"What is Nawayef East Hills?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef East Hills, officially presented by Modon as Nawayef East, is a residential development on Hudayriyat Island, Abu Dhabi. It offers spacious villas and mansions across the Homes, Heights, and Mansions collections."}},{"@@type":"Question","name":"Who is the developer of Nawayef East Hills?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef East Hills is developed by Modon Properties."}},{"@@type":"Question","name":"What types of properties are available at Nawayef East Hills?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef East Hills offers 4 and 5-bedroom Homes, 5 to 7-bedroom Heights, and 6 to 8-bedroom Mansions."}},{"@@type":"Question","name":"What is the starting price of Nawayef East Hills?","acceptedAnswer":{"@@type":"Answer","text":"The starting price for Nawayef East Homes is AED 6.6 million, according to Modon's current project information."}},{"@@type":"Question","name":"What is the payment plan for Nawayef East Hills?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef East follows a 40/60 payment plan, with 10% payable on booking, 30% during construction, and the remaining 60% due upon handover."}},{"@@type":"Question","name":"When is the handover of Nawayef East Hills?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef East is scheduled for handover in December 2028."}},{"@@type":"Question","name":"Where is Nawayef East Hills located?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef East Hills is located on Hudayriyat Island in Abu Dhabi, close to beaches, sports facilities, outdoor attractions, dining destinations, and leisure facilities."}},{"@@type":"Question","name":"Is Nawayef East Hills freehold?","acceptedAnswer":{"@@type":"Answer","text":"Yes. Nawayef East is a freehold development and properties can be fully owned by buyers of all nationalities."}},{"@@type":"Question","name":"What amenities are available at Nawayef East Hills?","acceptedAnswer":{"@@type":"Answer","text":"The development includes a swimming pool, clubhouse, gym, tennis facilities, jogging trails, children's play areas, landscaped parkland, and a mosque. Residents can also access the wider sports and leisure facilities of Hudayriyat Island."}},{"@@type":"Question","name":"What makes Nawayef East Hills different?","acceptedAnswer":{"@@type":"Answer","text":"Nawayef East Hills is positioned on elevated terrain reaching up to 60 metres, giving the community a distinctive hillside setting with views towards the Abu Dhabi skyline and Arabian Gulf. The development also combines different architectural styles with spacious villas, private gardens, terraces, swimming pools, and majlis areas."}}]}</script>@php
+</section>@php
     $defaultFaqs = [
         [
             'q' => 'What is Nawayef East Hills?',

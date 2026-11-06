@@ -1,6 +1,6 @@
 @php
     $articleHeading = page_section('content', 'title', $page->title . ' Living & Overview', $page->slug);
-    $defaultIntro = '<p><strong>' . e($page->title) . '</strong> is a new benchmark for living in the city’s waterfront. The project is a blend of contemporary design and a tranquil coastal setting. Residents enjoy fresh sea breezes and access to major urban destinations.</p><p style="margin-top:1rem">' . e($page->title) . ' is located on the shores of Hudayriyat Island and faces protected natural reserves. The development offers a lifestyle for professionals, investors, and families inspired by a resort. Furthermore, the area has a peaceful atmosphere, which is away from the noise and hustle of the city center.</p>';
+    $defaultIntro = '<p><strong>' . e($page->title) . '</strong> is a new benchmark for luxury living. The project is a blend of contemporary design and peaceful surroundings. Residents enjoy modern architecture and access to major urban destinations.</p><p style="margin-top:1rem">' . e($page->title) . ' is part of the premier Saima development portfolio. The development offers a lifestyle for professionals, investors, and families inspired by world-class comfort. Furthermore, the area has a tranquil atmosphere, convenient to all major city centers.</p>';
     $articleIntro = page_section('content', 'intro', $defaultIntro, $page->slug);
     // If intro was entered as plain text without tags, preserve linebreaks
     if (!str_contains($articleIntro, '<p') && !str_contains($articleIntro, '<div')) {
@@ -379,11 +379,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 comment: form.querySelector('textarea[name="comment"]')?.value || '',
                 source: 'Website',
                 sub_source: 'saima project',
+                page_url: window.location.href,
+                campaign_url: window.location.href,
                 utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign') || '',
-                campaign_url: 'https://saimaprojects.com/',
-                project: '{{ isset($page) ? addslashes($page->title) : 'Hudayriyat Island' }}',
+                project: '{{ isset($page) ? addslashes($page->title) : 'Saima' }}',
                 developer: '{{ (isset($page) && isset($page->project) && !empty($page->project->developer)) ? addslashes($page->project->developer) : 'Modon Properties' }}',
-                community: '{{ isset($page) ? addslashes($page->title) : 'Hudayriyat Island' }}',
+                community: '{{ isset($page) ? addslashes($page->title) : 'Saima' }}',
                 property_type: '{{ (isset($page) && isset($page->project) && !empty($page->project->property_type)) ? addslashes($page->project->property_type) : 'Residential' }}',
                 activity_description: 'Book an Appointment Sidebar Request'
             };

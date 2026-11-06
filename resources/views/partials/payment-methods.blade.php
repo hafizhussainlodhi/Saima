@@ -14,7 +14,7 @@ if (!is_array($dbPaymentList) || empty($dbPaymentList)) {
 <section id="payment" aria-label="Accepted Payment Methods for Real Estate" class="paymentSection">
     <div class="container">
         <div class="paymentHeader">
-            <h2 class="paymentTitle">{{ page_section('payment_methods', 'heading', 'Hudayriyat Island Payment Methods') }}</h2>
+            <h2 class="paymentTitle">{{ page_section('payment_methods', 'heading', 'Saima Payment Methods') }}</h2>
             <p class="paymentSubtitle">{{ page_section('payment_methods', 'subtitle', 'We accept all the following payment methods') }}</p>
         </div>
 
@@ -28,7 +28,7 @@ if (!is_array($dbPaymentList) || empty($dbPaymentList)) {
                 @endphp
                 <div class="paymentCard">
                     <div class="paymentIconWrapper">
-                        <img src="{{ $iconSrc }}" alt="{{ $item['name'] ?? '' }} payment method for Hudayriyat Island properties" width="50" height="50" class="paymentIcon">
+                        <img src="{{ $iconSrc }}" alt="{{ $item['name'] ?? '' }} payment method for Saima properties" width="50" height="50" class="paymentIcon">
                     </div>
                     <h3 class="paymentName">{{ $item['name'] ?? '' }}</h3>
                 </div>
